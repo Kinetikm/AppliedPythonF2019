@@ -10,29 +10,39 @@ def invert_dict(source_dict):
     :return: new_dict: dict
     '''
 
-    def add_to_dict(d, key, value):
-        if isinstance(key, (list, tuple, set)):
-            for i in key:
-                add_to_dict(d, i, value)
-        else:
-            if '__hash__' in dir(key) and key.__hash__ is not None:
-                if key in d:
-                    if isinstance(d[key], list):
-                        d[key].append(value)
-                    else:
-                        d[key] = [d[key], value]
-                else:
-                    d[key] = value
-            else:
-                print('error!')
-
     new_dict = {}
     for key in source_dict:
-        if isinstance(source_dict[key], (dict)):
-            continue
-        if isinstance(source_dict[key], (list, tuple, set)):
-            for i in source_dict[key]:
-                add_to_dict(new_dict, i, key)
+        if isinstance(source_dict[key], list) or isinstance(
+                source_dict[key], tuple) or \
+                isinstance(source_dict[key], set):
+            for val in merge(source_dict[key]):
+                if new_dict.get(val, 'No') is 'No':
+                    new_dict[val] = key
+                else:
+                    if not isinstance(new_dict[val], list):
+                        new_dict[val] = [new_dict[val]]
+                        new_dict[val].append(key)
+                    else:
+                        new_dict[val].append(key)
         else:
-            add_to_dict(new_dict, source_dict[key], key)
+            val = source_dict[key]
+            if new_dict.get(val, 'No') is 'No':
+                new_dict[val] = key
+            else:
+                if not isinstance(new_dict[val], list):
+                    new_dict[val] = [new_dict[val]]
+                    new_dict[val].append(key)
+                else:
+                    new_dict[val].append(key)
     return new_dict
+
+
+def merge(lstlst):
+    all = []
+    for lst in lstlst:
+        if isinstance(lst, list) or isinstance(
+                lst, tuple) or isinstance(lst, set):
+            all = all + merge(lst)
+        else:
+            all.append(lst)
+    return all

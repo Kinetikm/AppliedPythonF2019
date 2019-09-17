@@ -13,11 +13,18 @@ def find_indices(input_list, target):
     :param target: целевая сумма
     :return: tuple из двух индексов или None
     '''
-    sols_dict = dict()
-    for i, val in enumerate(input_list):
-        if val in sols_dict:
-            return [sols_dict[val], i]
+    input_dict = {}
+    answer = 0
+    for num, el in enumerate(input_list):
+        input_dict[el] = num
+    for key in input_dict:
+        num = target - key
+        if input_dict.get(num, 'num is absent') != 'num is absent' and \
+                input_dict[key] != input_dict[num]:
+            answer = 1
+            return tuple([input_dict[key], input_dict[num]])
         else:
-            if (target - val) not in sols_dict:
-                sols_dict[target - val] = i
-    return None
+            continue
+    if answer == 0:
+        return None
+    raise NotImplementedError
