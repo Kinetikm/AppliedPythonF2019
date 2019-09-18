@@ -15,7 +15,7 @@ def word_inversion(input_lst):
     for i in range(len(B)):
         if B[i] == ' ':
             r = i
-            B[l:r]=B[l:r][::-1]
+            B[l:r] = B[l:r][::-1]
             l = i+1
-    B[l:]=B[l:][::-1]
+    B[l:] = B[l:][::-1]
     return B
