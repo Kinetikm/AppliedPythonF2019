@@ -16,8 +16,8 @@ def find_subarr(input_lst, num):
     for i, item in enumerate(input_lst):
         sum_ += item
         if sum_ == num:
-        	return (0, i)
+            return (0, i)
         if sum_ - num in temp_dict:
-        	return (temp_dict[sum_ - num] + 1, i)
+            return (temp_dict[sum_ - num] + 1, i)
         temp_dict[sum_] = i
     return ()
