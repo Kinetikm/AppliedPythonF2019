@@ -20,4 +20,5 @@ def find_indices(input_list, target):
         else:
             if (target - val) not in sols_dict:
                 sols_dict[target - val] = i
+    print("I am python fork")
     return None
