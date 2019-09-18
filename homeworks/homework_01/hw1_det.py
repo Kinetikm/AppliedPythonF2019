@@ -24,7 +24,6 @@ def calculate_determinant(list_of_lists):
         else:
             return sum([(-1) ** (i) * M[0][i] * calculate_determinant(
                 minor(M, i)) for i in range(len(M))])
-    raise NotImplementedError
 
 
 def minor(M, c):

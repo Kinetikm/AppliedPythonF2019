@@ -14,4 +14,3 @@ def reverse(number):
         return - int(string[:0:-1])
     else:
         return int(str(number)[::-1])
-    raise NotImplementedError

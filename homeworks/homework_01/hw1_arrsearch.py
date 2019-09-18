@@ -27,4 +27,3 @@ def find_indices(input_list, target):
             continue
     if answer == 0:
         return None
-    raise NotImplementedError
