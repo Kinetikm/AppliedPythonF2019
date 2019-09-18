@@ -19,9 +19,8 @@ def is_bracket_correct(input_string):
         elif i in close_bracket and len(opened_bracket) == 0:
             return False
         elif i in close_bracket and opened_bracket[-1] == open_bracket[
-            close_bracket.index(i)]:
+                close_bracket.index(i)]:
             opened_bracket.pop()
         else:
             return False
     return True
-    raise NotImplementedError

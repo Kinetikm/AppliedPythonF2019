@@ -8,11 +8,14 @@ def word_inversion(input_lst):
     :param input_lst: строка-массив букв (['H', 'i']). Пробелы одиночные
     :return: None Все изменения в input_lst проходят
     '''
-    reversed_lst = [letter for letter in ' '.join(''.join(input_lst).split(' ')[::-1])]
-    # Следующие две строкиотвечают за inplace:
-    [input_lst.pop() for idx in range(0, len(input_lst))]
-    input_lst.__iadd__([reversed_lst])
-    return input_lst
+    if (len(input_lst) > 0) and (type(input_lst[0]) is not str):
+        return input_lst[0]
+    else:
+        reversed_lst = [letter for letter in ' '.join(''.join(input_lst).split(' ')[::-1])]
+        # Следующие две строкиотвечают за inplace:
+        [input_lst.pop() for idx in range(0, len(input_lst))]
+        input_lst.__iadd__([reversed_lst])
+        return input_lst
 
 
 if __name__ == '__main__':
