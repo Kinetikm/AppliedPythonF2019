@@ -20,5 +20,5 @@ def word_inversion(input_lst):
 
 
 if __name__ == '__main__':
-    input_str = ['e','t',' ', 'i','v', ' ', 'p', 'r']
+    input_str = ['e', 't', ' ', 'i', 'v', ' ', 'p', 'r']
     print(word_inversion(input_str))
