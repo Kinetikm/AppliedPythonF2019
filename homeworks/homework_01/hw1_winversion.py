@@ -9,7 +9,7 @@ def word_inversion(input_lst):
     :return: None Все изменения в input_lst проходят
     '''
     idx = 0
-    input_lst = input_lst[::-1]
+    input_lst.reverse()
     for i in range(len(input_lst)):
         if (input_lst[i] == ' '):
             if (i - idx + 1 != 2):
