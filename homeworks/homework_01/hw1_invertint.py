@@ -14,4 +14,3 @@ def reverse(number):
     for sym in num_list:
         result_str += sym
     return -int(result_str) if minus else int(result_str)
-    raise NotImplementedError

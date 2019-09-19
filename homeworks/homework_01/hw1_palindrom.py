@@ -8,4 +8,3 @@ def check_palindrom(input_string):
     if list(input_string) == help_string:
         return True
     return False
-    raise NotImplementedError
