@@ -13,11 +13,9 @@ def find_indices(input_list, target):
     :param target: целевая сумма
     :return: tuple из двух индексов или None
     '''
-    sols_dict = dict()
+    hash_map = {}
     for i, val in enumerate(input_list):
-        if val in sols_dict:
-            return [sols_dict[val], i]
-        else:
-            if (target - val) not in sols_dict:
-                sols_dict[target - val] = i
+        if (target - val) in hash_map:
+            return (hash_map[target - val], i)
+        hash_map[val] = i
     return None

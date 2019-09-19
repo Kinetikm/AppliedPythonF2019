@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
 def invert_dict(source_dict):
     '''
     Функция которая разворачивает словарь, т.е.
@@ -10,29 +9,30 @@ def invert_dict(source_dict):
     :return: new_dict: dict
     '''
 
-    def add_to_dict(d, key, value):
-        if isinstance(key, (list, tuple, set)):
-            for i in key:
-                add_to_dict(d, i, value)
-        else:
-            if '__hash__' in dir(key) and key.__hash__ is not None:
-                if key in d:
-                    if isinstance(d[key], list):
-                        d[key].append(value)
-                    else:
-                        d[key] = [d[key], value]
+    def insert_in_dict(d, key, val):
+        if isinstance(key, (list, set)):
+            for k in key:
+                insert_in_dict(d, k, val)
+        elif isinstance(key, dict):
+            return
+        elif '__hash__' in dir(key) and key.__hash__ is not None:
+            if key in d:
+                if isinstance(d[key], list):
+                    d[key].append(val)
                 else:
-                    d[key] = value
+                    d[key] = [d[key], val]
             else:
-                print('error!')
+                d[key] = val
+        else:
+            print('Error!')
 
     new_dict = {}
     for key in source_dict:
-        if isinstance(source_dict[key], (dict)):
+        if isinstance(source_dict[key], dict):
             continue
-        if isinstance(source_dict[key], (list, tuple, set)):
+        elif isinstance(source_dict[key], (list, set)):
             for i in source_dict[key]:
-                add_to_dict(new_dict, i, key)
+                insert_in_dict(new_dict, i, key)
         else:
-            add_to_dict(new_dict, source_dict[key], key)
+            insert_in_dict(new_dict, source_dict[key], key)
     return new_dict
