@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-def check_palindrom(input_string):
+def check_palindrom(input_string: str) -> bool:
     """
     Метод проверяющий строку на то, является ли
     она палиндромом.
