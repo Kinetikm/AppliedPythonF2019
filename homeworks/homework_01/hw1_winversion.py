@@ -25,4 +25,3 @@ def word_inversion(input_lst):
         return_list.append(" ")
 
     return return_list[:-1]
-
