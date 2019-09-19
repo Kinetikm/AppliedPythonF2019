@@ -14,10 +14,13 @@ def find_subarr(input_lst, num):
 
     for iterator in range(len(input_lst)):
         sumo = 0
-        for sec_iterator in range(iterator, len(input_lst) - 1):
+        for sec_iterator in range(iterator, len(input_lst)):
             sumo = sumo + input_lst[sec_iterator]
             if sumo == num:
                 viand = (iterator, sec_iterator)
                 return viand
     else:
         return ()
+
+
+print(find_subarr([1, 2, 3, 4, 5, -1], -1))
