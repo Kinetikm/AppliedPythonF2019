@@ -10,12 +10,6 @@ def check_palindrom(input_string):
     :return: True, если строка являестя палиндромом
     False иначе
     '''
-    # l = len(input_string)
-    #
-    # for i in range(l // 2):
-    #     if input_string[i] != input_string[-1 - i]:
-    #         return False
-    # return True
 
     if input_string == input_string[::-1]:
         return True
