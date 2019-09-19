@@ -13,8 +13,10 @@ def calculate_determinant(list_of_lists):
     '''
     if len(list_of_lists) == 0 or len(list_of_lists) != len(list_of_lists[0]):
         return None
-    elif len(list_of_lists) == 2:
-        return list_of_lists[0][0] * list_of_lists[1][1] - list_of_lists[0][1] * list_of_lists[1][0]
+    elif len(list_of_lists)==1:
+        return list_of_lists[0][0]
+    # elif len(list_of_lists) == 2:
+    #     return list_of_lists[0][0] * list_of_lists[1][1] - list_of_lists[0][1] * list_of_lists[1][0]
     else:
         minor = 1
         ilog = 0
