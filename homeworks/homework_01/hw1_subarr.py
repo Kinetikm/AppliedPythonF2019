@@ -13,11 +13,11 @@ def find_subarr(input_lst, num):
     '''
 
     for iterator in range(len(input_lst)):
-        summ = 0
-        for sec_iterator in range(iterator, len(input_lst)-1):
-            summ = summ + input_lst[sec_iterator]
-            if summ == num:
-                vivod = (iterator,sec_iterator)
-                return vivod
+        sumo = 0
+        for sec_iterator in range(iterator, len(input_lst) - 1):
+            sumo = sumo + input_lst[sec_iterator]
+            if sumo == num:
+                viand = (iterator, sec_iterator)
+                return viand
     else:
         return ()

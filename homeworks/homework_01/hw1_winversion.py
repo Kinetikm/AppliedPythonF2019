@@ -10,16 +10,16 @@ def word_inversion(input_lst):
     '''
     dop_str = input_lst[::-1]
     output_str = []
-    fout = 0
+    foot = 0
     for i in range(len(dop_str)):
         if dop_str[i] == ' ':
-            word = (dop_str[fout:i])[::-1]
+            word = (dop_str[foot:i])[::-1]
             for l in range(len(word)):
                 output_str.append(word[l])
-            fout = i + 1
+            foot = i + 1
             output_str.append(" ")
     else:
-        word = (dop_str[fout:len(input_lst)])[::-1]
+        word = (dop_str[foot:len(input_lst)])[::-1]
         for l in range(len(word)):
             output_str.append(word[l])
     return output_str

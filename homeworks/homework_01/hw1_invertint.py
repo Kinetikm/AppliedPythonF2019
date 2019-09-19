@@ -10,11 +10,11 @@ def reverse(number):
     :return: инвертированное число
     '''
     i = abs(number)
-    vixod = 0
+    vexed = 0
     while i > 0:
-        vixod = vixod * 10 + (i % 10)
+        vexed = vexed * 10 + (i % 10)
         i = i // 10
     if number >= 0:
-        return vixod
+        return vexed
     else:
-        return -vixod
+        return -vexed

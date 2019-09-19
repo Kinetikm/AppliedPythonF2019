@@ -17,7 +17,7 @@ def calculate_determinant(list_of_lists):
         return list_of_lists[0][0] * list_of_lists[1][1] - list_of_lists[0][1] * list_of_lists[1][0]
     else:
         minor = 1
-        itog = 0
+        ilog = 0
         for i in range(len(list_of_lists)):
             kek = []
             for y in range(1, len(list_of_lists)):
@@ -27,6 +27,6 @@ def calculate_determinant(list_of_lists):
                         lol.append(list_of_lists[y][k])
                 kek.append(lol)
 
-            itog = itog + list_of_lists[0][i] * minor * calculate_determinant(kek)
+            ilog = ilog + list_of_lists[0][i] * minor * calculate_determinant(kek)
             minor = -minor
-        return itog
+    return ilog
