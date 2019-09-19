@@ -8,5 +8,3 @@ def find_subarr(input_lst, num):
             if (sum(input_lst[i:j + 1]) == num):
                 return (i, j)
     return ()
-
-print(find_subarr([1, 2, -1, 3, 0], 7))
