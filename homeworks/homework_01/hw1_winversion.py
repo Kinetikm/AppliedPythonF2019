@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+def rev(A):
+    n = len(A)
+    for i in range(int(n/2)):
+        temp = A[i]
+        A[i] = A[n - i - 1]
+        A[n - i - 1] = temp
+    return A
 
 def word_inversion(input_lst):
     '''
@@ -9,13 +15,13 @@ def word_inversion(input_lst):
     :return: None Все изменения в input_lst проходят
     '''
     B = input_lst
-    B = B[::-1]
+    B = rev(B)
     l = 0
     r = 0
     for i in range(len(B)):
         if B[i] == ' ':
             r = i
-            B[l:r] = B[l:r][::-1]
+            B[l:r] = rev(B[l:r])
             l = i+1
-    B[l:] = B[l:][::-1]
+    B[l:] = rev(B[l:])
     return B
