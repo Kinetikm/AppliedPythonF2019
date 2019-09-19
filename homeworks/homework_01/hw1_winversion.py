@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
+
+
 def rev(A):
     n = len(A)
     for i in range(int(n/2)):
@@ -7,6 +9,7 @@ def rev(A):
         A[i] = A[n - i - 1]
         A[n - i - 1] = temp
     return A
+
 
 def word_inversion(input_lst):
     '''
