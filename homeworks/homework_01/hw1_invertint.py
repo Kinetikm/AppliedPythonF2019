@@ -9,8 +9,6 @@ def reverse(number):
         number *= -1
     res = 0
     while number > 0:
-        res = res*10 + number % 10
+        res = res * 10 + number % 10
         number = number // 10
-    return res if flag==0 else -res
-
-
+    return res if flag == 0 else -res
