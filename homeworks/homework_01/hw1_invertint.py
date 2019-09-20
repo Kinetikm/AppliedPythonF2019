@@ -3,7 +3,7 @@
 
 
 def reverse(number):
-    res = 0
+	res = 0
 	while number != 0:	
 		a =	number % 10
 		number = number // 10
