@@ -11,8 +11,8 @@ def find_subarr(input_lst, num):
     :return: два индекса (начала и конца подмассива). Пустой tuple, если таких нет
     Пример: find_subarr([1, 2, 3, 4, 5, -1], 4) может вернуть (3, 3) или (4, 5)
     """
-
     sols_dict = dict()
+    sols_dict[0] = -1  # Если массив состоит из одного элемента
     temp_sum = 0
     for i, val in enumerate(input_lst):
         temp_sum += val
