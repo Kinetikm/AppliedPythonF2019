@@ -13,7 +13,7 @@ def word_inversion(input_lst):
     for index in range(len(reverse_lst)):
         if reverse_lst[index] == "\x20":
             end_index = index
-            reverse_lst[start_index:end_index]=reverse_lst[start_index:end_index][::-1]
+            reverse_lst[start_index:end_index] = reverse_lst[start_index:end_index][::-1]
             start_index = index+1
-    reverse_lst[start_index:]=reverse_lst[start_index:][::-1]
+    reverse_lst[start_index:] = reverse_lst[start_index:][::-1]
     return reverse_lst
