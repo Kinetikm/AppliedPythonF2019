@@ -9,4 +9,15 @@ def reverse(number):
     :param number: исходное число
     :return: инвертированное число
     '''
-    raise NotImplementedError
+    if number < 0:
+        k = -1
+    else:
+        k = 1
+    number = abs(number)
+    nout = 0
+    while abs(number) > 0:
+        l = number % 10
+        number = number // 10
+        nout = nout * 10 + l
+    return k * nout
+
