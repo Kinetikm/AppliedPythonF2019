@@ -11,7 +11,4 @@ def calculate_determinant(list_of_lists):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     '''
-
-listoflists = [[0,1,2],[0,1,2],[0,1,2]]
-len(listoflists) # = 3
-len(listoflists[0]) # = 3
+    raise NotImplementedError
