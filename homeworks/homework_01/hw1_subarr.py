@@ -3,12 +3,14 @@
 
 
 def find_subarr(input_lst, num):
-    '''
-    Метод, находящий подмассив, сумма чисел которого равна заданному числу
-    O(n) по времени
-    :param input_lst: массив
-    :param num: искомое число
-    :return: два индекса (начала и конца подмассива). Пустой tuple, если таких нет
-    Пример: find_subarr([1, 2, 3, 4, 5, -1], 4) может вернуть (3, 3) или (4, 5)
-    '''
+    n = 0
+	size = len(input_lst)
+	lst = [0 for i in range(size)]
+	while n < size:
+		for i in range(size - n):
+			lst[i] += input_lst[i+n]
+			if lst[i] == num:
+				return (i, i + n)
+		n += 1		
+	return ()
     raise NotImplementedError
