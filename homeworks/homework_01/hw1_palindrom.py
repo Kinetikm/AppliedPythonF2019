@@ -17,4 +17,3 @@ def check_palindrom(input_string):
             return False
             break
     return True
-

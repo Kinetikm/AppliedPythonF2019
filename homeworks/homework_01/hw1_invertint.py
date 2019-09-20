@@ -20,4 +20,3 @@ def reverse(number):
         number = number // 10
         nout = nout * 10 + l
     return k * nout
-
