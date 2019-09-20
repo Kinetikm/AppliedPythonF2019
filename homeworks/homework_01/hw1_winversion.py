@@ -3,17 +3,17 @@
 
 
 def word_inversion(input_lst):
-    a = ['i', 'p', ' ', 'i', ' ', 'e', 'h', 'j']
-    b = a[::-1]
+    input_lst = [' '] + input_lst
+    lst = input_lst[::-1]
     arr = []
     i = 0
     l = 0
-    while i <= len(b) - 1:
-        k = len(a) - i
-        if b[i] == ' ':
-            c = a[k:len(a) - l:]
-            arr.append(c)
-            l == i
+    while i <= len(lst) - 1:
+        if lst[i] == ' ':
+            k = len(input_lst) - 1 - i
+            c = input_lst[k:len(input_lst) - l:]
+            arr = arr + c
+            l = i + 1
         i += 1
-    print (c)
+    print (arr[1:len(arr):])
     raise NotImplementedError
