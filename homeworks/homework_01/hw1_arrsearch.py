@@ -1,23 +1,23 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 def find_indices(input_list, target):
-    '''
-    Метод возвращает индексы двух различных
-    элементов listа, таких, что сумма этих элементов равна
-    n. В случае, если таких элементов в массиве нет,
-    то возвращается None
-    Ограничение по времени O(n)
-    :param input_list: список произвольной длины целых чисел
-    :param target: целевая сумма
-    :return: tuple из двух индексов или None
-    '''
-    sols_dict = dict()
-    for i, val in enumerate(input_list):
-        if val in sols_dict:
-            return [sols_dict[val], i]
+    b = sorted(input_list[::])
+    k = 0
+    m = len(input_list) - 1
+    while True:
+        if k == m:
+            return None
+        elif b[k] + b[m] > target:
+            m = m - 1
+        elif b[k] + b[m] < target:
+            k = k + 1
         else:
-            if (target - val) not in sols_dict:
-                sols_dict[target - val] = i
-    return None
+            break
+    p = (a.index(b[k]), a.index(b[m]))
+    return p
+
+
+'''
+a = [-1, 9, 4, 3, 5, 1]
+N = 5
+print(find_indices(a, N))
+
+'''

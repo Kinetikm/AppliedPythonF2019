@@ -1,12 +1,11 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 def reverse(number):
-    '''
-    Метод, принимающий на вход int и
-    возвращающий инвертированный int
-    :param number: исходное число
-    :return: инвертированное число
-    '''
-    raise NotImplementedError
+    k = 0
+    if number < 0:
+        k = 1
+        number = -number
+    a = str(number)
+    if k == 1:
+        return int(a[::-1]) * (-1)
+    else:
+        return int(a[::-1])
+
