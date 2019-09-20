@@ -3,7 +3,7 @@
 
 
 def calculate_determinant(list_of_lists):
-    if len(list_of_lists) != len(list_of_lists[0]):
+	if len(list_of_lists) != len(list_of_lists[0]):
 		return None
 	def minor(line, col, lst):
 		temp= []
@@ -29,4 +29,4 @@ def calculate_determinant(list_of_lists):
 		m = minor(0, i, list_of_lists)
 		det = calculate_determinant(m)
 		res += (-1)**(i) * list_of_lists[0][i] * det
-	return res
+	return res	

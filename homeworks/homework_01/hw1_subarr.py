@@ -3,7 +3,7 @@
 
 
 def find_subarr(input_lst, num):
-    n = 0
+	n = 0
 	size = len(input_lst)
 	lst = [0 for i in range(size)]
 	while n < size:
