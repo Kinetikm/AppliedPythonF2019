@@ -8,19 +8,16 @@ def word_inversion(input_lst):
     :param input_lst: строка-массив букв (['H', 'i']). Пробелы одиночные
     :return: None Все изменения в input_lst проходят
     """
-    temp = list()
     write_index = 0
+    word_len = 0
     for _ in reversed(range(len(input_lst))):
         symbol = input_lst.pop()
         if symbol != ' ':
-            temp.insert(0, symbol)
+            input_lst.insert(write_index, symbol)
+            word_len += 1
         else:
-            temp.append(symbol)
-            for element in temp:
-                input_lst.insert(write_index, element)
-                write_index += 1
-            temp = list()
-    for element in temp:
-        input_lst.insert(write_index, element)
-        write_index += 1
+            write_index += word_len
+            input_lst.insert(write_index, symbol)
+            write_index += 1
+            word_len = 0
     return input_lst
