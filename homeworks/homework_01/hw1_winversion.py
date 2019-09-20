@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-
 def word_inversion(input_lst):
     input_lst = [' '] + input_lst
     lst = input_lst[::-1]
@@ -15,5 +13,4 @@ def word_inversion(input_lst):
             arr = arr + c
             l = i + 1
         i += 1
-    print (arr[1:len(arr):])
-    raise NotImplementedError
+    return arr[1:len(arr):]
