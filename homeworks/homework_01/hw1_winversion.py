@@ -7,6 +7,3 @@ def word_inversion(input_lst):
     input_lst[k::] = input_lst[k::][::-1]
     input_lst = input_lst[::-1]
     return input_lst
-
-
-

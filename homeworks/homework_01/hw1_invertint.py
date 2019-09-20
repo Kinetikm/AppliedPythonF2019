@@ -8,4 +8,3 @@ def reverse(number):
         return int(a[::-1]) * (-1)
     else:
         return int(a[::-1])
-

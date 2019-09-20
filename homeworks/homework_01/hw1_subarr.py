@@ -10,6 +10,3 @@ def find_subarr(input_lst, num):
         else:
             sums_dict[sums] = i
     return ()
-
-
-
