@@ -7,10 +7,11 @@ def next_perm(perm):
     i = n-2
     while True:
         if i < 0:
-            return False
+            raise ValueError
         if perm[i] < perm[i+1]:
             break
         i -= 1
+    help_bool = bool((1 + (n-i-1)//2) % 2)
     j = n-1
     while j > i and perm[i] > perm[j]:
         j -= 1
@@ -21,7 +22,7 @@ def next_perm(perm):
         perm[i], perm[j] = perm[j], perm[i]
         i += 1
         j -= 1
-    return True
+    return help_bool
 
 
 def calculate_determinant(list_of_lists):
@@ -31,16 +32,16 @@ def calculate_determinant(list_of_lists):
     n = len(list_of_lists)
     det = 0
     perm = list(range(n))
-    factor = 1
-    help_bool = True
+    inv_fact = 1
     while True:
         term = 1
         for i in range(n):
             term *= list_of_lists[i][perm[i]]
-        det += factor*term
-        if not next_perm(perm):
+        det += inv_fact*term
+        try:
+            help_bool = next_perm(perm)
+            if help_bool:
+                inv_fact *= -1
+        except ValueError:
             break
-        if help_bool:
-            factor *= -1
-        help_bool = not help_bool
     return det
