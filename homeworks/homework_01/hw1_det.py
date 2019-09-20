@@ -4,7 +4,7 @@ import copy
 import random
 
 
-def new_matrix(o_matr,column):
+def new_matrix(o_matr, column):
     n_matr = copy.deepcopy(o_matr)
     del n_matr[column:column + 1:1]
     for i in range(len(n_matr)):
@@ -13,7 +13,7 @@ def new_matrix(o_matr,column):
 
 
 def recrs(matr):
-    det=0
+    det = 0
     if len(matr) == 2:
         return matr[0][0]*matr[1][1]-matr[1][0]*matr[0][1]
     else:
