@@ -3,8 +3,8 @@
 
 
 def reverse(number):
-    n_number = 0
+    nnumber = 0
     while number != 0:
-        n_number = n_number * 10 + (number % 10)
+        nnumber = nnumber * 10 + (number % 10)
         number = number // 10
-    return n_number
+    return nnumber
