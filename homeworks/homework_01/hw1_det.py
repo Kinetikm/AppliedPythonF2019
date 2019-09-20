@@ -11,7 +11,6 @@ def calculate_determinant(list_of_lists):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     """
-    import numpy as np
 
     if len(list_of_lists) != len(list_of_lists[0]):  # Матрица не квадратная
         return None
@@ -22,5 +21,9 @@ def calculate_determinant(list_of_lists):
                     a = list_of_lists[k][i] / list_of_lists[i][i]
                     for j in range(i, len(list_of_lists)):
                         list_of_lists[k][j] -= a * list_of_lists[i][j]
-    print(list_of_lists)
-    return np.multiply.reduce(np.diagonal(list_of_lists))
+
+    deter = 1
+    for i in range(len(list_of_lists)):
+        deter *= list_of_lists[i][i]
+
+    return deter
