@@ -9,4 +9,3 @@ def word_inversion(input_lst):
 		input_lst[i] = input_lst[size - 1 - i]
 		input_lst[size - 1 - i] = temp 
 	return input_lst
-    raise NotImplementedError
