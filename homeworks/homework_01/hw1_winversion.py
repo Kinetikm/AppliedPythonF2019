@@ -8,20 +8,12 @@ def word_inversion(input_lst):
     :param input_lst: строка-массив букв (['H', 'i']). Пробелы одиночные
     :return: None Все изменения в input_lst проходят
     '''
-    result_list = []
-    count = start_index = 0
-    while count < len(input_lst):
-        if input_lst[count] == " ":
-            result_list.append(input_lst[start_index:count])
-            start_index = count + 1
-        elif count == len(input_lst) - 1:
-            result_list.append(input_lst[start_index:count + 1])
-            start_index = count + 1
-        count += 1
-    return_list = []
-    for node_list in result_list[::-1]:
-        for node in node_list:
-            return_list.append(node)
-        return_list.append(" ")
-
-    return return_list[:-1]
+    reverse_lst = input_lst[::-1]
+    start_index = 0
+    for index in range(len(reverse_lst)):
+        if reverse_lst[index] == "\x20":
+            end_index = index
+            reverse_lst[start_index:end_index]=reverse_lst[start_index:end_index][::-1]
+            start_index = index+1
+    reverse_lst[start_index:]=reverse_lst[start_index:][::-1]
+    return reverse_lst
