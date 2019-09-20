@@ -3,6 +3,12 @@
 
 
 def find_subarr(input_lst, num):
+    if len(input_lst) == 1:
+        if input_lst[i] == num:
+            return i
+        else:
+            return()
+
     for i in range(len(input_lst) - 1):
         if input_lst[i] == num:
             return i, i
