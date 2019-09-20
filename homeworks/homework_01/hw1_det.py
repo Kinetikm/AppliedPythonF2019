@@ -20,9 +20,9 @@ def recrs(matr):
         for pos in range(len(matr)):
             print(matr)
             if pos % 2 == 0:
-                det += matr[pos][0]*recrs(new_matrix(matr,pos))
+                det += matr[pos][0]*recrs(new_matrix(matr, pos))
             else:
-                det -= matr[pos][0]*recrs(new_matrix(matr,pos))
+                det -= matr[pos][0]*recrs(new_matrix(matr, pos))
         print(det)
         return det
 
@@ -30,5 +30,7 @@ def recrs(matr):
 def calculate_determinant(list_of_lists):
     if len(list_of_lists) != len(list_of_lists[0]):
         return None
+    if len(list_of_lists) == 1:
+        return list_of_lists[0][0]
     else:
         return recrs(list_of_lists)
