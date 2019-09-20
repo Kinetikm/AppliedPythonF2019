@@ -9,7 +9,4 @@ def word_inversion(input_lst):
     return input_lst
 
 
-'''
-a = ['О', ' ', 'П', 'р', 'и', 'в', 'е', 'т', ' ', 'О', ' ', 'к', 'а', 'к', ' ', 'д', 'е', 'л', 'а']
-print(word_inversion(a))
-'''
+

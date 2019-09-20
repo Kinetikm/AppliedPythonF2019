@@ -12,8 +12,4 @@ def find_subarr(input_lst, num):
     return ()
 
 
-'''
-a = [1, 2, 3, 4, 5, -1]
-b = 10
-print(find_subarr(a,b))
-'''
+

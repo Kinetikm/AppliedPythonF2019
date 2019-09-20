@@ -15,9 +15,4 @@ def find_indices(input_list, target):
     return p
 
 
-'''
-a = [-1, 9, 4, 3, 5, 1]
-N = 5
-print(find_indices(a, N))
 
-'''

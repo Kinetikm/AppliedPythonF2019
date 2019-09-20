@@ -22,7 +22,4 @@ def calculate_determinant(list_of_lists):
         return None
 
 
-'''
-a = [[1, 2, 3], [4, 5, 6], [7, 35, 9]]
-print(calculate_determinant(a))
-'''
+
