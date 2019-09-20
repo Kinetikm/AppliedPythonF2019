@@ -14,4 +14,4 @@ def reverse(number):
         b = b * 10 + number % 10
         number //= 10
     return b
-    raise NotImplementedError
+    
