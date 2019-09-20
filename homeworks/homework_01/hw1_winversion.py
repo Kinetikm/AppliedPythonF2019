@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
+
+
 def word_inversion(input_lst):
     input_lst = [' '] + input_lst
     lst = input_lst[::-1]

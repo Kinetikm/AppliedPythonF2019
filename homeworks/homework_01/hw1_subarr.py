@@ -11,5 +11,3 @@ def find_subarr(input_lst, num):
             if lst[i] == num:
                 return i, i + k
     return ()
-
-
