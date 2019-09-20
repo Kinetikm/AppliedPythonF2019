@@ -28,3 +28,4 @@ def calculate_determinant(list_of_lists):
                 return matrix[0]
     except TypeError:
         return None
+

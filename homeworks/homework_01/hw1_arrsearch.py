@@ -21,3 +21,4 @@ def find_indices(input_list, target):
     else:
         p = (input_list.index(b[m]), input_list.index(b[k]))
     return p
+
