@@ -12,7 +12,6 @@ def word_inversion(input_lst):
         s = ''
         for letter in input_lst:
             s += letter
-            #print(s)
         del input_lst[::]
         input_lst += [i for i in s.split()]
         input_lst.reverse()
