@@ -4,12 +4,13 @@
 
 def find_subarr(input_lst, num):
     dc = dict()
+    s = 0
     for i in range(len(input_lst)):
-        k = sum(input_lst[:i + 1])
-        if (k - num == 0):
+        s += input_lst[i]
+        if (s - num == 0):
             return (0, i)
-        elif (k - num) in dc:
-            return(dc[k - num] + 1, i)
+        elif (s - num) in dc:
+            return(dc[s - num] + 1, i)
         else:
-            dc[k] = i
+            dc[s] = i
     return ()
