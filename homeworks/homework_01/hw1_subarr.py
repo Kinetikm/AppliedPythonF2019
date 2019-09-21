@@ -3,19 +3,16 @@
 
 
 def find_subarr(input_lst, num):
+    cur_sum = 0
+    sums = dict()
+    # fill set
+    for i in range(len(input_lst)):
+        cur_sum += input_lst[i]
+        if cur_sum == num:
+            return 0, i
 
-    if len(input_lst) == 0:
-        return()
-    
-    if len(input_lst) == 1:
-        if input_lst[0] == num:
-            return 0, 0
-        else:
-            return()
-
-    for i in range(len(input_lst) - 1):
-        if input_lst[i] == num:
-            return i, i
-        if (input_lst[i] + input_lst[i + 1]) == num:
-            return i, i + 1
+        sums[cur_sum] = i
+    for key in sums:
+        if key - num in sums:
+            return sums[key - num], sums[key]
     return()
