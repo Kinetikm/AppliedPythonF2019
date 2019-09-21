@@ -35,4 +35,3 @@ def calculate_determinant(list_of_lists):
     if a == 1:
         return list_of_lists[0][0]
     return calculate(list_of_lists)
-
