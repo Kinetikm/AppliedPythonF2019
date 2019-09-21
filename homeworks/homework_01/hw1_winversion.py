@@ -10,6 +10,7 @@ def reverse_word(input_lst, begin, end):
         tmp_b += 1
         tmp_e -= 1
 
+
 def word_inversion(input_lst):
     '''
     Метод инвертирующий порядок слов в строке inplace (без выделения доп памяти)
@@ -20,7 +21,7 @@ def word_inversion(input_lst):
     try:
         space = input_lst.index(' ')
     except ValueError:
-        return
+        return None
     while space < len(input_lst):
         end = space - 1
         reverse_word(input_lst, begin, end)
@@ -31,6 +32,4 @@ def word_inversion(input_lst):
             reverse_word(input_lst, begin, len(input_lst)-1)
             break
     input_lst.reverse()
-
-
-   # raise NotImplementedError
+    return None
