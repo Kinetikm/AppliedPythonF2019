@@ -1,6 +1,6 @@
 def find_comma(cur_pos, input_lst):
     i = cur_pos
-    while (i != len(input_lst)) and (input_lst[i] != ","):
+    while (i != len(input_lst)) and (input_lst[i] != ("," or " ")):
         i += 1
     return i
 
