@@ -30,3 +30,4 @@ def calculate_determinant(list_of_lists):
 		det = calculate_determinant(m)
 		res += (-1)**(i) * list_of_lists[0][i] * det
 	return res	
+	raise NotImplementedError

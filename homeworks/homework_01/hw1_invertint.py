@@ -9,3 +9,4 @@ def reverse(number):
 		number = number // 10
 		res = res * 10 + a
 	return res
+	raise NotImplementedError

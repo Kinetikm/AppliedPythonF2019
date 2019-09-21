@@ -8,3 +8,4 @@ def check_palindrom(input_string):
 		if input_string[i] != input_string[size - 1 - i]:
 			return False
 	return True
+	raise NotImplementedError
