@@ -11,7 +11,6 @@ def find_subarr(input_lst, num):
     :return: два индекса (начала и конца подмассива). Пустой tuple, если таких нет
     Пример: find_subarr([1, 2, 3, 4, 5, -1], 4) может вернуть (3, 3) или (4, 5)
     '''
-    #a = input_lst
     counter = 0
     slovar = dict()
     slovar[0] = -1
