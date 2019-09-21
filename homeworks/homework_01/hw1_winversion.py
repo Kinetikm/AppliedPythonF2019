@@ -20,7 +20,4 @@ def word_inversion(input_lst):
             start = i + 1
     print(input_lst)
 
-str = input()
-input_lst = list(str)
-word_inversion(input_lst)
 
