@@ -9,9 +9,8 @@ def word_inversion(input_lst):
     :return: None Все изменения в input_lst проходят
     '''
     def word_inversion(input_lst):
-    i = 0
     k = 0
-    while i != len(input_lst):
+    for i in range(len(input_lst)):
         if input_lst[i] is " ":
             input_lst[k:i:] = input_lst[k:i:][::-1]
             k = i + 1
