@@ -13,11 +13,9 @@ def reverse(number):
     if(number < 0):
         negative = True
     s = str(number)
-    s =  s.replace('-', '')
+    s = s.replace('-', '')
     s = s[::-1]
     number = int(s)
-    if negative: 
+    if negative:
         number = number*-1
     return number
-    
-    
