@@ -35,4 +35,3 @@ def calculate_determinant(list_of_lists):
             det += mtrx[0][i] * sgn * calculate_determinant(minor(mtrx, 0, i))
             sgn *= -1
         return det
-
