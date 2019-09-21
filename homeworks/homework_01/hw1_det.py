@@ -28,6 +28,7 @@ def calculate_determinant(list_of_lists):
             determinant += list_of_lists[i][0] * ((-1) ** (0 + i)) * minor
         return determinant
 
+
 def is_square_matrix_check(matrix):
     for i, val in enumerate(matrix):
         if len(matrix) != len(matrix[i]):
