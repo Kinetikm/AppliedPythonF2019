@@ -3,6 +3,10 @@
 
 
 def find_subarr(input_lst, num):
+
+    if len(input_lst) == 0:
+        return()
+    
     if len(input_lst) == 1:
         if input_lst[0] == num:
             return 0, 0

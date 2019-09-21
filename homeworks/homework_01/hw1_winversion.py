@@ -20,4 +20,4 @@ def word_inversion(input_lst):
             input_lst[cur_comma_pos + i + 1], input_lst[next_comma_pos - i - 1] = input_lst[next_comma_pos - i - 1], \
                                                                                   input_lst[
                                                                                       cur_comma_pos + i + 1]  # swap
-    return input_lst
+    return None
