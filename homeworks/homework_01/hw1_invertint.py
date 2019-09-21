@@ -5,11 +5,7 @@
 def reverse(number):
     number = str(number)
     if number[0] == '-':
-        number = list(number[1:])
-        number.reverse()
-        number = -(int("".join(number)))
+        number = -(int(number[:0:-1]))
     else:
-        number = list(number)
-        number.reverse()
-        number = int("".join(number))
+        number = int(number[::-1])
     return number
