@@ -14,10 +14,10 @@ def find_subarr(input_lst, num):
     for i in range(len(input_lst)):
         sum = input_lst[i]
         if sum is num:
-            return (i,i)
+            return (i, i)
         else:
             for j in range(i + 1, len(input_lst), 1):
                 sum += input_lst[j]
                 if sum is num:
-                    return (i,j)
+                    return (i, j)
     return ()
