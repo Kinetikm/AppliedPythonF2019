@@ -10,4 +10,12 @@ def check_palindrom(input_string):
     :return: True, если строка являестя палиндромом
     False иначе
     '''
-    raise NotImplementedError
+    input_string = input_string.lower()
+    new_input_string = [input_string[i] for i in range(len(input_string))] #if input_string[i] != ' 'py
+    for i in range(len(new_input_string) // 2):
+        if new_input_string[-1-i] != new_input_string[i]:
+            return(False)
+    else:
+        return(True)
+
+

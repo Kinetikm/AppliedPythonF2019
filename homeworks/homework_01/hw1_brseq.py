@@ -21,4 +21,6 @@ def is_bracket_correct(input_string):
             el = stack.pop()
             if parentheses[el] != i:
                 return False
+
     return len(stack) == 0
+
