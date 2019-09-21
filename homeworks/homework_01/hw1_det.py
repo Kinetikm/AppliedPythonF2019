@@ -26,8 +26,6 @@ def calculate_determinant(list_of_lists):
     n = len(mtrx)
     sgn = 1
     det = 0
-    if n == 1:
-        return mtrx[0][0]
     if n != len(mtrx[0]):
         return None
     for i in range(n):
