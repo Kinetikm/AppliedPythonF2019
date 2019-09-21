@@ -22,4 +22,3 @@ def word_inversion(input_lst):
             for l in range(start + 1, stop):
                 input_lst.append(input_lst.pop(start+1))
     return input_lst
-
