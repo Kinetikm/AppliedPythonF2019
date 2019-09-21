@@ -21,7 +21,7 @@ def word_inversion(input_lst):
     try:
         space = input_lst.index(' ')
     except ValueError:
-        return None
+        return input_lst
     while space < len(input_lst):
         end = space - 1
         reverse_word(input_lst, begin, end)
@@ -32,4 +32,4 @@ def word_inversion(input_lst):
             reverse_word(input_lst, begin, len(input_lst)-1)
             break
     input_lst.reverse()
-    return None
+    return input_lst
