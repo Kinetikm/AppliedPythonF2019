@@ -36,5 +36,3 @@ def calculate_determinant(list_of_lists):
             sgn *= -1
         return det
 
-
-print(calculate_determinant([[1, 2], [3, 4]]))
