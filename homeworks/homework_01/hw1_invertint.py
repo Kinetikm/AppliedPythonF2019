@@ -3,10 +3,10 @@
 
 
 def reverse(number):
-	res = 0
-	while number != 0:	
-		a =	number % 10
-		number = number // 10
-		res = res * 10 + a
-	return res
-	raise NotImplementedError
+    sign = 1 if number >= 0 else -1
+    number *= sign
+    res = 0
+    while number != 0:
+        res = res * 10 + number % 10
+        number = number // 10
+    return sign * res
