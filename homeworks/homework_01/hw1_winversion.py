@@ -15,6 +15,6 @@ def word_inversion(input_lst):
             continue
         if input_lst[i] == " ":
             input_lst[beg:i] = input_lst[i-1:beg:-1] + [input_lst[beg]]
-            beg = i + 1
+            beg = i+1
     input_lst.reverse()
     return(input_lst)

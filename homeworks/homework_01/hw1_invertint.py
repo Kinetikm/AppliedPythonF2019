@@ -10,12 +10,11 @@ def reverse(number):
     :return: инвертированное число
     '''
     if number < 0:
-        number = number * (-1)
         number = str(number)
-        number = number[::-1]
-        number = int(number) * (-1)
+        number = number[:0:-1]
+        number = int(number)*(-1)
+        return number
     else:
         number = str(number)
         number = number[::-1]
-        number = int(number)
-    return number
+        return int(number)
