@@ -10,7 +10,7 @@ def word_inversion(input_lst):
     '''
     n = 0
     for i in range(len(input_lst)):
-        if input_lst[i] = ' ':
+        if input_lst[i] = " ":
             input_lst[n:i:] = input_lst[n:i:][::-1]
             n = i + 1
     input_lst[n::] = input_lst[n::][::-1]
