@@ -16,3 +16,6 @@ def word_inversion(input_lst):
             w_start = i + 1
     sentence[w_start:] = (sentence[w_start:])[::-1]
     return sentence
+
+
+print(word_inversion(['c', 'Q', 'b', ' ', 'n']))

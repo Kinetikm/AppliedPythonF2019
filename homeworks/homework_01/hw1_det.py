@@ -28,7 +28,13 @@ def calculate_determinant(list_of_lists):
     det = 0
     if n != len(mtrx[0]):
         return None
-    for i in range(n):
-        det += mtrx[0][i] * sgn * calculate_determinant(minor(mtrx, 0, i))
-        sgn *= -1
-    return det
+    elif n == 1:
+        return mtrx[0][0]
+    else:
+        for i in range(n):
+            det += mtrx[0][i] * sgn * calculate_determinant(minor(mtrx, 0, i))
+            sgn *= -1
+        return det
+
+
+print(calculate_determinant([[1, 2], [3, 4]]))
