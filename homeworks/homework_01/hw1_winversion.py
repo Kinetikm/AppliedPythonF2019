@@ -1,4 +1,4 @@
-#af!/usr/bin/env python
+#!/usr/bin/env python
 # coding: utf-8
 
 
@@ -8,9 +8,9 @@ def word_inversion(input_lst):
     :param input_lst: строка-массив букв (['H', 'i']). Пробелы одиночные
     :return: None Все изменения в input_lst проходят
     '''
-    
+    i = 0
     k = 0
-    for i in range(len(input_lst)):
+    while i <= len(input_lst):
         if input_lst[i] is " ":
             input_lst[k:i:] = input_lst[k:i:][::-1]
             k = i + 1
