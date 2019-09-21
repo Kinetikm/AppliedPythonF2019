@@ -9,7 +9,4 @@ def word_inversion(input_lst):
     :return: None Все изменения в input_lst проходят
     '''
 
-    raise NotImplementedError
-
-
-    
+    raise NotImplementedError    
