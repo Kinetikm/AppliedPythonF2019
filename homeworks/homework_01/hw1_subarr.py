@@ -21,4 +21,3 @@ def find_subarr(input_lst, num):
                 return tup
         summ = 0
     return tup
-

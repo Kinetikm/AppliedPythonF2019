@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
 def calculate_determinant(A):
     M, N, D = len(A), len(A[0]), 0
-    if M != N: return None
-    if N == 1: return A[0][0]
+    if M != N:
+        return None
+    if N == 1:
+        return A[0][0]
     for i in range(N):
         Minor = []
         for p in range(len(A)):
@@ -19,12 +22,3 @@ def calculate_determinant(A):
         else:
             D -= A[0][i] * calculate_determinant(Minor)
     return D
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
 def reverse(number):
     '''
     Метод, принимающий на вход int и
@@ -14,7 +15,8 @@ def reverse(number):
     else:
         s = ''
     string, new_string = str(number), []
-    for i in range(len(string)): new_string.append(string[i])
+    for i in range(len(string)):
+        new_string.append(string[i])
     while True:
         if new_string[-1] == '0' and len(new_string) != 1:
             new_string.pop()

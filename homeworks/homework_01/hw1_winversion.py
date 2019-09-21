@@ -20,6 +20,3 @@ def word_inversion(input_lst):
                     input_lst.append(input_lst[j])
                     t += 1
         return input_lst[ln::]
-
-
-

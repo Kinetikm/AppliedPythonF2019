@@ -11,11 +11,9 @@ def check_palindrom(input_string):
     False иначе
     '''
     input_string = input_string.lower()
-    new_input_string = [input_string[i] for i in range(len(input_string))] #if input_string[i] != ' 'py
+    new_input_string = [input_string[i] for i in range(len(input_string))]
     for i in range(len(new_input_string) // 2):
         if new_input_string[-1-i] != new_input_string[i]:
-            return(False)
+            return False
     else:
-        return(True)
-
-
+        return True
