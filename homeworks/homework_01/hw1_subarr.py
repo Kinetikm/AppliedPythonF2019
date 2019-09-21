@@ -20,4 +20,4 @@ def find_subarr(input_lst, num):
                 sum += input_lst[j]
                 if sum is num:
                     return (i, j)
-    return ()
+    return tuple()
