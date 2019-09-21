@@ -15,7 +15,7 @@ def find_subarr(input_lst, num):
         sum = input_lst[i]
         if sum is num:
             return (i, i)
-        for j in range(i + 1, len(input_lst), 1):
+        for j in range(i + 1, len(input_lst)):
             sum += input_lst[j]
             if sum is num:
                 return (i, j)
