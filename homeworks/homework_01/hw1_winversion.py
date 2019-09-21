@@ -10,7 +10,7 @@ def word_inversion(input_lst):
     for i in range(len(input_lst) // 2):
         input_lst[i], input_lst[-i - 1] = input_lst[-i - 1], input_lst[i]
 
-    # reverse words
+    # reverse word
     next_space_pos = -1
     cur_space_pos = -1
     while next_space_pos < (len(input_lst)):
