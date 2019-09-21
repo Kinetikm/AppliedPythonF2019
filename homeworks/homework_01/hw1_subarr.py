@@ -20,4 +20,4 @@ def find_subarr(input_lst, num):
         if s - num in inf:
             return (inf[s - num] + 1, i)
         inf[s] = i
-        return ()
+    return ()
