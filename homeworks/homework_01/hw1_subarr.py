@@ -13,13 +13,13 @@ def find_subarr(input_lst, num):
     '''
     s = 0
     sols_dict = dict()
-    t = tuple()
+    tu = tuple()
     for i, val in enumerate(input_lst):
         s += val
         if s == num:
             return (0, i)
         if s - num in sols_dict:
-            t = (sols_dict[s - num] + 1, i)
+            tu = (sols_dict[s - num] + 1, i)
             return t
         sols_dict[s] = i
-    return t
+    return tu
