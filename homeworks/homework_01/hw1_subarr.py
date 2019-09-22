@@ -10,6 +10,8 @@ def find_subarr(input_lst, num):
         sum += el
         if sum == num:
             return 0, i
+        if el == num:
+            return i, i
         if sum - num in dct:
             return dct[sum-num] + 1, i
         dct[sum] = i
