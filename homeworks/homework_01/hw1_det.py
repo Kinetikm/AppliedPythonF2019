@@ -20,4 +20,3 @@ def calculate_determinant(list_of_lists):
         b.pop(i)
         det += a * calculate_determinant(b) * (-1) ** i
     return det
-
