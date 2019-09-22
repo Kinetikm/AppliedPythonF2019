@@ -3,13 +3,14 @@
 
 
 def word_inversion(input_lst):
-	start = 0
+    start = 0
     for i in range(len(input_lst)):
         a = input_lst.pop()
         if (a == " "):
-        	start = i
+            start = i
             input_lst.insert(start, " ")
             start += 1
         else:
             input_lst.insert(start, a)
-	return input_lst
+    return input_lst
+    
