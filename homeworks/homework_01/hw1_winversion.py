@@ -22,4 +22,4 @@ def word_inversion(input_lst):
             k = i+1
     del input_lst[len(input_lst)-1]
     input_lst.reverse()
-    print(input_lst)
+    return input_lst
