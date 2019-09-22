@@ -9,7 +9,7 @@ def find_subarr(input_lst, num):
         while i <= len(input_lst):
             if sum(input_lst[j:i]) == num:
                 print(j, i - 1)
-            i +=1
+            i += 1
         i = j + 2
         j += 1
     '''
