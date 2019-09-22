@@ -8,7 +8,7 @@ def word_inversion(input_lst):
     while i < len(input_lst):
         j = i
         wlen = 0
-        if input_lst[i] == ' ':
+        if input_lst[i].isspace() == True:
             i += 1
             continue
         else:
