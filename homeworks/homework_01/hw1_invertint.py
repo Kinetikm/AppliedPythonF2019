@@ -15,10 +15,10 @@ if number > 0:
         b = b * 10 + number % 10
         number = number // 10
 else:
-    number = number*(-1)
+    number = number * (-1)
     while number > 0:
         b = b * 10 + number % 10
         number = number // 10
-    b = b* (-1)
+    b = b * (-1)
 print(b)
 raise NotImplementedError
