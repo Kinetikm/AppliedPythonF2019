@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[69]:
+# In[78]:
 
 
 #!/usr/bin/env python
@@ -30,7 +30,8 @@ def word_inversion(input_lst):
         i = i+1
     del input_lst[0]
     del input_lst[-1]
-    return None
+    #print(input_lst)
+    return input_lst
 
 
 # In[ ]:
