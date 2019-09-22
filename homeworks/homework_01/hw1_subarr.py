@@ -23,5 +23,3 @@ def find_subarr(input_lst, num):
     if sum == num:
         return (l-1, l-1)
     return ()
-
-print(find_subarr([], 0))

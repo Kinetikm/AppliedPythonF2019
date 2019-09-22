@@ -25,6 +25,3 @@ def calculate_determinant(list_of_lists):
             det += step * list_of_lists[0][i] * det_min
             step = -1 * step
         return det
-
-
-print(calculate_determinant([[124, 54454541556516164616, 545], [215215, 25]]))
