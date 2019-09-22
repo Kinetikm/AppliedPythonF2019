@@ -11,16 +11,16 @@ def reverse(number):
     '''
 
     new = 0
-    if num < 0:
-        num *= -1
-        while num != 0:
+    if number < 0:
+        number *= -1
+        while number != 0:
             new *= 10
-            new += num % 10
-            num = num // 10
+            new += number % 10
+            number = number // 10
         new *= -1
     else:
-        while num != 0:
+        while number != 0:
             new *= 10
-            new += num % 10
-            num = num // 10
+            new += number % 10
+            number = number // 10
     return new
