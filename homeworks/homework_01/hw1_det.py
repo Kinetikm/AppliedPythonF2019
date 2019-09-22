@@ -5,7 +5,7 @@
 def calculate_determinant(b):
     if len(b) < 1:
         return
-    elif len(b) == 1:
+    elif (len(b) == 1) and (len(b) == len(b[0])):
         return b[0]
     if type(b[0]) is not list:
         return
