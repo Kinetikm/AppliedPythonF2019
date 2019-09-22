@@ -12,4 +12,3 @@ def reverse(number):
     s = str(number)
     invert_number = int(s[::-1])
     return invert_number
-    #raise NotImplementedError
