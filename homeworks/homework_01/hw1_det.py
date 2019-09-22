@@ -21,5 +21,6 @@ def calculate_determinant(list_of_lists):
         res *= list_of_lists[i][i]
         for j in range(i + 1, n):
             b = list_of_lists[j][i] / list_of_lists[i][i]
-            list_of_lists[j] = [float(list_of_lists[j][k]) - b * list_of_lists[i][k] for k in range(n)]
+            for k in range(i + 1, n):
+                list_of_lists[j][k] -= list_of_lists[i][k] * list_of_lists[j][i]
     return res
