@@ -14,5 +14,5 @@ def check_palindrom(A):
     B = A[::-1]
     return True if B == A else False
     #raise NotImplementedError
-S = input()
-print(check_polindrom(S))
+s = input()
+print(check_palindrom(s))
