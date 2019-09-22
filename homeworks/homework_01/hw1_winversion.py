@@ -3,6 +3,8 @@
 
 
 def word_inversion(input_lst):
+    if input_lst == []:
+        return []
     List = []
     List.append(input_lst.pop(0))
     k = 0
@@ -16,7 +18,6 @@ def word_inversion(input_lst):
         else:
             List[k] = List[k] + input_lst.pop(0)
     List.reverse()
-    
     while True:
         if List == []:
             break
