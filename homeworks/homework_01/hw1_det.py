@@ -32,4 +32,3 @@ def calculate_determinant(list_of_lists):
                 k = -k
         return (d)
         raise NotImplementedError
-
