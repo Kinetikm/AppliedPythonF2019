@@ -14,5 +14,5 @@ def find_subarr(input_lst, num):
             mas.append(sum - num)
         else:
             return (mas.index(sum - num), i)
-    return []
+    return ()
 
