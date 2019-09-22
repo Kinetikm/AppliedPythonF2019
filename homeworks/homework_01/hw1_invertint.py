@@ -3,19 +3,16 @@
 
 
 def reverse(number):
-    n = len(number)
-    if n % 2 == 0:
-        print(number[:-int(n/2)-1:-1])
-        if number.startswith(number[:-int(n/2)-1:-1]):
-            print(True)
-        else:
-            print(False)
+    s = str(number)
+    s = s.rstrip('0')
+    s = s[::-1]
+    if '-' in s:
+        s = s.rstrip('-')
+        s = '-'+s
+        print(int(s))
     else:
-        print(number[:-int(n//2)-1:-1])
-        if number.startswith(s[:-int(n//2)-1:-1]):
-            print(True)
-        else:
-            print(False)
+        print(int(s))
+
     '''
     Метод, принимающий на вход int и
     возвращающий инвертированный int
@@ -23,3 +20,5 @@ def reverse(number):
     :return: инвертированное число
     '''
     raise NotImplementedError
+
+
