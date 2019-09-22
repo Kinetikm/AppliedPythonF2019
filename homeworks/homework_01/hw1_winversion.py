@@ -10,5 +10,3 @@ def word_inversion(input_lst):
             input_lst[s:i] = input_lst[s:i][::-1]
             s = i + 1
     return input_lst
-
-
