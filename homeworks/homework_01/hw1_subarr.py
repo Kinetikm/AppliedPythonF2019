@@ -3,14 +3,13 @@
 
 
 def find_subarr(input_lst, num):
-    i = 0
-    while i <= len(input_lst) - 1:
-        sum = 0
-        j = i
-        while j <= len(input_lst) - 1:
-            sum += input_lst[j]
-            if sum == num:
-                return i, j
-            j += 1
-        i += 1
+    dictionary = {}
+    sum = 0
+    for i in range(len(input_lst)):
+        sum += input_lst[i]
+        if sum == num:
+            return 0, i
+        if sum - num in dictionary:
+            return dictionary[sum - num] + 1, i
+        dictionary[sum] = i
     return ()
