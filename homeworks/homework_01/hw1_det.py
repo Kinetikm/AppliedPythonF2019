@@ -7,7 +7,7 @@ def calculate_determinant(list_of_lists):
     eps = 1e-15
     n = len(list_of_lists)
     for i in range(n):
-        if list_of_lists[i] != n:
+        if len(list_of_lists[i]) != n:
             return None
     for i in range(n):
         s = i
