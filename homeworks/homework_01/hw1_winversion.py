@@ -11,12 +11,15 @@ def word_inversion(input_lst):
 
     begin = 0
     n = len(input_lst)
+    flag = False
     for i in range(n):
         if input_lst[i] == ' ':
+            flag = True
             for j in range((i - begin) // 2):
                 input_lst[begin + j], input_lst[i - 1 - j] = input_lst[i - 1 - j], input_lst[begin + j]
             begin = i + 1
-    for j in range((n - begin) // 2):
-        input_lst[begin + j], input_lst[n - 1 - j] = input_lst[n - 1 - j], input_lst[begin + j]
-    input_lst.reverse()
+    if flag:
+        for j in range((n - begin) // 2):
+            input_lst[begin + j], input_lst[n - 1 - j] = input_lst[n - 1 - j], input_lst[begin + j]
+        input_lst.reverse()
     return input_lst
