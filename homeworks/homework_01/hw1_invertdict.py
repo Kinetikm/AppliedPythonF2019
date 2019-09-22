@@ -2,37 +2,23 @@
 # coding: utf-8
 
 
+def invert(dct, key, data):
+    if isinstance(data, (list, tuple, set)):
+        for x in data:
+            invert(dct, key, x)
+    else:
+        if isinstance(dct.get(data), (tuple, list, set)):
+            dct.get(data).append(key)
+        elif dct.get(data) is None:
+            dct[data] = key
+        else:
+            dct[data] = [dct.get(data), key]
+
+
 def invert_dict(source_dict):
-    '''
-    Функция которая разворачивает словарь, т.е.
-    каждому значению ставит в соответствие ключ.
-    :param source_dict: dict
-    :return: new_dict: dict
-    '''
-
-    def add_to_dict(d, key, value):
-        if isinstance(key, (list, tuple, set)):
-            for i in key:
-                add_to_dict(d, i, value)
-        else:
-            if '__hash__' in dir(key) and key.__hash__ is not None:
-                if key in d:
-                    if isinstance(d[key], list):
-                        d[key].append(value)
-                    else:
-                        d[key] = [d[key], value]
-                else:
-                    d[key] = value
-            else:
-                print('error!')
-
-    new_dict = {}
-    for key in source_dict:
-        if isinstance(source_dict[key], (dict)):
-            continue
-        if isinstance(source_dict[key], (list, tuple, set)):
-            for i in source_dict[key]:
-                add_to_dict(new_dict, i, key)
-        else:
-            add_to_dict(new_dict, source_dict[key], key)
-    return new_dict
+    res = {}
+    if len(source_dict) == 0:
+        return None
+    for x in source_dict.keys():
+        invert(res, x, source_dict.get(x))
+    return res
