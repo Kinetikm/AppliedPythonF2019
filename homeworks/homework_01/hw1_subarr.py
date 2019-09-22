@@ -20,6 +20,6 @@ def find_subarr(input_lst, num):
             return (0, i)
         if s - num in sols_dict:
             tu = (sols_dict[s - num] + 1, i)
-            return t
+            return tu
         sols_dict[s] = i
     return tu
