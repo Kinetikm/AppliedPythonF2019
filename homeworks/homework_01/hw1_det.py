@@ -11,4 +11,23 @@ def calculate_determinant(list_of_lists):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     '''
-    raise NotImplementedError
+    def new_minor(list_of_lists, i, j):
+        min = []
+        for n_1, row in enumerate(list_of_lists):
+            if n_1 != i:
+                min.append(col for n_2, col in enumerate(row) if n != j)
+        return min
+
+    n = len(list_of_lists)
+    if n == 1:
+        return list_of_lists[0][0]
+    for row in list_of_lists:
+        if len(row) != n:
+            return None
+
+    det = 0
+    for i in range(n):
+        minor = new_minor(list_of_lists, 0, i)
+        det += ((-1) ** (1+i+1)) * list_of_lists[0][i] * calculate_determinant(minor, 0, i)
+        
+    return(det)
