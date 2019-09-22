@@ -16,6 +16,6 @@ def find_subarr(input_lst, num):
         if sum == num:
             return 0, i
         if sum - num in indeces:
-            return [sum - num] + 1, i
+            return indeces[sum - num] + 1, i
         indeces[sum] = i
     return ()
