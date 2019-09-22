@@ -3,11 +3,10 @@
 
 
 def find_subarr(input_lst, num):
-    t = a[0]
-    for i in range(1,len(a)):
-        if (num == a[i]):
+    t = input_lst[0]
+    for i in range(1,len(input_lst)):
+        if (num == input_lst[i]):
             return (i,i)
-        elif (num == t + a[i]):
+        elif (num == t + input_lst[i]):
             return (i-1,i)
-        t = a[i]
-    raise NotImplementedError
+        t = input_lst[i]
