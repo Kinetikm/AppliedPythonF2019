@@ -15,13 +15,8 @@ def reverse(number):
     else:
         return(int(s))
 
-    '''
-    Метод, принимающий на вход int и
-    возвращающий инвертированный int
-    :param number: исходное число
-    :return: инвертированное число
-    '''
-    raise NotImplementedError
+
+
 
    
 
