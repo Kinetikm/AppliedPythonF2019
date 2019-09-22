@@ -1,6 +1,5 @@
 import copy
 
-
 def delCol(matrix, i):  # Удалить i-ый столбец
     a = 0
     c = copy.deepcopy(matrix)
