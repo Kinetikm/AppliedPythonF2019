@@ -24,4 +24,4 @@ def reverse(number):
         if flag:
             res *= -1
 
-return res
+    return res
