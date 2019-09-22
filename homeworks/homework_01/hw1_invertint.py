@@ -17,7 +17,3 @@ def reverse(number):
     str_num = str_num[(len(str_num)-1)::-1]
     new_number = sign * int(str_num)
     return new_number
-
-
-
-

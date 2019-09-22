@@ -11,6 +11,7 @@ def calculate_determinant(list_of_lists):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     '''
+
     lenOut = len(list_of_lists)
     checker = True
     if lenOut == 0:
@@ -29,8 +30,8 @@ def solve(matrix, mul):  # задаём функцию, которая счит�
     if width == 1:
         return mul * matrix[0][0]  # множитель
     else:
-        sign = -1#знак
-        total = 0#сумма
+        sign = -1
+        total = 0
         for i in range(width):
             m = []
             for j in range(1, width):

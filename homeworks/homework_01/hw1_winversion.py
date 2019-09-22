@@ -20,4 +20,3 @@ def word_inversion(input_lst):
             j = i+1
 
     return input_lst
-
