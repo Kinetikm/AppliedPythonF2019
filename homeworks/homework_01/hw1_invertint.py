@@ -12,12 +12,12 @@ def reverse(number):
     b = 0
     f = 0
     if number < 0:
-    	f = 1
-    	number = abs(number)
+        f = 1
+        number = abs(number)
     while (number > 0):
-    	b *= 10
-		b += (number % 10)
-		number // = 10
+        b *= 10
+        b += (number % 10)
+        number // = 10
     if f:
-		b = -b
+        b = -b
 return b
