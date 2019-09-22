@@ -3,13 +3,6 @@
 
 
 def invert_dict(source_dict):
-    '''
-    Функция которая разворачивает словарь, т.е.
-    каждому значению ставит в соответствие ключ.
-    :param source_dict: dict
-    :return: new_dict: dict
-    '''
-
     def add_to_dict(d, key, value):
         if isinstance(key, (list, tuple, set)):
             for i in key:
