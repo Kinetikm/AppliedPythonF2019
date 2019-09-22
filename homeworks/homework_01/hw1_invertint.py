@@ -3,7 +3,7 @@
 
 
 def reverse(number):
-    st=str(number)
-    st=st[::-1]
-    number=int(st)
+    st = str(number)
+    st = st[::-1]
+    number = int(st)
     return(number)
