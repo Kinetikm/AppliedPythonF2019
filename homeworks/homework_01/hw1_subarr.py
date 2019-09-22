@@ -14,6 +14,3 @@ def find_subarr(input_lst, num):
         else:
             d[s - val] = i
     return ()
-
-a = [9, 2, 3, 4, 5, -2, 8]
-print(find_subarr(a, 6))
