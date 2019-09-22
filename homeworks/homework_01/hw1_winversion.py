@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
 def inver_part(input_lst, start, end):
     s = start
     e = end
@@ -21,4 +22,3 @@ def word_inversion(input_lst):
             pointer = i + 1
     inver_part(input_lst, pointer, l - 1)
     return input_lst[::-1]
-
