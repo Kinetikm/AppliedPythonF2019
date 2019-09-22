@@ -3,7 +3,9 @@
 
 
 def reverse(number):
-    chek = number/abs(number)
+    chek = 1
+    if number < 0:
+        check = -1
     b_b = abs(number)
     b = str(b_b)
     c = ''.join(reversed(b))
