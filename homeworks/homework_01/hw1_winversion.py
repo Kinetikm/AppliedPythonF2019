@@ -8,7 +8,7 @@ def word_inversion(input_lst):
     probelnum = 0
     probelcount = input_lst.count(" ")
     for i in range(len(input_lst)):
-        while (input_lst[len(input_lst) - 1] != " ")  & \
+        while (input_lst[len(input_lst) - 1] != " ") & \
          (i != (len(input_lst))) & (probelnum != probelcount):
             word_len += 1
             input_lst.insert(index, input_lst.pop())
