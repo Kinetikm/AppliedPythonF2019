@@ -17,7 +17,7 @@ for i in range(len(input_lst)):
             for l in range(k, s):
                 input_lst[l] = input_lst[l+1]
         for n in range(k, i):
-            input_lst[n] = input_lst[n+1]
+            input_lst[n] = input_lst[len(input_lst+1]
         input_lst[i] = ' '
         k = i+1
 del input_lst[len(input_lst)-1]
