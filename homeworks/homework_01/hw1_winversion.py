@@ -18,5 +18,8 @@ def word_inversion(input_lst):
             else:
                 input_lst[begin-1:end] = input_lst[end:begin-1:-1]
             begin = end + 1
-    input_lst[begin:] = input_lst[end:begin - 1:-1]
+    if (begin == 0):
+        input_lst.reverse()
+    else:
+        input_lst[begin:] = input_lst[end:begin - 1:-1]
     return None
