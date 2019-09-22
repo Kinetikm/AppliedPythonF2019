@@ -9,4 +9,7 @@ def reverse(number):
     :param number: исходное число
     :return: инвертированное число
     '''
-    raise NotImplementedError
+    if str_num[0] == '-':
+        return int('-' + str_num[:0:-1])
+    else:
+        return int(str_num[::-1])
