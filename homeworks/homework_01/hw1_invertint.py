@@ -9,6 +9,5 @@ def reverse(number):
     b_b = abs(number)
     b = str(b_b)
     c = ''.join(reversed(b))
-    print(c)
     d = int(chek) * int(c)
     return d
