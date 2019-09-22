@@ -12,9 +12,9 @@ def word_inversion(input_lst):
                 input_list[:end] = input_list[end - 1::-1]
             else:
                 input_list[start:end] = input_list[end - 1:start - 1:-1]
-            
+
             start = end + 1
-        
+
         if end == len_list - 1:
             if start == 0:
                 input_list.reverse()
