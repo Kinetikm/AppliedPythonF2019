@@ -1,10 +1,10 @@
-def word_inversion (input_lst):
+def word_inversion(input_lst):
     word_len = 0
     index = 0
     probelnum = 0
     probelcount = input_lst.count(' ')
     for i in range(len(input_lst)):
-        while (input_lst[len(input_lst) - 1] != " ")  and (i != (len(input_lst))) and (probelnum != probelcount):
+        while (input_lst[len(input_lst) - 1] != " ") and (i != (len(input_lst))) and (probelnum != probelcount):
             word_len += 1
             input_lst.insert(index, input_lst.pop())
             i += 1
