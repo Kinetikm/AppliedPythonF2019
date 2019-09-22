@@ -4,9 +4,7 @@
 
 def winversion(input_lst, a, b):
     while b - a > 0:
-        t = input_lst[a]
-        input_lst[a] = input_lst[b]
-        input_lst[b] = t
+        input_lst[a], input_lst[b] = input_lst[b], input_lst[a]
         a += 1
         b -= 1
 
