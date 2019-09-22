@@ -30,4 +30,4 @@ def word_inversion(input_lst):
         input_lst[i] = input_lst[l - 2 - i]
         input_lst[l - 2 - i] = k
         i = i + 1
-    return None
+    return input_lst
