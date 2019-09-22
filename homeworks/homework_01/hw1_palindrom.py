@@ -11,4 +11,3 @@ def check_palindrom(input_string):
     False иначе
     '''
     return input_string[::-1] == input_string[::]
-    raise NotImplementedError
