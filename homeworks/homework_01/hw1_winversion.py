@@ -24,4 +24,4 @@ def word_inversion(input_lst):
         input_lst.reverse()
     else:
         input_lst[begin:] = input_lst[end:begin - 1:-1]
-    return None
+    return input_lst
