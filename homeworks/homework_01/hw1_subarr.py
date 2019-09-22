@@ -3,7 +3,7 @@
 
 
 def find_subarr(input_lst, num):
-    mas = []
+    mas = [0]
     sum = 0
     for i in range(len(input_lst)):
         a = input_lst[i]
@@ -11,7 +11,7 @@ def find_subarr(input_lst, num):
             return (i, i)
         sum += a
         if sum - num not in mas:
-            mas.append(sum - num)
+            mas.append(sum)
         else:
             return (mas.index(sum - num), i)
     return ()
