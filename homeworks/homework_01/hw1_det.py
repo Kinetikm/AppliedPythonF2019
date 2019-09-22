@@ -10,14 +10,6 @@ def minor(A, i, j):
     return M
 
 def calculate_determinant(list_of_lists):
-    '''
-    Метод, считающий детерминант входной матрицы,
-    если это возможно, если невозможно, то возвращается
-    None
-    Гарантируется, что в матрице float
-    :param list_of_lists: список списков - исходная матрица
-    :return: значение определителя или None
-    '''
     m = len(list_of_lists)
     n = len(list_of_lists[0])
 
