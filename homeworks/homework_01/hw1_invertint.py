@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
+
+
 def reverse(a):
     '''
         Метод, принимающий на вход int и
