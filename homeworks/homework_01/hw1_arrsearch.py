@@ -2,23 +2,22 @@
 # coding: utf-8
 
 
-def calculate_determinant(list_of_lists):
-    det = 1
-    for i in range(len(list_of_lists)):
-        if len(list_of_lists[i]) != len(list_of_lists):
-            return None
-    for i in range(len(list_of_lists)):
-        imax = i
-        cs = 1
-        for j in range(i+1, len(list_of_lists)):
-            if abs(list_of_lists[j][i]) > abs(list_of_lists[imax][i]):
-                imax = j
-        list_of_lists[i], list_of_lists[imax] = list_of_lists[imax], list_of_lists[i]
-        if imax != i:
-            cs *= (-1)
-        for j in range(i+1, len(list_of_lists)):
-            coef = list_of_lists[j][i] / list_of_lists[i][i]
-            for q in range(len(list_of_lists) - 1, i - 1, -1):
-                list_of_lists[j][q] -= coef * list_of_lists[i][q]
-        det *= cs * list_of_lists[i][i]
-    return det
+def find_indices(input_list, target):
+    '''
+    Метод возвращает индексы двух различных
+    элементов listа, таких, что сумма этих элементов равна
+    n. В случае, если таких элементов в массиве нет,
+    то возвращается None
+    Ограничение по времени O(n)
+    :param input_list: список произвольной длины целых чисел
+    :param target: целевая сумма
+    :return: tuple из двух индексов или None
+    '''
+    sols_dict = dict()
+    for i, val in enumerate(input_list):
+        if val in sols_dict:
+            return [sols_dict[val], i]
+        else:
+            if (target - val) not in sols_dict:
+                sols_dict[target - val] = i
+    return None
