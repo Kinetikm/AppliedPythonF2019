@@ -4,4 +4,3 @@ def check_palindrom(input_string):
     else:
         return False
 
-print(check_palindrom("1 1"))

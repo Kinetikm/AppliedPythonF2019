@@ -8,4 +8,4 @@ def reverse(number):
     return int(s) if number > 0 else (-1) * int(s)
 
 
-print(reverse(-6789797708765))
+
