@@ -2,22 +2,21 @@
 # coding: utf-8
 
 
-def find_subarr(input_lst, num):
-    '''
-    Метод, находящий подмассив, сумма чисел которого равна заданному числу
-    O(n) по времени
-    :param input_lst: массив
-    :param num: искомое число
-    :return: два индекса (начала и конца подмассива). Пустой tuple, если таких нет
-    Пример: find_subarr([1, 2, 3, 4, 5, -1], 4) может вернуть (3, 3) или (4, 5)
-    '''
-    if not any(input_lst):
+def find_subarr(input_list, num):
+    if not any(input_list):
         return None
-    t = input_lst[0]
-    for i in range(1, len(input_lst)):
-        if (num == input_lst[i]):
-            return (i, i)
-        elif (num == t + input_lst[i]):
-            return (i-1, i)
-        t = input_lst[i]
-    return None
+
+    results = {}
+    cur_sum = 0
+
+    for i in range(len(input_list)):
+        cur_sum = cur_sum + input_list[i]
+
+        if cur_sum == num:
+            return (0, i)
+        if (cur_sum - num) in results:
+            return (results[cur_sum - num] + 1, i)
+
+        results[cur_sum] = i
+
+    return ()
