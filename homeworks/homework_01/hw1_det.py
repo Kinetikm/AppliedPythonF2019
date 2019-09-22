@@ -21,5 +21,3 @@ def calculate_determinant(list_of_lists):
         det += a * calculate_determinant(b) * (-1) ** i
     return det
 
-
-    raise NotImplementedError

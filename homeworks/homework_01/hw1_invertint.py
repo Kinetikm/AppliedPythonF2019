@@ -14,6 +14,3 @@ def reverse(number):
     result *= sign
     return result
 
-
-    raise NotImplementedError
-

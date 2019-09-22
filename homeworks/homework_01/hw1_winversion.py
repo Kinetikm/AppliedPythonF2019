@@ -15,5 +15,3 @@ def word_inversion(input_lst):
             count += 1
     return input_lst
 
-
-    raise NotImplementedError
