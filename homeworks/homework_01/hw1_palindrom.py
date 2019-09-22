@@ -10,8 +10,8 @@ def check_palindrom(input_string):
     :return: True, если строка являестя палиндромом
     False иначе
     '''
-    for i in range (int(len(input_string) / 2)):
-        if a[i] == a[len(input_string)-i-1]:
+    for i in range(int(len(input_string))):
+        if input_string[i] == input_string[len(input_string) - i - 1]:
             s = True
         else:
             s = False
