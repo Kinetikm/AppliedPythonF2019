@@ -3,6 +3,9 @@
 
 
 def find_subarr(input_list, num):
+    if not any(input_list):
+        return None
+
     res_contain = {}
     curr_sum = 0
 
