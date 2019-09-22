@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-a = ['H','e','l','l','o',' ','w','o','r','l','d']
 
 def word_inversion (input_lst):
     word_len = 0
@@ -22,5 +21,3 @@ def word_inversion (input_lst):
             index = word_len
 
     return input_lst
-
-print (word_inversion(a))
