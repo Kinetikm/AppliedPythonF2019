@@ -11,7 +11,7 @@ def word_inversion(input_lst):
             mark = i
             tmp = mark
             for j in range(z, z + ((mark - z + 1))//2):
-                input_lst[0], input_lst[tmp-1] = input_lst[tmp-1], input_lst[0]
+                input_lst[z], input_lst[tmp-1] = input_lst[tmp-1], input_lst[z]
                 tmp -= 1
                 z += 1
             z = mark + 1
