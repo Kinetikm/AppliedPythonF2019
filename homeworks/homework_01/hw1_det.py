@@ -15,14 +15,14 @@ def calculate_determinant(list_of_lists):
         min = []
         for n_1, row in enumerate(list_of_lists):
             if n_1 != i:
-                min.append(col for n_2, col in enumerate(row) if n != j)
+                min.append([col for n_2, col in enumerate(row) if n_2 != j])
         return min
 
     n = len(list_of_lists)
     if n == 1:
         return list_of_lists[0][0]
-    for row in list_of_lists:
-        if len(row) != n:
+    for row in range(n):
+        if len(list_of_lists[row]) != n:
             return None
 
     det = 0
@@ -30,4 +30,4 @@ def calculate_determinant(list_of_lists):
         minor = new_minor(list_of_lists, 0, i)
         det += ((-1) ** (1+i+1)) * list_of_lists[0][i] * calculate_determinant(minor)
         
-    return(det)
+    return det
