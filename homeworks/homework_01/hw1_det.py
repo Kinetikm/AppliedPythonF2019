@@ -24,8 +24,7 @@ def calculate_determinant(list_of_lists):
     determinant = 0
     # разложение по первой строке
     for j in range(n):
-        determinant += list_of_lists[0][j] * signum *
-        calculate_determinant(minor(list_of_lists, 0, j))
+        determinant += list_of_lists[0][j] * signum * calculate_determinant(minor(list_of_lists, 0, j))
         signum *= -1
 
     return determinant
