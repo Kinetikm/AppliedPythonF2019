@@ -37,7 +37,7 @@ def calculate_determinant(list_of_lists):
         for i in range(k, n):
             list_of_lists[k][i] /= copy_matrix[k]
             for j in range(k + 1, n):
-               list_of_lists[j][i] -= list_of_lists[k][i] * copy_matrix[j]
+                list_of_lists[j][i] -= list_of_lists[k][i] * copy_matrix[j]
     for i in range(n):
         d *= list_of_lists[i][i]
     return d * c
