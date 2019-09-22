@@ -21,4 +21,4 @@ def word_inversion(input_lst):
                 input_lst[n], input_lst[tmp] = input_lst[tmp], input_lst[n]
                 tmp = tmp - 1
                 n = n + 1
-    return None
+    return input_lst
