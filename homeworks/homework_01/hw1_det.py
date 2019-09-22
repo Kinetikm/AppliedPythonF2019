@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-def calculate_determinant(b):
+def calculate_determinant(b:float):
     if len(b) <= 1:
         return
     if len(b) != len(b[0]):
@@ -26,5 +26,5 @@ def calculate_determinant(b):
                 else:
                     for m in range(j+1, len(b)):
                         c[l-i-1][m-1] = b[l][m]
-            sum += b[i][j]*((-1)**j)*calculate_determinant(c)
+            sum += float(b[i][j]*((-1)**j)*calculate_determinant(c))
         return float(sum)
