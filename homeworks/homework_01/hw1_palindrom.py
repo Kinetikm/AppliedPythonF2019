@@ -10,6 +10,7 @@ def check_palindrom(input_string):
     :return: True, если строка являестя палиндромом
     False иначе
     '''
+    raise NotImplementedError
     i = 0
     flag = True
     while i < len(a)//2:
