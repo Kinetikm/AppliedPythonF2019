@@ -6,5 +6,5 @@ def find_subarr(a, b):
         for j in range(len(a)):
             if sum(a[i:j]) == b:
                 print(a[i:j])
-                return i, j
-        return p
+                return i, j - 1
+    return p
