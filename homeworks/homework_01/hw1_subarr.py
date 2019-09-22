@@ -13,19 +13,14 @@ def find_subarr(input_lst, num):
     '''
     if len(input_lst) == 0:
         return ()
-    s = input_lst[0]
-    l = 0
+    d = {0: -1}
+    s = 0
     r = 0
-    while (l < len(input_lst)) and (r < len(input_lst)):
-        if s < num:
-            if r + 1 < len(input_lst):
-                r += 1
-                s += input_lst[r]
-            else:
-                return ()
-        elif s > num:
-            s -= input_lst[l]
-            l += 1
-        else:
-            return (l, r)
+    while r < len(input_lst):
+        s += input_lst[r]
+        if d.get(s - num) != None:
+            print(s)
+            return(d.get(s - num) + 1, r)
+        d[s] = r;
+        r += 1;
     return ()
