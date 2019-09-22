@@ -1,7 +1,10 @@
 def reverse(number):
-    number_2 = 0
-    while number != 0:
-        number_2 = number_2 * 10
-        number_2 += number % 10
-        number = number // 10
-    return number_2
+    if number < 0:
+        sign = - 1
+    else:
+        sign = 1
+    list_number = list(str(abs(number)))
+    list_number.reverse()
+    str_number = "".join(list_number)
+    invert_number = int(str_number)
+    return sign*invert_number
