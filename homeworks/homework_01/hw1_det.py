@@ -31,4 +31,4 @@ def calculate_determinant(list_of_lists):
                 d = d + k * list_of_lists[i][0] * determinant(p, n)
                 k = -k
         return (d)
-        raise 
+        raise NotImplementedError
