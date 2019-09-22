@@ -21,4 +21,3 @@ def reverse(number):
             number = number // 10
         b = b * (-1)
     print(b)
-raise NotImplementedError
