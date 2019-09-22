@@ -2,10 +2,23 @@
 # coding: utf-8
 
 
-def word_inversion(input_lst):
-    '''
-    Метод инвертирующий порядок слов в строке inplace (без выделения доп памяти)
-    :param input_lst: строка-массив букв (['H', 'i']). Пробелы одиночные
-    :return: None Все изменения в input_lst проходят
-    '''
-    raise NotImplementedError
+def word_inversion(inputl):
+    leng = len(inputl)
+    for i in range(leng // 2):
+        inputl[i], inputl[leng-1-i] = inputl[leng-1-i], inputl[i]
+    begin = 0
+    end = 0
+    i = 1
+    inputl.append(' ')
+    while i < leng:
+        while (inputl[i] != ' '):
+            end += 1
+            i += 1
+        word = end - begin + 1
+        for p in range(word // 2):
+            inputl[p+begin], inputl[end-p] = inputl[end-p], inputl[p+begin]
+        end += 2
+        begin = end
+        i += 2
+    inputl.pop()
+    return inputl
