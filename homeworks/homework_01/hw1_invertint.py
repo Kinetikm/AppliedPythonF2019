@@ -20,4 +20,4 @@ def reverse(number):
         number //= 10
     if f:
         b = -b
-return b
+    return b
