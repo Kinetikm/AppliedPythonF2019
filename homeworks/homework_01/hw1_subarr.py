@@ -3,7 +3,7 @@
 
 
 def find_subarr(input_list, num):
-    if not input_list.all():
+    if not input_list:
         return None
 
     res_contain = []
