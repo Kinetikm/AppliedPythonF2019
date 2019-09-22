@@ -10,4 +10,9 @@ def check_palindrom(input_string):
     :return: True, если строка являестя палиндромом
     False иначе
     '''
-    raise NotImplementedError
+    answer = True
+    for i in range(len(input_string)//2):
+        if input_string[i] != input_string[len(input_string)-1-i]:
+            answer = False
+            break
+    return answer
