@@ -12,6 +12,7 @@ def find_subarr(input_lst, num):
         sum += a
         if  sum - num not in mas:
             mas.append(sum - num)
-        else return (mas.index(sum - num), i)
+        else:
+            return (mas.index(sum - num), i)
     return []
 
