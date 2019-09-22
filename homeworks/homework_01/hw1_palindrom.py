@@ -2,12 +2,14 @@
 # coding: utf-8
 
 
-def check_palindrom(input_string):
-    '''
-    Метод проверяющий строку на то, является ли
-    она палиндромом.
-    :param input_string: строка
-    :return: True, если строка являестя палиндромом
-    False иначе
-    '''
+def check_palindrom(a):
+    if a == "":
+        return True
+    bool_a = True
+    for i in range(0, len(a)//2+1):
+        if a[i] != a[len(a)-1-i]:
+            bool_a = False
+    return bool_a
     raise NotImplementedError
+#метод проверки числа на палиндром
+
