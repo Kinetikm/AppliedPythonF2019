@@ -30,4 +30,4 @@ def find_subarr(input_lst, num):
 			if s == num:
 				return (i, j)
 		s = 0
-return ()
+    return ()
