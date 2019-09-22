@@ -3,13 +3,12 @@
 
 
 def calculate_determinant(b):
-    if len(b) <=1:
+    if len(b) <= 1:
         return
     if len(b) != len(b[0]):
         return
     if len(b) == 2:
-        de = b[0][0] * b[1][1] - b[0][1] * b[1][0]
-        return de
+        return b[0][0] * b[1][1] - b[0][1] * b[1][0]
     else:
         sum = 0
         for j in range(len(b)):
@@ -28,4 +27,4 @@ def calculate_determinant(b):
                     for m in range(j+1, len(b)):
                         c[l-i-1][m-1] = b[l][m]
             sum += b[i][j]*((-1)**j)*calculate_determinant(c)
-        return sum
+        return float(sum)
