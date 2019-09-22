@@ -1,5 +1,6 @@
 import copy
 
+
 def delCol(matrix, i):  # Удалить i-ый столбец
     a = 0
     c = copy.deepcopy(matrix)
@@ -39,7 +40,7 @@ def calculate_determinant(list_of_lists):
         return list_of_lists[0][0]
 
     for i in list_of_lists:
-        if type(i) is not list or len(i) != len(list_of_lists):
+        if type(i) is not list or len(i) != len(list_of_lists) or len(i) == 0:
             return "None"
         else:
             for j in i:
@@ -49,5 +50,3 @@ def calculate_determinant(list_of_lists):
     else:
         n = len(list_of_lists)
         return det(list_of_lists)
-
-
