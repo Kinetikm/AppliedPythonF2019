@@ -3,7 +3,7 @@
 
 
 def reverse(number):
-    if number==0:
+    if number == 0:
         return 0
     s = str(number)
     s = s.rstrip('0')
