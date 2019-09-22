@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+a = ['H','e','l','l','o',' ','w','o','r','l','d']
 
 def word_inversion (input_lst):
     word_len = 0
@@ -8,7 +9,8 @@ def word_inversion (input_lst):
     probelnum = 0
     probelcount = input_lst.count(' ')
     for i in range(len(input_lst)):
-        while (input_lst[len(input_lst) - 1] != " ")  and (i != (len(input_lst))) and (probelnum != probelcount):
+        while (input_lst[len(input_lst) - 1] != " ")  and \
+         (i != (len(input_lst))) and (probelnum != probelcount):
             word_len += 1
             input_lst.insert(index, input_lst.pop())
             i += 1
@@ -20,3 +22,5 @@ def word_inversion (input_lst):
             index = word_len
 
     return input_lst
+
+print (word_inversion(a))
