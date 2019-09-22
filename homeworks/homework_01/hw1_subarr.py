@@ -22,5 +22,5 @@ def find_subarr(input_lst, num):
         if (s - num) in dict:
             return (dict[s - num] + 1, i)
         dict[s] = i
-    else:
-        return ()
+
+    return ()
