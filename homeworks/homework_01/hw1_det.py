@@ -24,5 +24,5 @@ def calculate_determinant(list_of_lists):
     det = 0
     for j in range(columns):
         det += list_of_lists[0][j] * sign * calculate_determinant(minor(list_of_lists, 0, j))
-        signum *= -1
+        sign *= -1
     return det
