@@ -26,7 +26,7 @@ def calculate_determinant(list_of_lists):
     sum = 0
     k = 1
     if len(list_of_lists) == 2 and len(list_of_lists[0]) == 2 \
-        and len(list_of_lists[1]) == 2:
+            and len(list_of_lists[1]) == 2:
         return list_of_lists[0][0]*list_of_lists[1][1] - \
             list_of_lists[1][0]*list_of_lists[0][1]
     elif len(list_of_lists) > 2:
@@ -37,4 +37,3 @@ def calculate_determinant(list_of_lists):
     else:
         return None
     return sum
-
