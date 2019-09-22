@@ -4,4 +4,3 @@
 
 def check_palindrom(input_string):
     return input_string == input_string[::-1]
-    
