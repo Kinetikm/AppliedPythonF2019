@@ -16,5 +16,5 @@ def find_subarr(input_lst, num):
             s = sum1 - val - pred
             if s not in sols_dict:
                 sols_dict[s] = i
-            pred += val     
+            pred += val
     return()
