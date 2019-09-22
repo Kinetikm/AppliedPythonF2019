@@ -3,6 +3,15 @@
 
 
 def find_subarr(input_lst, num):
+    i = 1
+    j = i - 1
+    while j < len(input_lst):
+        while i <= len(input_lst):
+            if sum(input_lst[j:i]) == num:
+                print(j, i - 1)
+            i +=1
+        i = j + 2
+        j += 1
     '''
     Метод, находящий подмассив, сумма чисел которого равна заданному числу
     O(n) по времени
