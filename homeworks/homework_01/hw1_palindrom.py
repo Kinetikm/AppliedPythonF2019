@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-
 def check_palindrom(input_string):
     '''
     Метод проверяющий строку на то, является ли
@@ -11,3 +9,7 @@ def check_palindrom(input_string):
     False иначе
     '''
     raise NotImplementedError
+    if (input_string[::-1] == input_string):
+        return True
+    else:
+        return False
