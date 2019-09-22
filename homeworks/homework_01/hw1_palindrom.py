@@ -13,6 +13,6 @@ def check_palindrom(A):
     A = ''.join(A.lower().split())
     B = A[::-1]
     return True if B == A else False
-    #raise NotImplementedError
+
 s = input()
 print(check_palindrom(s))
