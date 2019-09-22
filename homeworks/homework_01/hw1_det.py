@@ -19,17 +19,13 @@ def calculate_determinant(list_of_lists):
         return min
 
     n = len(list_of_lists)
-
     for row in range(n):
         if len(list_of_lists[row]) != n:
             return None
-
     if n == 1:
         return list_of_lists[0][0]
-    
     det = 0
     for i in range(n):
         minor = new_minor(list_of_lists, 0, i)
         det += ((-1) ** (1+i+1)) * list_of_lists[0][i] * calculate_determinant(minor)
-        
     return det
