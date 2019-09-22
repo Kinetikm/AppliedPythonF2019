@@ -1,11 +1,12 @@
-def reverse(number):
-    d = number
-    d = str(d)
-    d = d[::-1]
-    if '-' in d:
-        d = d.rstrip('-')
-        d = '-'+d
-        return(int(d))
-    else:
-        return(int(d))
+#!/usr/bin/env python
+# coding: utf-8
 
+
+def reverse(number):
+    '''
+    Метод, принимающий на вход int и
+    возвращающий инвертированный int
+    :param number: исходное число
+    :return: инвертированное число
+    '''
+    raise NotImplementedError
