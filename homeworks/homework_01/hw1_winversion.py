@@ -19,5 +19,7 @@ def word_inversion(input_lst):
                 input_lst[i - j - 1] = k
             start = i + 1
     print(input_lst)
+    return input_lst
+
 
 
