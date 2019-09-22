@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-def subarr(input_list, num):
+def find_subarr(input_list, num):
     d = {}
     summ = 0
     for i, value in enumerate(input_list):
