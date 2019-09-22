@@ -3,10 +3,12 @@
 
 
 def calculate_determinant(b):
-    k=0
     if len(b) < 1:
         return
-    elif len(b) == 1: return b[0]
+    elif len(b) == 1:
+        return b[0]
+    if type(b[0]) is not list:
+        return
     if len(b) != len(b[0]):
         return
     if len(b) == 2:
