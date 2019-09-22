@@ -19,7 +19,7 @@ def find_subarr(input_lst, num):
         if temp_sum == num:
             return (0, i)
         if temp_sum - num in sum_table:
-            return (sum_table[temp_sum-num]+1, i)
+            return (sum_table[temp_sum - num] + 1, i)
         else:
             sum_table[temp_sum] = i
     return ()
