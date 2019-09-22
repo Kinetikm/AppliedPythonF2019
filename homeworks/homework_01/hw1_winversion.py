@@ -3,10 +3,16 @@
 
 
 def append(input_lst, space_pos, start_pos):
-    input_lst.append(' ')
-    input_lst = input_lst[:start_pos:] + input_lst[space_pos+1::] + input_lst[start_pos:space_pos:]
+    #input_lst.append(' ')
+    for i in range(len(input_lst) - space_pos):
+        input_lst.insert(start_pos,input_lst.pop())
     return input_lst, (len(input_lst) - space_pos)
 
+def rfind(input_lst):
+    for i in range(len(input_lst)):
+        if input_lst[len(input_lst)-i-1] == ' ':
+            return len(input_lst)-i-1
+    raise ValueError
 
 def word_inversion(input_lst):
     '''
@@ -16,11 +22,12 @@ def word_inversion(input_lst):
     '''
     start_pos = 0
     try:
-        space_pos = len(input_lst)-input_lst[::-1].index(' ')-1
+        space_pos = rfind(input_lst)
     except ValueError:
         return input_lst
     while start_pos < space_pos:
         input_lst, temp = append(input_lst, space_pos, start_pos)
         start_pos += temp
-        space_pos = len(input_lst)-input_lst[::-1].index(' ')-1
+        space_pos = rfind(input_lst)
+    input_lst.insert(start_pos-1,input_lst.pop(0))
     return input_lst
