@@ -4,10 +4,10 @@ import copy
 
 
 def minor(M0, i, j):
-    M = copy.deepcopy(M0)#чтобы не менять основу
+    M = copy.deepcopy(M0)  #чтобы не менять основу
     del M[i]
     for i in range(len(M0[0]) - 1):
-        del M[i][j]#убираем столбец
+        del M[i][j]  #убираем столбец
     return M
 
 
