@@ -16,7 +16,7 @@ def find_subarr(input_lst, num):
     for i, val in enumerate(input_lst):
         summ += val
         sett[summ] = i
-        if (summ - num) in sett: # если в множестве sett есть элемент X, равный (summ - num)  ->  summ + X = num
+        if (summ - num) in sett:
             return (sett[summ - num] + 1, i)
         elif summ == num:
             return (0, i)
