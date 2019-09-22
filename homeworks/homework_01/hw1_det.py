@@ -20,7 +20,6 @@ def delRow(matrix, i):  # Удалить  i-ую строку
 def minor(matrix):  # Подсчет минора
     if len(matrix) == 2:
         result = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
-        print(result)
         return result
     else:
         return det(matrix)
@@ -44,12 +43,13 @@ def calculate_determinant(list_of_lists):
 
     for i in list_of_lists:
         if type(i) is not list or len(i) != len(list_of_lists) or len(i) == 0:
-            return "None"
+            return None
         else:
             for j in i:
                 if type(j) is not float:
-                    return "None"
+                    return None
 
     else:
         n = len(list_of_lists)
         return det(list_of_lists)
+
