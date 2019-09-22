@@ -1,3 +1,4 @@
+  
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -10,8 +11,8 @@ def word_inversion(input_lst):
             index = count
             input_lst.insert(index, input_lst.pop())
             index += 1
+            count += 1
         else:
-                input_lst.insert(index, input_lst.pop())
+            input_lst.insert(index, input_lst.pop())
             count += 1
     return input_lst
-
