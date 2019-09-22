@@ -14,4 +14,3 @@ def find_subarr(input_lst, num):
         else:
             tmp[summary - zn] = indx
     return()
-
