@@ -14,7 +14,7 @@ def reverse(number):
         while number > 0:
             b = b * 10 + number % 10
             number = number // 10
-    elif number = 0:
+    elif number == 0:
         print(number)
     else:
         number = number * (-1)
