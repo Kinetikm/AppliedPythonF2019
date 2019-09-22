@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-def word_inversion (input_lst):
+def word_inversion(input_lst):
     word_len = 0
     index = 0
     probelnum = 0
