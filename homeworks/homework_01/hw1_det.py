@@ -11,4 +11,5 @@ def calculate_determinant(list_of_lists):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     '''
+    if list_of_lists.len() != list_of_lists
     raise NotImplementedError
