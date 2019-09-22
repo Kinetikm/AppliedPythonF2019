@@ -10,7 +10,7 @@ def reverse(number):
             number //= 10
         return k
     else:
-        a = a * (-1)
+        number = number * (-1)
         while number > 0:
             k = k * 10 + number % 10
             number //= 10
