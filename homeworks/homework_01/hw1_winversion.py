@@ -3,9 +3,27 @@
 
 
 def word_inversion(input_lst):
-    '''
-    Метод инвертирующий порядок слов в строке inplace (без выделения доп памяти)
-    :param input_lst: строка-массив букв (['H', 'i']). Пробелы одиночные
-    :return: None Все изменения в input_lst проходят
-    '''
-    raise NotImplementedError
+    input_lst.reverse()
+    N = len(input_lst)
+    begin = 0
+    for i in range(0, N):
+        if i == N - 1:
+            end = i
+            while begin < end:
+                temp = input_lst[begin]
+                input_lst[begin] = input_lst[end]
+                input_lst[end] = temp
+                end -= 1
+                begin += 1
+
+        if input_lst[i] == ' ':
+            end = i - 1
+            while begin < end:
+                temp = input_lst[begin]
+                input_lst[begin] = input_lst[end]
+                input_lst[end] = temp
+                end -= 1
+                begin += 1
+            begin = i + 1
+
+    return input_lst
