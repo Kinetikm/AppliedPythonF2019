@@ -1,5 +1,12 @@
-#!/usr/bin/env python
-# coding: utf-8
+import copy
+
+
+def minor(matrix, i, j):
+    M = copy.deepcopy(matrix)
+    del M[i]
+    for i in range(len(matrix[0]) - 1):
+        del M[i][j]
+    return M
 
 
 import copy
@@ -23,6 +30,10 @@ def calculate_determinant(list_of_lists):
     sign = 1
     det = 0
     for j in range(n):
+<<<<<<< HEAD
         det += list_of_lists[0][j] * sign * calculate_determinant(minor(list_of_lists, 0, j))
+=======
+        det += list_of_lists[0][j] * sign * determinant(minor(list_of_lists, 0, j))
+>>>>>>> 0c98a66adf3bee6ea414cf0906484dec1c72c449
         sign *= -1
     return det
