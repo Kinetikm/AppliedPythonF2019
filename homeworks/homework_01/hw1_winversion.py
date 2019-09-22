@@ -13,6 +13,8 @@ def word_inversion(input_lst):
     end = 0
     for end in range(len(input_lst)):
         if input_lst[end] == ' ':
+            if end == 0:
+                continue
             if begin == 0:
                 input_lst[:end] = input_lst[end - 1::-1]
             else:
