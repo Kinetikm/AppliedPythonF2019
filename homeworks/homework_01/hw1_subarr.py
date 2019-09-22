@@ -16,8 +16,8 @@ def find_subarr(input_lst, num):
             if input_lst[j] > num:
                 s = 0
                 break
-                if input_lst[j] == num:
-                    return (j, j)
+            if input_lst[j] == num:
+                return (j, j)
             else:
                 s = s + input_lst[j]
                 if s == num:
