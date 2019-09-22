@@ -13,7 +13,6 @@ def calculate_determinant(list_of_lists):
         for k in range(i + 1, n):
             if abs(list_of_lists[k][i] > abs(list_of_lists[j][i])):
                 j = k
-        #j = max(range(i, n), key=lambda k: abs(list_of_lists[k][i]))
         if i != j:
             list_of_lists[i], list_of_lists[j] = list_of_lists[j], list_of_lists[i]
             res *= -1
