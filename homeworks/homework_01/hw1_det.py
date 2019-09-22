@@ -27,5 +27,3 @@ def calculate_determinant(list_of_lists):
                 for k in range(i + 1, l):
                     list_of_lists[j][k] -= list_of_lists[i][k] * list_of_lists[j][i]
     return res
-
-
