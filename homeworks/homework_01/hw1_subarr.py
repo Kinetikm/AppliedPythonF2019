@@ -18,3 +18,5 @@ def find_subarr(input_list, num):
             return res_contain[curr_sum - num] + 1, index
 
         res_contain[curr_sum] = index
+
+    return ()
