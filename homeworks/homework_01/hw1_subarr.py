@@ -11,7 +11,7 @@ def find_subarr(input_lst, num):
     :return: два индекса (начала и конца подмассива). Пустой tuple, если таких нет
     Пример: find_subarr([1, 2, 3, 4, 5, -1], 4) может вернуть (3, 3) или (4, 5)
     '''
-    if (len(input_lst) == 0):
+    '''if (len(input_lst) == 0):
         return ()
     t = input_lst[0]
     for i in range(1, len(input_lst)):
@@ -20,4 +20,5 @@ def find_subarr(input_lst, num):
         elif (num == t + input_lst[i]):
             return (i-1, i)
         t = input_lst[i]
-    return ()
+    return ()'''
+    raise NotImplementedError

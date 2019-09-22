@@ -13,4 +13,3 @@ def reverse(number):
         return int(str(number * -1)[::-1]) * -1
     else:
         return int(str(number)[::-1])
-        
