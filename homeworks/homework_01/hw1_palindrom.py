@@ -12,6 +12,7 @@ def check_palindrom(input_string):
     '''
     i = 0
     flag = True
+    a = input_string
     while i < len(a)//2:
         if a[i] != a[len(a)-1-i]:
             flag = False
