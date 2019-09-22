@@ -22,4 +22,4 @@ def word_inversion(input_lst):
             i0 = i + 1
     input_lst.pop()
     input_lst[::] = input_lst[::-1]
-    return None
+    return input_lst
