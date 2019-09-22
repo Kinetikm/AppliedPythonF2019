@@ -1,14 +1,24 @@
-#!/usr/bin/env python
-# coding: utf-8
+import copy
+
+
+def minor(matrix, i, j):
+    M = copy.deepcopy(matrix)
+    del M[i]
+    for i in range(len(matrix[0]) - 1):
+        del M[i][j]
+    return M
 
 
 def calculate_determinant(list_of_lists):
-    '''
-    Метод, считающий детерминант входной матрицы,
-    если это возможно, если невозможно, то возвращается
-    None
-    Гарантируется, что в матрице float
-    :param list_of_lists: список списков - исходная матрица
-    :return: значение определителя или None
-    '''
-    raise NotImplementedError
+    n = len(list_of_lists)
+    for i in range(n):
+        if n != len(list_of_lists[i]):
+            return None
+    if n == 1:
+        return list_of_lists[0][0]
+    sign = 1
+    det = 0
+    for j in range(n):
+        det += list_of_lists[0][j] * sign * determinant(minor(list_of_lists, 0, j))
+        sign *= -1
+    return det
