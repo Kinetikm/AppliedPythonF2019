@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
+import copy
 
 def minor(A, i, j):
-    M = copy.deepcopy(A)  # копирование!
+    M = copy.deepcopy(A)
     del M[i]
     for i in range(len(A[0]) - 1):
         del M[i][j]

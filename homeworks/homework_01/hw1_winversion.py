@@ -15,7 +15,6 @@ def word_inversion(input_lst):
     len_list = len(input_list)
  
     for end in range(len_list):
-        print(end)
         if input_list[end] == ' ':
             if start == 0:
                 input_list[:end] = input_list[end - 1::-1]
