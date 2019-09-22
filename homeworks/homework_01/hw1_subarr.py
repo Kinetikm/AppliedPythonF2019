@@ -4,6 +4,8 @@
 
 def find_subarr(input_lst, num):
     l = len(input_lst)
+    if l == 0:
+        return ()
     start = 0
     end = 0
     sum = input_lst[0]
@@ -21,3 +23,5 @@ def find_subarr(input_lst, num):
     if sum == num:
         return (l-1, l-1)
     return ()
+
+print(find_subarr([], 0))
