@@ -17,7 +17,7 @@ def reverse(number):
     while (number > 0):
         b *= 10
         b += (number % 10)
-        number // = 10
+        number //= 10
     if f:
         b = -b
 return b
