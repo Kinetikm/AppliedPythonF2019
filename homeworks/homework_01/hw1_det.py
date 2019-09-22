@@ -23,5 +23,8 @@ def calculate_determinant(list_of_lists):
                     minor[p][q] = list_of_lists[p + 1][q + 1]
             det_min = calculate_determinant(minor)
             det += step * list_of_lists[0][i] * det_min
-            step = -1 * step
+            step = -1.0 * step
         return det
+
+
+print(calculate_determinant([[124, 54], [215215, 25]]))
