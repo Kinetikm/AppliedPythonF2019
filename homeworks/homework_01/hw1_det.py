@@ -22,6 +22,8 @@ def check(list_of_lists):
 
 
 def rec_func(lol):
+    if len(lol) == 1:
+        return lol[0][0]
     if len(lol) == 2:
         return lol[0][0] * lol[1][1] - lol[0][1] * lol[1][0]
     s = 0
