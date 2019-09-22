@@ -9,4 +9,5 @@ def word_inversion(input_lst):
         if input_lst[i] == ' ':
             input_lst[s:i] = input_lst[s:i][::-1]
             s = i + 1
+    input_lst[s:] = input_lst[s:][::-1]
     return input_lst
