@@ -6,8 +6,8 @@ def find_subarr(input_lst, num):
 
     d = {}
     sum = 0
-    for i in range(len(input_list)):
-        sum += input_list[i]
+    for i in range(len(input_lst)):
+        sum += input_lst[i]
         if sum == num:
             return (0, i)
         if (sum - num) in d:
