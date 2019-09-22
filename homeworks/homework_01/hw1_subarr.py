@@ -5,10 +5,10 @@
 def find_subarr(input_lst, num):
     res_contain = {}
     curr_sum = 0
-    for index in range(len(input_lst)):
-        curr_sum = curr_sum + input_lst[index]
+    for i in range(len(input_lst)):
+        curr_sum = curr_sum + input_lst[i]
         if curr_sum == num:
-            return 0, index
-        if (curr_sum - num) in _dict:
-            return res_contain[curr_sum - num] + 1, index
-        res_contain[curr_sum] = index
+            return 0, i
+        if (curr_sum - num) in res_contain:
+            return res_contain[curr_sum - num] + 1, i
+        res_contain[curr_sum] = i
