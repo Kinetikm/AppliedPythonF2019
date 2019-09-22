@@ -11,3 +11,4 @@ def find_subarr(input_lst, num):
                 y = j
                 return (x, y)
                 break
+    return()
