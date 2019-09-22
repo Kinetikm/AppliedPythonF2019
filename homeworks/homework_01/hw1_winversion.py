@@ -11,6 +11,7 @@ def inver_part(input_lst, start, end):
         e -= 1
         s += 1
 
+
 def word_inversion(input_lst):
     pointer = 0
     l = len(input_lst)
@@ -20,3 +21,4 @@ def word_inversion(input_lst):
             pointer = i + 1
     inver_part(input_lst, pointer, l - 1)
     return input_lst[::-1]
+
