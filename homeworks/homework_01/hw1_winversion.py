@@ -2,19 +2,14 @@
 # coding: utf-8
 
 
-def word_inversion(string):
-    string.reverse()
-    begin = 0
-    for i in range(len(string)):
-        if string[i] == " ":
-            k = i - 1
-            for j in range(begin, (i + begin)//2):
-                string[j], string[k] = string[k], string[j]
-                k = k - 1
-            begin = i + 1
-        if i == (len(string) - 1):
-            k = i
-            for j in range(begin, (i + begin) // 2):
-                string[j], string[k] = string[k], string[j]
-                k = k - 1
-    return string
+def word_inversion(input_lst):
+    start = 0
+    for i in range(len(input_lst)):
+        a = input_lst.pop()
+        if (a == " "):
+            start = i
+            input_lst.insert(start, " ")
+            start += 1
+        else:
+            input_lst.insert(start, a)
+    return input_lst

@@ -12,5 +12,5 @@ def find_subarr(input_list, num):
         elif value == num:
             return (i, i)
         else:
-            d[sum - num] = i
+            d[sum - value] = i
     return()

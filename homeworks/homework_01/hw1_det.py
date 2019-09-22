@@ -12,9 +12,6 @@ def minor(matrix, i, j):
     return M
 
 
-import copy
-
-
 def minor(matrix, i, j):
     M = copy.deepcopy(matrix)
     del M[i]

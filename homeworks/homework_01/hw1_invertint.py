@@ -3,7 +3,9 @@
 
 
 def reverse(num):
-    sign = int(num/abs(num))
+    sign = 1
+    if num < 0:
+        sign = - 1
     list1 = list(str(abs(num)))
     list1.reverse()
     str1 = "".join(list1)
