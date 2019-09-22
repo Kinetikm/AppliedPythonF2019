@@ -26,5 +26,5 @@ def calculate_determinant(b):
                 else:
                     for m in range(j+1, len(b)):
                         c[l - i - 1][m - 1] = b[l][m]
-            sum + = b[i][j]*(( - 1)**j)*calculate_determinant(c)
+            sum += b[i][j]*(( - 1)**j)*calculate_determinant(c)
         return sum
