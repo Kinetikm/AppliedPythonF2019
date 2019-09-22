@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
 def det(list_of_lists, l, deleted):
     if l == len(list_of_lists) - 1:
         for i in range(len(list_of_lists)):
@@ -15,6 +16,8 @@ def det(list_of_lists, l, deleted):
             k *= -1
             deleted[i] = 0
     return d
+
+
 def calculate_determinant(list_of_lists):
     '''
     Метод, считающий детерминант входной матрицы,
