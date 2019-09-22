@@ -2,7 +2,10 @@
 # coding: utf-8
 
 
-def word_inversion(input_lst):
+def word_inversion(input_list):
+    if not input_list:
+        return input_list
+
     input_list.reverse()
     start = 0
     len_list = len(input_list)
