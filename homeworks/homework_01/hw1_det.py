@@ -28,6 +28,6 @@ def calculate_determinant(list_of_lists):
     det = 0
     for i in range(n):
         minor = new_minor(list_of_lists, 0, i)
-        det += ((-1) ** (1+i+1)) * list_of_lists[0][i] * calculate_determinant(minor, 0, i)
+        det += ((-1) ** (1+i+1)) * list_of_lists[0][i] * calculate_determinant(minor)
         
     return(det)
