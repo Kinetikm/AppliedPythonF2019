@@ -9,9 +9,9 @@ def reverse(number):
     if '-' in s:
         s = s.rstrip('-')
         s = '-'+s
-        print(int(s))
+        return(int(s))
     else:
-        print(int(s))
+        return(int(s))
 
     '''
     Метод, принимающий на вход int и
@@ -19,6 +19,7 @@ def reverse(number):
     :param number: исходное число
     :return: инвертированное число
     '''
-
+    
+   
 
 
