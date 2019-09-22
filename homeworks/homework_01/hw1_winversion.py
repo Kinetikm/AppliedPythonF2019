@@ -12,8 +12,8 @@ def word_inversion(input_lst):
     for i, n in enumerate(input_lst):
         if n == ' ':
             input_lst = input_lst[:ptr] + input_lst[ptr:i][::-1] + input_lst[i:]
-            ptr = i+1
-        if i == len(input_lst)-1:
+            ptr = i + 1
+        if i == len(input_lst) - 1:
             input_lst = input_lst[:ptr] + input_lst[ptr:][::-1]
 
     return input_lst[::-1]
