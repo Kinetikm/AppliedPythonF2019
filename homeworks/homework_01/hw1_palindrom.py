@@ -11,7 +11,7 @@ def check_palindrom(input_string):
     False иначе
     '''
     for i in range(int(len(input_string))):
-        if input_string[i] == input_string[len(input_string) - i - 1]:
-            s = True
-        else:
-            s = False
+        if input_string[i] != input_string[len(input_string) - i - 1]:
+            return False
+    return True
+
