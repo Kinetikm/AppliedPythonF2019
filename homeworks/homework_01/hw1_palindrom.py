@@ -10,7 +10,7 @@ def check_palindrom(input_string):
     :return: True, если строка являестя палиндромом
     False иначе
     '''
-    
+
     length = len(input_string)
     for ind, val in enumerate(input_string):
         if val != input_string[-1-ind]:
@@ -18,6 +18,3 @@ def check_palindrom(input_string):
         if ind == length // 2:
             break
     return True
-
-
-    # raise NotImplementedError

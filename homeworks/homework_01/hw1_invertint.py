@@ -22,7 +22,8 @@ def reverse(number):
     if length == 1:
         return number
     while i < length // 2:
-        sum += (int(array[-1-i]) * (10**(length-i-1))) + (int(array[i]) * (10**i))
+        sum += (int(array[-1-i]) * (10**(length-i-1))) +\
+            int(array[i]) * (10**i)
         i += 1
     if length % 2 != 0:
         sum += int(array[length // 2]) * 10**(length // 2)
