@@ -11,4 +11,15 @@ def find_subarr(input_lst, num):
     :return: два индекса (начала и конца подмассива). Пустой tuple, если таких нет
     Пример: find_subarr([1, 2, 3, 4, 5, -1], 4) может вернуть (3, 3) или (4, 5)
     '''
-    raise NotImplementedError
+    sub_sums = dict()
+    sub_sum = 0
+    for i, val in enumerate(input_lst):
+        sub_sum += val
+        if sub_sum == num:
+            return 0, i
+        elif sub_sum - num not in sub_sums:
+            sub_sums[sub_sum] = i
+        else:
+            return sub_sums[sub_sum - num] + 1, i
+    return ()
+
