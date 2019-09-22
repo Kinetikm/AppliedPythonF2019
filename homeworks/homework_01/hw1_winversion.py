@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[65]:
+# In[69]:
 
 
 #!/usr/bin/env python
@@ -13,12 +13,12 @@ def word_inversion(input_lst):
     input_lst.append(" ")
 
     i = 1
-    ginput_lstp = 0
+    gap = 0
     
     while i < len(input_lst):
         if input_lst[i]==" ":
-            word_len=i-ginput_lstp-1
-            ginput_lstp = i
+            word_len=i-gap-1
+            gap = i
             j = i-word_len
             k=1
             while j < i-word_len + word_len / 2:
