@@ -9,10 +9,6 @@ def word_inversion(input_lst):
     :return: None Все изменения в input_lst проходят
     '''
     i0 = 0
-    try:
-        input_lst.index(' ')
-    except ValueError:
-        return None
     for i in range(len(input_lst)):
         if input_lst[i] == ' ':
             k = (i - i0 + 1) // 2
