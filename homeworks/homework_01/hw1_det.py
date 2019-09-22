@@ -28,7 +28,6 @@ def calculate_determinant(list_of_lists):
             else:
                 k = 0
             tmp = [k * a for a in mx[i]]
-            # mx[j] = [b - a for a, b in (tmp, mx[j])]
             mx[j] = [mx[j][a] - tmp[a] for a in range(n)]
     d = 1
     for i in range(n):
