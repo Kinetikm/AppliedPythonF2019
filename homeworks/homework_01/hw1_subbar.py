@@ -1,0 +1,11 @@
+dict= {}
+sum=0
+for a,b in enumerate(input_lst):
+    sum=sum+b
+    if sum - num in dict:
+        return(dict[sum - num], a)
+    elif b == num:
+        return(a,a)
+    else:
+        dict[sum-num]=a
+return()
