@@ -12,8 +12,8 @@ def word_inversion(input_lst):
             k += 1
         else:
             for j in range(k // 2):
-                st[i - k + j],st[i - j - 1]=st[i - j - 1],st[i - k + j]
+                st[i - k + j], st[i - j - 1] = st[i - j - 1], st[i - k + j]
             k = 0
-    st = st[0 : len(st) - 1]
+    st = st[0: len(st) - 1]
     st.reverse()
     return st
