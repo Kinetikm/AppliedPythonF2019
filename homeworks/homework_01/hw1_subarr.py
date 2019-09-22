@@ -1,14 +1,31 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[26]:
+
 
 def find_subarr(input_lst, num):
-    '''
-    Метод, находящий подмассив, сумма чисел которого равна заданному числу
-    O(n) по времени
-    :param input_lst: массив
-    :param num: искомое число
-    :return: два индекса (начала и конца подмассива). Пустой tuple, если таких нет
-    Пример: find_subarr([1, 2, 3, 4, 5, -1], 4) может вернуть (3, 3) или (4, 5)
-    '''
-    raise NotImplementedError
+    lst = input_lst
+    dict = {}
+    no_sum = True
+    sum = 0
+    i = 0
+    while i < len(lst):
+        j = i
+        while j < len(lst):
+            if i == j:
+                sum += lst[i]
+            else:
+                sum += lst[j]
+            dict[sum] = i, j
+            if sum == num:
+                no_sum = False
+                return dict[sum]
+            j += 1
+        sum = 0
+        i += 1
+    if no_sum:
+        return tuple()
+
+
+# In[ ]:
