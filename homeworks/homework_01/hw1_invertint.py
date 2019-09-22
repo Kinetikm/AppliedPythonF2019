@@ -3,4 +3,7 @@
 
 
 def reverse(number):
-    raise NotImplementedError
+    st=str(number)
+    st=st[::-1]
+    number=int(st)
+    return(number)
