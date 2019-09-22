@@ -3,10 +3,4 @@
 
 
 def check_palindrom(input_string): 
-    for i in range ((len(input_string))//2):
-        if input_string[i] != input_string[-1-i]:
-            return False
-        else:
-            return True
-
-        
+    return (input_string == input_string[::-1])
