@@ -18,7 +18,7 @@ def calculate_determinant(list_of_lists):
         k = 1
         n = m - 1
         if (m < 1):
-            print('Определитель вычислить невозможно!')
+            return None
         if (m == 1):
             d = list_of_lists[0][0]
             return (d)
