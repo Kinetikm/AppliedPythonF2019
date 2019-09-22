@@ -15,7 +15,7 @@ def calculate_determinant(list_of_lists):
 def det_low(mat, num):
     res = list()
     for i in range(1, len(mat)):
-        cur_str  = mat[i][:num]
+        cur_str = mat[i][:num]
         cur_str.extend(mat[i][num+1:])
         res.append(cur_str)
     return res
@@ -29,4 +29,4 @@ def det(mat):
     for i in range(len(mat)):
         sum += sign * mat[0][i] * det(det_low(mat, i))
         sign = -sign
-    return sum  
+    return sum
