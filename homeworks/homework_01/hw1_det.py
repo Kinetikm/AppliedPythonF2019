@@ -52,4 +52,3 @@ def calculate_determinant(list_of_lists):
     else:
         n = len(list_of_lists)
         return det(list_of_lists)
-

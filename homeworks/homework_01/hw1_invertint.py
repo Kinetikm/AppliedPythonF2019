@@ -6,6 +6,3 @@ def reverse(number):
     while s[0] == '0':
         s = s[1:]
     return int(s) if number > 0 else (-1) * int(s)
-
-
-
