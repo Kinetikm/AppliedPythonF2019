@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 def reverse(number):
     if number == 0:
         return 0
@@ -14,10 +10,3 @@ def reverse(number):
         return(int(s))
     else:
         return(int(s))
-
-
-
-
-   
-
-
