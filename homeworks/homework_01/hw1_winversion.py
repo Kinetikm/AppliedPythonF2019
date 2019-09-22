@@ -19,5 +19,4 @@ def word_inversion (input_lst):
             probelnum += 1
             word_len += 1
             index = word_len
-
     return input_lst
