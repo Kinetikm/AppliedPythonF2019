@@ -10,3 +10,4 @@ def reverse(number):
         return(int(s))
     else:
         return(int(s))
+    raise NotImplementedError
