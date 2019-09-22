@@ -10,4 +10,8 @@ def reverse(number):
     :return: инвертированное число
     '''
     str_num = str(number)
-    return int(str_num[::-1])
+    if str_num[0] == '-':
+        str_num = str_num[1::]
+        return int('-' + str_num[::-1])
+    else:
+        return int(str_num[::-1])
