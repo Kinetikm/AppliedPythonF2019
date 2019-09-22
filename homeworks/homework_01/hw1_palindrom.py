@@ -10,4 +10,5 @@ def check_palindrom(input_string):
     :return: True, если строка являестя палиндромом
     False иначе
     '''
-    return input_string == reversed(input_string)
+
+    return input_string == input_string[::-1]
