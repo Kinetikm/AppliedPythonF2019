@@ -8,7 +8,7 @@ def word_inversion(input_lst):
         a = input_lst.pop()
         if (a == " "):
             start = i
-            input_lst.insert(start, a)
+            input_lst.insert(start, " ")
             start += 1
         else:
             input_lst.insert(start, a)
