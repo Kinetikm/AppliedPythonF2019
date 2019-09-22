@@ -29,5 +29,5 @@ def word_inversion(input_lst):
             else:
                 input_list[start:] = input_list[end:start - 1:-1]
 
-    return None
+    return input_list
 
