@@ -9,16 +9,14 @@ def word_inversion(input_lst):
     :return: None Все изменения в input_lst проходят
     '''
     input_lst.reverse()
-    start = 0
-    len_lst = len(input_lst)
-
-    for end in range(len_lst):
+    begin = 0
+    end = 0
+    for end in range(len(input_lst)):
         if input_lst[end] == ' ':
-            if start == 0:
+            if begin == 0:
                 input_lst[:end] = input_lst[end - 1::-1]
             else:
-                input_lst[start-1:end] = input_lst[end:start-1:-1]
-
-            start = end + 1
-    input_lst[start:] = input_lst[end:start - 1:-1]
+                input_lst[begin-1:end] = input_lst[end:begin-1:-1]
+            begin = end + 1
+    input_lst[begin:] = input_lst[end:begin - 1:-1]
     return None
