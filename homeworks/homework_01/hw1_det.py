@@ -2,6 +2,7 @@
 # coding: utf-8
 import copy
 
+
 def minor(M, i, j):
     copy_M = copy.deepcopy(M)
     del copy_M[i]
