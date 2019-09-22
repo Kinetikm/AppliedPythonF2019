@@ -7,7 +7,7 @@ def find_subarr(input_lst, num):
     start = 0
     end = 0
     sum = input_lst[0]
-    while (start < l) and (end < l):
+    while (start < l - 1) or (end < l - 1):
         if sum == num:
             return (start, end)
         if end < l - 1:
@@ -17,4 +17,7 @@ def find_subarr(input_lst, num):
             start += 1
             sum = input_lst[start]
             end = start
+    sum = input_lst[l - 1]
+    if sum == num:
+        return (l-1, l-1)
     return ()
