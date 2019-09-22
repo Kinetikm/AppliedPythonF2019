@@ -27,8 +27,8 @@ def calculate_determinant(list_of_lists):
     k = 1
     if len(list_of_lists) == 2 and len(list_of_lists[0]) == 2 \
         and len(list_of_lists[1]) == 2:
-            return list_of_lists[0][0]*list_of_lists[1][1] - \
-                list_of_lists[1][0]*list_of_lists[0][1]
+        return list_of_lists[0][0]*list_of_lists[1][1] - \
+            list_of_lists[1][0]*list_of_lists[0][1]
     elif len(list_of_lists) > 2:
         for i in range(len(list_of_lists[0])):
             k += 1
