@@ -2,12 +2,22 @@
 # coding: utf-8
 
 
+def winversion(input_lst, a, b):
+    while b - a > 0:
+        t = input_lst[a]
+        input_lst[a] = input_lst[b]
+        input_lst[b] = t
+        a += 1
+        b -= 1
+
+
 def word_inversion(input_lst):
-    if len(input_lst) > 0:
-        input_lst[0] = "".join(input_lst).split()
-        input_lst[0].reverse()
-        input_lst[0] = list(" ".join(input_lst[0]))
-        for i in range(len(input_lst) - 1, -1, -1):
-            input_lst[i] = input_lst[0][i]
+    a = 0
+    i = 0
+    while i <= len(input_lst):
+        if i == len(input_lst) or input_lst[i] == ' ':
+            winversion(input_lst, a, i - 1)
+            a = i + 1
+        i += 1
+    winversion(input_lst, 0, len(input_lst) - 1)
     return input_lst
-    # можно возвращать None, все равно будет работать
