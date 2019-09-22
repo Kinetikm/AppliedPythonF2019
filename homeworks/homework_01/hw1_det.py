@@ -12,6 +12,7 @@ def calculate_determinant(list_of_lists):
             del M[i][j]
         return M
 
+
     def det(list_of_lists):
         m = len(list_of_lists)
         n = len(list_of_lists[0])
