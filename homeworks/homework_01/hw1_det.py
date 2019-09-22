@@ -3,7 +3,7 @@
 
 
 def calculate_determinant(b):
-    if len(b) != len(b[0]):
+    if len(b) == 0 or len(b) != len(b[0]):
         return
     if len(b) == 2:
         de = b[0][0] * b[1][1] - b[0][1] * b[1][0]
