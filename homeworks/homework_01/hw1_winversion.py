@@ -18,6 +18,5 @@ def word_inversion(input_lst):
         for symbol in word:
             input_lst.append(symbol)
         input_lst.append(' ')
-
     input_lst.pop()
-    return None
+    return input_lst
