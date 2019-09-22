@@ -12,4 +12,4 @@ def word_inversion(input_lst):
             start += 1
         else:
             input_lst.insert(start, a)
-return input_lst
+	return input_lst
