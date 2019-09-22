@@ -10,7 +10,7 @@ def find_subarr(input_lst, num):
         if s - num in d:
             return (d[s - num], i)
         elif val == num:
-            return (i,i)
+            return (i, i)
         else:
             d[s - val] = i
     return ()
