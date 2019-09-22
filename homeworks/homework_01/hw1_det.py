@@ -37,3 +37,4 @@ def calculate_determinant(list_of_lists):
     else:
         return None
     return sum
+
