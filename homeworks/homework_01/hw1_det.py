@@ -20,6 +20,8 @@ def calculate_determinant(list_of_lists):
 
     n = len(list_of_lists)
     
+    if n < 1:
+        return None
     if n == 1:
         return list_of_lists[0][0]
     for row in range(n):
