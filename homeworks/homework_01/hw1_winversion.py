@@ -9,13 +9,16 @@ def word_inversion(input_lst):
     :return: None Все изменения в input_lst проходят
     '''
     cnt = 0
-    for idx in range(0, len(input_lst)):
+    for idx in range(len(input_lst)):
         if input_lst[-1] == ' ':
-            input_lst.pop()
-            input_lst.insert(idx, ' ')
+            for idx2 in range(idx, len(input_lst)):
+                input_lst[idx2], input_lst[len(input_lst) - 1] = \
+                    input_lst[len(input_lst) - 1], input_lst[idx2]
             cnt = idx + 1
         else:
-            input_lst.insert(cnt, input_lst.pop())
+            for idx2 in range(cnt, len(input_lst)):
+                input_lst[idx2], input_lst[len(input_lst) - 1] = \
+                    input_lst[len(input_lst) - 1], input_lst[idx2]
     return input_lst
 
 
