@@ -3,7 +3,6 @@
 
 
 def find_subarr(input_lst, num):
-    
     dct = {}
     sum = 0
     for el, i in zip(input_lst, range(len(input_lst))):
@@ -13,6 +12,6 @@ def find_subarr(input_lst, num):
         if el == num:
             return i, i
         if sum - num in dct:
-            return dct[sum-num] + 1, i
+            return dct[sum - num] + 1, i
         dct[sum] = i
     return ()
