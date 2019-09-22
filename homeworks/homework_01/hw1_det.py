@@ -3,6 +3,7 @@
 
 EPS = 1e-9
 
+
 def calculate_determinant(list_of_lists):
     '''
     Метод, считающий детерминант входной матрицы,
@@ -18,7 +19,7 @@ def calculate_determinant(list_of_lists):
     n = len(list_of_lists)
     for sublist in list_of_lists:
         if len(sublist) != n:
-            return  None
+            return None
 
     det = 1
     for i in range(n):

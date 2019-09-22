@@ -25,4 +25,3 @@ def find_subarr(input_lst, num):
         sums[curr_sum] = i
 
     return ()
-

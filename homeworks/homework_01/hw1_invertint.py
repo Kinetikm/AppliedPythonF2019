@@ -28,4 +28,3 @@ def reverse(number):
         number //= 10
 
     return int(num_sign * res)
-
