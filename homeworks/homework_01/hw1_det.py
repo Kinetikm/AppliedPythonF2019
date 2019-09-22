@@ -11,7 +11,6 @@ def calculate_determinant(list_of_lists):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     '''
-    raise NotImplementedError
     mult = 1
     ind = 0
     A = list_of_lists

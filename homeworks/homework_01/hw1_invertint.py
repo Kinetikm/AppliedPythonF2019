@@ -9,7 +9,6 @@ def reverse(number):
     :param number: исходное число
     :return: инвертированное число
     '''
-    raise NotImplementedError
     c = 0
     a_ = abs(number)
     while a_ > 0:
