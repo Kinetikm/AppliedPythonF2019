@@ -14,4 +14,3 @@ def check_palindrom(input_string):
         if input_string[i] != input_string[len(input_string) - i - 1]:
             return False
     return True
-
