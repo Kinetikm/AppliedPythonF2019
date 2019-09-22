@@ -18,5 +18,3 @@ def check_palindrom(input_string):
             return False
 
     return True
-
-    raise NotImplementedError

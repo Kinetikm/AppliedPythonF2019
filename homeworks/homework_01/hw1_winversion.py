@@ -32,4 +32,3 @@ def word_inversion(input_lst):
 
     return None
 
-    raise NotImplementedError

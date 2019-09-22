@@ -23,5 +23,3 @@ def find_subarr(input_lst, num):
     res = (res_contain[0][0], res_contain[0][1])
 
     return res
-    
-    raise NotImplementedError

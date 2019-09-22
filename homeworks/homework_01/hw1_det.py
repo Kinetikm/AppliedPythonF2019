@@ -33,5 +33,3 @@ def calculate_determinant(list_of_lists):
         signum *= -1
 
     return determinant
-    
-    raise NotImplementedError

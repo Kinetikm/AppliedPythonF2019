@@ -27,5 +27,3 @@ def reverse(number):
             break
 
     return res
-    
-    raise NotImplementedError
