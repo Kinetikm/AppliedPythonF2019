@@ -14,6 +14,9 @@ def find_subarr(input_list, num):
         if input_list[index - 1] + input_list[index] == num:
             res_contain.append([index - 1, index])
 
-    res = (res_contain[0][0], res_contain[0][1])
+    if res_contain:
+        res = (res_contain[0][0], res_contain[0][1])
+    else:
+        return None
 
     return res

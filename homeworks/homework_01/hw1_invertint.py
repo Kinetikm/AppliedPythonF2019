@@ -21,7 +21,7 @@ def reverse(number):
         else:
             break
         
-        if flag:
-            res *= -1
+    if flag:
+        res *= -1
 
     return res
