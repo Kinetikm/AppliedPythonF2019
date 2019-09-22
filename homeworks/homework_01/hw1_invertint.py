@@ -8,6 +8,6 @@ def reverse(number):
         check = -1
     b_b = abs(number)
     b = str(b_b)
-    c = ''.join(reversed(b))
+    c = b[::-1]
     d = int(chek) * int(c)
     return d
