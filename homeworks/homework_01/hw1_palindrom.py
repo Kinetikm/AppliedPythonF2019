@@ -10,6 +10,6 @@ def check_palindrom(A):
     :return: True, если строка являестя палиндромом
     False иначе
     '''
-    A = ''.join(A.lower().split())
+    A = ''.join(A.lower())
     B = A[::-1]
     return True if B == A else False
