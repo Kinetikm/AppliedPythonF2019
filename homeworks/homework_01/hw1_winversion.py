@@ -4,7 +4,7 @@
 
 def word_inversion(input_lst):
     input_lst.reverse()
-    i = 0
+    i, c = 0, ' '
     while i < len(input_lst):
         j = i
         wlen = 0
