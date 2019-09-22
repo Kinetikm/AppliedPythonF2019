@@ -15,7 +15,7 @@ def calculate_determinant(list_of_lists):
     d = 1
     n = len(list_of_lists)
     copy_matrix = list()
-    for i in range(n - 1):
+    for i in range(n):
         if len(list_of_lists[i]) != n:
             return None
     for k in range(n - 1):
