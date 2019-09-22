@@ -3,6 +3,8 @@
 
 
 def find_subarr(input_list, num):
+    if type(input_list) is int:
+        return None
     if not any(input_list):
         return None
 
