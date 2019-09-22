@@ -3,10 +3,10 @@
 
 
 def reverse(number):
-    '''
-    Метод, принимающий на вход int и
-    возвращающий инвертированный int
-    :param number: исходное число
-    :return: инвертированное число
-    '''
-    raise NotImplementedError
+    s = number
+    number = str(abs(number))
+    number = number[::-1]
+    if s < 0:
+        return -int(number)
+    else:
+        return int(number)
