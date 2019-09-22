@@ -12,3 +12,5 @@ def find_subarr(input_lst, num):
         if s - num in d:
             return d[s-num]+1, i
         d[s] = i
+
+    return ()
