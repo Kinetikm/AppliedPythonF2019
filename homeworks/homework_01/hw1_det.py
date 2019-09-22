@@ -4,8 +4,6 @@
 # In[51]:
 
 
-# определитель матрицы
-
 def calculate_determinant(list_of_lists):
     matrix = list_of_lists
     is_matrix = True
@@ -15,7 +13,6 @@ def calculate_determinant(list_of_lists):
     while i < len(matrix):
         if len(matrix) != len(matrix[i]):
             is_matrix = False
-            #print("no matrix")
             return None
         i += 1
     if is_matrix:
