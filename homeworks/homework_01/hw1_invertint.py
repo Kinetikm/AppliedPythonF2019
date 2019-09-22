@@ -3,11 +3,13 @@
 
 
 def reverse(number):
-    chek = 1
+    flar = 0
     if number < 0:
-        check = -1
+        flag = 1
     b_b = abs(number)
     b = str(b_b)
     c = b[::-1]
-    d = int(chek) * int(c)
+    d = int(c)
+    if flag == 1:
+        d *= -1
     return d
