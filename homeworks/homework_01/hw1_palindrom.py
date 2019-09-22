@@ -2,12 +2,17 @@
 # coding: utf-8
 
 
-def check_palindrom(input_string):
+def check_palindrom(A):
     '''
     Метод проверяющий строку на то, является ли
     она палиндромом.
-    :param input_string: строка
+    :param A: строка
     :return: True, если строка являестя палиндромом
     False иначе
     '''
-    raise NotImplementedError
+    A = ''.join(A.lower().split())
+    B = A[::-1]
+    return True if B == A else False
+    #raise NotImplementedError
+S = input()
+print(check_polindrom(S))
