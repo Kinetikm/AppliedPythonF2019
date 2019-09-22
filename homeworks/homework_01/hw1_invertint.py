@@ -5,5 +5,6 @@
 def reverse(number):
     st = str(number)
     st = st[::-1]
-    number = int(st)
+    if number != '':
+        number = int(st)
     return(number)
