@@ -4,23 +4,13 @@
 
 def find_subarr(input_lst, num):
 
-    s = 0
-    for i in range(len(input_lst)):
-        if input_lst[i] > num:
-            s = 0
-            continue
-        if input_lst[i] == num:
-            return (i, i)
-        s = input_lst[i]
-        for j in range(i + 1, len(input_lst)):
-            if input_lst[j] > num:
-                s = 0
-                break
-            if input_lst[j] == num:
-                    return (j, j)
-            else:
-                s = s + input_lst[j]
-                if s == num:
-                    return (i, j)
-        s = 0
+    d = {}
+    sum = 0
+    for i in range(len(input_list)):
+        sum += input_list[i]
+        if sum == num:
+            return (0, i)
+        if (sum - num) in d:
+            return (d[sum - num] + 1, i)
+        d[sum] = i
     return ()
