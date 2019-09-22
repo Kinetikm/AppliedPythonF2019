@@ -12,6 +12,9 @@ def minor(A, i, j):
 
 
 def calculate_determinant(list_of_lists):
+    if not list_of_lists:
+        return None
+
     m = len(list_of_lists)
     n = len(list_of_lists[0])
 
