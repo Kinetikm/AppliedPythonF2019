@@ -5,13 +5,13 @@
 def calculate_determinant(list_of_lists):
     n = len(list_of_lists[0])
     for row in list_of_lists:
-        if len(row) != n:
+        if len(row) != n or len(list_of_lists) != n:
             return None
     if n == 1:
         return list_of_lists[0][0]
     elif n > 1:
         det = 0
-        step = 1
+        step = 1.0
         for i in range(n):
             minor = [0] * (n - 1)
             for j in range(n - 1):
@@ -23,8 +23,8 @@ def calculate_determinant(list_of_lists):
                     minor[p][q] = list_of_lists[p + 1][q + 1]
             det_min = calculate_determinant(minor)
             det += step * list_of_lists[0][i] * det_min
-            step = -1.0 * step
+            step = -1 * step
         return det
 
 
-print(calculate_determinant([[124, 54], [215215, 25]]))
+print(calculate_determinant([[124, 54454541556516164616, 545], [215215, 25]]))
