@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
+
+
 def find_subarr(input_lst, num):
     '''
     Метод, находящий подмассив, сумма чисел которого равна заданному числу
