@@ -20,6 +20,7 @@ def delRow(matrix, i):  # Удалить  i-ую строку
 def minor(matrix):  # Подсчет минора
     if len(matrix) == 2:
         result = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+        print(result)
         return result
     else:
         return det(matrix)
@@ -28,6 +29,8 @@ def minor(matrix):  # Подсчет минора
 def det(matrix):  # Определитель
     i = 1
     result = 0
+    if len(matrix) == 2:
+        return minor(matrix)
     while i <= len(matrix):
         result += (-1) ** (1 + i) * minor(delCol(delRow(matrix, 1), i)) * matrix[0][i - 1]
         i += 1
