@@ -18,9 +18,9 @@ def find_subarr(input_lst, num):
     r = 0
     while r < len(input_lst):
         s += input_lst[r]
-        if d.get(s - num) != None:
+        if d.get(s - num) is not None:
             print(s)
             return(d.get(s - num) + 1, r)
-        d[s] = r;
-        r += 1;
+        d[s] = r
+        r += 1
     return ()
