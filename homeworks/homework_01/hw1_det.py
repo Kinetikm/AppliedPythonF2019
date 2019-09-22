@@ -22,7 +22,7 @@ def calculate_determinant(list_of_lists):
         res *= list_of_lists[i][i]
         for j in range(i + 1, n):
             list_of_lists[i][j] /= list_of_lists[i][i]
-        for j in range(n)
+        for j in range(n):
             if j != i and abs(list_of_lists[j][i]) > eps
                 for k in range(i + 1, n):
                     list_of_lists[j][k] -= list_of_lists[i][k] * b
