@@ -20,6 +20,6 @@ def word_inversion(input_lst):
                 input_lst[i - j - 1] = input_lst[i]
             input_lst[i] = ' '
             i0 = i + 1
-    input_lst.pop();
+    input_lst.pop()
     input_lst[::] = input_lst[::-1]
     return input_lst
