@@ -22,4 +22,3 @@ def find_subarr(input_lst, num):
         else:
             return sub_sums[sub_sum - num] + 1, i
     return ()
-

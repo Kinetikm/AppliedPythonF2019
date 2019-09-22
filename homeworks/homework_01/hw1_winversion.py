@@ -34,4 +34,3 @@ def word_inversion(input_lst):
             input_lst.insert(ind, input_lst.pop(len(input_lst) - 1))
             break
     return input_lst
-
