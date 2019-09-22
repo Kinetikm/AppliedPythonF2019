@@ -20,7 +20,7 @@ def reverse(number):
             res *= 10
         else:
             break
-        
+
     if flag:
         res *= -1
 
