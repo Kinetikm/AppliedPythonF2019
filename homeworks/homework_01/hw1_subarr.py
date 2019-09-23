@@ -19,7 +19,7 @@ def find_subarr(s, num):
         while i < N and j < N:
             if num == sum(s[i:j+1]):
                 otv = (i, j)
-                return otv
+                break
             i += 1
             j += 1
         i, j = 0, 0
