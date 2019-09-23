@@ -25,7 +25,7 @@ def calculate_determinant(list_of_lists):
                     for s in range(m):
                         e = list_of_lists[j][s] * b
                         list_of_lists[j][s] = e * b - list_of_lists[i][s]
-                k = k / b
+                    k = k / b
         for i in range(n):
             det = det * list_of_lists[i][i]
         det = det * k
