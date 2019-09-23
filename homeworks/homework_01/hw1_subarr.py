@@ -19,4 +19,3 @@ def find_subarr(input_lst, num):
         pull_sum[sum_sub] = cord + 1
         cord += 1
     return tuple()
-
