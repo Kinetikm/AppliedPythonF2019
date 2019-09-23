@@ -11,6 +11,8 @@ def calculate_determinant(s):
     :param s: список списков - исходная матрица
     :return: значение определителя или None
     '''
+    if s == [[]]:
+        return
     res = 1
     N = len(s)
     for i in range(N):
@@ -29,6 +31,6 @@ def calculate_determinant(s):
     return res
 
 
-#
-# s = [[1, 2, 3], [4, 5, 6], [2, 5, 3]]
-# print(calculate_determinant(s))
+
+s = [[]]
+print(calculate_determinant(s))
