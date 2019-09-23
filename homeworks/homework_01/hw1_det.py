@@ -1,4 +1,4 @@
-def delete(c, a):
+def delt(c, a):
     g = []
     i = 1
     while(i < len(c)):
@@ -20,14 +20,15 @@ def norm(a):
     return True
 
 
-def determinant(mat):
+def calculate_determinant(list_of_lists):
+    mat = list_of_lists
     if norm(mat):
         if (len(mat) == 2):
             return mat[0][0]*mat[1][1]-mat[0][1]*mat[1][0]
         else:
             sum = 0
             for i in range(len(mat)):
-                sum += (-1)**(i)*mat[0][i]*determinant(delete(mat, i))
+                sum += (-1)**(i)*mat[0][i]*calculate_determinant(delt(mat, i))
             return sum
     else:
         return None
