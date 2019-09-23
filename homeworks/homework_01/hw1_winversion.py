@@ -11,7 +11,7 @@ def word_inversion(input_lst):
     for i in range(n):
         if i == n - 1:
             end = i
-            while begin < end:                
+            while begin < end:
                 s[begin], s[end] = s[end], s[begin]
                 begin += 1
                 end -= 1
@@ -23,4 +23,3 @@ def word_inversion(input_lst):
                 end -= 1
             begin = i + 1
     return s
-            

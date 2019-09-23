@@ -9,7 +9,7 @@ def find_subarr(input_lst, num):
         return s
     blank = ()
     sum = 0
-    d= {}
+    d = {}
     for i in range(len(s)):
         sum += s[i]
         if sum == n:
@@ -17,6 +17,4 @@ def find_subarr(input_lst, num):
         if sum - num in d:
             return (d[sum-n] + 1, i)
         d[sum] = i
-        
     return blank
-    
