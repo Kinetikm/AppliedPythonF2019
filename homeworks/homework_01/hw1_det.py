@@ -26,3 +26,5 @@ def calculate_determinant(m):
             for i in range(k+1, len(m)):
                 m[i] = [m[i][j]-m[k][j]*m[i][k]/m[k][k] for j in range(len(m))]
         return det
+    return
+    
