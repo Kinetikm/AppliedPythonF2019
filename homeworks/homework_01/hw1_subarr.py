@@ -17,27 +17,20 @@ def find_subarr(input_lst, num):
     d = dict()
     j = 0
     for i, val in enumerate(input_lst):
-        #print("la-la")
         if val == num:
             return (i, i)
         if (num - val) in d:
             return (d[num - val][1], i)
-        #j = 0
-        #d[val] = [k + val, i]
         v = k
-        #print("val = {0}".format(val))
         for l in range(0, j, 1):
-            #print(k)
             d[k + val] = d[k]
             h = k
             k = d[k + val][0]
             d[h + val][0] = d[h + val][0] + val
             d.pop(h)
-        #d[k + val] = d[k]
         d[val] = [v + val, i]
         
         k = val
-        #n = n + val
         j = j + 1
     
     return tuple()
