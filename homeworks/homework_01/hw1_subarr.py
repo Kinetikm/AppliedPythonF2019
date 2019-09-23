@@ -18,11 +18,10 @@ def find_subarr(s, num):
         j += x
         while i < N and j < N:
             if num == sum(s[i:j+1]):
-                otv = (i,j)
+                otv = (i, j)
                 return otv
             i += 1
             j += 1
         i, j = 0, 0
         x += 1
     return otv
-
