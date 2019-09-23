@@ -20,8 +20,8 @@ def calculate_determinant(list_of_lists):
         d = 0
         k = 1
         n = m - 1
-        if (m < 1 ):
-            return None
+        if (m < 1):
+            print('Определитель вычислить невозможно!')
         if (m == 1):
             d = list_of_lists[0][0]
             return (d)
@@ -35,3 +35,4 @@ def calculate_determinant(list_of_lists):
                 k = -k
         return (d)
         raise NotImplementedError
+    return determinant(a, m)
