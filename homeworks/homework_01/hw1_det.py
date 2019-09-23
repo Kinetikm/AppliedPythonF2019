@@ -3,28 +3,24 @@
 
 
 def calculate_determinant(list_of_lists):
-    import copy
 
-    def minor(list_of_lists, i, j):
-        M = copy.deepcopy(list_of_lists)
-        del M[i]
-        for i in range(len(list_of_lists[0]) - 1):
-            del M[i][j]
-        return M
+    def det2(x):
+        return x[0][0] * x[1][1] - x[0][1] * x[1][0]
 
-    def det(list_of_lists):
-        m = len(list_of_lists)
-        n = len(list_of_lists[0])
-        if m != n:
-            return None
-        if n == 1:
+    def minor(x, i, j):
+        z = [n for k, n in enumerate(x) if k != i]
+        z = [m for k, m in enumerate(zip(*z)) if k != j]
+        return z
+
+    def det(x):
+        len_x = len(x)
+        if len_x == 1:
             return list_of_lists[0][0]
-        signum = 1
-        determinant = 0
-        for j in range(n):
-            determinant += list_of_lists[0][j] * signum * det(minor(list_of_lists, 0, j))
-            signum *= -1
-        return determinant
+        if len_x == 2:
+            return det2(x)
+
+        return sum((-1) ** j * x[0][j] * det(minor(x, 0, j))
+                   for j in range(len_x))
 
     print(det(list_of_lists))
     '''
