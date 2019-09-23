@@ -9,7 +9,6 @@ def word_inversion(s):
     :return: None Все изменения в s проходят
     '''
     N = len(s)-1
-    i: int
     i, omega = N, 0
     print(s)
     s.reverse()
@@ -17,12 +16,12 @@ def word_inversion(s):
     while i > -1:
         if s[i] == ' ':
             print(i)
-            s[i+1:i + omega+1] = s[i + omega:i:-1]
+            s[i + 1:i + omega+1] = s[i + omega:i:-1]
             omega = 0
             i -= 1
-        elif i == 0:
-            s[i:omega+1] = s[omega-N-1:-N-2:-1]
-            return s
-        else:
+        elif:
             omega += 1
             i -= 1
+        else i == 0:
+            s[i:omega+1] = s[omega-N-1:-N-2:-1]
+            return s
