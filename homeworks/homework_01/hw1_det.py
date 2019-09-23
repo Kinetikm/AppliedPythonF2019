@@ -1,10 +1,10 @@
-def delete(c,a):
+def delete(c, a):
     g = []
     i = 1
     while(i < len(c)):
         p = []
         for j in range(len(c)):
-            if (j < a or j > a and j<len(c)):
+            if (j < a or j > a and j < len(c)):
                 p.append(c[i][j])
             else:
                 continue
@@ -12,20 +12,22 @@ def delete(c,a):
         i += 1
     return g
 
+
 def norm(a):
     for i in a:
         if len(i) != len(a):
             return False
     return True
 
-def calculate_determinant(list_of_lists):
-    if norm(list_of_lists):
-        if (len(list_of_lists) == 2):
-            return list_of_lists[0][0] * list_of_lists[1][1] - list_of_lists[0][1] *list_of_lists[1][0]
+
+def determinant(mat):
+    if norm(mat):
+        if (len(mat) == 2):
+            return mat[0][0]*mat[1][1]-mat[0][1]*mat[1][0]
         else:
             sum = 0
-            for i in range(len(list_of_lists)):
-                sum += (-1)**(i) * list_of_lists[0][i] * calculate_determinant(delete(list_of_lists, i))
+            for i in range(len(mat)):
+                sum += (-1)**(i)*mat[0][i]*determinant(delete(mat, i))
             return sum
     else:
         return None
