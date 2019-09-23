@@ -1,34 +1,14 @@
-def delt(c, a):
-    g = []
-    i = 1
-    while(i < len(c)):
-        p = []
-        for j in range(len(c)):
-            if (j < a or j > a and j < len(c)):
-                p.append(c[i][j])
-            else:
-                continue
-        g.append(p)
-        i += 1
-    return g
-
-
-def norm(a):
-    for i in a:
-        if len(i) != len(a):
-            return False
-    return True
+#!/usr/bin/env python
+# coding: utf-8
 
 
 def calculate_determinant(list_of_lists):
-    mat = list_of_lists
-    if norm(mat):
-        if (len(mat) == 2):
-            return mat[0][0]*mat[1][1]-mat[0][1]*mat[1][0]
-        else:
-            sum = 0
-            for i in range(len(mat)):
-                sum += (-1)**(i)*mat[0][i]*calculate_determinant(delt(mat, i))
-            return sum
-    else:
-        return None
+    '''
+    Метод, считающий детерминант входной матрицы,
+    если это возможно, если невозможно, то возвращается
+    None
+    Гарантируется, что в матрице float
+    :param list_of_lists: список списков - исходная матрица
+    :return: значение определителя или None
+    '''
+    raise NotImplementedError
