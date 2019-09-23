@@ -11,7 +11,11 @@ def calculate_determinant(m):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     '''
-    if len(m) <= 1:
+    if len(m) < 1:
+        return None
+    elif (len(m) == len(m[0])) and (len(m) == 1):
+        return m[0]
+    elif type(m[0]) is not list:
         return None
     elif len(m) != len(m[0]):
         return None
@@ -26,5 +30,3 @@ def calculate_determinant(m):
             for i in range(k+1, len(m)):
                 m[i] = [m[i][j]-m[k][j]*m[i][k]/m[k][k] for j in range(len(m))]
         return det
-    return
-    
