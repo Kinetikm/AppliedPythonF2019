@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
+
+
 def calculate_determinant(list_of_lists):
     m = len(list_of_lists)
+    
     def determinant(list_of_lists, m):
         def GetMatr(mas, p, i, j, m):
             di = 0
@@ -35,4 +38,4 @@ def calculate_determinant(list_of_lists):
                 k = -k
         return (d)
         raise NotImplementedError
-    return determinant(a, m)
+    return determinant(list_of_lists, m)
