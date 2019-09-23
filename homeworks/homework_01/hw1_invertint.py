@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 def reverse(number):
     n = "" 
     if number < 0: 
