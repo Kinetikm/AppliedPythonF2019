@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
 def calculate_determinant(list_of_lists):
     m = len(list_of_lists)
     
