@@ -11,7 +11,7 @@ def calculate_determinant(list_of_lists):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     '''
-    det = 1
+    det = 1.0
     m = len(list_of_lists)
     n = len(list_of_lists[0])
     if m == n:
