@@ -26,7 +26,7 @@ def calculate_determinant(list_of_lists):
         if (m < 1):
             print('Определитель вычислить невозможно!')
         if (m == 1):
-            d = list_of_lists1[0][0]
+            d = list_of_lists1[0]
             return (d)
         if (m == 2):
             d = (list_of_lists1[0][0] * list_of_lists1[1][1]) - (list_of_lists1[1][0] * list_of_lists1[0][1])
