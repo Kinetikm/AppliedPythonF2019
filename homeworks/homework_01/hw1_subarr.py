@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 def find_subarr(input_lst, num):
     f = 0
     k = []
@@ -15,4 +11,3 @@ def find_subarr(input_lst, num):
         for l in range(j):
             if k[j] - k[l] == num:
                 return(l+1, j)
-    
