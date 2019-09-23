@@ -14,8 +14,6 @@ def calculate_determinant(list_of_lists):
 
     def det(x):
         len_x = len(x)
-        if len_x == 1:
-            return list_of_lists[0][0]
         if len_x == 2:
             return det2(x)
 
