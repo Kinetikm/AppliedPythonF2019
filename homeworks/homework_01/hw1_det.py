@@ -11,10 +11,10 @@ def calculate_determinant(list_of_lists):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     '''
+    det = 1
     m = len(list_of_lists)
     n = len(list_of_lists[0])
     if m == n:
-        det = 1
         b = 1
         k = 1
         e = 1
@@ -28,5 +28,5 @@ def calculate_determinant(list_of_lists):
                 k = k / b
         for i in range(n):
             det = det * list_of_lists[i][i]
-        det1 = det * k
-    return det1
+        det = det * k
+        return det
