@@ -15,9 +15,9 @@ def calculate_determinant(list_of_lists):
     m = len(list_of_lists)
     n = len(list_of_lists[0])
     if m == n:
-        b = 1
-        k = 1
-        e = 1
+        b = 1.0
+        k = 1.0
+        e = 1.0
         for i in range(m):
             for j in range(i+1, n):
                 if list_of_lists[j][i] != 0:
