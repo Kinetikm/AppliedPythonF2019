@@ -28,6 +28,5 @@ def calculate_determinant(list_of_lists):
                 k = k / b
         for i in range(n):
             det = det * list_of_lists[i][i]
-        det = det * k
-    return det
-
+        det1 = det * k
+    return det1
