@@ -9,7 +9,7 @@ def word_inversion(input_lst):
     :return: input_lst: строка-массив букв
     """
 
-    input_lst = input_lst[::-1]
+    input_lst.reverse()
 
     beginning = 0
     for i, el in enumerate(input_lst):
