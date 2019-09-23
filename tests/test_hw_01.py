@@ -25,6 +25,32 @@ def load_test_data(func_name):
     return output
 
 
+def test_word_inversion():
+    data = load_test_data("winversion")
+    try:
+        word_inversion([])
+    except NotImplementedError:
+        return True
+    for input_lst, result in data:
+        output = word_inversion(input_lst)
+        assert output == result
+
+
+def test_subarray_finder():
+    data = load_test_data("subarr")
+    try:
+        find_subarr([], 0)
+    except NotImplementedError:
+        return True
+    for input_data, result in data:
+        lst, num = input_data
+        indexes = find_subarr(lst, num)
+        if indexes:
+            assert sum(lst[indexes[0]:indexes[1]+1]) == num
+        else:
+            assert indexes == result
+
+
 def test_bracket_sequence():
     data = load_test_data("brseq")
     try:
