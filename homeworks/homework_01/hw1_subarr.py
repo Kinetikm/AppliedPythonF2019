@@ -12,6 +12,7 @@ def find_subarr(input_lst, num):
     Пример: find_subarr([1, 2, 3, 4, 5, -1], 4) может вернуть (3, 3) или (4, 5)
     '''
     
+    
     n = 0
     k = 0
     d = dict()
