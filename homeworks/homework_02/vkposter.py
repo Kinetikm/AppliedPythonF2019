@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
-from homeworks.homework_02.heap import MaxHeap
-from homeworks.homework_02.fastmerger import FastSortedListMerger
+import heapq
 
 
 class VKPoster:
 
     def __init__(self):
-        raise NotImplementedError
+        self.user_list = {}
+        self.post_list = {}
+        self.folower_list = {}
+        self.reader = {}
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
@@ -19,7 +20,10 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if user_id in self.user_list.keys():
+            self.user_list[user_id].append(post_id)
+        else:
+            self.user_list[user_id] = [post_id]
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -29,7 +33,13 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if (user_id not in self.reader) or (
+                post_id not in self.reader[user_id]):
+            if post_id in self.post_list.keys():
+                self.post_list[post_id] += 1
+            else:
+                self.post_list[post_id] = 1
+            self.reader[user_id] = [post_id]
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
@@ -39,7 +49,11 @@ class VKPoster:
         :param followee_user_id: id пользователя. Число.
         :return: ничего
         '''
-        pass
+        if followee_user_id != follower_user_id:
+            if follower_user_id in self.folower_list.keys():
+                self.folower_list[follower_user_id].append(followee_user_id)
+            else:
+                self.folower_list[follower_user_id] = [followee_user_id]
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         '''
@@ -50,7 +64,11 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        pass
+        list_of_posts = []
+        for val in self.folower_list[user_id]:
+            if val in self.user_list.keys():
+                list_of_posts.extend(self.user_list[val])
+        return sorted(list_of_posts, reverse=True)[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -60,4 +78,7 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        pass
+        h = []
+        for key, val in self.post_list.items():
+            heapq.heappush(h, (val, key))
+        return [el[1] for el in heapq.nlargest(k, h)]
