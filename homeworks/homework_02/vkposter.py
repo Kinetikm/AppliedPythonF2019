@@ -2,8 +2,8 @@
 # coding: utf-8
 
 
-from homeworks.homework_02.heap import MaxHeap
-from homeworks.homework_02.fastmerger import FastSortedListMerger
+#from homeworks.homework_02.heap import MaxHeap
+#from homeworks.homework_02.fastmerger import FastSortedListMerger
 
 
 class VKPoster:
@@ -11,7 +11,8 @@ class VKPoster:
     users = dict()  # key = user_id; value = User
 
     def __init__(self):
-        pass
+        for i in range(200):
+            self.users[i] = User(i)
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
