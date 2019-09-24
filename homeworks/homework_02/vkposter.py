@@ -11,7 +11,7 @@ class VKPoster:
     users = dict()  # key = user_id; value = User
 
     def __init__(self):
-        for i in range(200):
+        for i in range(2000):
             self.users[i] = User(i)
 
     def user_posted_post(self, user_id: int, post_id: int):
@@ -55,7 +55,7 @@ class VKPoster:
         '''
         new_posts = []
         for user in self.users[user_id].subscribes:
-            for post_id in user.posts:
+            for post_id in self.users[user].posts:
                 new_posts.append(post_id)
         new_posts = sorted(new_posts, reverse=True)
         return new_posts[0:k:]
