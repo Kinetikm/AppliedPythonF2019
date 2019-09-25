@@ -5,7 +5,8 @@
 class VKPoster:
 
     def __init__(self):
-        raise NotImplementedError
+        self.d = {}
+        self.eyes = {}
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
@@ -15,7 +16,9 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if user_id not in self.d:
+            self.d[user_id] = {'posts': [], 'followees': []}
+        self.d[user_id]['posts'].append(post_id)
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -25,7 +28,12 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if post_id not in self.eyes:
+            self.eyes[post_id] = [1, user_id]
+        else:
+            if user_id not in self.eyes[post_id][1:]:
+                self.eyes[post_id][0] += 1
+                self.eyes[post_id].append(user_id)
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
@@ -35,7 +43,10 @@ class VKPoster:
         :param followee_user_id: id пользователя. Число.
         :return: ничего
         '''
-        pass
+
+        if follower_user_id not in self.d:
+            self.d[follower_user_id] = {'posts': [], 'followees': []}
+        self.d[follower_user_id]['followees'].append(followee_user_id)
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         '''
@@ -46,7 +57,11 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        pass
+        arr = []
+        for user in self.d[user_id]['followees']:
+            arr = arr + self.d[user]['posts']
+        arr = sorted(arr, reverse=True)
+        return arr[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -56,4 +71,16 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        pass
+        max_id = max(self.eyes)
+        f = max_id*[0]
+        for id_ in range(1, max_id+1):
+            if id_ in self.eyes:
+                f[max_id - id_] = self.eyes[id_][0]
+
+        lst = []
+        for i in range(k):
+            temp = f.index(max(f))
+            f[temp] = -1
+            lst.append(max_id - temp)
+
+        return lst
