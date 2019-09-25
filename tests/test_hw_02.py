@@ -42,6 +42,7 @@ def test_vk_poster():
                 assert ans == vk_poster.get_most_popular_posts(*params)
     return True
 
+
 def test_table():
     data = load_test_data("table")
 
