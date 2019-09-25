@@ -14,11 +14,12 @@ def word_inversion(input_lst):
         if input_lst[-i-t] == ' ':
             start = ln - i
             for l in range(start + 1, stop):
-                input_lst.append(input_lst.pop(start+1))
+                #input_lst.append(input_lst.pop(start+1))
+                input_lst += [input_lst.pop(start+1)]
             stop = start
-            input_lst.append(input_lst.pop(start))
+            input_lst += [input_lst.pop(start)]
         elif i == ln:
             start = -1
             for l in range(start + 1, stop):
-                input_lst.append(input_lst.pop(start+1))
+                input_lst += [input_lst.pop(start+1)]
     return input_lst
