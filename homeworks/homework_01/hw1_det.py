@@ -29,6 +29,3 @@ def determinant(list_of_list):
         det += list_of_list[0][i] * coeff * determinant(minor(list_of_list, 0, i))
         coeff *= (-1)
     return det
-
-    raise NotImplementedError
-
