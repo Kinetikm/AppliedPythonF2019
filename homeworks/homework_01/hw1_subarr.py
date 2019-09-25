@@ -14,5 +14,3 @@ def find_subarr(input_lst, num):
         else:
             input_dict[sum] = i
     return()
-    
-    raise NotImplementedError
