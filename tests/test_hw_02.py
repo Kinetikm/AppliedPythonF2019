@@ -2,6 +2,8 @@
 # coding: utf-8
 
 import os
+import tempfile
+import subprocess
 
 from utils.file_processors import PickleFileProcessor
 
@@ -39,6 +41,7 @@ def test_vk_poster():
             elif action == 'get_most_popular_posts':
                 assert ans == vk_poster.get_most_popular_posts(*params)
     return True
+
 
 def test_table():
     data = load_test_data("table")
