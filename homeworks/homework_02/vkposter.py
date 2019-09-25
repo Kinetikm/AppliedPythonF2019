@@ -28,7 +28,7 @@ class Post:
     def readed(self, user_id):
         self.readers.add(user_id)
 
-    def numb_reading(self):
+    def num_reading(self):
         return len(self.readers)
 
 
@@ -59,6 +59,8 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         """
+        if post_id not in self._posts:
+            self._posts[post_id] = Post()
         self._posts[post_id].readed(user_id)
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
@@ -100,35 +102,9 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         """
-        readings = {value.num_reading(): key  for key, value in self._posts}
-        top = heapq.nlargest(k, readings)
-        return list(top.values())
-
-
-def load_test_data():
-    from utils.file_processors import PickleFileProcessor
-    file_processor = PickleFileProcessor()
-    test_filename = 'test_hw_02_vk_poster.ini.pkl'
-    output = file_processor.read_file(test_filename)
-    return output
-
-
-if __name__ == "__main__":
-    data = load_test_data()
-
-    for test in data:
-        vk_poster = VKPoster()
-        print("New Test \n")
-        for action, params, ans in zip(
-                test['action'], test['params'], test['expected_ans']):
-            print(f'action: {action}; params: {params}, ans: {ans}')
-            if action == 'follow':
-                assert ans == vk_poster.user_follow_for(*params)
-            elif action == 'posted':
-                assert ans == vk_poster.user_posted_post(*params)
-            elif action == 'get_recent_posts':
-                assert ans == vk_poster.get_recent_posts(*params)
-            elif action == 'readed':
-                assert ans == vk_poster.user_read_post(*params)
-            elif action == 'get_most_popular_posts':
-                assert ans == vk_poster.get_most_popular_posts(*params)
+        readings = {}
+        for key, value in self._posts.items():
+            readings[key] = value.num_reading()
+        sorted_readings = sorted(readings.items(), key=lambda x: (x[1], x[0]), reverse=True)
+        top = [i[0] for i in sorted_readings[:k]]
+        return top
