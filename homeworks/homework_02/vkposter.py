@@ -18,6 +18,7 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
+        print(f'Useer {user_id} posted {post_id}')
         if user_id not in self.users_posts:
             self.users_posts[user_id] = [post_id]
         else:
@@ -31,12 +32,6 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        # if (user_id not in self.reader) or (post_id not in self.reader[user_id]):
-        #     if post_id in self.post_list.keys():
-        #         self.post_list[post_id] += 1
-        #     else:
-        #         self.post_list[post_id] = 1
-        #     self.reader[user_id] = [post_id]
         if (user_id not in self.users_reads) or (post_id not in self.users_reads[user_id]):
             if post_id in self.popular_posts:
                 self.popular_posts[post_id] += 1
@@ -81,16 +76,10 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        print(self.popular_posts)
         sort_by_values = sorted(self.popular_posts, key=self.popular_posts.get, reverse=True)
-        print(sort_by_values)
         list_popular_posts = [item for item in sort_by_values][:k]
-        print(list_popular_posts)
-        list_popular_posts.sort(reverse=True)
-        
+        for i in range(1, len(list_popular_posts)):
+            if self.popular_posts[list_popular_posts[i]] == self.popular_posts[list_popular_posts[i-1]]:
+                if list_popular_posts[i] > list_popular_posts[i-1]:
+                    list_popular_posts[i], list_popular_posts[i-1] = list_popular_posts[i-1], list_popular_posts[i]
         return list_popular_posts
-        # print(self.popular_posts)
-        # h = []
-        # for key, val in self.popular_posts.items():
-        #     heapq.heappush(h, (val, key))
-        # return [el[1] for el in heapq.nlargest(k, h)]
