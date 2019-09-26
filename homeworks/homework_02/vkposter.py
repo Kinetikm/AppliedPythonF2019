@@ -26,6 +26,11 @@ class VKPoster:
             self.user_list[user_id] = [post_id]
 
     def counter(self, post_id):
+        """
+        Метод подсчета просмотров поста.
+        :param post_id:
+        :return:
+        """
         if post_id in self.post_list.keys():
             self.post_list[post_id] += 1
         else:
