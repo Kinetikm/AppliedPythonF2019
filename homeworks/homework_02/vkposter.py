@@ -5,7 +5,9 @@
 class VKPoster:
 
     def __init__(self):
-        raise NotImplementedError
+        self.user_post = {}
+        self.user_follow = {}
+        self.read_post = {}
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
@@ -15,7 +17,10 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if (user_id in self.user_post):
+            self.user_post[user_id].append(post_id)
+        else:
+            self.user_post[user_id] = [post_id]
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -25,9 +30,14 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if post_id in self.read_post:
+            if user_id not in self.read_post[post_id]['marked']:
+                self.read_post[post_id]['cnt'] += 1
+                self.read_post[post_id]['marked'].append(user_id)
+        else:
+            self.read_post[post_id] = {'cnt': 1, 'marked': [user_id]}
 
-    def user_follow_for(self, follower_user_id: int, followee_user_id: int):
+    def user_follow_for(self, flwr: int, flwe: int):
         '''
         Метод который вызывается когда пользователь follower_user_id
         подписался на пользователя followee_user_id.
@@ -35,7 +45,11 @@ class VKPoster:
         :param followee_user_id: id пользователя. Число.
         :return: ничего
         '''
-        pass
+        if flwr != flwe:
+            if flwr in self.user_follow:
+                self.user_follow[flwr].append(flwe)
+            else:
+                self.user_follow[flwr] = [flwe]
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         '''
@@ -46,7 +60,11 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        pass
+        result = []
+        for i in self.user_follow[user_id]:
+            if i in self.user_post:
+                result.extend(self.user_post[i])
+        return sorted(result, reverse=True)[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -56,4 +74,4 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        pass
+        return sorted(self.read_post.keys(), key=lambda x: (self.read_post[x]['cnt'], x), reverse=1)[:k]
