@@ -43,8 +43,7 @@ class VKPoster:
             result = sorted(self._news[user_id])
             if k >= len(result):
                 return result[len(result) - 1::-1]
-            else:
-                return result[len(result) - 1:len(result) - k - 1: -1]
+            return result[len(result) - 1:len(result) - k - 1: -1]
         return []
 
     def get_most_popular_posts(self, k: int) -> list:
@@ -52,5 +51,4 @@ class VKPoster:
         res = list(map(lambda x: x[0], res))
         if k >= len(res):
             return res[len(result) - 1::-1]
-        else:
-            return res[len(res) - 1:len(res) - k - 1: -1]
+        return res[len(res) - 1:len(res) - k - 1: -1]
