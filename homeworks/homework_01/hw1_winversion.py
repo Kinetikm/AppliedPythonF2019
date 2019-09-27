@@ -21,4 +21,4 @@ def word_inversion(input_lst):
             for z in range(end1, ((i + end1 + 1) // 2)):
                 input_lst[z], input_lst[j] = input_lst[j], input_lst[z]
                 j = j - 1
-    raise NotImplementedError
+                
