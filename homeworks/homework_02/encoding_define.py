@@ -2,9 +2,6 @@
 # coding: utf-8
 
 
-import chardet
-
-
 def encoding_define(path_2_file):
     try:
         with open(path_2_file, 'r', encoding='utf-8') as f:
