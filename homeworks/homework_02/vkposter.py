@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
 class Post:
     def __init__(self, id):
         self.id = id
@@ -11,6 +12,7 @@ class Post:
 
     def __eq__(self, other):
         return self.id == self.other
+
 
 class User:
     def __init__(self, id):
@@ -23,6 +25,7 @@ class User:
 
     def __eq__(self, other):
         return self.id == self.other
+
 
 class VKPoster:
 
