@@ -44,5 +44,5 @@ def det(a):
         res = 0
         for j in range(len(a)):
             temp = cut(a, 0, j)
-            res = res + (a[0][j]) * ((-1) ** (1 + j)) * det(temp)
+            res = res + (a[0][j]) * ((-1) ** (0 + j)) * det(temp)
     return res
