@@ -11,4 +11,3 @@ def reverse(int_n):
     # проверка знака числа
     int_n = sign * int(s[::-1])
     return int_n
-# метод инвертирования целого числа
