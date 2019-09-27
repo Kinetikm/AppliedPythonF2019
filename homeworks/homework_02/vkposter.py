@@ -19,7 +19,7 @@ class VKPoster:
         :return: ничего
         '''
         if user_id not in self.users:
-            self.user[user_id] = {'posts': [], 'subs': []}
+            self.users[user_id] = {'posts': [], 'subs': []}
         self.users[user_id]['posts'].append(post_id)
 
     def user_read_post(self, user_id, post_id):
@@ -46,9 +46,9 @@ class VKPoster:
         :return: ничего
         '''
         if follower_user_id not in self.users:
-            self.user[follower_user_id] = {'posts': [], 'subs': []}
+            self.users[follower_user_id] = {'posts': [], 'subs': []}
         if followee_user_id not in self.users:
-            self.user[followee_user_id] = {'posts': [], 'subs': []}
+            self.users[followee_user_id] = {'posts': [], 'subs': []}
         self.users[follower_user_id]['subs'].append(followee_user_id)
 
     def get_recent_posts(self, user_id, k):
@@ -75,8 +75,8 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        list = []
-        for key, val in self.post_list.items():
+        p = []
+        for key, val in self.views.items():
             heapq.heappush(p, (val, key))
         for m[1] in heapq.nlargest(k, p):
             list.append(m[1])
