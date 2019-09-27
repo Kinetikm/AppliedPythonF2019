@@ -29,7 +29,3 @@ if __name__ == '__main__':
     else:
         data = AsciiTable(json_read(filename, enc_type))
     print(data.table)
-
-
-
-
