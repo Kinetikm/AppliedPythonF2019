@@ -21,6 +21,8 @@ def define_encoding(path):
         except IndexError:
             print('Формат не валиден')
     return "Формат не валиден"
+
+
 def column_size(data):
     sizes = [0]*len(data[0])
     for line in data:
