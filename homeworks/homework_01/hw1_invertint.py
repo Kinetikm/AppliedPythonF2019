@@ -8,9 +8,7 @@ def reverse(int_n):
     if int_n < 0:
         sign = -1
         s = s[1:len(s)]
-    #проверка знака числа
+    # проверка знака числа
     int_n = sign * int(s[::-1])
     return int_n
-    raise NotImplementedError
-#метод инвертирования целого числа
-
+# метод инвертирования целого числа
