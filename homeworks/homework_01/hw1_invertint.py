@@ -15,4 +15,3 @@ def reverse(number):
     else:
         number = int(d)
     return number
-    raise NotImplementedError
