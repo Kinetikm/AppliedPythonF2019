@@ -13,6 +13,7 @@ def find_indices(input_list, target):
     :param target: целевая сумма
     :return: tuple из двух индексов или None
     '''
+
     sols_dict = dict()
     for i, val in enumerate(input_list):
         if val in sols_dict:
