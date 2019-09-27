@@ -23,4 +23,7 @@ def open_tsv_file(filename):
     try:
         tsv_func(filename, 'utf-8')
     except UnicodeDecodeError:
-        tsv_func(filename, 'cp1251')
+        try:
+            tsv_func(filename, 'utf-16')
+        except UnicodeDecodeError:
+            tsv_func(filename, 'cp1251')

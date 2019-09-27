@@ -7,12 +7,17 @@ import json_read
 import open_tsv
 
 
+def json_func(filename, using_code):
+    with open(filename, encoding=using_code) as json_file:
+        json_data = json.load(json_file)
+        json_read.json_to_table(json_data)
+
+
 def open_json_file(filename):
     try:
-        with open(filename, encoding='utf-8') as json_file:
-            json_data = json.load(json_file)
-            json_read.json_to_table(json_data)
+        json_func(filename, 'utf-8')
     except UnicodeDecodeError:
-        with open(filename, encoding='cp1251') as json_file:
-            json_data = json.load(json_file)
-            json_read.json_to_table(json_data)
+        try:
+            json_func(filename, 'utf-16')
+        except UnicodeDecodeError:
+            json_func(filename, 'cp1251')
