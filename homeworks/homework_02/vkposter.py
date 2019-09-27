@@ -61,7 +61,7 @@ class VKPoster:
         ленте пользователя. list
         '''
         list = []
-        for i in len(self.users[user_id]['subs']):
+        for i in range(len(self.users[user_id]['subs'])):
             id_sub = self.users[user_id]['subs'][i]
             list += self.users[id_sub]['posts']
         list.sort(reverse=True)
