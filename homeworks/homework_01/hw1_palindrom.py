@@ -10,6 +10,4 @@ def check_palindrom(a):
         if a[i] != a[len(a)-1-i]:
             bool_a = False
     return bool_a
-    raise NotImplementedError
-#метод проверки числа на палиндром
-
+# метод проверки числа на палиндром
