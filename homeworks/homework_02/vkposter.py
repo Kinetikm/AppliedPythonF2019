@@ -2,9 +2,9 @@
 # coding: utf-8
 
 
+homework_02
 from homeworks.homework_02.user import User
 from homeworks.homework_02.post import Post
-
 
 class VKPoster:
 
