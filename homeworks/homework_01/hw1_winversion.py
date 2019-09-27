@@ -13,6 +13,8 @@ def reverse_part(a, inl, size):
 
 
 def word_inversion(a):
+    if not a:
+        return a
     i = 0
     inl = 0
     # индекс начала подмассива, элементы которого образуют слово
@@ -20,7 +22,7 @@ def word_inversion(a):
     while True:
         if a[i].isalpha():
             size += 1
-            if i == len(a):
+            if i == len(a) - 1:
                 reverse_part(a, inl, size)
                 break
             i += 1
@@ -29,10 +31,10 @@ def word_inversion(a):
             if size > 0:
                 reverse_part(a, inl, size)
                 size = 0
-            if i == len(a):
+            if i == len(a) - 1:
                 break
             i += 1
-            inl = i         
+            inl = i
         # Просмотр элементов, не содержазих буквенные символы
     a.reverse()
     return a
