@@ -2,10 +2,7 @@
 # coding: utf-8
 
 
-
 class VKPoster:
-
-    #users = dict()  # key = user_id; value = User
 
     def __init__(self):
         self.users = dict()
