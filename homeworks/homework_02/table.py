@@ -1,7 +1,7 @@
 import sys
 
-from read_json import read_json, check_json
-from read_tsv import read_tsv, check_tsv
+from json_read import json_read, json_check
+from tsv_read import tsv_read, tsv_check
 from encoding_define import encoding_define
 from terminaltables import AsciiTable
 
@@ -12,12 +12,14 @@ if __name__ == '__main__':
         f = open(filename, "r")
         f.close()
     except:
-        return 'Файл не валиден'
-    enc = enc_define(filename)
+        print('Файл не валиден')
+        sys.exit()
+    enc = encoding_define(filename)
     if enc not in ['utf-8', 'utf-16', 'windows-1251']:
-        return 'Файл не валиден'
-    if check_json(filename, enc):
-        table = AsciiTable(read_json(filename, enc))
-    elif check_tsc(filename, enc):
-        table = AsciiTable(read_tsv(filename, enc))
-    print table.table
+        print('Формат не валиден')
+        sys.exit()
+    if json_check(filename, enc):
+        table = AsciiTable(json_read(filename, enc))
+    elif tsv_check(filename, enc):
+        table = AsciiTable(tsv_read(filename, enc))
+    print(table.table)

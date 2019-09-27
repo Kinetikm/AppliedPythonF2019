@@ -4,12 +4,21 @@
 
 import chardet
 
-enc_types = ['utf-8', 'utf-16', 'windows-1251']
-
 
 def encoding_define(path_2_file):
-    with open(path_2_file, 'r') as f:
-        enc = chardet.detect(f.readline())['encoding']
-        if enc in enc_types:
-            return enc
-        return
+    try:
+        with open(path_2_file, 'r', encoding='utf-8') as f:
+            f.readline()
+            return 'utf-8'
+    except:
+        try:
+            with open(path_2_file, 'r', encoding='utf-16') as f:
+                f.readline()
+                return 'utf-16'
+        except:
+            try:
+                with open(path_2_file, 'r', encoding='windows-1251') as f:
+                    f.readline()
+                    return 'windows-1251'
+            except:
+                return
