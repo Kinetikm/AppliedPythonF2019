@@ -35,7 +35,7 @@ class VKPoster:
         if post_id not in self.views:
             self.views[post_id] = [1, [user_id]]
         else:
-            if user_id not in self.views[post_id][1]: # проверяем, просматривал ли данный юзер этот пост до этого
+            if user_id not in self.views[post_id][1]:
                 self.views[post_id][0] += 1
                 self.views[post_id][1].append(user_id)
 
