@@ -2,8 +2,6 @@
 # coding: utf-8
 
 
-#from homeworks.homework_02.heap import MaxHeap
-#from homeworks.homework_02.fastmerger import FastSortedListMerger
 
 class VKPoster:
 
@@ -95,16 +93,10 @@ class VKPoster:
                 for i in range(len(mas)):
                     if mas[i][1] == post_id:
                         mas[i][0] += 1
-        print(mas)
         mas.sort(reverse=True)
-        print(mas)
         mas = mas[:k:]
         for i in range(len(mas)):
             mas[i] = mas[i][1]
-
-        for i in self.users:
-            if i != 1.1:
-                del i
         return mas
 
 
