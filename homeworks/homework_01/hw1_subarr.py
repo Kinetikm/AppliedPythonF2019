@@ -2,17 +2,15 @@
 # coding: utf-8
 
 
-def find_subarr(a, s):
-    index1 = 0
-    index2 = 0
-    while index1 + index2 < 2*len(a) - 2:
-        midsum = a[index1] + a[index2]
-        if midsum != s:
-            if index1 >= index2:
-                index2 += 1
-            else:
-                index1 += 1
+def find_subarr(a, num):
+    a_dict = {}
+    sum = 0
+    for i in range(len(a)):
+        sum += input_lst[i]
+        if (sum == num):
+            return(0, i)
+        if (sum - num) in a_dict:
+            return(a_dict[sum - num] + 1, i)
         else:
-            return index1, index2
-    return ()
-# метод нахождения подмассива с заданной суммой
+            a_dict[sum] = i
+    return()
