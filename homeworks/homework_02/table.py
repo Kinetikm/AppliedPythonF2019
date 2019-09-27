@@ -1,11 +1,13 @@
 import sys
-# import utils
 from gtable import GoodTable
 from methods import json_to_list, tsv_to_list
 from reading import read_file
 
 
+# Ваши импорты
+
 if __name__ == '__main__':
+
     # Ваш код
     filename = sys.argv[1]
     try:

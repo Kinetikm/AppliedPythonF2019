@@ -20,5 +20,5 @@ class GoodTable:
         max_col = []
         for i in range(len(self.data[0])):
             max_col.append(max([len(str(item[i])) for item in self.data]))
-        max_len = sum(max_col) + len(self.data[0]) * 4
+        max_len = sum(max_col) + len(self.data[0]) * 4 + 5
         return max_len, max_col
