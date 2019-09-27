@@ -18,7 +18,6 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        print(f'Useer {user_id} posted {post_id}')
         if user_id not in self.users_posts:
             self.users_posts[user_id] = [post_id]
         else:
