@@ -17,31 +17,22 @@ def word_inversion(a):
     inl = 0
     # индекс начала подмассива, элементы которого образуют слово
     size = 0
-    print(i)
-    print(inl)
-    print(size)
     while True:
         if a[i].isalpha():
             size += 1
-            if i == len(a) - 1:
+            if i == len(a):
                 reverse_part(a, inl, size)
                 break
             i += 1
-            print(i)
-            print(inl)
-            print(size)
         # Просмотр элементов, содержащих буквенные символы/собирание слова
         else:
             if size > 0:
                 reverse_part(a, inl, size)
                 size = 0
-            if i == len(a) - 1:
+            if i == len(a):
                 break
             i += 1
-            inl = i
-            print(i)
-            print(inl)
-            print(size)          
+            inl = i         
         # Просмотр элементов, не содержазих буквенные символы
     a.reverse()
     return a
