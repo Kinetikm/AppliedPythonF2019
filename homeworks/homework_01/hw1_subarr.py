@@ -6,7 +6,7 @@ def find_subarr(a, num):
     a_dict = {}
     sum = 0
     for i in range(len(a)):
-        sum += input_lst[i]
+        sum += a[i]
         if (sum == num):
             return(0, i)
         if (sum - num) in a_dict:
