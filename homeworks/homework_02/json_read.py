@@ -19,20 +19,25 @@ def json_to_table(json_data):
 
     table_width = 1  # width of full table
     for key in max_d:
-        table_width += max_d[key] + 3
+        table_width += max_d[key] + 5
 
     print('-' * table_width)    # start of table - horisontal line
 
     print('|', end='')
     for key in d_table:    # row with column names
         i = max_d[key]
-        print('{:^{width}}'.format(key, width=i + 2), end='|')
+        print('{:^{width}}'.format(key, width=i + 4), end='|')
     print()
 
     for j in range(len(json_data)):
         print('|', end='')
+        count = 0
         for key in d_table:
             i = max_d[key]
-            print('{:^{width}}'.format(d_table[key][j], width=i + 2), end='|')
+            if (count != len(d_table) - 1):
+                print('  {:<{width}}'.format(d_table[key][j], width=i + 2), end='|')
+            else:
+                print('{:>{width}}  '.format(d_table[key][j], width=i + 2), end='|')
+            count += 1
         print()
     print('-' * table_width)

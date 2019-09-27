@@ -11,12 +11,17 @@ def tsv_to_table(tsv_data):
 
     table_width = 1    # width of full table
     for x in max_w:
-        table_width += x + 3
+        table_width += x + 5
 
     print('-' * table_width)    # start of table - horisontal line
     for i in range(len(tsv_data)):
         print('|', end='')
-        for j in range(len(tsv_data[j])):
-            print('{:^{width}}'.format(tsv_data[i][j], width=max_w[j] + 2), end='|')
+        for j in range(len(tsv_data[0])):
+            if (i == 0):
+                print('{:^{width}}'.format(tsv_data[i][j], width=max_w[j] + 4), end='|')
+            elif (j == len(tsv_data[0]) - 1):
+                print('{:>{width}}  '.format(tsv_data[i][j], width=max_w[j] + 2), end='|')
+            else:
+                print('  {:<{width}}'.format(tsv_data[i][j], width=max_w[j] + 2), end='|')
         print()
     print('-' * table_width)  # start of table - horisontal line
