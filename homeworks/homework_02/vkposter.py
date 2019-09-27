@@ -1,9 +1,28 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+class Post:
+    def __init__(self, id):
+        self.id = id
+        self.read = set()
 
-from user import User
-from post import Post
+    def __hash__(self):
+        return hash(self.id)
+
+    def __eq__(self, other):
+        return self.id == self.other
+
+class User:
+    def __init__(self, id):
+        self.id = id
+        self.posted = set()
+        self.subscriptions = set()
+
+    def __hash__(self):
+        return hash(self.id)
+
+    def __eq__(self, other):
+        return self.id == self.other
 
 class VKPoster:
 
