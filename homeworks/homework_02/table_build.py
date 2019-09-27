@@ -20,7 +20,7 @@ def table_builder(path):
         except Exception:
             data = csv_list_of_lists(path, enc)
     sizes = column_size(data)
-    dash = "-" * (sum(sizes) + 4 * len(sizes) + len(sizes) + 1)
+    dash = "-" * (sum(sizes) + 4 * len(sizes) + 5)
     print(dash)
     for i, line in enumerate(data):
         if i == 0:

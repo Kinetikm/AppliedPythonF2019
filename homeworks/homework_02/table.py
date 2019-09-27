@@ -13,7 +13,3 @@ from table_build import table_builder
 if __name__ == '__main__':
     filename = sys.argv[1]
     table_builder(filename)
-
-
-
-
