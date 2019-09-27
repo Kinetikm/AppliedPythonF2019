@@ -6,6 +6,11 @@ import heapq
 class User:
 
     def __init__(self):
+        """
+        posts: list posts id posted by user
+        follow: list of user_id which user follows
+        followers: list of user_id follows bu user
+         """
         self.posts = []
         self.follow = []
         self.followers = []
@@ -23,6 +28,9 @@ class User:
 class Post:
 
     def __init__(self):
+        """
+        readers: set of user_id, which read post
+        """
         self.readers = set()
 
     def readed(self, user_id):
