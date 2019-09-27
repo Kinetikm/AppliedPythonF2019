@@ -2,8 +2,8 @@
 # coding: utf-8
 
 
-from homeworks.homework_02.user import User
-from homeworks.homework_02.post import Post
+from user import User
+from post import Post
 
 class VKPoster:
 
