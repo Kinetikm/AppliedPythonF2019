@@ -1,15 +1,21 @@
-import sys
+#!/usr/bin/env python
+# coding: utf-8
 
-# Ваши импорты
+
+import sys
 import json
+import open_json
+import open_tsv
+
 
 if __name__ == '__main__':
     filename = sys.argv[1]
-
-    # Ваш код
-    with open(filename) as json_file:
-        json_data = json.load(json_file)
-        print(type(json_data))
-        print(json_data)
-        for row in json_data:
-            print('{}\t{}\t{}'.format(row))
+    try:
+        open_json.open_json_file(filename)
+    except json.decoder.JSONDecodeError:
+        try:
+            open_tsv.open_tsv_file(filename)
+        except Warning:
+            print("Формат не валиден")
+    except FileNotFoundError:
+        print("Файл не валиден")
