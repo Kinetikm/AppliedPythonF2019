@@ -76,6 +76,6 @@ class VKPoster:
         :return: Список из post_id размером К из популярных постов. list
         '''
         p = []
-        for key, val[0] in self.views.items():
-            heapq.heappush(p, (val, key))
+        for key, val in self.views.items():
+            heapq.heappush(p, (val[0], key))
         return [m[1] for m in heapq.nlargest(k, p)]
