@@ -22,4 +22,3 @@ def csv_list_of_lists(path, enc):
         for line in read:
             out.append(line)
     return out
-

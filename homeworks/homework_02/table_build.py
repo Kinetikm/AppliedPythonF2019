@@ -17,7 +17,7 @@ def table_builder(path):
     with open(file=path, mode="r", encoding=enc) as f:
         try:
             data = json_to_list(json.load(f))
-        except Exception: 
+        except Exception:
             data = csv_list_of_lists(path, enc)
     sizes = column_size(data)
     dash = "-" * (sum(sizes) + 4 * len(sizes) + len(sizes) + 1)
@@ -39,4 +39,3 @@ def table_builder(path):
                     print('{0:<{1}}'.format(line[j], sizes[j]), end="  ")
             print("\n")
     print(dash)
-

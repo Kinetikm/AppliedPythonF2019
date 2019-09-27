@@ -7,7 +7,7 @@
 def define_encoding(path):
     for enc in ['utf8', 'utf16', "cp1251"]:
         try:
-            with open(file = path, mode = 'r', encoding = enc) as f:
+            with open(file=path, mode='r', encoding=enc) as f:
                 f.readline()
             return enc
         except UnicodeError:
@@ -29,4 +29,3 @@ def column_size(data):
         for i in range(len(data[0])):
             sizes[i] = max(sizes[i], len(str(line[i])))
     return sizes
-
