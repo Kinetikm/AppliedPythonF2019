@@ -78,6 +78,6 @@ class VKPoster:
         p = []
         for key, val in self.views.items():
             heapq.heappush(p, (val, key))
-        for m[1] in heapq.nlargest(k, p):
-            list.append(m[1])
+        for j in heapq.nlargest(k, p):
+            list.append(j)
         return list
