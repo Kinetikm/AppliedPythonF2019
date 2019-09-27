@@ -13,28 +13,35 @@ def reverse_part(a, inl, size):
 
 
 def word_inversion(a):
-    if not a:
-        return a
     i = 0
     inl = 0
     # индекс начала подмассива, элементы которого образуют слово
     size = 0
+    print(i)
+    print(inl)
+    print(size)
     while True:
         if a[i].isalpha():
-            inl = inl
             size += 1
-            if a[i] == a[-1]:
+            if i == len(a) - 1:
                 reverse_part(a, inl, size)
                 break
             i += 1
+            print(i)
+            print(inl)
+            print(size)
         # Просмотр элементов, содержащих буквенные символы/собирание слова
         else:
-            reverse_part(a, inl, size)
-            size = 0
-            if a[i] == a[-1]:
+            if size > 0:
+                reverse_part(a, inl, size)
+                size = 0
+            if i == len(a) - 1:
                 break
             i += 1
             inl = i
+            print(i)
+            print(inl)
+            print(size)          
         # Просмотр элементов, не содержазих буквенные символы
     a.reverse()
     return a
