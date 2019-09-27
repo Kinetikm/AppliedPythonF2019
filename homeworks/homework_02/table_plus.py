@@ -6,10 +6,9 @@ import chardet
 
 def len_of_str(data):
     s = [0] * len(data[0])
-    s[3] = len(data[0][3])
     for lst in data:
-        for j in range(len(lst) - 1):
-            s[j] = max(s[j], len(lst[j]))
+        for j in range(len(lst)):
+            s[j] = max(s[j], len(str(lst[j])))
     ln = 0
     # общая длина всей строки
     for i in range(len(s)):
@@ -28,7 +27,7 @@ def print_table(data, ln):
     print("|")
     for j in range(1, len(data)):
         for i in range(len(data[j])):
-            if i == 3:
+            if i == len(data[j]) - 1:
                 st = "{:>" + str(ln[i] - 2) + "}"
                 print("|" + st.format(data[j][i]), end="")
             else:
