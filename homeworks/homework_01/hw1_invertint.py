@@ -9,7 +9,6 @@ def reverse(a):
         :param number: исходное число
         :return: инвертированное число
         '''
-    raise NotImplementedError
 
     flag = 1
     if (a < 0):
