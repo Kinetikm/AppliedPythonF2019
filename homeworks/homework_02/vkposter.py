@@ -87,8 +87,8 @@ class VKPoster:
         :return: Список из post_id размером К из популярных постов. list
         '''
         lst = list(self.views.items())
-        lst = sort(key = lambda i: i[1])
-        lst = sort(key = lambda i: i[1], reverse = True)
+        lst = sort(key=lambda i: i[1])
+        lst = sort(key=lambda i: i[1], reverse=True)
         lst = lst[:k]
         for i in range(k):
             lst[i] = lst[i][1]
