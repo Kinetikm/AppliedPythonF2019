@@ -1,5 +1,6 @@
 import json
-import tsv
+import csv
+import os
 
 
 def isjson(path, enc):
