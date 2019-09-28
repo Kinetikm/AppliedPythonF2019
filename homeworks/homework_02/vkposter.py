@@ -51,5 +51,6 @@ class VKPoster:
         tmp_list = self.posts.items()
         tmp_list = sorted(tmp_list, key=lambda x: x[1])
         list = []
-        list = tmp_list[:k:]
+        for i in range(k):
+            list[i] = tmp_list[i][0]
         return sorted(list, reverse=True)

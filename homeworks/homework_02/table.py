@@ -1,5 +1,5 @@
 import sys
-
+import  table_printer
 # Ваши импорты
 
 if __name__ == '__main__':
