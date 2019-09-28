@@ -89,5 +89,5 @@ class VKPoster:
         lst = list(self.views.items())
         lst.sort(key=lambda i: i[1], reverse=True)
         for i in range(len(lst)):
-            lst[i] = lst[i][1]
+            lst[i] = lst[i][0]
         return lst[:k]
