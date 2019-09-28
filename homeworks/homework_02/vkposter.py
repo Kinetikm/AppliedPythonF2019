@@ -1,7 +1,7 @@
 class VKPoster(object):
     def __init__(self):
-        self.posts = dict([list[int], int])   # key - post_id, info - list if users who read
-        self.users = dict([set[int], list[int]])    # key user_id,info - (set of subscribes, list of added posts)
+        self.posts = {}   # key - post_id, info - list if users who read
+        self.users = {}    # key user_id,info - (set of subscribes, list of added posts)
 
 
 def user_posted_post(self, user_id: int, post_id: int):
@@ -40,9 +40,6 @@ def get_most_popular_posts(self, k: int) -> list:
     for i in range(k):
         out_list.append(sort_list[i][0])
     return sorted(out_list)
-
-
-
 
 
 
