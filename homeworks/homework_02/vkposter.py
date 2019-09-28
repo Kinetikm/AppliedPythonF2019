@@ -86,12 +86,10 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        spis = []
-        for i, v in self.views.items():
-            spis.append([v, i])
-        spis.sort()
-        spis.reverse()
-        c = []
-        for i in spis[:k]:
-            c.append(i[1])
-        return c
+        lst = list(self.views.items())
+        lst = sort(key = lambda i: i[1])
+        lst = sort(key = lambda i: i[1], reverse = True)
+        lst = lst[:k]
+        for i in range(k):
+            lst[i] = lst[i][1]
+        return lst
