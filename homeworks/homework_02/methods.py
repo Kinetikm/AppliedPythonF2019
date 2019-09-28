@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
 def json_to_list(data):
     json_list = []
     json_list.append(list(data[0].keys()))

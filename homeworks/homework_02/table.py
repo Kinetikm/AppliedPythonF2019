@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 import sys
 
 from gtable import GoodTable
@@ -18,22 +21,12 @@ if __name__ == '__main__':
             data = tsv_to_list(data)
         col_numb = max([len(item) for item in data])
         for item in data:
-            if len(item) != col_numb:
+            if len(item) != col_numb or col_numb < 4:
                 raise MyException
 
         table = GoodTable(data)
         table.print_table()
     except FileNotFoundError:
         print('Файл не валиден')
-    except TypeError:
-        print('Формат не валиден')
-    except UnicodeError:
-        print('Формат не валиден')
-    except SyntaxError:
-        print('Формат не валиден')
-    except AttributeError:
-        print('Формат не валиден')
-    except IndexError:
-        print('Формат не валиден')
-    except MyException:
+    except (TypeError, UnicodeError, SyntaxError, AttributeError, IndexError, MyException):
         print('Формат не валиден')
