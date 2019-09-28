@@ -15,7 +15,7 @@ class VKPoster:
     # количество просмотров каждого поста
 
     def __init__(self):
-        raise NotImplementedError
+        return
 
     def user_posted_post(self, user_id: int, post_id: int):
         if not self.users[user_id]:
