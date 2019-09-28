@@ -38,10 +38,10 @@ class VKPoster:
 
     def get_recent_posts(self, user_id: int, k: int) -> list:
         fresh_for_id = []
-        for i in range(len(self.fresh_posts)):
+        for post in self.fresh_posts:
             for folowee in self.follow[user_id]:
-                if self.fresh_posts[i] in self.users[folowee]:
-                    fresh_for_id += [self.fresh_posts[i]]
+                if post in self.users[folowee]:
+                    fresh_for_id += [post]
                     break
             if len(fresh_for_id) == k:
                 return fresh_for_id
