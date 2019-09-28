@@ -3,6 +3,7 @@
 
 import sys
 
+from format_table import print_table
 from gtable import GoodTable
 from methods import json_to_list, tsv_to_list
 from reading import read_file
@@ -21,12 +22,11 @@ if __name__ == '__main__':
             data = tsv_to_list(data)
         col_numb = max([len(item) for item in data])
         for item in data:
-            if len(item) != col_numb or col_numb < 4:
+            if len(item) != col_numb:
                 raise MyException
-
         table = GoodTable(data)
         table.print_table()
     except FileNotFoundError:
         print('Файл не валиден')
-    except (TypeError, UnicodeError, SyntaxError, AttributeError, IndexError, MyException):
+    except (UnicodeError, SyntaxError, AttributeError, TypeError, IndexError):
         print('Формат не валиден')

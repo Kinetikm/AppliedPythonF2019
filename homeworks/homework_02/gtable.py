@@ -10,17 +10,16 @@ class GoodTable:
     def print_table(self):
         self.max_length, self.max_columns = self.calc_max_length()
         print('-' * self.max_length)
-        for j, item in enumerate(self.data):
-            print('|', end='')
-            for i, element in enumerate(item):
-                if j == 0:
-                    print('  {:^{}}  '.format(element, self.max_columns[i]), end='|')
+        for i, item in enumerate(self.data):
+            for j, element in enumerate(item):
+                if i == 0:
+                    self.data[i][j] = str(element).center(self.max_columns[j])
+                elif j != (len(item) - 1):
+                    self.data[i][j] = str(element).ljust(self.max_columns[j])
                 else:
-                    if i != (len(item) - 1):
-                        print('  {:<{}}  '.format(element, self.max_columns[i]), end='|')
-                    else:
-                        print('  {:>{}}  '.format(element, self.max_columns[i]), end='|')
-            print('')
+                    self.data[i][j] = str(element).rjust(self.max_columns[j])
+        for row in self.data:
+            print('|  ' + '  |  '.join(row) + '  |')
         print('-' * self.max_length)
 
     def calc_max_length(self):
