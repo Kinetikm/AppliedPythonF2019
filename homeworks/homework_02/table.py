@@ -28,12 +28,12 @@ if __name__ == '__main__':
     except TypeError:
         print('Формат не валиден')
      except UnicodeError:
-         print('Формат не валиден')
+        print('Формат не валиден')
      except SyntaxError:
-         print('Формат не валиден')
+        print('Формат не валиден')
      except AttributeError:
-         print('Формат не валиден')
+        print('Формат не валиден')
      except IndexError:
-         print('Формат не валиден')
+        print('Формат не валиден')
     except MyException:
         print('Формат не валиден')
