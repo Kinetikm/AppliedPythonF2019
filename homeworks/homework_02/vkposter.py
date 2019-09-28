@@ -87,7 +87,7 @@ class VKPoster:
         :return: Список из post_id размером К из популярных постов. list
         '''
         lst = list()
-        for key, val in self.most_popular.items():
+        for key, val in self.views.items():
             lst.append([key, val])
         lst.sort(reverse=True)
         c = []
