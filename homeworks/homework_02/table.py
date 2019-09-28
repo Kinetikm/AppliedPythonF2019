@@ -8,7 +8,8 @@ import table_plus
 
 
 class MyException(Exception):
-    pass
+    def __init__(self, text):
+        self.txt = text
 
 if __name__ == '__main__':
     filename = sys.argv[1]
@@ -18,12 +19,12 @@ if __name__ == '__main__':
         file.close()
 
         if enc not in {'utf-8', 'utf-16', 'windows-1251'}:
-            raise MyException
+            raise MyException("Формат не валиден")
         form = json_check(filename, enc)
         if form != 'json':
             form = tsv_check(filename, enc)
             if form != 'tsv':
-                raise MyException
+                raise MyException("Формат не валиден")
             else:
                 data = tsv_read(filename, enc)
         else:
@@ -32,5 +33,5 @@ if __name__ == '__main__':
         table_plus.print_table(data, table_plus.len_of_str(data))
     except FileNotFoundError:
         print("Файл не валиден")
-    except MyException:
-        print("Формат не валиден")
+    except MyException as ex:
+        print(ex)

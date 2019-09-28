@@ -40,15 +40,15 @@ class VKPoster:
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         if user_id in self._news:
-            result = sorted(self._news[user_id])
+            result = sorted(self._news[user_id], reverse=True)
             if k >= len(result):
-                return result[len(result) - 1::-1]
-            return result[len(result) - 1:len(result) - k - 1: -1]
+                return result
+            return result[:k]
         return []
 
     def get_most_popular_posts(self, k: int) -> list:
         res = sorted(self._nr.items(), key=lambda x: (len(x[1]), x[0]))
-        res = list(map(lambda x: x[0], res))
+        res = list(map(lambda x: x[0], res))[::-1]
         if k >= len(res):
-            return res[len(result) - 1::-1]
-        return res[len(res) - 1:len(res) - k - 1: -1]
+            return res
+        return res[:k]

@@ -51,4 +51,4 @@ def check_data(data):
     k = len(data[0])
     for lst in data:
         if len(lst) < k:
-            raise MyException
+            raise MyException("Формат не валиден")
