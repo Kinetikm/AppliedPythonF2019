@@ -16,6 +16,8 @@ def user_read_post(self, user_id: int, post_id: int):
 
 
 def user_follow_for(self, follower_user_id: int, followee_user_id: int):
+    if follower_user_id not in self.users:
+        self.users[follower_user_id] = [set(),[]]
     self.users[follower_user_id][0].add(followee_user_id)
 
 
@@ -40,8 +42,3 @@ def get_most_popular_posts(self, k: int) -> list:
     for i in range(k):
         out_list.append(sort_list[i][0])
     return sorted(out_list)
-
-
-
-
-
