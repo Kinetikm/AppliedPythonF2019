@@ -20,7 +20,7 @@ class VKPoster:
         pass
 
     def user_read_post(self, user_id: int, post_id: int):
-        if (user_id not in self.user_read) or (post_id not in self.user_read[user_id])
+        if (user_id not in self.user_read) or (post_id not in self.user_read[user_id]):
             if user_id in self.user_read:
                 self.user_read[user_id].append(post_id)
             else:
