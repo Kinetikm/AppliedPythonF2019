@@ -3,7 +3,6 @@
 
 import sys
 
-from format_table import print_table
 from gtable import GoodTable
 from methods import json_to_list, tsv_to_list
 from reading import read_file
