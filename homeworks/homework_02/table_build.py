@@ -19,6 +19,10 @@ def table_builder(path):
             data = json_to_list(json.load(f))
         except Exception:
             data = csv_list_of_lists(path, enc)
+    column_count = max(len(line) for line in data)
+    for line in data:
+        if len(line) != column_count:
+            return "Формат не валиден"
     sizes = column_size(data)
     dash = "-" * (sum(sizes) + 4 * len(sizes) + 5)
     print(dash)
