@@ -97,7 +97,7 @@ class VKPoster:
         boba.sort(reverse=True)
         for i in boba:
             for j in biba[i]:
-                if (len(b) != k):
+                if (len(b) != k+1):
                     b.append(j)
                 else:
                     break
