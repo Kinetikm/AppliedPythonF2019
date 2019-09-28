@@ -55,5 +55,5 @@ class VKPoster:
         vozv = spis[:k]
         c = []
         for i in vozv:
-            c.append(i[1])
+            c.append(i[0])
         return c
