@@ -28,9 +28,9 @@ class VKPoster(object):
             if user_id not in self.read_users[post_id]:
                 self.read_amount[post_id] += 1
             self.read_users[post_id].append(user_id)
-      #  else:
-          #  self.read_users[post_id] = [user_id]
-          #  self.read_amount[post_id] = 1
+        else:
+            self.read_users[post_id] = [user_id]
+            self.read_amount[post_id] = 1
 
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
