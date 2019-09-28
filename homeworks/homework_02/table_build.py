@@ -28,7 +28,7 @@ def table_builder(path):
                 print("|", end="")
                 print('{0:^{1}}'.format(line[j], sizes[j] + 4), end="")
             print("|", end="")
-            print("\n")
+            print("\n", end="")
         else:
             for j in range(len(data[0])):
                 if j == len(data[0]) - 1:
@@ -37,5 +37,8 @@ def table_builder(path):
                 else:
                     print("|  ", end="")
                     print('{0:<{1}}'.format(line[j], sizes[j]), end="  ")
-            print("\n")
+            if j != len(data[0]) - 1:
+                print("\n")
+            else:
+                print("\n", end="")
     print(dash)
