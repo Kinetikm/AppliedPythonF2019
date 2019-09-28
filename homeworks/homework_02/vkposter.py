@@ -27,7 +27,6 @@ class VKPoster:
         self.rate_of_post[post_id] = 1
         return
 
-
     def user_read_post(self, user_id: int, post_id: int):
         self.users[user_id] += post_id
         self.posts[post_id] += user_id
