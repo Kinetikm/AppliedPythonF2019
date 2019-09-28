@@ -50,7 +50,9 @@ class VKPoster:
     def get_most_popular_posts(self, k: int) -> list:
         tmp_list = self.posts.items()
         tmp_list = sorted(tmp_list, key=lambda x: x[1])
+        tmp_list = tmp_list[:k:]
         list = []
-        for i in range(k):
-            list[i] = tmp_list[i][0]
+        for val in self.posts.keys():
+            if self.posts[val] in tmp_list:
+                list.append(val)
         return sorted(list, reverse=True)
