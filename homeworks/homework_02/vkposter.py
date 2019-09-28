@@ -43,20 +43,19 @@ class VKPoster(object):
             out_list.sort()
             if len(out_list) > k:
                 del out_list[:len(out_list) - k]
-            out_list = out_list[::-1]
+        out_list = out_list[::-1]
         return out_list
 
 
     def get_most_popular_posts(self, k: int) -> list:
         sort_list = []
         out_list = []
-        for key in self.read_amount:
+        for key in self.read_users:
             sort_list.append((key, self.read_amount[key]))
             sort_list.sort(key=lambda x: x[1])
             if len(sort_list) > k:
-                del sort_list[:len(out_list) - k - 1]
+                del sort_list[:len(out_list) - k]
         for i in range(k):
             out_list.append(sort_list[i][0])
-        out_list.sort()
-        out_list = out_list[::-1]
+        out_list.sort(reverse = True)
         return out_list
