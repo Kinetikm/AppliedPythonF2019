@@ -5,7 +5,7 @@ import module2_format as m2
 import module3_print as m3
 
 if __name__ == '__main__':
-    filename = 'files/' + sys.argv[1]
+    filename = sys.argv[1]
 
     open_result = m1.open_file(filename)  # определение кодировки
     if open_result != -1:
