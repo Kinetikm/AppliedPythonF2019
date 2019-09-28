@@ -24,11 +24,21 @@ class VKPoster:
             self.post_author[user_id] = [post_id]
 
     def user_read_post(self, user_id: int, post_id: int):
+        # if post_id in self.post_reader:
+        #     if user_id not in self.post_reader[post_id]:
+        #         self.post_reader[post_id].append(user_id)
+        # else:
+        #     self.post_reader[post_id] = [user_id]
+        # self.all_made_posts.append(post_id)
+
         if post_id in self.post_reader:
             if user_id not in self.post_reader[post_id]:
                 self.post_reader[post_id].append(user_id)
         else:
             self.post_reader[post_id] = [user_id]
+
+        if post_id not in self.all_made_posts:
+            self.all_made_posts.append(post_id)
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         if follower_user_id in self.user_follow:
@@ -40,20 +50,33 @@ class VKPoster:
         podpiski = self.user_follow[user_id]
         postu = []
         for i in podpiski:
-            postu += self.post_author[i]
+            if i in self.post_author:
+                postu += self.post_author[i]
         all_user_post = postu or []
         all_user_post.sort(reverse=True)
         return all_user_post[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
+
         pop_post = {}
         for key, value in self.post_reader.items():
-            pop_post[len(value)] = key
-        views = list(pop_post.keys())
-        views.sort(reverse=True)
-        views = views[:k]
-        results = []
-        for i in views:
-            if i in pop_post:
-                results.append(pop_post[i])
-        return results
+            if len(value) in pop_post:
+                pop_post[len(value)].append(key)
+                pop_post[len(value)] = sorted(pop_post[len(value)], reverse=True)
+            else:
+                pop_post[len(value)] = [key]
+        # sorted_dict = sorted(pop_post.items(), key=lambda x: x[1], reverse=True)
+        print(pop_post)
+        x = []
+        for i in sorted(pop_post.keys(), reverse=True):
+            x.append((i, pop_post[i]))
+        print(x)
+        result = []
+        for i in range(len(x)):
+            if k - len(x[i][1]) >= 0:
+                result += x[i][1]
+            else:
+                result += x[i][1][:(k - len(x[i][1]))]
+            k = k - len(x[i][1])
+            print(result)
+        return result
