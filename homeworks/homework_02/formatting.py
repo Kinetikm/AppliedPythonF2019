@@ -45,9 +45,7 @@ def transform_to_schema(data):
     res_str += "|  "
 
     for i in range(len(num_space_template)):
-        res_str += (
-            f"{list(data[0].keys())[i]}".center(num_space_template[i], " ") + "  |  "
-        )
+        res_str += f"{list(data[0].keys())[i]}".center(num_space_template[i], " ") + "  |  "
 
     res_str += "\n"
 
@@ -55,15 +53,9 @@ def transform_to_schema(data):
         res_str += "|  "
         for i in range(len(num_space_template)):
             if i != 3:
-                res_str += (
-                    f"{list(data[j].values())[i]}".ljust(num_space_template[i], " ")
-                    + "  |  "
-                )
+                res_str += f"{list(data[j].values())[i]}".ljust(num_space_template[i], " ") + "  |  "
             else:
-                res_str += (
-                    f"{list(data[j].values())[i]}".rjust(num_space_template[i], " ")
-                    + "  |  "
-                )
+                res_str += f"{list(data[j].values())[i]}".rjust(num_space_template[i], " ") + "  |  "
         res_str = res_str.rstrip() + "\n"
 
     res_str += (len("".join(space_template)) + 5) * "-"
