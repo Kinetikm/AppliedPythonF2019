@@ -5,7 +5,7 @@
 class VKPoster:
     posts = {}
     # каждому посту сопоставляем список людей, его посмотревших
-    users = {}
+    create_post = {}
     # каждому пользователю сопоставляем список постов, просмотренных им
     follow = {}
     # зователю сопоставляем список его подписок
@@ -18,10 +18,10 @@ class VKPoster:
         return
 
     def user_posted_post(self, user_id: int, post_id: int):
-        if user_id not in self.users:
-            self.users[user_id] = []
+        if user_id not in self.create_post:
+            self.create_post[user_id] = []
         # если по данному пользователю не числится создание поста - начинаем список его постов
-        self.users[user_id] += [post_id]
+        self.create_post[user_id] += [post_id]
         # добавляем элемент в список данному user_id
         self.posts[post_id] = [user_id]
         # для нового поста создаем список людей его посмотревших
@@ -32,8 +32,6 @@ class VKPoster:
         return
 
     def user_read_post(self, user_id: int, post_id: int):
-        self.users[user_id] += [post_id]
-        # пополняем список просмотренных постов по user_id
         self.posts[post_id] += [user_id]
         # пополняем список посмотревших пользователей для post_id
         self.rate_of_post[post_id] += 1
@@ -50,7 +48,7 @@ class VKPoster:
         fresh_for_id = []
         for post in self.fresh_posts:
             for folowee in self.follow[user_id]:
-                if post in self.users[folowee] or self.users[user_id]:
+                if post in self.create_post[folowee]:
                     fresh_for_id += [post]
                     break
             if len(fresh_for_id) == k:
