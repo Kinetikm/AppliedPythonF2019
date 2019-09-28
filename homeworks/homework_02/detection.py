@@ -1,8 +1,10 @@
+import chardet
+
+
 def detection_enc(file):
-    for enc_type in ['utf-8', 'utf-16', 'windows-1251']:
-        try:
-            with open(file, 'r', encoding=enc_type) as f:
-                f.readline()
+    with open(file, 'rb') as f:
+        enc_type = chardet.detect(f.readline())['encoding']
+        if enc_type in ['utf-8', 'utf-16', 'windows-1251']:
             return enc_type
-        except UnicodeError:
-            continue
+        print('Формат не валиден')
+        return None

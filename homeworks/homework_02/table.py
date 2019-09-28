@@ -14,8 +14,7 @@ if __name__ == '__main__':
     except FileNotFoundError:
         print('Файл не валиден')
     enc_type = detection_enc(filename)
-    if enc_type not in ['utf-8', 'utf-16', 'windows-1251']:
-        print('Формат не валиден')
+    if enc_type is None:
         sys.exit()
     elif not is_json(filename, enc_type):
         if not is_tsv(filename, enc_type):
