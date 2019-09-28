@@ -1,3 +1,11 @@
+def represents_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+
 def make_table(txt_dict):
     res_row = ''
     keys = list(txt_dict[0].keys())
@@ -11,13 +19,16 @@ def make_table(txt_dict):
     res_row += lead_trail
 
     for nm, key in enumerate(keys):
-        keys[nm] = key.ljust(max_wid[nm])
+        keys[nm] = key.center(max_wid[nm])
     res_row += '|  ' + "  |  ".join(keys) + '  |\n'
 
     for vall in vals:
         row_prnt = []
         for nm, val in enumerate(vall):
-            row_prnt.append(str(val).ljust(max_wid[nm]))
+            if represents_int(val):
+                row_prnt.append(str(val).rjust(max_wid[nm]))
+            else:
+                row_prnt.append(str(val).ljust(max_wid[nm]))
         res_row += '|  ' + "  |  ".join(row_prnt) + '  |\n'
     res_row += lead_trail
     print(res_row)
