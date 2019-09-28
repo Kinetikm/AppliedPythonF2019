@@ -49,12 +49,12 @@ class VKPoster:
 
     def get_most_popular_posts(self, k: int) -> list:
         spis = []
-        for i, v in self.most_popular:
+        for i, v in self.most_popular.items():
             spis.append([v, i])
         spis.sort()
         spis.reverse()
         vozv = spis[:k]
         c = []
         for i in vozv:
-            c.append(i[0])
+            c.append(i[1])
         return c
