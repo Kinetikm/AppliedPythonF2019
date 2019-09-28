@@ -26,7 +26,5 @@ if __name__ == '__main__':
         table = GoodTable(data)
     except FileNotFoundError:
         print('Файл не валиден')
-    except (UnicodeError, SyntaxError, AttributeError, TypeError, IndexError, MyException):
+    except (UnicodeError, SyntaxError, AttributeError, TypeError, IndexError):
         print('Формат не валиден')
-    else:
-        table.print_table()
