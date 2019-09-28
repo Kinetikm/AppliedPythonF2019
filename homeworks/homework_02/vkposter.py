@@ -101,5 +101,5 @@ class VKPoster:
                     b.append(j)
                 else:
                     break
-        b = b.sort(reverse=True)
+        b = sorted(b, reverse=True)
         return b
