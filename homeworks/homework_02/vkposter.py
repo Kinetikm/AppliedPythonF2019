@@ -21,7 +21,7 @@ class VKPoster(object):
         else:
             self.read_amount[post_id] += 1
             self.read_users[post_id].append(user_id)
-	
+
 
     def user_read_post(self, user_id: int, post_id: int):
         if post_id in self.read_users:
@@ -45,8 +45,9 @@ class VKPoster(object):
     def get_recent_posts(self, user_id: int, k: int) -> list:
         out_list = []
         for val in self.subscribes[user_id]:
-            out_list += self.user_added_posts[val]
-            out_list.sort()
+	    if val in self.user_added_posts:
+                out_list += self.user_added_posts[val]
+                out_list.sort()
             if len(out_list) > k:
                 del out_list[:len(out_list) - k]
         out_list = out_list[::-1]
