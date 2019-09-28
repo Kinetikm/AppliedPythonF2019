@@ -29,9 +29,13 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
+        cnt = True
         for i in self.posts:
-            if i['post_id'] == post_id:
+            if i['post_id'] == post_id and user_id not in i['read']:
                 i['read'].append(user_id)
+                cnt = False
+        if cnt and post_id not in [i['post_id'] for i in self.posts]:
+            self.posts.append({'host_id': None, 'post_id': post_id, 'read': [user_id]})
         return
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
@@ -71,7 +75,6 @@ class VKPoster:
                             if post['post_id'] > mas[-1]:
                                 mas[0] = post['post_id']
                         mas.sort()
-                        post['read'].append(user_id)
         return mas[::-1]
 
     def get_most_popular_posts(self, k: int) -> list:
@@ -86,13 +89,12 @@ class VKPoster:
         for i in self.posts:
             if len(fresh_posts) < k:
                 fresh_posts.append({'id': i['post_id'], 'read': i['read']})
+                fresh_posts = sorted(fresh_posts, key=lambda s: (len(s['read']), s['id']))
             else:
                 for it in range(len(fresh_posts)):
-                    if (i['read'] > fresh_posts[it]['read'] or
-                            (i['read'] == fresh_posts[it]['read'] and i['post_id'] > fresh_posts[it]['id'])) and\
-                            {'id': i['post_id'], 'read': i['read']} not in fresh_posts:
+                    if {'id': i['post_id'], 'read': i['read']} not in fresh_posts and\
+                            (len(i['read']) > len(fresh_posts[it]['read']) or
+                             (len(i['read']) == len(fresh_posts[it]['read']) and i['post_id'] > fresh_posts[it]['id'])):
                         fresh_posts[it] = {'id': i['post_id'], 'read': i['read']}
-        a = []
-        for i in sorted(fresh_posts, key=lambda s: len(s['read']))[::-1]:
-            a.append(i['id'])
-        return a
+                        fresh_posts = sorted(fresh_posts, key=lambda s: (len(s['read']), s['id']))
+        return [a['id'] for a in fresh_posts[::-1]]
