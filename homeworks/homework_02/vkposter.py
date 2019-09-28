@@ -42,7 +42,7 @@ class VKPoster:
         for i in range(len(self.user_follows[user_id])):
             if self.user_follows[user_id][i] in self.user_posts:
                 for j in range(len(self.user_posts[self.user_follows[user_id][i]])):
-                    spisok.append(self.user_posts[i][j])
+                    spisok.append(self.user_posts[self.user_follows[user_id][i]][j])
         spisok.sort()
         spisok.reverse()
         return spisok[:k]
