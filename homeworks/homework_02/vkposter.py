@@ -70,8 +70,12 @@ class VKPoster:
             return None
         lst = list()
         for cur in self.subscriptions[user_id]:
+            if cur not in self.posts:
+                # если у текущего пользователя (cur), на которого
+                # подписан user_id, нет постов
+                continue
             lst += self.posts[cur]
-        lst.reverse()
+        lst.sort(reverse=True)
         return lst[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
