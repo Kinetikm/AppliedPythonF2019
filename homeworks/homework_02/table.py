@@ -3,12 +3,7 @@ import sys
 from terminaltables import AsciiTable
 from tsv_read import tsv_read, is_tsv
 from json_read import json_read, is_json
-from detection import detection
-
-
-class FormatError(Exception):
-    print('Формат не валиден')
-    sys.exit()
+from detection import detection_enc
 
 
 if __name__ == '__main__':
@@ -18,12 +13,14 @@ if __name__ == '__main__':
         f.close()
     except FileNotFoundError:
         print('Файл не валиден')
-    enc_type = detection(filename)
+    enc_type = detection_enc(filename)
     if enc_type not in ['utf-8', 'utf-16', 'windows-1251']:
-        raise FormatError
+        print('Формат не валиден')
+        sys.exit()
     elif not is_json(filename, enc_type):
         if not is_tsv(filename, enc_type):
-            raise FormatError
+            print('Формат не валиден')
+            sys.exit()
         else:
             data = AsciiTable(tsv_read(filename, enc_type))
     else:
