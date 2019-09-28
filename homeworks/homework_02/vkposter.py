@@ -50,7 +50,7 @@ class VKPoster:
         fresh_for_id = []
         for post in self.fresh_posts:
             for folowee in self.follow[user_id]:
-                if post in self.users[folowee] or post in self.users[user_id]:
+                if post in self.users[folowee] or self.users[user_id]:
                     fresh_for_id += [post]
                     break
             if len(fresh_for_id) == k:
