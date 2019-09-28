@@ -9,7 +9,6 @@ class VKPoster:
         self.users = []
         self.lenta = []
         self.posts = []
-        raise NotImplementedError
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
@@ -19,7 +18,6 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        self.users.append({'user_id': user_id, 'followers': []})
         self.posts.append({'host_id': user_id, 'post_id': post_id, 'read': []})
         return
 
@@ -44,9 +42,13 @@ class VKPoster:
         :param followee_user_id: id пользователя. Число.
         :return: ничего
         '''
+        if {'user_id': follower_user_id, 'followers': []} not in self.users:
+            self.users.append({'user_id': follower_user_id, 'followers': []})
+        if {'user_id': followee_user_id, 'followers': []} not in self.users:
+            self.users.append({'user_id': followee_user_id, 'followers': []})
         for i in self.users:
             if i['user_id'] == followee_user_id:
-                i['follower'].append(follower_user_id)
+                i['followers'].append(follower_user_id)
         return
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
@@ -59,13 +61,18 @@ class VKPoster:
         ленте пользователя. list
         '''
         mas = []
-        for user in self.users:
-            if user['user_id'] == user_id:
+        for host in self.users:
+            if user_id in host['followers']:
                 for post in self.posts:
-                    if post['host_id'] in user['followers']:
-                        mas.append(post['post_id'])
-                        post['read'].appen(user_id)
-        return mas
+                    if post['host_id'] == host['user_id']:
+                        if len(mas) < k:
+                            mas.append(post['post_id'])
+                        else:
+                            if post['post_id'] > mas[-1]:
+                                mas[0] = post['post_id']
+                        mas.sort()
+                        post['read'].append(user_id)
+        return mas[::-1]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -78,9 +85,14 @@ class VKPoster:
         fresh_posts = []
         for i in self.posts:
             if len(fresh_posts) < k:
-                fresh_posts.append(i['post_id'])
+                fresh_posts.append({'id': i['post_id'], 'read': i['read']})
             else:
-                if i['post_id'] > fresh_posts[-1]:
-                    fresh_posts[-1] = i['post_id']
-            fresh_posts.sort()
-        return fresh_posts
+                for it in range(len(fresh_posts)):
+                    if (i['read'] > fresh_posts[it]['read'] or
+                            (i['read'] == fresh_posts[it]['read'] and i['post_id'] > fresh_posts[it]['id'])) and\
+                            {'id': i['post_id'], 'read': i['read']} not in fresh_posts:
+                        fresh_posts[it] = {'id': i['post_id'], 'read': i['read']}
+        a = []
+        for i in sorted(fresh_posts, key=lambda s: len(s['read']))[::-1]:
+            a.append(i['id'])
+        return a
