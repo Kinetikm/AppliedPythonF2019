@@ -28,3 +28,4 @@ def open_data(file_name):
             return open_tsv(file_name, encode)
     else:
         print('Формат не валиден')
+        
