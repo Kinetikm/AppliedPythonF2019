@@ -53,5 +53,5 @@ class VKPoster:
         tmp_list = []
         for key, val in self.posts.items():
             heapq.heappush(tmp_list, (val. key))
-        list = [data for data in heapq.nlargest(k, h)]
+        list = [data[1] for data in heapq.nlargest(k, h)]
         return sorted(list, reverse=True)
