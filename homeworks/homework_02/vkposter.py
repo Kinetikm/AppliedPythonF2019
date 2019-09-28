@@ -5,55 +5,58 @@
 class VKPoster:
 
     def __init__(self):
+        self.user_posts={}
+        self.user_follows={}
+        self.user_read={}
+        self.most_popular={}
         raise NotImplementedError
 
     def user_posted_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        выложил пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
+        if user_id in self.user_posts:
+            self.user_posts[user_id].append(post_id)
+        else:
+            self.user_posts[user_id] = [post_id]
+        self.most_popular[post_id] = 0
         pass
 
     def user_read_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        прочитал пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
-        pass
+        if (user_id not in self.user_read) or (post_id not in self.user_read[user_id])
+            if user_id in self.user_read:
+                self.user_read[user_id].append(post_id)
+            else:
+                self.user_read[user_id]=[post_id]
+            if post_id not in self.most_popular:
+                self.most_popular[post_id]=1
+            else:
+                self.most_popular[post_id] += 1
+            pass
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
-        '''
-        Метод который вызывается когда пользователь follower_user_id
-        подписался на пользователя followee_user_id.
-        :param follower_user_id: id пользователя. Число.
-        :param followee_user_id: id пользователя. Число.
-        :return: ничего
-        '''
+        if (follower_user_id in self.user_follows) and (followee_user_id != follower_user_id):
+            self.user_follows[follower_user_id].append(followee_user_id)
+        else:
+            self.user_follows[follower_user_id]=[followee_user_id]
         pass
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
-        '''
-        Метод который вызывается когда пользователь user_id
-        запрашивает k свежих постов людей на которых он подписан.
-        :param user_id: id пользователя. Число.
-        :param k: Сколько самых свежих постов необходимо вывести. Число.
-        :return: Список из post_id размером К из свежих постов в
-        ленте пользователя. list
-        '''
-        pass
+        spisok = []
+        for i in self.user_follows[user_id]:
+            if i in self.user_posts:
+                spisok.append(self.user_posts[i])
+        spisok.sort()
+        spisok.reverse()
+        return spisok[:k]
+
+
 
     def get_most_popular_posts(self, k: int) -> list:
-        '''
-        Метод который возвращает список k самых популярных постов за все время,
-        остортированных по свежести.
-        :param k: Сколько самых свежих популярных постов
-        необходимо вывести. Число.
-        :return: Список из post_id размером К из популярных постов. list
-        '''
-        pass
+        spis = []
+        for i, v in self.most_popular:
+            spis.append([v,i])
+        spis.sort()
+        spis.reverse()
+        vozv = spis[0:k]
+        c=[]
+        for  i in vozv:
+            c.append(i[1])
+        return c
