@@ -54,7 +54,7 @@ class VKPoster(object):
             sort_list.append((key, self.read_amount[key]))
             sort_list.sort(key=lambda x: x[1])
             if len(sort_list) > k:
-                del sort_list[:len(out_list) - k]
+                del sort_list[:len(out_list) - k - 1]
         for i in range(k):
             out_list.append(sort_list[i][0])
         out_list.sort()
