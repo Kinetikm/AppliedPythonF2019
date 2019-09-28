@@ -89,7 +89,8 @@ class VKPoster:
         lst = list()
         for key, val in self.views.items():
             lst.append([key, val])
-        lst.sort(reverse=True)
+        lst.sort()
+        lst.reverse()
         c = []
         for i in lst[:k]:
             c.append(i[0])
