@@ -53,8 +53,7 @@ class VKPoster:
             spis.append([v, i])
         spis.sort()
         spis.reverse()
-        vozv = spis[:k]
         c = []
-        for i in vozv:
+        for i in spis[:k]:
             c.append(i[1])
         return c
