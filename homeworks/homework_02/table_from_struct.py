@@ -24,6 +24,8 @@ def get_table(struct):
             res += '|'
             for i, col in enumerate(line):
                 len_cell = lens[i]
+                if col == '':
+                    raise BaseException
                 if i < len(line) - 1:
                     res += '{:<{}}'.format("  " + col + "  ", len_cell) + '|'
                 else:
