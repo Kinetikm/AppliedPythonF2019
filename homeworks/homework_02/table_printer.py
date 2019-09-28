@@ -13,7 +13,6 @@ def prt_table(table):
     keys = []
     for i in table[0].keys():
         keys.append(i)
-    #keys = [i for i in table[0].keys()]
     max_len = [max([len(max([key, tmp[key]], key=len)) for tmp in table])
                for key in table[0].keys()]
     just_line = "-" * (sum(max_len) + 5 * len(max_len) + 1)
@@ -26,5 +25,4 @@ def prt_table(table):
     print(titles)
     for i in main_inf:
         print(i)
-    #[print(i) for i in main_inf]
     print(just_line)

@@ -11,6 +11,7 @@ def open_js(file_name, encode):
     with open(file_name, "r", encoding=encode) as file:
         return json.load(file, object_hook=dict, parse_int=str)
 
+
 def open_tvs(file_name, encode):
     with open(file_name, "r", encoding=encode) as file:
         string = [i.split("\t") for i in file.read().split("\n")]

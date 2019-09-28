@@ -2,10 +2,6 @@
 # coding: utf-8
 
 
-from homeworks.homework_02.heap import MaxHeap
-from homeworks.homework_02.fastmerger import FastSortedListMerger
-
-
 class VKPoster:
 
     def __init__(self):
@@ -46,7 +42,7 @@ class VKPoster:
         for s in self.followers[user_id]:
             if s in self.users.keys():
                 list.extend(self.users[s])
-        list = sorted(list, reverse = True)
+        list = sorted(list, reverse=True)
         for i in range(len(list) - k):
             list.pop()
         return list
