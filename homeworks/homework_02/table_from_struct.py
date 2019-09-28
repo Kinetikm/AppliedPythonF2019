@@ -24,8 +24,6 @@ def get_table(struct):
             res += '|'
             for i, col in enumerate(line):
                 len_cell = lens[i]
-                if col == '':
-                    raise BaseException
                 if i < len(line) - 1:
                     res += '{:<{}}'.format("  " + col + "  ", len_cell) + '|'
                 else:
@@ -41,6 +39,8 @@ def get_max_cell_lens(table):
     lens = [0 for i in table[0]]
     line_len = 0
     for line in table:
+        if len(line) <len(lens):
+            raise BaseException
         for i, col in enumerate(line):
             if lens[i] < len(col) + 4:
                 line_len += len(col) + 4 - lens[i]
