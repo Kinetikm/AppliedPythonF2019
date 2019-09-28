@@ -66,8 +66,6 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        #if user_id not in self.subscriptions:
-        #    return None
         lst = list()
         for cur in self.subscriptions[user_id]:
             if cur not in self.posts:
