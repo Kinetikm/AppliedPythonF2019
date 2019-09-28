@@ -1,59 +1,40 @@
-#!/usr/bin/env python
-# coding: utf-8
+from homeworks.homework_02.heap import MaxHeap
+from homeworks.homework_02.fastmerger import FastSortedListMerger
 
 
 class VKPoster:
-
     def __init__(self):
-        raise NotImplementedError
+        self.posts = dict([list[int], int])   # key - post_id, info - list if users who read
+        self.users = dict([set[int], list[int]])    # key user_id,info - (set of subscribes, list of added posts)
+
 
     def user_posted_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        выложил пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
-        pass
+        self.users[user_id][1].append(post_id)
+
 
     def user_read_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        прочитал пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
-        pass
+        if user_id not in self.posts[post_id][0]:
+            self.posts[post_id][1] + 1
+        self.posts[post_id][0].append(user_id)
+
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
-        '''
-        Метод который вызывается когда пользователь follower_user_id
-        подписался на пользователя followee_user_id.
-        :param follower_user_id: id пользователя. Число.
-        :param followee_user_id: id пользователя. Число.
-        :return: ничего
-        '''
-        pass
+        self.users[follower_user_id][0].add(followee_user_id)
 
-    def get_recent_posts(self, user_id: int, k: int)-> list:
-        '''
-        Метод который вызывается когда пользователь user_id
-        запрашивает k свежих постов людей на которых он подписан.
-        :param user_id: id пользователя. Число.
-        :param k: Сколько самых свежих постов необходимо вывести. Число.
-        :return: Список из post_id размером К из свежих постов в
-        ленте пользователя. list
-        '''
-        pass
+
+    def get_recent_posts(self, user_id: int, k: int) -> list:
+        lol = []  # list of lists
+        for val in self.users[user_id][0]:
+            lol.append(self.users[val][1])
+        return FastSortedListMerger(lol, k)
+
 
     def get_most_popular_posts(self, k: int) -> list:
-        '''
-        Метод который возвращает список k самых популярных постов за все время,
-        остортированных по свежести.
-        :param k: Сколько самых свежих популярных постов
-        необходимо вывести. Число.
-        :return: Список из post_id размером К из популярных постов. list
-        '''
-        pass
+        arr = []
+        out_arr = []
+        for key in self.posts:
+            arr.append(self.posts[key][1], key)
+        mh = MaxHeap(arr)
+        while len(out_arr) < k and len(mh.array) > 0:
+            out_arr.append(mh.extract_maximum()[1])
+        return sorted(out_arr)
