@@ -31,4 +31,4 @@ def make_table(txt_dict):
                 row_prnt.append(str(val).ljust(max_wid[nm]))
         res_row += '|  ' + "  |  ".join(row_prnt) + '  |\n'
     res_row += lead_trail
-    print(res_row)
+    return res_row

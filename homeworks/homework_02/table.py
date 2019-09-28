@@ -8,11 +8,11 @@ from format_read import read_format
 if __name__ == '__main__':
     filename = sys.argv[1]
     txt = raw_text(filename)
-    if not txt:
+    if txt is None:
         print('Файл не валиден')
     else:
         txt = read_format(txt)
-        if not txt:
+        if txt is None:
             print('Формат не валиден')
         else:
             print(make_table(txt))
