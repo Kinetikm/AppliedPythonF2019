@@ -4,13 +4,11 @@ from gtable import GoodTable
 from methods import json_to_list, tsv_to_list
 from reading import read_file
 
+
 class MyException(Exception):
     pass
-# Ваши импорты
 
 if __name__ == '__main__':
-
-# Ваш код
     filename = sys.argv[1]
     try:
         data, flag_json = read_file(filename)
@@ -18,7 +16,7 @@ if __name__ == '__main__':
             data = json_to_list(data)
         else:
             data = tsv_to_list(data)
-        col_numb = max([len(i) for i in data])
+        col_numb = max([len(item) for item in data])
         for item in data:
             if len(item) != col_numb:
                 raise MyException
@@ -29,5 +27,13 @@ if __name__ == '__main__':
         print('Файл не валиден')
     except TypeError:
         print('Формат не валиден')
+     except UnicodeError:
+         print('Формат не валиден')
+     except SyntaxError:
+         print('Формат не валиден')
+     except AttributeError:
+         print('Формат не валиден')
+     except IndexError:
+         print('Формат не валиден')
     except MyException:
         print('Формат не валиден')
