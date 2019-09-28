@@ -51,7 +51,7 @@ class VKPoster:
             self.foll_id[follower_user_id].add(followee_user_id)
         return None
 
-    def get_recent_posts(self, user_id: int, k: int)-> list:
+    def get_recent_posts(self, user_id: int, k: int) -> list:
         '''
         Метод который вызывается когда пользователь user_id
         запрашивает k свежих постов людей на которых он подписан.
@@ -77,15 +77,28 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        biba = []
+        '''
+        биба - это инвертированный словарь (ч-о прочтений):(id поста,
+        список из них)
+        боба - список из числа прочтений
+        b - список из post_id
+        '''
+        biba = {}
         boba = []
-        hiba = []
-        hoba = {}
+        b = []
         for x in self.read_id:
-            biba.append(len(self.read_id[x]))
-            hoba[len(self.read_id[x])] = x
-        biba = sorted(biba, reverse=True)[:k]
-        for j in biba:
-            hiba.append(hoba[j])
-        hiba.sort(reverse=True)
-        return hiba
+            if len(self.read_id[x]) not in biba:
+                biba[len(self.read_id[x])] = [x]
+            else:
+                biba[len(self.read_id[x])] += [x]
+            if len(self.read_id[x]) not in boba:
+                boba.append(len(self.read_id[x]))
+        boba.sort(reverse=True)
+        for i in boba:
+            for j in biba[i]:
+                if (len(b) != k):
+                    b.append(j)
+                else:
+                    break
+        b.sort(reverse=True)
+        return b
