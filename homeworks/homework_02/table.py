@@ -27,13 +27,13 @@ if __name__ == '__main__':
         print('Файл не валиден')
     except TypeError:
         print('Формат не валиден')
-     except UnicodeError:
+    except UnicodeError:
         print('Формат не валиден')
-     except SyntaxError:
+    except SyntaxError:
         print('Формат не валиден')
-     except AttributeError:
+    except AttributeError:
         print('Формат не валиден')
-     except IndexError:
+    except IndexError:
         print('Формат не валиден')
     except MyException:
         print('Формат не валиден')
