@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import heapq
+
 
 class VKPoster:
 
@@ -48,11 +50,8 @@ class VKPoster:
         return list
 
     def get_most_popular_posts(self, k: int) -> list:
-        tmp_list = self.posts.values()
-        tmp_list = sorted(tmp_list, reverse=True)
-        list = []
-        for val in self.posts.keys():
-            if self.posts[val] in tmp_list:
-                list.append(val)
-        list = list[:k:]
+        tmp_list = []
+        for key, val in self.posts.items():
+            heapq.heappush(tmp_list, (val. key))
+        list = [data for data in heapq.nlargest(k, h)]
         return sorted(list, reverse=True)
