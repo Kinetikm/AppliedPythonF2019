@@ -81,9 +81,8 @@ class VKPoster:
         for post in self.post_read:
             n = len(self.post_read[post])
             if n not in d:
-                d[n] = post
-            else:
-                d[n].append(post)
+                d[n] = []
+            d[n].append(post)
         keys_list = sorted(d, reverse=True)
         for i in range(k):
             res += d[keys_list[i]]
