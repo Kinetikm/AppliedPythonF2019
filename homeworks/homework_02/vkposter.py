@@ -34,7 +34,7 @@ class VKPoster:
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         if not self.follow[follower_user_id]:
-            self.follow[follower_user_id] = []
+            self.follow[follower_user_id] = [follower_user_id]
         else:
             self.follow[follower_user_id] += followee_user_id
 
