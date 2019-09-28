@@ -41,7 +41,7 @@ class VKPoster:
         for i in range(len(self.fresh_posts)):
             for folowee in self.follow[user_id]:
                 if self.fresh_posts[i] in self.users[folowee]:
-                    fresh_for_id += self.fresh_posts[i]
+                    fresh_for_id += [self.fresh_posts[i]]
                     break
             if len(fresh_for_id) == k:
                 return fresh_for_id
@@ -55,5 +55,5 @@ class VKPoster:
                 if post > other_post:
                     count += 1
             if count > len(self.fresh_posts) - k:
-                popular_posts += post
+                popular_posts += [post]
         return popular_posts
