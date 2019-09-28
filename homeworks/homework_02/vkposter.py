@@ -63,5 +63,5 @@ class VKPoster(object):
                 del sort_list[:len(out_list) - k]
         for i in range(k):
             out_list.append(sort_list[i][0])
-        out_list.sort(reverse = True)
+        out_list = out_list[::-1] 
         return out_list
