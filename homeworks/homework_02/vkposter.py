@@ -15,7 +15,7 @@ class VKPoster(object):
             self.user_added_posts[user_id].append(post_id)
         else:
             self.user_added_posts[user_id] = [post_id]
-        if post_id not in read_users:
+        if post_id not in self.read_users:
             self.read_users[post_id] = [user_id]
             self.read_amount[post_id] = 1
         else:
