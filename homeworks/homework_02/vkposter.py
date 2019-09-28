@@ -5,7 +5,10 @@
 class VKPoster:
 
     def __init__(self):
-        raise NotImplementedError
+        self.posts = dict()
+        self.viewers = dict()
+        self.views = dict()
+        self.subscriptions = dict()
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
@@ -15,7 +18,10 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if user_id in self.posts:
+            self.posts[user_id].append(post_id)
+        else:
+            self.posts[user_id] = [post_id]
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -25,7 +31,18 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if post_id in self.viewers: 
+            # если это условие выполняется, то
+            # условие (if post_id in self.views)
+            # тоже выполняется, так как
+            # self.views и self.viewers заполняются
+            # синхронно и имеют одинаковые ключи
+            self.viewers[post_id].add(user_id)
+            self.views[post_id] = len(self.viewers[post_id])
+        else:
+            self.viewers[post_id] = set()
+            self.viewers[post_id].add(user_id)
+            self.views[post_id] = len(self.viewers[post_id])
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
@@ -35,7 +52,10 @@ class VKPoster:
         :param followee_user_id: id пользователя. Число.
         :return: ничего
         '''
-        pass
+        if follower_user_id in self.subscriptions:
+            self.subscriptions[follower_user_id].append(followee_user_id)
+        else:
+            self.subscriptions[follower_user_id] = [followee_user_id]
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         '''
@@ -46,7 +66,17 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        pass
+        if user_id not in self.subscriptions:
+            return None
+        lst = list()
+        for cur in self.subscriptions[user_id]:
+            if cur not in self.posts:
+                # если у текущего пользователя (cur), на которого
+                # подписан user_id, нет постов
+                continue
+            lst += self.posts[cur]
+        lst.reverse()
+        return lst[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -56,4 +86,8 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        pass
+        lst = list(self.views.items())
+        lst = sort(key = lambda i: i[1], reverse = True)
+        for i in range(len(lst)):
+            lst[i] = lst[i][1]
+        return lst[:k]
