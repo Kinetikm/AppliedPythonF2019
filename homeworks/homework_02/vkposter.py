@@ -67,7 +67,7 @@ class VKPoster:
             except KeyError:
                 continue
         lupa = sorted(list(set(lupa)), reverse=True)
-        return lupa[:k]
+        return lupa[:k+1]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -97,7 +97,7 @@ class VKPoster:
         boba.sort(reverse=True)
         for i in boba:
             for j in biba[i]:
-                if (len(b) != k+1):
+                if (len(b) != k):
                     b.append(j)
                 else:
                     break
