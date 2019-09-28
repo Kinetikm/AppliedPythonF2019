@@ -18,10 +18,10 @@ class VKPoster:
         return
 
     def user_posted_post(self, user_id: int, post_id: int):
-        if not self.users[user_id]:
-            self.users[user_id] = [post_id]
-        else:
+        if user_id in self.users:
             self.users[user_id] += post_id
+        else:
+            self.users[user_id] = [post_id]
         self.posts[post_id] = [user_id]
         self.fresh_posts.insert(0, post_id)
         self.rate_of_post[post_id] = 1
@@ -33,10 +33,10 @@ class VKPoster:
         self.rate_of_post[post_id] += 1
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
-        if not self.follow[follower_user_id]:
-            self.follow[follower_user_id] = [follower_user_id]
-        else:
+        if follower_user_id in self.follow:
             self.follow[follower_user_id] += followee_user_id
+        else:
+            self.follow[follower_user_id] = [followee_user_id]
 
     def get_recent_posts(self, user_id: int, k: int) -> list:
         fresh_for_id = []
