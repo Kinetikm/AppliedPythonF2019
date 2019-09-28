@@ -91,7 +91,7 @@ class VKPoster:
                 biba[len(self.read_id[x])] = [x]
             else:
                 biba[len(self.read_id[x])] += [x]
-            biba[len(self.read_id)].sort(reverse=True)
+            biba[len(self.read_id[x])].sort(reverse=True)
             if len(self.read_id[x]) not in boba:
                 boba.append(len(self.read_id[x]))
         boba.sort(reverse=True)
