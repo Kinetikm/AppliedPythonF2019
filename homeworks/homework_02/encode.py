@@ -1,4 +1,5 @@
 
+
 def isvalid(path):
     encoding = ['utf8', 'utf16', 'cp1251']
     for enc in encoding:

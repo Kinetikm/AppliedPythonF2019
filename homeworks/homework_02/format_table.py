@@ -1,4 +1,5 @@
 
+
 def print_table(A):
     B = [""]*len(A[0])
     for line in A:

@@ -1,6 +1,7 @@
 import json
 import tsv
 
+
 def isjson(path, enc):
     try:
         with open(path, encoding=enc) as f:
@@ -9,6 +10,7 @@ def isjson(path, enc):
         return False
     else:
         return True
+
 
 def read_file(path, enc)->list:
     A = []
@@ -20,7 +22,7 @@ def read_file(path, enc)->list:
             A.append(list(line.values()))
         A = [list(map(str, item)) for item in A]
     else:
-        with open(path, encoding = enc) as tsvfile:
+        with open(path, encoding=enc) as tsvfile:
             tsvreader = csv.reader(tsvfile, delimiter="\t")
             for row in tsvreader:
                 A.append(row)
