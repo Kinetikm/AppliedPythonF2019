@@ -11,9 +11,10 @@ def get_struct(text):
         text = json.loads(text)
     except BaseException:
         try:
-            text = [i.split("\t") for i in text.rstrip().split("\n")]
-            text = [{text[0][k]:cell for k, cell in enumerate(
-                line)} for i, line in enumerate(text) if i > 0]
+            text = [i.split("\t") for i in text.strip().split("\n")]
+            if len(text) > 2:
+                text = [{text[0][k]:cell for k, cell in enumerate(
+                    line)} for i, line in enumerate(text) if i > 0]
         except BaseException:
             return None
     return text
