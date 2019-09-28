@@ -91,5 +91,5 @@ class VKPoster:
         for i in range(len(lst)):
             lst[i] = lst[i][0]
         lst = lst[:k]
-        lst.sort()
+        lst.sort(reverse=True)
         return lst
