@@ -16,4 +16,3 @@ if __name__ == '__main__':
             print('Формат не валиден')
         else:
             print(make_table(txt))
-
