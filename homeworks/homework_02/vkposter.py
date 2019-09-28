@@ -18,29 +18,39 @@ class VKPoster:
         return
 
     def user_posted_post(self, user_id: int, post_id: int):
-        if  user_id not in self.users:
+        if user_id not in self.users:
             self.users[user_id] = []
+        # если по данному пользователю не числится создание поста - начинаем список его постов
         self.users[user_id] += [post_id]
+        # добавляем элемент в список данному user_id
         self.posts[post_id] = [user_id]
+        # для нового поста создаем список людей его посмотревших
         self.fresh_posts.insert(0, post_id)
+        # пополняем список свежих постов спереди
         self.rate_of_post[post_id] = 1
+        # рейтинг нового поста автоматически становится равен единице - пользователь, его посмотревший
         return
 
     def user_read_post(self, user_id: int, post_id: int):
         self.users[user_id] += [post_id]
+        # пополняем список просмотренных постов по user_id
         self.posts[post_id] += [user_id]
+        # пополняем список посмотревших пользователей для post_id
         self.rate_of_post[post_id] += 1
+        # рейтинг поста тем временем пополняется
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         if follower_user_id not in self.follow:
             self.follow[follower_user_id] = []
+        # если для данного пользователя не было списка людей, на него подписанных - создаем
         self.follow[follower_user_id] += [followee_user_id]
+        # пополняем список людей, на которых подписан follower_id
 
     def get_recent_posts(self, user_id: int, k: int) -> list:
         fresh_for_id = []
         for post in self.fresh_posts:
             for folowee in self.follow[user_id]:
-                if post in self.users[folowee]:
+                if post in self.users[folowee] or post in self.users[user_id]:
                     fresh_for_id += [post]
                     break
             if len(fresh_for_id) == k:
