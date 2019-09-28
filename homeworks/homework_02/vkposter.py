@@ -46,7 +46,7 @@ class VKPoster:
         :return: ничего
         '''
         if follower_user_id not in self.foll_id:
-            self.foll_id[follower_user_id] = {follower_user_id}
+            self.foll_id[follower_user_id] = {followee_user_id}
         else:
             self.foll_id[follower_user_id].add(followee_user_id)
         return None
@@ -67,7 +67,7 @@ class VKPoster:
             except KeyError:
                 continue
         lupa = sorted(list(set(lupa)), reverse=True)
-        return lupa[:k+1]
+        return lupa[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
