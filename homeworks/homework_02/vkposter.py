@@ -31,7 +31,7 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        if post_id in self.viewers: 
+        if post_id in self.viewers:
             # если это условие выполняется, то
             # условие (if post_id in self.views)
             # тоже выполняется, так как
@@ -87,7 +87,7 @@ class VKPoster:
         :return: Список из post_id размером К из популярных постов. list
         '''
         lst = list(self.views.items())
-        lst = sort(key = lambda i: i[1], reverse = True)
+        lst = sort(key=lambda i: i[1], reverse=True)
         for i in range(len(lst)):
             lst[i] = lst[i][1]
         return lst[:k]
