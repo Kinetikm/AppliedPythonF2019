@@ -28,3 +28,4 @@ def prt_table(table):
         print(i)
     #[print(i) for i in main_inf]
     print(just_line)
+    
