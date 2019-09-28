@@ -29,3 +29,7 @@ def open_data(file_name):
             return open_tsv(file_name, encode)
     else:
         print('Формат не валиден')
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 2f3e70e52e3709cbf5e4e83293797ff942d3925f
