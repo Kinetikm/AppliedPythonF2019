@@ -65,7 +65,7 @@ class VKPoster:
             try:
                 lupa += self.data_id[pupa]
             except KeyError:
-                lupa += 0
+                continue
         lupa = sorted(list(set(lupa)), reverse=True)
         return lupa[:k]
 
