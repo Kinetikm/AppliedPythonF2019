@@ -11,10 +11,11 @@ class GoodTable:
             for i, element in enumerate(item):
                 if j == 0:
                     print('  {:^{}}  '.format(element, self.max_columns[i]), end='|')
-                elif j == len(self.data):
-                    print('  {:>{}}  '.format(element, self.max_columns[i]), end='|')
                 else:
-                    print('  {:<{}}  '.format(element, self.max_columns[i]), end='|')
+                    if i != (len(item) - 1):
+                        print('  {:<{}}  '.format(element, self.max_columns[i]), end='|')
+                    else:
+                        print('  {:>{}}  '.format(element, self.max_columns[i]), end='|')
             print('')
         print('-' * self.max_length)
 
