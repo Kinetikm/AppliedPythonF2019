@@ -26,23 +26,17 @@ def read_file(path, enc)->list:
     if isjson(path, enc):
         with open(path, encoding=enc) as f:
             d = json.load(f)
-        with open('temp.tsv', 'x', encoding=enc) as output_file:
-            dw = csv.DictWriter(output_file, d[0].keys(), delimiter='\t')
-            dw.writeheader()
-            dw.writerows(d)
-        with open('temp.tsv', encoding=enc) as tsvfile:
-            tsvreader = csv.reader(tsvfile, delimiter="\t")
-            for row in tsvreader:
-                A.append(row)
-        os.remove('temp.tsv')
+        A.append(list(d[0].keys()))
+        for line in d:
+            A.append(list(line.values()))
+        A = [list(map(str, item)) for item in A]
     else:
-        with open(path, encoding=enc) as tsvfile:
+        with open(path, encoding = enc) as tsvfile:
             tsvreader = csv.reader(tsvfile, delimiter="\t")
             for row in tsvreader:
                 A.append(row)
     return(A)
 
-file = input()
 path = filename
 
 if not os.path.exists(path):
@@ -76,7 +70,7 @@ else:
             line[i] = w.ljust(B[i])
         line[-1] = line[-1].rjust(B[-1])
 
-    s = '-'*(sum(B) + 5*len(A[0])+1)
+    s = '-'*(sum(B) + 5*len(A[1]) + 1)
     print(s)
     for line in A:
         ss = '|  ' + '  |  '.join(line) + '  |'
