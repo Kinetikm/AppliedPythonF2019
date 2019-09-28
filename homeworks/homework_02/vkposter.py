@@ -1,44 +1,59 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
 class VKPoster(object):
     def __init__(self):
-        self.posts = {}   # key - post_id, info - list if users who read
-        self.users = {}    # key user_id,info - (set of subscribes, list of added posts)
+        self.read_users = {}   # key - post_id, info - list of users who read
+        self.read_amount = {}  # key - post_id, info - number of users who read
+        self.subscribes = {}    # key user_id,info - set of subscribes
+        self.user_added_posts = {}    # key user_id,info - added posts
 
 
 def user_posted_post(self, user_id: int, post_id: int):
-    self.users[user_id][1].append(post_id)
+    if user_id in self.user_added_posts:
+        self.user_added_posts[user_id].append(post_id)
+    else:
+        self.user_added_posts[user_id] = [post_id]
 
 
 def user_read_post(self, user_id: int, post_id: int):
-    if self.posts.get(post_id) is not None:
-        if user_id not in self.posts[post_id][0]:
-            self.posts[post_id][1] += 1
-        self.posts[post_id][0].append(user_id)
+    if post_id in self.read_users:
+        if user_id not in self.read_users[post_id]:
+            self.read_amount[post_id] += 1
+        self.read_users[post_id].append(user_id)
+    else:
+        self.read_users[post_id] = [user_id]
+        self.read_amount[post_id] = 1
 
 
 def user_follow_for(self, follower_user_id: int, followee_user_id: int):
-    if follower_user_id not in self.users:
-        self.users[follower_user_id] = [set(),[]]
-    self.users[follower_user_id][0].add(followee_user_id)
+    if follower_user_id in self.subscribes:
+        self.subscribes[follower_user_id].add(followee_user_id)
+    else:
+        s = set()
+        s.add(followee_user_id)
+        self.subscribes[follower_user_id] = s
 
 
 def get_recent_posts(self, user_id: int, k: int) -> list:
     out_list = []
-    for val in self.users[user_id][0]:
-        out_list += self.users[val][1]
+    for val in self.subscribes[user_id]:
+        out_list += self.user_added_posts[val]
         out_list.sort()
         if len(out_list) > k:
-            del out_list[:k]
+            del out_list[:len(out_list) - k]
     return out_list
 
 
 def get_most_popular_posts(self, k: int) -> list:
     sort_list = []
     out_list = []
-    for key in self.posts:
-        sort_list.append((key, self.posts[key][1]))
+    for key in self.read_amount:
+        sort_list.append((key, self.read_amount[key]))
         sort_list.sort(key=lambda x: x[1])
         if len(sort_list) > k:
-            del sort_list[:k]
+            del sort_list[:len(out_list) - k]
     for i in range(k):
         out_list.append(sort_list[i][0])
     return sorted(out_list)
