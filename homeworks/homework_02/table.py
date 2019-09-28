@@ -25,8 +25,9 @@ if __name__ == '__main__':
             if len(item) != col_numb:
                 raise MyException
         table = GoodTable(data)
-        table.print_table()
     except FileNotFoundError:
         print('Файл не валиден')
-    except (UnicodeError, SyntaxError, AttributeError, TypeError, IndexError):
+    except (UnicodeError, SyntaxError, AttributeError, TypeError, IndexError, MyException):
         print('Формат не валиден')
+    else:
+        table.print_table()
