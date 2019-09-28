@@ -8,7 +8,7 @@ from reading import read_file
 
 if __name__ == '__main__':
 
-    # Ваш код
+# Ваш код
     filename = sys.argv[1]
     try:
         data, flag_json = read_file(filename)

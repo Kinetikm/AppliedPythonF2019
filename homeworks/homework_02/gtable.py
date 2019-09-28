@@ -11,6 +11,8 @@ class GoodTable:
             for i, element in enumerate(item):
                 if j == 0:
                     print('  {:^{}}  '.format(element, self.max_columns[i]), end='|')
+                elif j == len(self.data):
+                    print('  {:>{}}  '.format(element, self.max_columns[i]), end='|')
                 else:
                     print('  {:<{}}  '.format(element, self.max_columns[i]), end='|')
             print('')
