@@ -7,6 +7,8 @@ import csv
 
 
 def get_struct(text):
+    if text == '':
+        return None
     try:
         text = json.loads(text)
     except BaseException:

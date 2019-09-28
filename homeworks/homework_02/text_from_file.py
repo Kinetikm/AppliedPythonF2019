@@ -12,7 +12,7 @@ def get_text(filename):
     for coding in encodings:
         try:
             with open(filename, "r", encoding=coding) as file:
-                text = file.read()
+                text = file.read().rstrip()
             return text
         except BaseException:
             continue

@@ -5,7 +5,7 @@
 def get_table(struct):
     try:
         res = ''
-        headers = [i for i in struct[0]]
+        headers = get_headers(struct)
         if len(struct) < 2:
             lens, bound_len = get_max_cell_lens([headers])
             bound = "-" * (bound_len + len(lens) + 1)
@@ -46,3 +46,11 @@ def get_max_cell_lens(table):
                 line_len += len(col) + 4 - lens[i]
                 lens[i] = len(col) + 4
     return lens, line_len
+
+def get_headers(struct):
+    headers = [i for i in struct[0]]
+    for line in struct:
+        for j, val in enumerate(line):
+            if val != headers[j]:
+                raise BaseException
+    return headers
