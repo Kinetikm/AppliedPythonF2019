@@ -13,5 +13,6 @@ def open_file(filename):
             continue
         except UnicodeError:
             continue
-    print("Формат не валиден")
+        except (TypeError, UnicodeError, SyntaxError, AttributeError):
+            print("Формат не валиден")
     return -1
