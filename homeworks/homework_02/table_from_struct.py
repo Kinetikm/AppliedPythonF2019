@@ -6,7 +6,7 @@ def get_table(struct):
     try:
         res = ''
         headers = [i for i in struct[0]]
-        if len(struct < 2):
+        if len(struct) < 2:
             lens, bound_len = get_max_cell_lens([headers])
             bound = "-" * (bound_len + len(lens) + 1)
             res += bound + '\n|'
