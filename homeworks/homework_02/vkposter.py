@@ -62,7 +62,10 @@ class VKPoster:
         '''
         lupa = []
         for pupa in self.foll_id[user_id]:
-            lupa += self.data_id[pupa]
+            try:
+                lupa += self.data_id[pupa]
+            except KeyError:
+                lupa += 0
         lupa = sorted(list(set(lupa)), reverse=True)
         return lupa[:k]
 
