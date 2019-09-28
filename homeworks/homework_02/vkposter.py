@@ -9,7 +9,6 @@ class VKPoster:
         self.user_follows = {}
         self.user_read = {}
         self.most_popular = {}
-        raise NotImplementedError
 
     def user_posted_post(self, user_id: int, post_id: int):
         if user_id in self.user_posts:
@@ -53,7 +52,7 @@ class VKPoster:
             spis.append([v, i])
         spis.sort()
         spis.reverse()
-        vozv = spis[0:k]
+        vozv = spis[:k]
         c = []
         for i in vozv:
             c.append(i[1])
