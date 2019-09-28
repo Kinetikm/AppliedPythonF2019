@@ -25,10 +25,4 @@ def prt_table(table):
     print(titles)
     for i in main_inf:
         print(i)
-<<<<<<< HEAD
     print(just_line)
-=======
-    #[print(i) for i in main_inf]
-    print(just_line)
-    
->>>>>>> 2f3e70e52e3709cbf5e4e83293797ff942d3925f
