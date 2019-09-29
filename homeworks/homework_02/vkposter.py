@@ -13,6 +13,8 @@ class VKPoster:
         # Элементы - списки из айдишников просмотревших (создатель первый).
 
     def user_posted_post(self, user_id: int, post_id: int):
+        if user_id not in self.users.keys():
+            self.users.update({user_id: []})
         self.posts.update({post_id: [user_id]})
         '''
         Метод который вызывается когда пользователь user_id
@@ -23,6 +25,8 @@ class VKPoster:
         '''
 
     def user_read_post(self, user_id: int, post_id: int):
+        if user_id not in self.users.keys():
+            self.users.update({user_id: []})
         self.posts[post_id].append(user_id)
         '''
         Метод который вызывается когда пользователь user_id
