@@ -53,7 +53,7 @@ def test_table():
                 tmp.write(test_data)
 
             out, err = subprocess.Popen(
-                ['python', 'homeworks/homework_02/table.py', path],
+                ['python3', 'homeworks/homework_02/table.py', path],
                 stdout=subprocess.PIPE,
             ).communicate()
             output = out.decode('utf8').strip()
@@ -67,7 +67,7 @@ def test_table():
 
     # Not Found
     out, err = subprocess.Popen(
-        ['python', 'homeworks/homework_02/table.py', 'path'],
+        ['python3', 'homeworks/homework_02/table.py', 'path'],
         stdout=subprocess.PIPE,
     ).communicate()
     assert 'Файл не валиден' == out.decode('utf8').strip()
