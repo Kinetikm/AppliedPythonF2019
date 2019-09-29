@@ -4,7 +4,12 @@ import csv
 def tsv_check(file, en):
     with open(file, 'r', encoding=en) as f:
         try:
-            csv.reader(f)
+            data = csv.reader(f, delimiter="\t")
+            m = 0
+            for i in data:
+                if m != len(i) and m != 0:
+                    return False
+                m = len(i)
             return True
         except:
             return False
