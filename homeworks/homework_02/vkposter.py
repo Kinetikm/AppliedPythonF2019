@@ -84,10 +84,8 @@ class VKPoster:
                     wc.append(k)
             Popular.append((len(wc), i))
         Popular = sorted(Popular, key=lambda f: (f[0], f[1]), reverse=True)
-        Result = []
-        for i in range(min(len(Popular), k)):
-            Result.append(Popular[i][1])
-        return Result
+        Popular = [Popular[i][1] for i in range(min(k, len(Popular)))]
+        return Popular
         '''
         Метод который возвращает список k самых популярных постов за все время,
         остортированных по свежести.
