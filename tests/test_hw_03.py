@@ -3,7 +3,9 @@
 
 
 import numpy as np
+import itertools
 from homeworks.homework_03.csr_matrix import CSRMatrix
+from homeworks.homework_03.dense_tensor import Tensor
 
 
 def test_csr_matrix_init_from_data_row_col():
@@ -155,3 +157,205 @@ def test_csr_matrix_matmul():
 
     for i, j in zip(range(c_true.shape[0]), range(c_true.shape[1])):
         assert np.isclose(c_true[i, j], c[i, j])
+
+
+def test_tensor_get_item_method():
+    np.random.seed(42)
+
+    shapes = (20, 10, 20, 10)
+    matrix = np.random.randint(0, 2, shapes)
+    try:
+        tensor = Tensor(matrix.tolist())
+    except NotImplementedError:
+        return True
+
+    for ind in itertools.product(*[range(k) for k in shapes]):
+        assert matrix[ind] == tensor[ind]
+
+
+def test_tensor_set_item_method():
+    np.random.seed(42)
+
+    shapes = (20, 10, 20, 10)
+    zero_matrix = np.zeros(shapes)
+    matrix = np.random.randint(0, 3, shapes)
+    try:
+        tensor = Tensor(zero_matrix.tolist())
+    except NotImplementedError:
+        return True
+
+    for ind in itertools.product(*[range(k) for k in shapes]):
+        tensor[ind] = matrix[ind]
+
+    for ind in itertools.product(*[range(k) for k in shapes]):
+        assert matrix[ind] == tensor[ind]
+
+
+def test_tensor_base_operations():
+    np.random.seed(42)
+
+    shapes = (20, 10, 20, 10)
+    shapes2 = (20, 10, 20, 9)
+    matrix1 = np.random.randint(-1, 2, shapes)
+    matrix2 = np.random.randint(-1, 2, shapes)
+    matrix3 = np.random.randint(-1, 2, shapes2)
+    alpha = 2.5
+    try:
+        a = Tensor(matrix1.tolist())
+        b = Tensor(matrix2.tolist())
+        c = Tensor(matrix3.tolist())
+    except NotImplementedError:
+        return True
+
+    flag = True
+    try:
+        a + c
+        a - c
+        a * c
+        flag = False
+    except ValueError:
+        pass
+    assert flag
+
+    addition = a + b
+    diff = a - b
+    product = a * b
+
+    addition_true = matrix1 + matrix2
+    diff_true = matrix1 - matrix2
+    product_true = matrix1 * matrix2
+
+    for ind in itertools.product(*[range(k) for k in shapes]):
+        assert addition[ind] == addition_true[ind]
+        assert diff[ind] == diff_true[ind]
+        assert product[ind] == product_true[ind]
+
+    flag = True
+    try:
+        a / 0
+        flag = False
+    except ZeroDivisionError:
+        pass
+    assert flag
+
+    addition = alpha + a
+    diff = a - alpha
+    product = a * alpha
+    division = a / alpha
+    pow = a ** 3
+
+    addition_true = matrix1 + alpha
+    diff_true = matrix1 - alpha
+    product_true = matrix1 * alpha
+    division_true = matrix1 / alpha
+    pow_true = matrix1 ** 3
+
+    for ind in itertools.product(*[range(k) for k in shapes]):
+        assert addition[ind] == addition_true[ind]
+        assert diff[ind] == diff_true[ind]
+        assert product[ind] == product_true[ind]
+        assert division[ind] == division_true[ind]
+        assert pow[ind] == pow_true[ind]
+
+
+def test_tensor_matmul():
+    np.random.seed(42)
+
+    shape_x, shape_y = 200, 300
+    matrix1 = np.random.randint(-1, 2, (shape_x, shape_y))
+    matrix2 = np.random.randint(-1, 2, (shape_y, shape_x))
+    try:
+        a = Tensor(matrix1.tolist())
+        b = Tensor(matrix2.tolist())
+        a1 = Tensor(matrix1[0].tolist())
+        a2 = Tensor(matrix1[:, 0].tolist())
+    except NotImplementedError:
+        return True
+
+    c = a @ b
+    c1 = a @ a1
+    c2 = a2 @ a
+    c_true = matrix1 @ matrix2
+    c1_true = matrix1 @ matrix1[0]
+    c2_true = matrix1[:, 0] @ matrix1
+
+    flag = True
+    try:
+        a @ a
+        a @ a2
+        a1 @ a
+        flag = False
+    except ValueError:
+        pass
+    assert flag
+
+    for i, j in zip(range(c_true.shape[0]), range(c_true.shape[1])):
+        assert c_true[i, j] == c[i, j]
+
+    for i in range(c1_true.shape[0]):
+        assert c1_true[i] == c1[i]
+
+    for i in range(c2_true.shape[0]):
+        assert c2_true[i] == c2[i]
+
+
+def test_tensor_statistics():
+    np.random.seed(42)
+
+    shapes = (20, 10, 20, 10)
+    matrix = np.random.randint(-20, 30, shapes)
+    try:
+        tensor = Tensor(matrix.tolist())
+    except NotImplementedError:
+        return True
+
+    assert tensor.sum() == matrix.sum()
+    assert tensor.mean() == matrix.mean()
+    assert tensor.min() == matrix.min()
+    assert tensor.max() == matrix.max()
+    assert tensor.argmax() == matrix.argmax()
+    assert tensor.argmin() == matrix.argmin()
+
+    sum = tensor.sum(axis=2)
+    mean = tensor.mean(axis=2)
+    min = tensor.min(axis=2)
+    max = tensor.max(axis=2)
+    argmin = tensor.argmin(axis=2)
+    argmax = tensor.argmax(axis=2)
+
+    sum_true = matrix.sum(axis=2)
+    mean_true = matrix.mean(axis=2)
+    min_true = matrix.min(axis=2)
+    max_true = matrix.max(axis=2)
+    argmin_true = matrix.argmin(axis=2)
+    argmax_true = matrix.argmax(axis=2)
+
+    for ind in itertools.product(*[range(k) for k in sum_true.shape]):
+        assert sum[ind] == sum_true[ind]
+        assert mean[ind] == mean_true[ind]
+        assert min[ind] == min_true[ind]
+        assert max[ind] == max_true[ind]
+        assert argmin[ind] == argmin_true[ind]
+        assert argmax[ind] == argmax_true[ind]
+
+
+def test_tensor_transpose():
+    np.random.seed(42)
+
+    shapes = (20, 10, 20, 10)
+    matrix = np.random.randint(-20, 30, shapes)
+    try:
+        tensor = Tensor(matrix.tolist())
+    except NotImplementedError:
+        return True
+
+    s = tensor.transpose(2, 0, 3, 1)
+    s_true = matrix.transpose(2, 0, 3, 1)
+    s1 = tensor.swapaxes(2, 0)
+    s1_true = matrix.swapaxes(2, 0)
+
+    for ind in itertools.product(*[range(k) for k in s_true.shape]):
+        assert s[ind] == s_true[ind]
+
+    for ind in itertools.product(*[range(k) for k in s1_true.shape]):
+        assert s1[ind] == s1_true[ind]

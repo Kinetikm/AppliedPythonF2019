@@ -24,9 +24,6 @@ class CSRMatrix:
     c = a.dot(b) -- matrix multiplication if shapes match
     c = a @ b --//--
     4. nnz attribute -- number of nonzero elements in matrix
-    4. Transpose ?
-    b = a.T
-    5. Reshape
     """
 
     def __init__(self, init_matrix_representation):
