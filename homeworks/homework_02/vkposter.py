@@ -5,37 +5,27 @@
 class VKPoster:
 
     def __init__(self):
-        raise NotImplementedError
-
+        self.users = {}
+        self.posts = {}
+        self.subs = {}
     def user_posted_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        выложил пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
-        pass
+        if user_id in self.users.keys():
+            self.users[user_id].append(post_id)
+        else:
+            self.users.update({user_id: [post_id]})
 
     def user_read_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        прочитал пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
-        pass
+        if user_id in self.users.keys() and post_id in self.posts.keys():
+            self.posts[post_id].append(user_id)
+        elif user_id in self.users.keys():
+            self.posts.update({post_id: [user_id]})
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
-        '''
-        Метод который вызывается когда пользователь follower_user_id
-        подписался на пользователя followee_user_id.
-        :param follower_user_id: id пользователя. Число.
-        :param followee_user_id: id пользователя. Число.
-        :return: ничего
-        '''
-        pass
+        if follower_user_id in self.subs.keys():
+            self.subs[follower_user_id].append(followee_user_id)
+        else:
+            self.subs.update({follower_user_id: [followee_user_id]})
+
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         '''
@@ -46,7 +36,14 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        pass
+        tmp = ()
+        if user_id in self.subs.keys():
+            for i in range(len(self.subs[user_id])):
+                sorted(self.users[i])
+                for j in range(k):
+                    tmp.append(self.users[i][j])
+        return tmp
+
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -56,4 +53,15 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        pass
+        tmp = ()
+        for key,value in enumerate(self.posts):
+            tmp.append(key, len(value))
+        sorted(tmp, key = lambda tmp: tmp[1])
+        sorted(tmp, key = lambda tmp: tmp[0], reverse = True)
+        res = ()
+        for i in range(k):
+            res.append(tmp[i][0])
+        tmp = ()
+        return res
+
+
