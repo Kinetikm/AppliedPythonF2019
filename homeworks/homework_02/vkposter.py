@@ -10,7 +10,6 @@ class VKPoster:
             self.user[user_id].append(post_id)
         else:
             self.user[user_id] = [post_id]
-        self.post.update({post_id: [user_id]})
 
     def user_read_post(self, user_id: int, post_id: int):
         if post_id not in self.post.keys():
