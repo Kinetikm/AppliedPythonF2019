@@ -14,7 +14,7 @@ class VKPoster:
     def user_read_post(self, user_id: int, post_id: int):
         if post_id not in self.post.keys():
             self.post[post_id] = set()
-        self.post[post_id].append(user_id)
+        self.post[post_id].add(user_id)
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         if follower_user_id not in self.follow.keys():
