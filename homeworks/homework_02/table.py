@@ -10,7 +10,7 @@ if __name__ == '__main__':
     path = b + filename
     try:
         print(table_tsv(path))
-    except FileNotFoundError , UnicodeError:
+    except FileNotFoundError, UnicodeError:
         print('Файл не валиден')
     except IndexError:
         try:
