@@ -27,10 +27,17 @@ if __name__ == '__main__':
     try:
         packet = json.loads(flow_symbol)
         handler = json_handler.JSONHandler(packet)
-        handler.pretty_print()
+
     except json.decoder.JSONDecodeError:
         packet = [line.strip().split('\t') for line in flow_symbol.split('\n') if line]
         handler = tsv_handler.TSVHandler(packet)
-        handler.pretty_print()
+
     except Exception:
         print(traceback.format_exc())
+
+    finally:
+        directory = sys.modules[__name__]
+
+        if hasattr(directory, 'handler'):
+            print_f = pretty_print.PrettyPrint(handler)
+            #print_f.pretty_print()
