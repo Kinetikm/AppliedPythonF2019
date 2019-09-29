@@ -45,6 +45,4 @@ class VKPoster:
         list_of_most_popular = []       # список с отсортированными post_id
         for i in range(len(tmp_list)):
             list_of_most_popular.append(tmp_list[i][0])
-        list_of_most_popular = list_of_most_popular[:k]
-        list_of_most_popular.sort(reverse=True)
-        return list_of_most_popular
+        return list_of_most_popular[:k]
