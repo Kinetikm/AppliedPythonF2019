@@ -10,4 +10,3 @@ def reverse(number):
     b = b[::-1]
     number = int(b) * chek
     return number
-
