@@ -37,7 +37,7 @@ class VKPoster:
             if id in self.users:
                 news += self.users[id]
         news.sort()
-        news = news[::-k]
+        news = news[::-1]
         news = news[:k:]
         return news
 
