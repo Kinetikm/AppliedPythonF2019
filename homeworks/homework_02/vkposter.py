@@ -30,7 +30,7 @@ class VKPoster:
             self.post_relationship[user_id][2] = [post_id]
         else:
             self.post_relationship[user_id][2].append(post_id)
-        if post_id not in self.posts:
+        if post_id not in self.posts.keys():
             self.posts[post_id] = []
         if user_id not in self.posts[post_id]:
             self.posts[post_id].append(user_id)
