@@ -1,6 +1,8 @@
 import csv
 import json
 from border import file_condition
+
+
 # счет чсв файла
 def csv_read(file):
     with open(file, 'r', encoding=file_condition(file)) as f:
@@ -9,6 +11,8 @@ def csv_read(file):
         for row in reader:
             text.append(row)
     return text
+
+
 # счет джейсона
 def json_read(file):
     with open(file, 'r', encoding=file_condition(file)) as f:

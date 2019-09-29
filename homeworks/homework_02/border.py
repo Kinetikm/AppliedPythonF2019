@@ -1,5 +1,5 @@
 def file_condition(filename):
-    kodi = ('utf8','utf16','cp1251')
+    kodi = ('utf8', 'utf16', 'cp1251')
     cntFile = 0
     cntForm = 0
     for kod in kodi:

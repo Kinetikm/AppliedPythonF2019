@@ -1,4 +1,6 @@
 from reading_file import csv_read, json_read
+
+
 def cool_table(lst):
     '''
     Нашли длины столбцов, под которые нужно форматировать
