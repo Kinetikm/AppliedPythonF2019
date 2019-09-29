@@ -57,4 +57,3 @@ def create_table(lines):
         outputlist.append(c)
     outputlist.append(z)
     return outputlist
-
