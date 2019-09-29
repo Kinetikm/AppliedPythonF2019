@@ -3,7 +3,8 @@
 
 import sys
 from data import read_data, print_data
-from file_functions import open_file, json_or_csv, find_encode
+from file_functions import open_file, find_encode
+from table_type import json_or_csv
 
 
 if __name__ == '__main__':
