@@ -1,4 +1,3 @@
-  
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -21,4 +20,3 @@ def word_inversion(input_lst):
                 tmp = tmp - 1
                 n = n + 1
     return input_lst
-  
