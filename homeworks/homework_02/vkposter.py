@@ -32,10 +32,9 @@ class VKPoster:
         tmp = []
         for i in self.subs[user_id]:
             if i in self.users.keys():
-                tmp.append(self.users[i])
+                tmp += self.users[i]
         tmp.sort(reverse=True)
-        tmp = tmp[:k]
-        return tmp
+        return tmp[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         tmp = []
