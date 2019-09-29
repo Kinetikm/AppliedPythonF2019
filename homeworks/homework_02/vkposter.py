@@ -1,12 +1,17 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import heapq
+
 
 class VKPoster:
 
+    
     def __init__(self):
-        raise NotImplementedError
-
+        
+        self.user_posts = {} #словарь, где ключ - user_id, значения - post_id
+        self.posts = {}      #словарь, где ключ - post_id, значение - количество просмортров
+        self.follows = {}    #словарь, гже ключ - user_id, значения - его подписки
     def user_posted_post(self, user_id: int, post_id: int):
         '''
         Метод который вызывается когда пользователь user_id
@@ -15,7 +20,12 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if user_id not in self.user_posts.keys():   
+            self.user_posts[user_id] = [post_id]
+        else:
+            self.user_posts[user_id].append(post_id)
+        self.posts[post_id] = 0
+        
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -25,7 +35,11 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        pass
+        if post_id not in self.posts.keys():
+            self.posts[post_id] = 1
+        else:
+            self.posts[post_id] += 1
+        
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
@@ -35,9 +49,12 @@ class VKPoster:
         :param followee_user_id: id пользователя. Число.
         :return: ничего
         '''
-        pass
+        if follower_user_id not in self.follows.keys():
+            self.follows[follower_user_id] = [followee_user_id]
+        else:
+            self.follows[follower_user_id].append(followee_user_id)
 
-    def get_recent_posts(self, user_id: int, k: int)-> list:
+    def get_recent_posts(self, user_id: int, k: int):
         '''
         Метод который вызывается когда пользователь user_id
         запрашивает k свежих постов людей на которых он подписан.
@@ -46,9 +63,23 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        pass
+        p = []
+        output = []
+        if user_id in self.follows.keys():
+            for followee in self.follows[user_id]:
+                if followee in self.user_posts.keys():
+                    for post_id in self.user_posts[followee]:
+                        heapq.heappush(p, post_id)
+                else:
+                    continue
+        for i in range(k):
+            if p != []:
+                output.append(heapq.heappop(p))
+            else:
+                break
+        return output
 
-    def get_most_popular_posts(self, k: int) -> list:
+    def get_most_popular_posts(self, k: int):
         '''
         Метод который возвращает список k самых популярных постов за все время,
         остортированных по свежести.
@@ -56,4 +87,9 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        pass
+        top = []
+        for post, watch in sorted(self.posts.items(), key=lambda count: count[1], reverse=True):
+            top.append(post)
+        if k <= len(top):
+            top = top[0:k]
+        return sorted(top)
