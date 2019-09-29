@@ -16,10 +16,3 @@ def get_data_from_json(filename, encoding):
         except OSError:
             print("Файл не валиден")
             raise SystemExit
-
-
-
-
-
-
-
