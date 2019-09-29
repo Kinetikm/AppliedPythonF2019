@@ -2,6 +2,8 @@
 # coding: utf-8
 
 import os
+import tempfile
+import subprocess
 
 from utils.file_processors import PickleFileProcessor
 
