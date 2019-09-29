@@ -20,3 +20,4 @@ def word_inversion(input_lst):
                 tmp = tmp - 1
                 k = k + 1
     return input_lst
+   
