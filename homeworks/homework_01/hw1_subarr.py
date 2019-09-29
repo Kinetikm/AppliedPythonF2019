@@ -12,27 +12,12 @@ def find_subarr(input_lst, num):
     Пример: find_subarr([1, 2, 3, 4, 5, -1], 4) может вернуть (3, 3) или (4, 5)
     '''
     
-    
-    n = 0
-    k = 0
-    d = dict()
-    j = 0
-    for i, val in enumerate(input_lst):
-        if val == num:
-            return (i, i)
-        if (num - val) in d:
-            return (d[num - val][1], i)
-        v = k
-        for l in range(0, j, 1):
-            d[k + val] = d[k]
-            h = k
-            k = d[k + val][0]
-            d[h + val][0] = d[h + val][0] + val
-            d.pop(h)
-        d[val] = [v + val, i]
-        
-        k = val
-        j = j + 1
+    for i in range(0, len(input_lst), 1):
+        sum = 0
+        for j in range(i, len(input_lst), 1):
+            sum = sum + input_lst[j]
+            if sum == num:
+                return (i,j)
     
     return tuple()
     
