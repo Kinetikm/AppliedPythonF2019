@@ -36,5 +36,5 @@ class VKPoster:
         tmp_list = []
         for id, val in self.dict_of_posts.items():
             heapq.heappush(tmp_list, (len(val), id))
-        list = [i[1] for i in heap.nlargest(k, tmp_list)]
+        list = [i[1] for i in heapq.nlargest(k, tmp_list)]
         return list
