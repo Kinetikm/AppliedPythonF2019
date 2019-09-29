@@ -45,7 +45,7 @@ class VKPoster(object):
     def get_recent_posts(self, user_id: int, k: int) -> list:
         out_list = []
         for val in self.subscribes[user_id]:
-	    if val in self.user_added_posts:
+            if val in self.user_added_posts:
                 out_list += self.user_added_posts[val]
                 out_list.sort()
             if len(out_list) > k:
