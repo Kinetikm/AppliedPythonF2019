@@ -16,5 +16,4 @@ def check_palindrom(input_string):
         if input_string[i] != input_string[l - i-1]:
             return False
     return True
-    
     raise NotImplementedError
