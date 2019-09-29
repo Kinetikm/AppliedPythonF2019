@@ -54,6 +54,7 @@ class VKPoster:
         list_d = list(self.posts.items())
         list_d.sort(key=lambda x: len(x[1]), reverse=True)
         temp = [i[0] for i in list_d[:k]]
+        temp.sort(reverse=True)
         return temp
 
     def print_VK(self):
