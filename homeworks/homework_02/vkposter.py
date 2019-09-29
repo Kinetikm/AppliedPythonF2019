@@ -12,6 +12,7 @@ class Post:
         self.post_id = post_id
         self.read = set()
 
+
 class User:
     '''
     :atribute user_id: id пользователя
@@ -22,6 +23,7 @@ class User:
         self.user_id = user_id
         self.posts = list()
         self.follows = set()
+
 
 class VKPoster:
     def __init__(self):
