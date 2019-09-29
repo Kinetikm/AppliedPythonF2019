@@ -27,7 +27,10 @@ class VKPoster:
     def user_read_post(self, user_id: int, post_id: int):
         if user_id not in self.users.keys():
             self.users.update({user_id: []})
-        self.posts[post_id].append(user_id)
+        if post_id not in self.posts.keys():
+            self.posts.update({post_id: ['Unknown_author']})
+        else:
+            self.posts[post_id].append(user_id)
         '''
         Метод который вызывается когда пользователь user_id
         прочитал пост post_id.
