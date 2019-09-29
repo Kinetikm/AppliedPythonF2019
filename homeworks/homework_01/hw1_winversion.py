@@ -1,16 +1,23 @@
-
 #!/usr/bin/env python
 # coding: utf-8
 
 
 def word_inversion(input_lst):
-    start = 0
+    input_lst.reverse()
+    n = 0
     for i in range(len(input_lst)):
-        a = input_lst.pop()
-        if (a == " "):
-            start = i
-            input_lst.insert(start, " ")
-            start += 1
-        else:
-            input_lst.insert(start, a)
+        if input_lst[i] == ' ' or i == len(input_lst) - 1:
+            if input_lst[i] == ' ':
+                tmp = i
+                for k in range(n, n + ((i - n + 1) // 2)):
+                    input_lst[n], input_lst[tmp-1] = input_lst[tmp-1], input_lst[n]
+                    tmp += -1
+                    n += 1
+                n = i + 1
+            else:
+                tmp = i
+                for j in range(n, n + ((i - n + 1) // 2)):
+                    input_lst[n], input_lst[tmp] = input_lst[tmp], input_lst[n]
+                    tmp += -1
+                    n += 1
     return input_lst
