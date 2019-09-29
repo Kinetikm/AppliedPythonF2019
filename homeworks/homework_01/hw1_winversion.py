@@ -3,32 +3,25 @@
 
 
 def word_inversion(input_lst):
-    """
+    """"
     Метод инвертирующий порядок слов в строке inplace (без выделения доп памяти)
     :param input_lst: строка-массив букв (['H', 'i']). Пробелы одиночные
     :return: None Все изменения в input_lst проходят
-    '"""
-    iter_num = 0
-    i = 0
-    p = 0
-    num = 0
-    while iter_num < len(input_lst):
+    """
+    if ' ' not in input_lst:
+        return input_lst
+    list_size = len(input_lst)
+    for i in range(list_size//2):
+        input_lst[i], input_lst[list_size - i - 1] = input_lst[list_size - i - 1], input_lst[i]
+    word_start = 0
+    for i in range(list_size):
         if input_lst[i] == ' ':
-            num += 1
-            if num == 1:
-                input_lst.insert(len(input_lst), input_lst[i])
-            else:
-                input_lst.insert(len(input_lst) - p - 1, input_lst[i])
-            for j in range(i):
-                if num == 1:
-                    input_lst.insert(len(input_lst) - p, input_lst[0])
-                else:
-                    input_lst.insert(len(input_lst) - p - 1, input_lst[0])
-                input_lst.pop(0)
-            input_lst.pop(0)
-            i = 0
-            p = iter_num
-        else:
-            i += 1
-        iter_num += 1
+            word_size = i - word_start
+            for j in range(word_size // 2):
+                input_lst[word_start + j], input_lst[i - j - 1] = input_lst[i - j - 1],\
+                                                                  input_lst[word_start + j]
+            word_start = i + 1
+    for k in range((list_size - word_start)//2):
+        input_lst[word_start + k], input_lst[list_size - k - 1] = input_lst[list_size - k - 1],\
+                                                                  input_lst[word_start + k]
     return input_lst
