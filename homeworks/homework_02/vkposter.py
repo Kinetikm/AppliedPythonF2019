@@ -96,6 +96,4 @@ class VKPoster:
                 ret_list.append(list_items[i][1][j])
         ret_list.reverse()
         ret_list = ret_list[:k]
-        ret_list.sort()
-        ret_list.reverse()
         return ret_list
