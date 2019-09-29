@@ -28,7 +28,7 @@ class VKPoster:
         else:
             self.post_relationship[user_id][2].append(post_id)
         if post_id not in self.posts:
-            self.posts[post_id] = {}
+            self.posts[post_id] = []
         if user_id not in self.posts[post_id]:
             self.posts[post_id].append(user_id)
 
@@ -44,7 +44,7 @@ class VKPoster:
         for i in self.post_relationship[user_id][3]:
             for j in self.post_relationship[i][0]:
                 temp.append(j)
-        temp.sort(reverse = True)
+        temp.sort(reverse=True)
         return temp[:k:]
 
     def get_most_popular_posts(self, k: int) -> list:
