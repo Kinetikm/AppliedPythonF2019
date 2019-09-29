@@ -2,10 +2,6 @@
 # coding: utf-8
 
 
-from homeworks.homework_02.heap import MaxHeap
-from homeworks.homework_02.fastmerger import FastSortedListMerger
-
-
 class VKPoster:
     def __init__(self):
         self.lenta_of_user = dict()
