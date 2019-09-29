@@ -4,8 +4,9 @@
 import os
 import tempfile
 import subprocess
-from utils.file_processors import PickleFileProcessor
 
+
+from utils.file_processors import PickleFileProcessor
 from homeworks.homework_02.vkposter import VKPoster
 
 
