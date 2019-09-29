@@ -13,6 +13,10 @@ def create_table(data):
     table.set_cols_align(["l"] * (len(data[0]) - 1) + ["r"])
     table.set_deco(table.BORDER | table.VLINES)
     table.set_chars(['-', '|', '-', '#'])
+    for i in range(len(data)):
+        for j in range(len(data[i])):
+            data[i][j] = str(data[i][j])
+            data[i][j] = ' ' + data[i][j] + ' '
     row = [0] * len(data[0])
     for i in range(len(data[0])):
         for j in range(len(data)):
