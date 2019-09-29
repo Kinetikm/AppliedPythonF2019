@@ -24,7 +24,7 @@ class VKPoster:
             self.follow[follower_user_id] = set()
             self.follow[follower_user_id].add(followee_user_id)
 
-    def get_recent_posts(self, user_id, k) -> list:
+    def get_recent_posts(self, user_id, k)-> list:
         list_a = list(self.follow[user_id])
         list_b = []
         for user in list_a:
@@ -35,7 +35,7 @@ class VKPoster:
         else:
             return list_b
 
-    def get_most_popular_posts(self, k: int) -> list:
+    def get_most_popular_posts(self, k: int)-> list:
         t_dict = {}
         for key in self.post_views:
             t_dict[key] = len(self.post_views[key])
