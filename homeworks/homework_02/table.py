@@ -2,10 +2,10 @@
 # coding: utf-8
 
 import sys
-from type_is import json_or_csv
-from parse import read_data, print_data
-from file import open_file
-from encode import find_encode
+from type_definition import json_or_csv
+from data import read_data, print_data
+from open_file import open_file
+from find_encode import find_encode
 
 
 if __name__ == '__main__':
