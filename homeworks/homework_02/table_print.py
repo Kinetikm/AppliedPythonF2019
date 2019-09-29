@@ -26,7 +26,7 @@ def print_table(table):
         print("|", end='')
         for s in range(dic[len(table[0])-1] - len(table[k][len(table[0])-1]) + 2):
             print(" ", end='')
-        print(table[k][len(table[0])-1],end="")
+        print(table[k][len(table[0])-1], end="")
         print("  |")
     for i in range(dlina_vsego):
         print("-", end='')
