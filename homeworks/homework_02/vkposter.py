@@ -31,13 +31,16 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        if user_id in VKPoster.posts[post_id]:
-            return None
+        if post_id in VKPoster:
+            if user_id in VKPoster.posts[post_id]:
+                return None
+            else:
+                try:
+                    VKPoster.posts[post_id].append(user_id)
+                except KeyError:
+                    VKPoster.posts[post_id] = [user_id]
         else:
-            try:
-                VKPoster.posts[post_id].append(user_id)
-            except KeyError:
-                VKPoster.posts[post_id] = [user_id]
+            return None
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
