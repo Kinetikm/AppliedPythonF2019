@@ -2,17 +2,17 @@ import json
 import csv
 
 
-def get_tsv_data_as_list(file):
+def get_tsv_data_as_list(filename):
     result = []
-    tsv_data = csv.reader(file, delimiter="\t")
+    tsv_data = csv.reader(filename, delimiter="\t")
     for line in tsv_data:
         result.append(line)
     return result
 
 
-def get_json_data_as_list(file):
+def get_json_data_as_list(filename):
     try:
-        json_data = json.load(file)
+        json_data = json.load(filename)
         result = []
         columns_row = list(json_data[0].keys())
         result.append(columns_row)

@@ -5,7 +5,7 @@ import table_print as t_print
 
 if __name__ == '__main__':
     filename = sys.argv[1]
-    encode = f_read.check_codir(path)
+    encode = f_read.check_encode(path)
     if encode == "Формат не валиден" or encode == "Файл не валиден":
         print(encode)
     with open(filename, encoding=encode) as file:
