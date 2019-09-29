@@ -9,16 +9,16 @@ def word_inversion(inputl):
     begin = 0
     end = 0
     i = 1
-    inputl.append(' ')
     while i < leng:
         while (inputl[i] != ' '):
             end += 1
             i += 1
+            if i >= leng:
+                break
         word = end - begin + 1
         for p in range(word // 2):
             inputl[p+begin], inputl[end-p] = inputl[end-p], inputl[p+begin]
         end += 2
         begin = end
         i += 2
-    inputl.pop()
     return inputl
