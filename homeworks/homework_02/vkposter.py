@@ -34,7 +34,7 @@ class VKPoster:
     def get_recent_posts(self, user_id: int, k: int)-> list:
         news = []
         for id in self.followers[user_id]:
-           if id in self.users():
+            if id in self.users:
                 news += self.users[id]
         news.sort()
         news = news[::-k]
@@ -46,8 +46,8 @@ class VKPoster:
         for id in self.news_tmp:
             news_tmp[id] = len(self.post_views[id])
         hot_news = list(news_tmp.items())
-        hot_news.sort(id=lambda elem: elem[0], reverse=True) # сортировка по свжести
-        hot_news.sort(id=lambda elem: elem[1], reverse=True) # сортировка по горячести
+        hot_news.sort(id=lambda elem: elem[0], reverse=True)  # сортировка по свжести
+        hot_news.sort(id=lambda elem: elem[1], reverse=True)  # сортировка по горячести
         popular_news = []
         for i in range(len(hot_news)):
             popular_news.append(hot_news[i][0])
