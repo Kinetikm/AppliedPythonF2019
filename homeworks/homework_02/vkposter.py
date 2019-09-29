@@ -89,5 +89,6 @@ class VKPoster:
                 if q[i] == v:
                     ks.append(k1)
         ks = ks[:k]
+        ks = sorted(ks, reverse=False)
         return ks
         pass
