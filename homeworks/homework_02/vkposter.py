@@ -66,7 +66,7 @@ class VKPoster:
         '''
         sort_list = list()
         for i in VKPoster.follow[user_id]:
-            if i in (VKPoster.users.keys())
+            if i in (VKPoster.users.keys()):
                 for j in VKPoster.users[i]:
                     sort_list.append(j)
             else:
