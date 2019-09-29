@@ -84,7 +84,7 @@ class VKPoster:
                 if k not in wc:
                     wc.append(k)
             popularity.update({len(wc): i})
-        L = list(popularity.keys)
+        L = list(popularity.keys())
         L.sort()
         L.reverse()
         Result = []
