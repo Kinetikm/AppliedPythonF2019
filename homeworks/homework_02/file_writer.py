@@ -26,14 +26,19 @@ def File_Writer(filename):
                     exit()
         except UnicodeError:
             print('Формат не валиден')
+            exit()
         except AttributeError:
             print('Формат не валиден')
+            exit()
         except SyntaxError:
             print('Формат не валиден')
+            exit()
         except IndexError:
             print('Формат не валиден')
+            exit()
         else:
             print('Формат не валиден')
+            exit()
     else:
         print('Файл не валиден')
         exit()
