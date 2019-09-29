@@ -65,7 +65,7 @@ def test_table():
         finally:
             os.remove(path)
 
-    # Not Found
+    # Not Foundy
     out, err = subprocess.Popen(
         ['python', 'homeworks/homework_02/table.py', 'path'],
         stdout=subprocess.PIPE,
