@@ -38,8 +38,8 @@ class VKPoster:
         for i in self.post_relationship[user_id][3]:
             for j in self.post_relationship[i][0]:
                 temp.append(j)
-        temp.sort()
-        return temp[len(temp)-1-k::]
+        temp.sort(reverse = True)
+        return temp[:k:]
 
     def get_most_popular_posts(self, k: int) -> list:
         list_d = list(self.posts.items())
