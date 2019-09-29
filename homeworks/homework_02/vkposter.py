@@ -32,10 +32,12 @@ class VKPoster:
         :return: ничего
         '''
         if post_id in self.readers:
+            if user_id not in self.readers[post_id]:
+                self.reads[post_id] += 1
             self.readers[post_id].append(user_id)
         else:
-            self.readers[post_id] = [user_id]
-        self.reads[post_id] = len(self.readers[post_id])
+            self.reads[post_id] = 1
+            self.readers[post_id] = [user_id]   
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
