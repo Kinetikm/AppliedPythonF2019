@@ -50,5 +50,5 @@ class VKPoster(object):
             sort_list.append((key, self.read_amount[key]))
         sort_list.sort(reverse=True)
         for i in sort_list[:k]:
-            out_list.append(i[1])
+            out_list.append(i[0])
         return out_list
