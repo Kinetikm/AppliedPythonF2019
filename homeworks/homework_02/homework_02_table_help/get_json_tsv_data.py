@@ -3,11 +3,15 @@ import csv
 
 
 def get_tsv_data_as_list(file):
-    result_list = []
-    tsv_data = csv.reader(file, delimiter="\t")
-    for sub_list in tsv_data:
-        result_list.append(list(sub_list))
-    return result_list
+    try:
+        result_list = []
+        tsv_data = csv.reader(file, delimiter="\t")
+        for sub_list in tsv_data:
+            result_list.append(list(sub_list))
+        return result_list
+    except csv.Error:
+        return None
+
 
 
 def get_json_data_as_list(file):
