@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
 import sys
 
 from det_enc import det_enc
@@ -18,7 +22,7 @@ if __name__ == '__main__':
         print('Формат не валиден')
         sys.exit()
     if json_check(filename, enc):
-        table = AsciiTable(json_read(filename, enc))
+        tablee = AsciiTable(json_read(filename, enc))
     elif tsv_check(filename, enc):
-        table = AsciiTable(tsv_read(filename, enc))
-    print(table.table)
+        tablee = AsciiTable(tsv_read(filename, enc))
+        print(tablee.table)
