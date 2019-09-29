@@ -33,7 +33,7 @@ class VKPoster:
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         news = []
-        for id in self.follow[user_id]:
+        for id in self.followers[user_id]:
            if id in self.users():
                 news += self.users[id]
         news.sort()
