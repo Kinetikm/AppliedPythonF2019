@@ -6,7 +6,7 @@ def word_inversion(input_lst):
     '''
     Метод инвертирующий порядок слов в строке inplace (без выделения доп памяти)
     :param input_lst: строка-массив букв (['H', 'i']). Пробелы одиночные
-    :return: None Все изменения в input_lst проходят
+    :return: None Все изменения в input_lst проходccят
     '''
     def find_space(cur_pos, input_lst):
         i = cur_pos
