@@ -21,7 +21,7 @@ def calculate_determinant(list_of_lists):
     Гарантируется, что в матрице float
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
-    '''    
+    '''
     def findDet(table):
         size = len(table)
         i = 0
