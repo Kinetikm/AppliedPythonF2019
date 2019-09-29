@@ -2,7 +2,6 @@
 # coding: utf-8
 
 
-
 class VKPoster:
 
     def __init__(self):
