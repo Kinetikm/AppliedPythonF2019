@@ -1,8 +1,10 @@
 import sys
+from file_reading import reading
+from formated_table import format_table, print_table
 
-# Ваши импорты
 
 if __name__ == '__main__':
     filename = sys.argv[1]
-
-    # Ваш код
+    a = reading(filename)
+    if a is not None:
+        print_table(format_table(a))
