@@ -7,7 +7,7 @@ class VKPoster(object):
         self.read_users = {}   # key - post_id, info - list of users who read
         self.read_amount = {}  # key - post_id, info - number of users who read
         self.subscribes = {}    # key user_id,info - set of subscribes
-        self.user_added_posts = {}    # key user_id,info - added posts
+        self.user_added_posts = {}    # key user_id,info - added post
 
 
     def user_posted_post(self, user_id: int, post_id: int):
