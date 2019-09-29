@@ -83,7 +83,7 @@ class VKPoster:
         :return: Список из post_id размером К из популярных постов. list
         '''
         top = []
-        for post, watch in sorted(self.posts.items(), key=lambda i: (-i[1], i[0])):
+        for post, watch in sorted(self.posts.items(), key=lambda i: (-i[1], -i[0])):
             top.append(post)
         if k <= len(top):
             top = top[0:k]
