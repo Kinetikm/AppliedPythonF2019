@@ -6,12 +6,12 @@ import heapq
 
 class VKPoster:
 
-    
+
     def __init__(self):
-        
-        self.user_posts = {} #словарь, где ключ - user_id, значения - post_id
-        self.posts = {}      #словарь, где ключ - post_id, значение - количество просмортров
-        self.follows = {}    #словарь, гже ключ - user_id, значения - его подписки
+        self.user_posts = {}
+        self.posts = {}
+        self.follows = {}
+
     def user_posted_post(self, user_id: int, post_id: int):
         '''
         Метод который вызывается когда пользователь user_id
@@ -20,12 +20,11 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        if user_id not in self.user_posts.keys():   
+        if user_id not in self.user_posts.keys():
             self.user_posts[user_id] = [post_id]
         else:
             self.user_posts[user_id].append(post_id)
         self.posts[post_id] = 0
-        
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -39,7 +38,6 @@ class VKPoster:
             self.posts[post_id] = 1
         else:
             self.posts[post_id] += 1
-        
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
