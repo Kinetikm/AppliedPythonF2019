@@ -22,23 +22,23 @@ def File_Writer(filename):
                 if csv_validation(data):
                     return data
                 else:
-                    print('Формат не валиден','Csv columns')
+                    print('Формат не валиден')
                     exit()
         except UnicodeError:
-            print('Формат не валиден','UnicodeError')
+            print('Формат не валиден')
             exit()
         except AttributeError:
-            print('Формат не валиден','AttributeError')
+            print('Формат не валиден')
             exit()
         except SyntaxError:
-            print('Формат не валиден','SyntaxError')
+            print('Формат не валиден')
             exit()
         except IndexError:
-            print('Формат не валиден','IndexError')
+            print('Формат не валиден')
             exit()
         else:
-            print('Формат не валиден','others')
+            print('Формат не валиден')
             exit()
     else:
-        print('Файл не валиден','File not found')
+        print('Файл не валиден')
         exit()
