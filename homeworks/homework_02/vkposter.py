@@ -11,7 +11,7 @@ class VKPoster(object):
 
     def user_posted_post(self, user_id: int, post_id: int):
         if user_id in self.user_added_posts:
-            self.user_added_posts[user_id].append(post_id)
+            self.user_added_posts[user_id].append(post_id)       # comment
         else:
             self.user_added_posts[user_id] = [post_id]
 

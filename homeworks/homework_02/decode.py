@@ -6,7 +6,7 @@ from io import StringIO
 def read_json(text):
     try:
         text = json.loads(text)
-        for i in range(len(text)):                # ints to strings
+        for i in range(len(text)):                # ints to string
             for key in text[i]:
                 if type(text[i][key]) == int:
                     text[i][key] = str(text[i][key])

@@ -4,7 +4,7 @@ def read_file(filename):
         try:
             with open(filename, 'r', encoding=enc) as file:
                 text = file.read()
-            return text
+            return text             # comment
         except FileNotFoundError:
             print("Not valid file")
             return None

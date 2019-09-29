@@ -7,7 +7,7 @@ def find_column_width(text_dict, key):
 
 
 def find_width(text_dict):
-    width = 5 * (len(text_dict[0]) - 1) + 6
+    width = 5 * (len(text_dict[0]) - 1) + 6     # comment
     for key in text_dict[0]:
         width += find_column_width(text_dict, key)
     return width
