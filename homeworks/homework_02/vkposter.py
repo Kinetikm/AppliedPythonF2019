@@ -84,8 +84,8 @@ class VKPoster:
                 d[n] = []
             d[n].append(post)
         keys_list = sorted(d, reverse=True)
-        for i in range(k):
-            res += d[keys_list[i]]
+        for key in keys_list:
+            res += d[key]
         if len(res) > k:
             return sorted(res, reverse=True)[:k]
         else:
