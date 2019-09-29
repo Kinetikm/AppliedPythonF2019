@@ -23,11 +23,13 @@ class JSONHandler:
         
         title = self._text[0]
         tag = set(title.keys())
+        print(tag)
         
         for contain in self._text:
             for key in tag:
                 cur_len = len(contain[key])
                 
+                print(self._tag_length[key])
                 if cur_len > self._tag_length[key]:
                     self._tag_length[key] = cur_len
         

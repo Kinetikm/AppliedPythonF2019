@@ -57,7 +57,7 @@ class VKPoster:
             self._users.update({user_id: User(user_id)})
         if post_id not in self._posts:
             self._posts.update({post_id: Post(post_id)})
-        
+
         self._posts[post_id].read.add(user_id)
 
         return
@@ -94,11 +94,11 @@ class VKPoster:
 
         recent_posts = []
         for follow_id in self._users[user_id].follows:
-            recent_posts.append(self._users[follow_id].posts[-k:])
+            recent_posts += self._users[follow_id].posts[-k:]
 
         recent_posts.sort()
 
-        return recent_posts[-k:]
+        return recent_posts[-k:][::-1]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -116,7 +116,6 @@ class VKPoster:
         for _ in range(k):
             if queue.empty():
                 return []
-
-        popular_posts.append(queue.get()[1])
+            popular_posts.append(queue.get()[1])
 
         return popular_posts
