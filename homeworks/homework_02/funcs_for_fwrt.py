@@ -23,7 +23,7 @@ def parse_json(jsondata):
 
 
 def csv_validation(data):
-    length = len(data[0])
+    length = max([len(i) for i in data])
     for line in data:
         if length != len(line):
             return False

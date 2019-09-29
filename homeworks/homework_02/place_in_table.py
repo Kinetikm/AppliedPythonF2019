@@ -4,7 +4,7 @@ def place_in_table(data):
         widths = determine_widths(data, num_of_col)
         table = make_a_table(data, num_of_col, widths)
         return table
-    except IndexError:
+    except:
         print('Формат не валиден')
         exit()
 

@@ -15,7 +15,7 @@ def File_Writer(filename):
         except json.decoder.JSONDecodeError:
             with open(filename, 'r',
                       encoding=enc) as f:
-                csvfile = csv.reader(f, delimiter="	")
+                csvfile = csv.reader(f, delimiter="\t")
                 data = []
                 for line in csvfile:
                     data.append(line)
@@ -24,7 +24,16 @@ def File_Writer(filename):
                 else:
                     print('Формат не валиден')
                     exit()
+        except UnicodeError:
+            print('Формат не валиден')
+        except AttributeError:
+            print('Формат не валиден')
+        except SyntaxError:
+            print('Формат не валиден')
+        except IndexError:
+            print('Формат не валиден')
         else:
             print('Формат не валиден')
     else:
         print('Файл не валиден')
+        exit()
