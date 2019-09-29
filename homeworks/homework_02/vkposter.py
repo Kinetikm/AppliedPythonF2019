@@ -60,6 +60,8 @@ class VKPoster:
         '''
         posts = []
         for f in self.user_follows[user_id]:
+            if f not in self.user_posts:
+                continue
             for f_post in self.user_posts[f]:
                 if user_id not in self.post_read[f_post]:
                     posts.append(f_post)
@@ -77,7 +79,7 @@ class VKPoster:
         :return: Список из post_id размером К из популярных постов. list
         '''
         res = []
-        d = {}
+        d = {}  # number of views - post id
         for post in self.post_read:
             n = len(self.post_read[post])
             if n not in d:
@@ -85,10 +87,8 @@ class VKPoster:
             d[n].append(post)
         keys_list = sorted(d, reverse=True)
         for key in keys_list:
+            d[key].sort(reverse=True)
             res += d[key]
         if len(res) > k:
-            l = res[:k]
-            l.sort(reverse=True)
-            return l
-        else:
-            return sorted(res, reverse=True)
+            res = res[:k]
+            return res
