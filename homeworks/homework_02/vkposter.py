@@ -32,7 +32,7 @@ class VKPoster:
         :return: ничего
         '''
         if post_id in self.readed_posts:
-            self.readed_posts[post_id] += {user_id}
+            self.readed_posts[post_id].add(user_id)
         else:
             self.readed_posts[post_id] = {user_id}
         return None 
