@@ -66,8 +66,7 @@ class VKPoster:
         ans = []
         for followee in self._users[user_id]['follows']:
             ans += self._users[followee]['posts']
-        ans = sorted(ans, reverse=True)
-        return ans[:k]
+        return sorted(ans, reverse=True)[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -78,5 +77,4 @@ class VKPoster:
         :return: Список из post_id размером К из популярных постов. list
         '''
         ans = sorted(self._posts, reverse=True)
-        ans = sorted(ans, key=lambda x: len(self._posts[x]), reverse=True)[:k]
-        return ans
+        return sorted(ans, key=lambda x: len(self._posts[x]), reverse=True)[:k]
