@@ -1,8 +1,6 @@
 import sys
 import print_table
 
-# Ваши импорты
-
 if __name__ == '__main__':
     filename = sys.argv[1]
 
