@@ -3,20 +3,18 @@
 
 
 class VKPoster:
-    posts = {}
-    # каждому посту сопоставляем список людей, его посмотревших
-    follow = {}
-    # каждому пользователю сопоставляем список его подписок
-    post_stats = {}
-    # статистика чтения поста
 
     def __init__(self):
-        return
+        self.posts = {}
+        # каждому посту сопоставляем список людей, его посмотревших
+        self.follow = {}
+        # каждому пользователю сопоставляем список его подписок
+        self.post_stats = {}
+        # статистика чтения поста
 
     def user_posted_post(self, user_id: int, post_id: int):
         self.posts[post_id] = user_id
         # каждому посту сопоставляем его создателя
-        return
 
     def user_read_post(self, user_id: int, post_id: int):
         if post_id not in self.post_stats:
@@ -41,6 +39,7 @@ class VKPoster:
                 fresh_for_id += [post]
             if len(fresh_for_id) == k:
                 return fresh_for_id
+        return fresh_for_id
 
     def get_most_popular_posts(self, k: int) -> list:
         new_dict = {key: len(value) for key, value in self.post_stats.items()}
