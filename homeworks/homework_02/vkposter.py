@@ -85,7 +85,7 @@ class VKPoster:
             Popular.append((len(wc), i))
         Popular = sorted(Popular, key=lambda f: (f[0], f[1]), reverse=True)
         Result = []
-        for i in Popular:
+        for i in range(len(Popular)):
             if len(Result) == k:
                 break
             Result.append(Popular[i][1])
