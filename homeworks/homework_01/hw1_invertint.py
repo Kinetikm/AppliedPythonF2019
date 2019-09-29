@@ -16,7 +16,6 @@ def reverse(number):
         number = -number
         k = -1
     while number >= 1:
-        #k = k * 10
         n = number % 10
         number = number // 10
         r = r * 10 + n
