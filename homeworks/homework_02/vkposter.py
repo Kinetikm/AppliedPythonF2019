@@ -11,15 +11,6 @@ class VKPoster:
     def __init__(self):
         self._users = {}
         self._posts = {}
-        '''
-        Словарь типа {user_id: {dict}}
-            dict типа {'posts':[], 'follows":[]}
-                posts - посты, опубликованные юзером
-                    posts dict - словарь постов, ключ - id поста, значение - список из id просмотревших людей
-                follows - список юзеров, на которых подписан данный человек
-        posts: словарь
-            {post_id: []}, [] - список просмотревших юзеров
-        '''
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
@@ -47,6 +38,7 @@ class VKPoster:
         if user_id not in self._posts[post_id]:
             self._posts[post_id].append(user_id)
 
+
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
         Метод который вызывается когда пользователь follower_user_id
@@ -71,14 +63,10 @@ class VKPoster:
         ленте пользователя. list
         '''
         ans = []
-
         for followee in self._users[user_id]['follows']:
-            for post in self._users[followee]['posts']:
-                ans.append(post)
+            ans += self._users[followee]['posts']
         ans = sorted(ans, reverse=True)
-        if k > len(ans):
-            return ans[:k]
-        return ans
+        return ans[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -89,6 +77,4 @@ class VKPoster:
         :return: Список из post_id размером К из популярных постов. list
         '''
         ans = sorted(self._posts, key=lambda x: len(self._posts[x]), reverse=True)
-        if k > len(ans):
-            return ans[:k]
-        return ans
+        return ans[:k]
