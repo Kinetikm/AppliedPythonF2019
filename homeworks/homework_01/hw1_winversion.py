@@ -13,3 +13,6 @@ def word_inversion(input_lst):
         else:
             input_lst.insert(start, a)
     return input_lst
+
+
+print(word_inversion(["-", "3", "9"]))
