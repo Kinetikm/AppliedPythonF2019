@@ -62,7 +62,8 @@ class VKPoster:
         '''
         lst_recent = list()
         for i in self.followers[user_id]:
-            lst_recent += self.users_posts[i]
+            if i in self.users_posts:
+                lst_recent += self.users_posts[i]
         lst_recent = sorted(lst_recent, reverse = True)
         return lst_recent[:k]
 
