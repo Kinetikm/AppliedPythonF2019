@@ -77,11 +77,11 @@ class VKPoster:
 
     def get_most_popular_posts(self, k: int) -> list:
         Popular = []
-        for i in self.posts.keys():
-            Popular.append((len(set(self.posts[i])), i))
-        Popular = sorted(Popular, key=lambda f: (f[0], f[1]), reverse=True)
-        Popular = [Popular[i][1] for i in range(min(k, len(Popular)))]
-        return Popular
+        for post_id in self.posts.keys():
+            Popular.append((len(self.posts[post_id])-1, post_id))
+        Popular = sorted(Popular, key=lambda tup: (-tup[0], -tup[1]))
+        Popular = Popular[:min(k, len(Popular))]
+        return [tup[1] for tup in Popular]
         '''
         Метод который возвращает список k самых популярных постов за все время,
         остортированных по свежести.
