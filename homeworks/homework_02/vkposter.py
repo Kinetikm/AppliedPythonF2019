@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import heapq
-
 
 class VKPoster:
 
@@ -68,21 +66,12 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        p = []
         output = []
         if user_id in self.follows.keys():
             for followee in self.follows[user_id]:
                 if followee in self.user_posts.keys():
-                    for post_id in self.user_posts[followee]:
-                        heapq.heappush(p, post_id)
-                else:
-                    continue
-        for i in range(k):
-            if p != []:
-                output.append(heapq.heappop(p))
-            else:
-                break
-        return output
+                    output.extend(self.user_posts[followee])
+        return sorted(output, reverse=False)[:k]
 
     def get_most_popular_posts(self, k: int):
         '''
