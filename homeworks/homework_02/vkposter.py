@@ -80,7 +80,7 @@ class VKPoster:
         sorting_list = []
         pop_posts = []
         for itr in self.all_posts:
-            sorting_list.append((self.all_posts[itr].len(), itr))
+            sorting_list.append((len(self.all_posts[itr]), itr))
         sorting_list.sort(reverse=True)
         for i in range(k):
             pop_posts.append(sorting_list[i][1])
