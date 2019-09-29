@@ -16,6 +16,6 @@ def find_subarr(input_lst, num):
         for j in range(i, len(input_lst), 1):
             sum = sum + input_lst[j]
             if sum == num:
-                return ( i, j)
+                return (i, j)
     return tuple()
     raise NotImplementedError
