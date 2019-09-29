@@ -9,19 +9,11 @@ class VKPoster(object):
         self.subscribes = {}    # key user_id,info - set of subscribes
         self.user_added_posts = {}    # key user_id,info - added post
 
-
     def user_posted_post(self, user_id: int, post_id: int):
         if user_id in self.user_added_posts:
             self.user_added_posts[user_id].append(post_id)
         else:
             self.user_added_posts[user_id] = [post_id]
-        if post_id not in self.read_users:
-            self.read_users[post_id] = [user_id]
-            self.read_amount[post_id] = 1
-        else:
-            self.read_amount[post_id] += 1
-            self.read_users[post_id].append(user_id)
-
 
     def user_read_post(self, user_id: int, post_id: int):
         if post_id in self.read_users:
@@ -32,7 +24,6 @@ class VKPoster(object):
             self.read_users[post_id] = [user_id]
             self.read_amount[post_id] = 1
 
-
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         if follower_user_id in self.subscribes:
             self.subscribes[follower_user_id].add(followee_user_id)
@@ -40,7 +31,6 @@ class VKPoster(object):
             s = set()
             s.add(followee_user_id)
             self.subscribes[follower_user_id] = s
-
 
     def get_recent_posts(self, user_id: int, k: int) -> list:
         out_list = []
@@ -52,7 +42,6 @@ class VKPoster(object):
                 del out_list[:len(out_list) - k]
         out_list = out_list[::-1]
         return out_list
-
 
     def get_most_popular_posts(self, k: int) -> list:
         sort_list = []
