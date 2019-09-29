@@ -5,7 +5,7 @@
 class VKPoster:
 
     def __init__(self):
-        self.all_posts = {}  # все посты post_id:list of user who read
+        self.read_users = {}  # все посты post_id:list of user who read
         self.user_posts = {}  # user_id:list(post_id)
         self.user_subscriptions = {}  # user_id:user_subscriptions
 
@@ -21,7 +21,7 @@ class VKPoster:
             self.user_posts[user_id].append(post_id)
         else:
             self.user_posts[user_id] = [post_id]
-        self.all_posts[post_id] = []
+        self.read_users[post_id] = []
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -31,9 +31,9 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        if post_id in self.all_posts:
-            if user_id not in self.all_posts[post_id]:
-                self.all_posts[post_id].append(user_id)
+        if post_id in self.read_users:
+            if user_id not in self.read_users[post_id]:
+                self.read_users[post_id].append(user_id)
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
@@ -59,15 +59,16 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        fpop_postsh_posts = []
+        recent_posts = []
         for itr in self.user_subscriptions[user_id]:
-            if itr in self.user_posts:
-                fpop_postsh_posts += self.user_posts[itr]
-                fpop_postsh_posts.sort()
-            if len(fpop_postsh_posts) > k:
-                del fpop_postsh_posts[:len(fpop_postsh_posts) - k]
-        fpop_postsh_posts = fpop_postsh_posts[::-1]
-        return fpop_postsh_posts
+            if itr not in self.user_posts:
+                continue
+            recent_posts += self.user_posts[itr]
+            recent_posts.sort()
+            if len(recent_posts) > k:
+                del recent_posts[:len(recent_posts) - k]
+        recent_posts = recent_posts[::-1]
+        return recent_posts
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -86,7 +87,7 @@ class VKPoster:
             sorting[n].append(t_post)
         t_list = sorted(sorting, reverse=True)
         for itr in t_list:
-            sorting[itr].sort(reverse=True)# sort for posttime
+            sorting[itr].sort(reverse=True)  # sort for posttime
             pop_posts += sorting[itr]
         if len(pop_posts) > k:
             pop_posts = pop_posts[:k]
