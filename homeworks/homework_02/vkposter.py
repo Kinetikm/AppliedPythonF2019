@@ -35,6 +35,8 @@ class VKPoster:
         '''
         if user_id not in self._users:
             self._users[user_id] = {'posts': [], 'follows': []}
+        if post_id not in self._posts:
+            self._posts[post_id] = []
         if user_id not in self._posts[post_id]:
             self._posts[post_id].append(user_id)
 
