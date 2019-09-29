@@ -87,7 +87,7 @@ class VKPoster:
         for key in keys_list:
             res += d[key]
         if len(res) > k:
-            l=res[:k]
+            l = res[:k]
             l.sort(reverse=True)
             return l
         else:
