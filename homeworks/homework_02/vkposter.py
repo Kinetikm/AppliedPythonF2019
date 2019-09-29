@@ -24,7 +24,6 @@ class User:
         self.follows = set()
 
 class VKPoster:
-
     def __init__(self):
         self._users = dict()
         self._posts = dict()
@@ -40,7 +39,7 @@ class VKPoster:
         if user_id not in self._users:
             self._users.update({user_id: User(user_id)})
 
-        self._users[user_id]._posts.append(post_id)
+        self._users[user_id].posts.append(post_id)
 
         self._posts.update({post_id: Post(post_id)})
 
