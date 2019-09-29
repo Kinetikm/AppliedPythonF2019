@@ -78,11 +78,7 @@ class VKPoster:
     def get_most_popular_posts(self, k: int) -> list:
         Popular = []
         for i in self.posts.keys():
-            wc = []
-            for k in self.posts[i]:
-                if k not in wc:
-                    wc.append(k)
-            Popular.append((len(wc), i))
+            Popular.append((len(set(self.posts[i])), i))
         Popular = sorted(Popular, key=lambda f: (f[0], f[1]), reverse=True)
         Popular = [Popular[i][1] for i in range(min(k, len(Popular)))]
         return Popular
