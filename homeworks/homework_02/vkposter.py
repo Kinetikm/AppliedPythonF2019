@@ -40,7 +40,7 @@ class VKPoster:
                 except KeyError:
                     VKPoster.posts[post_id] = [user_id]
         else:
-            return None
+            VKPoster.posts[post_id] = [user_id]
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
