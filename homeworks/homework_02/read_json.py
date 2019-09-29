@@ -11,4 +11,3 @@ def read_json(filename, e):
             for k in row.keys():
                 output[k].append(row[k])
         return output
-

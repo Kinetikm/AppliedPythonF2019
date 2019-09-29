@@ -14,7 +14,3 @@ def read_tsv(filename, e):
             for i in range(len(row)):
                 output[data[0][i]].append(row[i])
         return output
-
-
-
-

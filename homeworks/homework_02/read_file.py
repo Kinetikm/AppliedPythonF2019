@@ -2,6 +2,7 @@ from read_tsv import *
 from read_json import *
 from enc import *
 
+
 def read_file(filename):
     en = enc(filename)
     if en == "ascii":
