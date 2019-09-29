@@ -31,10 +31,11 @@ class VKPoster:
     def get_recent_posts(self, user_id: int, k: int)-> list:
         tmp = []
         if user_id in self.subs.keys():
-            for i in range(len(self.subs[user_id])):
-                self.users[i].sort()
-                for j in range(k):
-                    tmp.append(self.users[i][j])
+            if len(self.subs[user_id]) != 0:
+                for i in range(len(self.subs[user_id])):
+                    self.users[i].sort()
+                    for j in range(k):
+                        tmp.append(self.users[i][j])
         return tmp
 
     def get_most_popular_posts(self, k: int) -> list:
