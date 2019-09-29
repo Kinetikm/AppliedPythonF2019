@@ -1,8 +1,8 @@
-def format_table(inp_lst):
+﻿def format_table(inp_lst):
     max_strs = ['']*len(inp_lst[0])
     for line in inp_lst:
         for i in range(len(inp_lst[0])):
-            line[i] = line[i].replace('—', '-')
+            #line[i] = line[i].replace('—', '-')
             if len(line[i]) > len(max_strs[i]):
                 max_strs[i] = line[i]
 
