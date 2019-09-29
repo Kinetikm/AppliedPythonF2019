@@ -3,11 +3,12 @@
 
 
 class VKPoster:
-    posts = dict()
-    users = dict()
-    follow = dict()
+
     def __init__(self):
-        pass
+        posts = dict()
+        users = dict()
+        follow = dict()
+
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
@@ -72,12 +73,11 @@ class VKPoster:
             else:
                 continue
         if len(sort_list) != 0:
-           sort_list.sort()
-           sort_list.reverse()
-           return sort_list[:k]
+            sort_list.sort()
+            sort_list.reverse()
+            return sort_list[:k]
         else:
-           return sort_list
-
+            return sort_list
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
