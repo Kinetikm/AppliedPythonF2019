@@ -25,5 +25,3 @@ def read_csv(text):
     except Exception:
         return None
     return text
-
-

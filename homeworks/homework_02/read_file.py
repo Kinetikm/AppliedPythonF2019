@@ -1,5 +1,5 @@
 def read_file(filename):
-    encodings = [ 'utf8' , 'utf16', 'cp1251']
+    encodings = ['utf8', 'utf16', 'cp1251']
     for enc in encodings:
         try:
             with open(filename, 'r', encoding=enc) as file:
@@ -11,5 +11,3 @@ def read_file(filename):
         except Exception:
             continue
     return None
-
-
