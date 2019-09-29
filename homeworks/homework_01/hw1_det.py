@@ -21,12 +21,13 @@ def calculate_determinant(list_of_lists):
                 t2.pop(j)
                 t1.append(t2[::])
             n = n + 1
-        return t1        
+        return t1
+    
     def findDet(table):
         size = len(table)
         i = 0
         d = 0
-        k = 1;
+        k = 1
         if size == 1:
             d = table[0][0]
             return d
