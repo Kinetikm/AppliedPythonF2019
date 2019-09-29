@@ -93,31 +93,31 @@ class VKPoster:
             self._users.update({user_id: User(user_id)})
             return []
 
-            recent_posts = []
-            for follow_id in self._users[user_id].follows:
-                recent_posts.append(self._users[follow_id].posts[-k:])
+        recent_posts = []
+        for follow_id in self._users[user_id].follows:
+            recent_posts.append(self._users[follow_id].posts[-k:])
 
-            recent_posts.sort()
+        recent_posts.sort()
 
-            return recent_posts[-k:]
+        return recent_posts[-k:]
 
-def get_most_popular_posts(self, k: int) -> list:
-    '''
-    Метод который возвращает список k самых популярных постов за все время,
-    остортированных по свежести.
-    :param k: Сколько самых свежих популярных постов
-    необходимо вывести. Число.
-    :return: Список из post_id размером К из популярных постов. list
-    '''
-    queue = PriorityQueue()
-    popular_posts = []
-    for post in self._posts.values():
-        queue.put(((-len(post.read), -post.post_id), post.post_id))
+    def get_most_popular_posts(self, k: int) -> list:
+        '''
+        Метод который возвращает список k самых популярных постов за все время,
+        остортированных по свежести.
+        :param k: Сколько самых свежих популярных постов
+        необходимо вывести. Число.
+        :return: Список из post_id размером К из популярных постов. list
+        '''
+        queue = PriorityQueue()
+        popular_posts = []
+        for post in self._posts.values():
+            queue.put(((-len(post.read), -post.post_id), post.post_id))
 
-    for _ in range(k):
-        if queue.empty():
-            return []
+        for _ in range(k):
+            if queue.empty():
+                return []
 
-    popular_posts.append(queue.get()[1])
+        popular_posts.append(queue.get()[1])
 
-    return popular_posts
+        return popular_posts
