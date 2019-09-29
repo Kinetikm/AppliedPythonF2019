@@ -48,9 +48,9 @@ class VKPoster:
         :return: ничего
         '''
         try:
-            VKPoster.follow[followee_user_id].append(follower_user_id)
+            VKPoster.follow[follower_user_id].append(followee_user_id)
         except KeyError:
-            VKPoster.follow[followee_user_id] = [follower_user_id]
+            VKPoster.follow[follower_user_id] = [followee_user_id]
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         '''
