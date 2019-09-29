@@ -65,15 +65,12 @@ class VKPoster:
         ленте пользователя. list
         '''
         sort_list = list()
-        if user_id in (VKPoster.users.keys()):
-            for i in VKPoster.follow[user_id]:
-                for j in VKPoster.users[i]:
-                    sort_list.append(j)
-            sort_list.sort()
-            sort_list.reverse()
-            return sort_list[:k]
-        else:
-            return sort_list
+        for i in VKPoster.follow[user_id]:
+            for j in VKPoster.users[i]:
+                sort_list.append(j)
+        sort_list.sort()
+        sort_list.reverse()
+        return sort_list[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
