@@ -5,9 +5,9 @@
 class VKPoster:
 
     def __init__(self):
-        self._user_follows = dict()  # user id - his followee ids
-        self._user_posts = dict()    # user id - his post ids
-        self._post_read = dict()     # post id - user ids (who read)
+        self._user_follows = dict()  # user id - list of his followee ids
+        self._user_posts = dict()    # user id - list of his post ids
+        self._post_read = dict()     # post id - set of user ids
 
     def user_posted_post(self, user_id: int, post_id: int):
         """
@@ -17,10 +17,10 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         """
-        if self._user_posts.get(user_id) is None:
-            self._user_posts[user_id] = set()
-        self._user_posts[user_id].add(post_id)
-        if self._post_read.get(post_id) is None:
+        if user_id not in self._user_posts:
+            self._user_posts[user_id] = []
+        self._user_posts[user_id].append(post_id)
+        if post_id not in self._post_read:
             self._post_read[post_id] = set()
 
     def user_read_post(self, user_id: int, post_id: int):
@@ -31,7 +31,7 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         """
-        if self._post_read.get(post_id) is None:
+        if post_id not in self._post_read:
             self._post_read[post_id] = set()
         self._post_read[post_id].add(user_id)
 
@@ -43,9 +43,9 @@ class VKPoster:
         :param followee_user_id: id пользователя. Число.
         :return: ничего
         """
-        if self._user_follows.get(follower_user_id) is None:
-            self._user_follows[follower_user_id] = set()
-        self._user_follows[follower_user_id].add(followee_user_id)
+        if follower_user_id not in self._user_follows:
+            self._user_follows[follower_user_id] = []
+        self._user_follows[follower_user_id].append(followee_user_id)
 
     def get_recent_posts(self, user_id: int, k: int) -> list:
         """
@@ -58,7 +58,7 @@ class VKPoster:
         """
         result = []
         for followee_id in self._user_follows[user_id]:
-            if self._user_posts.get(followee_id) is None:
+            if followee_id not in self._user_posts:
                 continue
             for followee_post_id in self._user_posts[followee_id]:
                 if followee_post_id not in self._post_read:
@@ -79,7 +79,7 @@ class VKPoster:
         post_read = dict()
         for post_id, user_id_list in self._post_read.items():
             been_read = len(user_id_list)
-            if post_read.get(been_read) is None:
+            if been_read not in post_read:
                 post_read[been_read] = []
             post_read[been_read].append(post_id)
         result = []
