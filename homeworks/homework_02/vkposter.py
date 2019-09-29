@@ -25,11 +25,9 @@ class VKPoster:
         '''
 
     def user_read_post(self, user_id: int, post_id: int):
-        if user_id not in self.users.keys():
-            self.users.update({user_id: []})
-        if post_id not in self.posts.keys():
-            self.posts.update({post_id: ['Unknown_author']})
-        elif user_id not in self.posts[post_id]:
+        if self.posts.get(post_id) is None:
+            self.posts.update({post_id: ['unknown_author']})
+        if user_id not in self.posts[post_id]:
             self.posts[post_id].append(user_id)
         '''
         Метод который вызывается когда пользователь user_id
@@ -40,12 +38,11 @@ class VKPoster:
         '''
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
-        if followee_user_id not in self.users.keys():
-            self.users.update({followee_user_id: [follower_user_id]})
-        else:
-            self.users[followee_user_id].append(follower_user_id)
-        if follower_user_id not in self.users.keys():
-            self.users.update({follower_user_id: []})
+        if self.users.get(follower_user_id) is None:
+            self.users.update(follower_user_id)
+        if self.users.get(follower_user_id) is None:
+            self.users.update(followee_user_id)
+        self.users[follower_user_id].append(followee_user_id)
         '''
         Метод который вызывается когда пользователь follower_user_id
         подписался на пользователя followee_user_id.
@@ -55,19 +52,15 @@ class VKPoster:
         '''
 
     def get_recent_posts(self, user_id: int, k: int) -> list:
-        following = []
-        for i in self.users.keys():
-            if user_id in self.users[i]:
-                following.append(i)
-        posts = []
-        for i in self.posts.keys():
-            if self.posts[i][0] in following:
-                posts.append(i)
-        posts.sort()
-        posts.reverse()
-        while len(posts) > k:
-            posts.pop()
-        return posts
+        Res = []
+        for post_id in self.posts.keys():
+            if self.posts[post_id][0] in self.users[user_id]:
+                if user_id not in self.posts[post_id]:
+                    Res.append(post_id)
+        Res = sorted(Res, key=lambda post_id: -post_id)
+        if k < len(Res):
+            return Res[:k]
+        return Res
         '''
         Метод который вызывается когда пользователь user_id
         запрашивает k свежих постов людей на которых он подписан.
@@ -78,12 +71,12 @@ class VKPoster:
         '''
 
     def get_most_popular_posts(self, k: int) -> list:
-        Popular = []
+        Res = []
         for post_id in self.posts.keys():
-            Popular.append((len(self.posts[post_id])-1, post_id))
-        Popular = sorted(Popular, key=lambda tup: (-tup[0], -tup[1]))
-        Popular = Popular[:min(k, len(Popular))]
-        return [tup[1] for tup in Popular]
+            Res.append((len(self.posts[post_id])-1, post_id))
+        Res = sorted(Res, key=lambda tup: (-tup[0], -tup[1]))
+        Res = Res[:min(k, len(Res))]
+        return [tup[1] for tup in Res]
         '''
         Метод который возвращает список k самых популярных постов за все время,
         остортированных по свежести.
