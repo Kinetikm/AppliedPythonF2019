@@ -32,8 +32,6 @@ class VKPoster:
             self.post_relationship[user_id][1].append(post_id)
         if post_id not in self.posts.keys():
             self.posts[post_id] = []
-        if user_id not in self.posts[post_id]:
-            self.posts[post_id].append(user_id)
         if post_id in self.post_relationship[user_id][1]:
             self.posts[post_id] += 1
 
@@ -60,17 +58,3 @@ class VKPoster:
 
     def print_VK(self):
         print("self.post_relationship: ", self.post_relationship, "\n", "self.posts: ", self.posts, "\n\n")
-
-
-a = VKPoster()
-for i in range(15):
-    a.user_posted_post(i, 10+i)
-
-for i in range(5):
-    a.user_read_post(i, 10)
-for i in range(8):
-    a.user_read_post(i, 11)
-for i in range(3):
-    a.user_read_post(i, 17)
-
-print(a.get_most_popular_posts(5))
