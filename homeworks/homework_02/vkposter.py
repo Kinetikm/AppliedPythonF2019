@@ -5,9 +5,9 @@
 class VKPoster:
 
     def __init__(self):
-        posts = dict()
-        users = dict()
-        follow = dict()
+        self.posts = dict()
+        self.users = dict()
+        self.follow = dict()
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
