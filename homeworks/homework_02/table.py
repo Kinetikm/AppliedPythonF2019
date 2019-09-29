@@ -2,7 +2,7 @@ import sys
 from read_file import read_file
 from decode import read_json
 from decode import read_csv
-from draw_table import  draw_table
+from draw_table import draw_table
 
 
 if __name__ == '__main__':
