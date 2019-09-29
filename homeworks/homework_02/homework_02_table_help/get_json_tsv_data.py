@@ -13,7 +13,6 @@ def get_tsv_data_as_list(file):
         return None
 
 
-
 def get_json_data_as_list(file):
     try:
         json_data = json.load(file)
