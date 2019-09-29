@@ -44,7 +44,7 @@ class VKPoster:
     def get_most_popular_posts(self, k: int) -> list:
         news_tmp = {}
         for id in self.news_tmp:
-            news_tmp[id] = len(self.post_views[id])
+            news_tmp[id] = len(self.posts[id])
         hot_news = list(news_tmp.items())
         hot_news.sort(id=lambda elem: elem[0], reverse=True)  # сортировка по свжести
         hot_news.sort(id=lambda elem: elem[1], reverse=True)  # сортировка по горячести
