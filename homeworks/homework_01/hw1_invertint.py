@@ -9,7 +9,6 @@ def reverse(number):
     :param number: исходное число
     :return: инвертированное число
     '''
-    
     k = 1
     n = 0
     r = 0
