@@ -51,7 +51,7 @@ class VKPoster:
             self.followers[follower_user_id] = [followee_user_id]
         return None
 
-    def get_recent_posts(self, user_id: int, k: int)-> list:
+    def get_recent_posts(self, user_id: int, k: int) -> list:
         '''
         Метод который вызывается когда пользователь user_id
         запрашивает k свежих постов людей на которых он подписан.
@@ -64,7 +64,7 @@ class VKPoster:
         for i in self.followers[user_id]:
             if i in self.users_posts:
                 lst_recent += self.users_posts[i]
-        lst_recent = sorted(lst_recent, reverse = True)
+        lst_recent = sorted(lst_recent, reverse=True)
         return lst_recent[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
@@ -83,6 +83,6 @@ class VKPoster:
             else:
                 rev_dict[len(self.readed_posts[i])] = [i]
         for i in sorted(rev_dict.keys(), reverse=True):
-            rev_dict[i] = sorted(rev_dict[i], reverse = True)
+            rev_dict[i] = sorted(rev_dict[i], reverse=True)
             lst_popular += rev_dict[i]
         return lst_popular[:k]
