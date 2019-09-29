@@ -9,11 +9,12 @@ if __name__ == '__main__':
 if not path.exists(filename):
     print("Файл не валиден")
 else:
-    text_mas = ["Файл не валиден", "Формат не валиден", "Формат не валиден2"]
+    text_mas = ["Файл не валиден", "Формат не валиден", "Формат не валиден"]
     result = filename
     for i, func in enumerate([encoding_check, read_data, do_table]):
         result = func(result)
         if result is None:
             result = text_mas[i]
             break
+
     print(result)

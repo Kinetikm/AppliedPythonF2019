@@ -1,7 +1,4 @@
 import json
-import csv
-
-from io import StringIO
 
 
 def read_data(text):
@@ -9,11 +6,10 @@ def read_data(text):
         text = json.loads(text)
     except Exception:
         try:
-            text = StringIO(text)
-            reader = csv.DictReader(text, delimiter=",", quotechar='\n')
-            text = []
-            for line in reader:
-                text.append(dict(line))
+            text = [i.split("\t") for i in text.strip().split("\n")]
+            if len(text) > 2:
+                text = [{text[0][k]: cell for k, cell in enumerate(
+                    line)} for i, line in enumerate(text) if i > 0]
         except Exception:
             return None
     return text
