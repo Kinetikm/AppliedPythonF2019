@@ -31,7 +31,7 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        if post_id in VKPoster:
+        if post_id in (VKPoster.posts.keys()):
             if user_id in VKPoster.posts[post_id]:
                 return None
             else:
