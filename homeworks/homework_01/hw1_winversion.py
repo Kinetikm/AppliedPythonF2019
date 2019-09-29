@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
  
- 
+
 def word_inversion(input_lst):
     input_lst.reverse()
     k = 0
@@ -20,4 +20,3 @@ def word_inversion(input_lst):
                 tmp = tmp - 1
                 k = k + 1
     return input_lst
-   
