@@ -57,9 +57,13 @@ class VKPoster:
         q = list()
         s = self.pf[user_id]
         for i in range(len(s)):
-            l1 = self.pp[s[i]]
-            for j in range(len(l1)):
-                q.append(l1[j])
+            for k1, v in self.pp.items():
+                if s[i] == k1:
+                    z = 1
+            if z == 1:
+                l1 = self.pp[s[i]]
+                for j in range(len(l1)):
+                    q.append(l1[j])
         q = sorted(q, reverse=True)
         return q[:k]
         pass
