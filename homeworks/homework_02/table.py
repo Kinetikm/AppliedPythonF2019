@@ -12,9 +12,10 @@ def show_table(filename):
         if list_data is None:
             with open(filename, encoding=encode) as file:
                 list_data = get_data_helper.get_tsv_data_as_list(file)
-        printer_table.print_data_as_table(list_data)
         if list_data is None:
             print("Формат не валиден")
+        else:
+            printer_table.print_data_as_table(list_data)
     except FileNotFoundError:
         print("Файл не валиден")
 

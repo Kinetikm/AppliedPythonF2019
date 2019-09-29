@@ -6,8 +6,12 @@ def get_tsv_data_as_list(file):
     try:
         result_list = []
         tsv_data = csv.reader(file, delimiter="\t")
+        previos_elem = 0
         for sub_list in tsv_data:
+            if previos_elem != 0 and previos_elem != len(sub_list):
+                return None
             result_list.append(list(sub_list))
+            previos_elem = len(sub_list)
         return result_list
     except csv.Error:
         return None
