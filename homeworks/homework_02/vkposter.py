@@ -18,7 +18,7 @@ class VKPoster:
     def user_read_post(self, user_id: int, post_id: int):
         if post_id not in self.posts:
             self.posts[post_id] = [user_id]
-        for id in posts[post_id]:
+        for id in self.posts[post_id]:
             flag = not (user_id == id)
         if flag:
             self.posts[post_id].append(user_id)
@@ -43,7 +43,7 @@ class VKPoster:
 
     def get_most_popular_posts(self, k: int) -> list:
         news_tmp = {}
-        for id in self.news_tmp:
+        for id in self.posts:
             news_tmp[id] = len(self.posts[id])
         hot_news = list(news_tmp.items())
         hot_news.sort(key=lambda elem: elem[0], reverse=True)  # сортировка по свжести
