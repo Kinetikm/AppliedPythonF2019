@@ -51,10 +51,10 @@ class VKPoster:
         return temp[:k:]
 
     def get_most_popular_posts(self, k: int) -> list:
-        temp = []
-        for key, val in self.posts.items():
-            heapq.heappush(temp, (val, key))
-        return [s[1] for s in heapq.nlargest(k, temp)]
+        list_d = list(self.posts.items())
+        list_d.sort(key=lambda x: len(x[1]), reverse=True)
+        temp = [i[0] for i in list_d[:k]]
+        return temp
 
     def print_VK(self):
         print("self.post_relationship: ", self.post_relationship, "\n", "self.posts: ", self.posts, "\n\n")
