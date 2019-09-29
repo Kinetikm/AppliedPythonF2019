@@ -10,10 +10,10 @@ class VKPoster:
         self.followers = {}
 
     def user_posted_post(self, user_id: int, post_id: int):
-        if user_id not in self.posts:
-            self.posts[user_id] = [post_id]
+        if user_id not in self.users:
+            self.users[user_id] = [post_id]
         else:
-            self.posts[user_id].append(post_id)
+            self.users[user_id].append(post_id)
 
     def user_read_post(self, user_id: int, post_id: int):
         if post_id not in self.posts:
@@ -38,7 +38,7 @@ class VKPoster:
                 news += self.users[id]
         news.sort()
         news = news[::-1]
-        news = news[:k:]
+        news = news[:k]
         return news
 
     def get_most_popular_posts(self, k: int) -> list:
