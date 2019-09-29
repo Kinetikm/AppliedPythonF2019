@@ -41,7 +41,7 @@ class VKPoster:
         if follower_user_id in self.post_relationship.keys():
             self.post_relationship[follower_user_id][2].append(followee_user_id)
         else:
-            self.post_relationship[follower_user_id] = [[], [], [], []]
+            self.post_relationship[follower_user_id] = [[], [], []]
             self.post_relationship[follower_user_id][2] = [followee_user_id]
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
