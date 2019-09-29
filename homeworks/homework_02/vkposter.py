@@ -33,7 +33,10 @@ class VKPoster:
         '''
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
-        self.users[followee_user_id].append(follower_user_id)
+        if followee_user_id not in self.users.keys():
+            self.user.update({followee_user_id: follower_user_id})
+        else:
+            self.users[followee_user_id].append(follower_user_id)
         '''
         Метод который вызывается когда пользователь follower_user_id
         подписался на пользователя followee_user_id.
