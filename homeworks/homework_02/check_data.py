@@ -4,6 +4,6 @@ def encoding_check(filename):
             with open(filename, 'r', encoding=enc_type) as f:
                 data = f.read().strip()
             return data
-        except BaseException:
+        except Exception:
             continue
     return None
