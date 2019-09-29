@@ -1,6 +1,6 @@
 def do_table(dict_text):
     try:
-        max_width = [len(name) for name in dict_text[0].keys()]
+        max_width = [len(str(name)) for name in dict_text[0].keys()]
         values = [dic.values() for dic in dict_text]
         for value in values:
             for num, field in enumerate(value):
