@@ -19,7 +19,7 @@ class VKPoster:
         if user_id in self.users:
             self.users[user_id][1].append(post_id)
         else:
-            self.users[user_id] = [[],[post_id]]
+            self.users[user_id] = [[], [post_id]]
         self.posts[post_id] = set()
 
     def user_read_post(self, user_id: int, post_id: int):
@@ -31,7 +31,7 @@ class VKPoster:
         :return: ничего
         '''
         if user_id not in self.users:
-            self.users[user_id] = [[],[]]
+            self.users[user_id] = [[], []]
         if post_id in self.posts:
             self.posts[post_id].add(user_id)
         else:
@@ -46,9 +46,9 @@ class VKPoster:
         :return: ничего
         '''
         if follower_user_id not in self.users:
-            self.users[follower_user_id] = [[],[]]
+            self.users[follower_user_id] = [[], []]
         if followee_user_id not in self.users:
-            self.users[followee_user_id] = [[],[]]
+            self.users[followee_user_id] = [[], []]
         self.users[follower_user_id][0].append(followee_user_id)
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
