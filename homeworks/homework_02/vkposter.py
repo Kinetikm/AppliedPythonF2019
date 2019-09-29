@@ -37,7 +37,7 @@ class VKPoster:
             self.readers[post_id].append(user_id)
         else:
             self.reads[post_id] = 1
-            self.readers[post_id] = [user_id]   
+            self.readers[post_id] = [user_id]
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
@@ -69,7 +69,6 @@ class VKPoster:
         out_list = out_list[::-1]
         return out_list[:k]
 
-       
     def get_most_popular_posts(self, k: int) -> list:
         '''
         Метод который возвращает список k самых популярных постов за все время,
@@ -86,4 +85,3 @@ class VKPoster:
         for i in use_list[:k]:
             out_list.append(i[1])
         return out_list
-
