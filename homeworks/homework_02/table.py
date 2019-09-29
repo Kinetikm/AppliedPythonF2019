@@ -1,11 +1,9 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 import sys
 import coding
 import readtsv
 import drawtab
 import filetype
+
 
 if __name__ == '__main__':
     filename = sys.argv[1]
