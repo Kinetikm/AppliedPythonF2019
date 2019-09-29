@@ -3,7 +3,7 @@ import csv
 
 
 def get_tsv_data_as_list(file):
-    result= []
+    result = []
     tsv_data = csv.reader(file, delimiter="\t")
     for line in tsv_data:
         result.append(line)
