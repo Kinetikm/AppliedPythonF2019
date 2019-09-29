@@ -6,7 +6,6 @@ import heapq
 
 class VKPoster:
 
-
     def __init__(self):
         self.user_posts = {}
         self.posts = {}
@@ -34,10 +33,18 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        if post_id not in self.posts.keys():
-            self.posts[post_id] = 1
-        else:
-            self.posts[post_id] += 1
+        if user_id not in self.readed.keys():
+            self.readed[user_id] = [post_id]
+            if post_id not in self.posts.keys():
+                self.posts[post_id] = 1
+            else:
+                self.posts[post_id] += 1
+        if post_id not in self.readed[user_id]:
+            self.readed[user_id].append(post_id)
+            if post_id not in self.posts.keys():
+                self.posts[post_id] = 1
+            else:
+                self.posts[post_id] += 1
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
