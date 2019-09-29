@@ -15,4 +15,5 @@ else:
     text_dict = read_json(text)
     if text_dict is None:
         text_dict = read_csv(text)
+print(draw_table(text_dict))
 return draw_table(text_dict)
