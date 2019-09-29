@@ -5,9 +5,7 @@ from reading import reading_data
 
 
 if __name__ == '__main__':
-    # filename = sys.argv[1]
-    pass
-filename = "files/posts-utf8.json"
+    filename = sys.argv[1]
 
 enc = encode_check(filename)
 if enc != "fileValidationError":
@@ -16,6 +14,3 @@ if enc != "fileValidationError":
 
 else:
     print('Формат не валиден')
-
-    # stdout
-

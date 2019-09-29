@@ -1,9 +1,8 @@
 import sys
 
+
 def table_print(mas: list):
     symbols_limit = []
-    # last_symbols_limit = 7
-    # проверка на соответствие размерности
     len_line = len(mas[0])
     checker = True
     for i in range(len(mas)):
