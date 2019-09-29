@@ -46,8 +46,8 @@ class VKPoster:
         for id in self.news_tmp:
             news_tmp[id] = len(self.posts[id])
         hot_news = list(news_tmp.items())
-        hot_news.sort(id=lambda elem: elem[0], reverse=True)  # сортировка по свжести
-        hot_news.sort(id=lambda elem: elem[1], reverse=True)  # сортировка по горячести
+        hot_news.sort(key=lambda elem: elem[0], reverse=True)  # сортировка по свжести
+        hot_news.sort(key=lambda elem: elem[1], reverse=True)  # сортировка по горячести
         popular_news = []
         for i in range(len(hot_news)):
             popular_news.append(hot_news[i][0])
