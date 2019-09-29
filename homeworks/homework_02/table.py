@@ -9,7 +9,8 @@ from exceptions import FileNotFound, InvalidFormat
 
 
 if __name__ == '__main__':
-    #os.environ["PYTHONIOENCODING"] = "utf-8"
+    os.environ["PYTHONIOENCODING"] = "utf-8"
+    sys.setdefaultencoding('utf-8')
     filename = sys.argv[1]
     try:
         sys.setdefaultencoding('utf-8')
