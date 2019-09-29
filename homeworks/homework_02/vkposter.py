@@ -22,7 +22,13 @@ class VKPoster:
             self.post_relationship[user_id][0].append(post_id)
 
     def user_read_post(self, user_id: int, post_id: int):
-        self.post_relationship[user_id][2].append(post_id)
+        if user_id not in self.post_relationship.keys():
+            self.post_relationship[user_id] = [[], [], [], []]
+            self.post_relationship[user_id][2] = [post_id]
+        else:
+            self.post_relationship[user_id][2].append(post_id)
+        if post_id not in self.posts:
+            self.posts[post_id] = {}
         if user_id not in self.posts[post_id]:
             self.posts[post_id].append(user_id)
 
