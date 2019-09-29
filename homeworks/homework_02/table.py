@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
 import sys
 from type_is import json_or_csv
 from parse import read_data, print_data
@@ -9,8 +8,8 @@ from file import open_file
 from encode import find_encode
 
 
-if __name__ == '__main__':	if __name__ == '__main__':
-    filename = sys.argv[1]	    filename = sys.argv[1]
+if __name__ == '__main__':
+    filename = sys.argv[1]
     try:
         open_file(filename)
         type_f = find_encode(filename)
