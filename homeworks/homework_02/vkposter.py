@@ -56,7 +56,7 @@ class VKPoster:
         '''
         q = list()
         s = self.pf[user_id]
-        for i in range(len(s)-1):
+        for i in range(len(s)):
             l1 = self.pp[s[i]]
             for j in range(len(l1)):
                 q.append(l1[j])
