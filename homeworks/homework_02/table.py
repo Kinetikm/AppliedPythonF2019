@@ -14,5 +14,5 @@ if text is None:
 else:
     text_dict = read_json(text)
     if text_dict is None:
-        text_dict = read_csv(text)           # we get list of dicts
+        text_dict = read_csv(text)
 return draw_table(text_dict)
