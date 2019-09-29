@@ -6,7 +6,7 @@ class VKPoster:
 
     def __init__(self):
         self.all_posts = {}  # все посты post_id:list of user who read
-        self.user_posts = {}  #  user_id:list(post_id)
+        self.user_posts = {}  # user_id:list(post_id)
         self.user_subscriptions = {}  # user_id:user_subscriptions
 
     def user_posted_post(self, user_id: int, post_id: int):
@@ -64,7 +64,7 @@ class VKPoster:
                 fresh_posts += self.user_posts[itr]
                 fresh_posts.sort()
             if len(fresh_posts) > k:
-                del fresh_posts[:k]
+                del fresh_posts[:len(fresh_posts) - k]
         fresh_posts = fresh_posts[::-1]
         return fresh_posts
 
@@ -80,7 +80,7 @@ class VKPoster:
         pop_posts = []
         for itr in self.all_posts:
             sorting_list.append((self.all_posts[itr].len(), itr))
-        sorting_list.sort(reverse = True)
+        sorting_list.sort(reverse=True)
         for i in range(k):
             pop_posts.append(sorting_list[i][1])
         return pop_posts
