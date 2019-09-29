@@ -38,7 +38,7 @@ class VKPoster:
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         if followee_user_id not in self.users.keys():
-            self.users.update({followee_user_id: follower_user_id})
+            self.users.update({followee_user_id: [follower_user_id]})
         else:
             self.users[followee_user_id].append(follower_user_id)
         '''
