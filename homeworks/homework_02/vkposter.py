@@ -39,9 +39,9 @@ class VKPoster:
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         if self.users.get(follower_user_id) is None:
-            self.users.update(follower_user_id)
-        if self.users.get(follower_user_id) is None:
-            self.users.update(followee_user_id)
+            self.users.update({follower_user_id: []})
+        if self.users.get(followee_user_id) is None:
+            self.users.update({followee_user_id: []})
         self.users[follower_user_id].append(followee_user_id)
         '''
         Метод который вызывается когда пользователь follower_user_id
