@@ -41,14 +41,16 @@ class TSVHandler:
         tags = tuple(self._tag_length.keys())
         for current_tag in tags:
             print(separator + current_tag.center(self._tag_length[current_tag] + 4), end='')
-        print(separator)
 
         for index in range(1, len(self._text)):
-            for internal in range(len(self._text[index])):
-                print(separator, end='')
-                print(' ' * (2 + self._tag_length[tags[internal]] - len(str(self._text[index][internal]))), end='')
-                print(str(self._text[index][internal]), end='')
-                print(' ' * 2, end='')
-
             print(separator)
+            for internal in range(len(self._text[index])):
+                escape_num = self._tag_length[tags[internal]] - len(str(self._text[index][internal]))
+
+                if isinstance(self._text[index][internal], float):
+                    print(separator + ' ' * (2 + escape_num) + str(self._text[index][internal]) + ' ' * 2, end='')
+                else:
+                    print(separator + ' ' * 2 + str(self._text[index][internal]) + ' ' * (escape_num + 2), end='')
+
+        print(separator)
         print('-' * separator_len)

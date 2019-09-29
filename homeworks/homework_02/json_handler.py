@@ -43,13 +43,17 @@ class JSONHandler:
         tags = tuple(self._tag_length.keys())
         for current_tag in tags:
             print(separator + current_tag.center(self._tag_length[current_tag] + 4), end='')
-        print(separator)
 
         for subtext in self._text:
-            for column in tags:
-                print(separator, end='')
-                print(' ' * (2 + self._tag_length[column] - len(str(subtext[column]))) + str(subtext[column]), end='')
-                print(' ' * 2, end='')
-
             print(separator)
+            for column in tags:
+
+                escape_num = self._tag_length[column] - len(str(subtext[column]))
+
+                if isinstance(subtext[column], float) or isinstance(subtext[column], int):
+                    print(separator + ' ' * (2 + escape_num) + str(subtext[column]) + ' ' * 2, end='')
+                else:
+                    print(separator + ' ' * 2 + str(subtext[column]) + ' ' * (escape_num + 2), end='')
+
+        print(separator)
         print('-' * separator_len)
