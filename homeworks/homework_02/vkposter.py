@@ -21,7 +21,7 @@ class VKPoster:
             self.users_posts[user_id] += [post_id]
         else:
             self.users_posts[user_id] = [post_id]
-        return None    
+        return None
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -35,7 +35,7 @@ class VKPoster:
             self.readed_posts[post_id].add(user_id)
         else:
             self.readed_posts[post_id] = {user_id}
-        return None 
+        return None
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
