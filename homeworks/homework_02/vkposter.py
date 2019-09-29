@@ -8,6 +8,7 @@ class VKPoster:
         self.users = {}
         self.posts = {}
         self.subs = {}
+
     def user_posted_post(self, user_id: int, post_id: int):
         if user_id in self.users.keys():
             self.users[user_id].append(post_id)
@@ -27,7 +28,6 @@ class VKPoster:
         else:
             self.subs[follower_user_id] = [followee_user_id]
 
-
     def get_recent_posts(self, user_id: int, k: int)-> list:
         tmp = []
         if user_id in self.subs.keys():
@@ -36,7 +36,6 @@ class VKPoster:
                 for j in range(k):
                     tmp.append(self.users[i][j])
         return tmp
-
 
     def get_most_popular_posts(self, k: int) -> list:
         tmp = []
@@ -48,5 +47,3 @@ class VKPoster:
         for i in range(k):
             res.append(tmp[i][0])
         return res
-
-
