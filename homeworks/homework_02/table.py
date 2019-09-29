@@ -18,5 +18,6 @@ if __name__ == '__main__':
         sys.exit()
     if json_check(filename, en):
         print_table(json_read(filename, en))
-    if tsv_check(filename, en):
-        print_table(tsv_read(filename, en))
+    else:
+        if tsv_check(filename, en):
+            print_table(tsv_read(filename, en))
