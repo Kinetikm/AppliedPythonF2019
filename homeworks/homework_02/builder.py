@@ -17,7 +17,7 @@ class Table:
             specificator = '|{:^%d}' % (max_len_in_col[j] + 4)
             print(specificator.format(data[0][j]), end='')
         print('|')
-        
+
         # рисуем основную часть таблицы
         for i in range(1, len(data)):
             if len(data[i]) != len(data[0]):
