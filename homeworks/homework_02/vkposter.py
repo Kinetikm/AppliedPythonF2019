@@ -15,25 +15,27 @@ class VKPoster:
         self.posts = {}
 
     def user_posted_post(self, user_id: int, post_id: int):
-        self.post_id = post_id
-        self.user_id = user_id
-        self.posts[post_id] = 0
-        if user_id not in self.post_relationship:
+        if user_id not in self.post_relationship.keys():
             self.post_relationship[user_id] = [[], [], []]
             self.post_relationship[user_id][0].append(post_id)
         else:
             self.post_relationship[user_id][0].append(post_id)
 
     def user_read_post(self, user_id: int, post_id: int):
-        if user_id not in self.post_relationship.keys():
+        if user_id in self.post_relationship.keys():
+            if post_id not in self.post_relationship[user_id][1]:
+                self.post_relationship[user_id][1].append(post_id)
+                if post_id in self.posts.keys():
+                    self.posts[post_id] += 1
+                else:
+                    self.posts[post_id] = 1
+        else:
             self.post_relationship[user_id] = [[], [], []]
             self.post_relationship[user_id][1].append(post_id)
-        else:
-            self.post_relationship[user_id][1].append(post_id)
-        if post_id not in self.posts.keys():
-            self.posts[post_id] = []
-        if post_id in self.post_relationship[user_id][1]:
-            self.posts[post_id] += 1
+            if post_id in self.posts.keys():
+                self.posts[post_id] += 1
+            else:
+                self.posts[post_id] = 1
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         if follower_user_id in self.post_relationship.keys():
