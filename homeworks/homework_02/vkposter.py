@@ -89,9 +89,9 @@ class VKPoster:
         L.reverse()
         Result = []
         for i in L:
-            Result.append(popularity[i])
             if len(Result) == k:
                 break
+            Result.append(popularity[i])
         return Result
         '''
         Метод который возвращает список k самых популярных постов за все время,
