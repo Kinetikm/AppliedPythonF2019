@@ -71,7 +71,7 @@ class VKPoster:
             for followee in self.follows[user_id]:
                 if followee in self.user_posts.keys():
                     output.extend(self.user_posts[followee])
-        return sorted(output, reverse=False)[:k]
+        return sorted(output, reverse=True)[:k]
 
     def get_most_popular_posts(self, k: int):
         '''
