@@ -12,6 +12,5 @@ if __name__ == '__main__':
         exit(1)
     parsed_data = parser.parse_data(encoded_data)
     if parsed_data is None:
-        print('Формат не валиден')
         exit(1)
     viewer.print_view(parsed_data)

@@ -44,14 +44,12 @@ def parse_data(data):
             parsed_data.append(data_list)
         return 1, parsed_data
 
-    parsed = _parse_json(data)
-    if parsed[0] == 1:
-        return parsed[1]
-    elif parsed[0] == -1:
-        return None
-    parsed = _parse_tsv(data)
-    if parsed[0] == 1:
-        return parsed[1]
-    elif parsed[0] == -1:
-        return None
+    supported_format_funcs = [_parse_json, _parse_tsv]
+    for func in supported_format_funcs:
+        parsed = func(data)
+        if parsed[0] == 1:
+            return parsed[1]
+        elif parsed[0] == -1:
+            print('Формат не валиден')
+            break
     return None
