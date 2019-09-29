@@ -19,8 +19,6 @@ def print_table(title: tuple, rows: list):
     lenght += (5 * (len(title) - 1)) + 6
     print('-' * lenght)
 
-    #print(max_lst)
-    #print(max_lst[3])
     for i, val in enumerate(title):
         if i != len(title):
             print(f'|  {val:^{max_lst[i]}}  ', end='')
