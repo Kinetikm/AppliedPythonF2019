@@ -29,11 +29,11 @@ class VKPoster:
         list_b = []
         for user in list_a:
             list_b += self.users[user]
-            list_b.sort(reverse=True)
-            if len(list_b) >= k:
-                return list_b[:k]
-            else:
-                return list_b
+        list_b.sort(reverse=True)
+        if len(list_b) >= k:
+            return list_b[:k]
+        else:
+            return list_b
 
     def get_most_popular_posts(self, k: int) -> list:
         t_dict = {}
