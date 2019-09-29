@@ -29,7 +29,7 @@ class VKPoster:
             self.users.update({user_id: []})
         if post_id not in self.posts.keys():
             self.posts.update({post_id: ['Unknown_author']})
-        else:
+        elif user_id not in self.posts[post_id]:
             self.posts[post_id].append(user_id)
         '''
         Метод который вызывается когда пользователь user_id
@@ -44,6 +44,8 @@ class VKPoster:
             self.users.update({followee_user_id: [follower_user_id]})
         else:
             self.users[followee_user_id].append(follower_user_id)
+        if follower_user_id not in self.users.keys():
+            self.users.update({follower_user_id: []})
         '''
         Метод который вызывается когда пользователь follower_user_id
         подписался на пользователя followee_user_id.
