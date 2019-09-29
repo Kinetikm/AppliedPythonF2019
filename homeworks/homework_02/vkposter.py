@@ -55,6 +55,8 @@ class VKPoster:
                         continue
                     else:
                         self.recent_posts.append(self.sequence_of_user_posts[::-1][j])
+                else:
+                    self.recent_posts.append(self.sequence_of_user_posts[::-1][j])
         return self.recent_posts
 
     def get_most_popular_posts(self, k: int) -> list:
