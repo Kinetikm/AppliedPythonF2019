@@ -12,8 +12,8 @@ except:
     print('Файл не валиден')
     sys.exit()
 en = enc(filename)
-if en not in ('utf-8','utf-16','cp1251'):
+if en not in ('utf-8', 'utf-16', 'cp1251'):
     print("...")
     sys.exit()
 if json_check(filename, en):
-    print(json_read(filename,en))
+    print(json_read(filename, en))

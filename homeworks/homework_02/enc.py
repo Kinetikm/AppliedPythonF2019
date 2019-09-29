@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
 def enc(file):
     try:
         with open(path_2_file, 'r', encoding='utf-8') as f:
