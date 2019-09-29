@@ -11,6 +11,16 @@ def json_check(file, en):
 
 
 def json_read(file, en):
-    with open(file, "r", encoding=en):
-        data = json.load(file)
-        return data
+    result = []
+    with open(file, "r", encoding=en) as f:
+        data = json.load(f)
+        res = []
+        for i in data[0]:
+            res.append(i)
+        result.append(res)
+        for k in range(len(data)):
+            res = []
+            for key in data[k]:
+                res.append(data[k][key])
+            result.append(res)
+        return result
