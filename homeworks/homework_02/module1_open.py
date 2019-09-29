@@ -4,10 +4,10 @@ def open_file(filename):
     for i in code:
         try:
             with open(file=filename, encoding=i) as f:
-                data = f.read()
+                data = f.readlines()
                 return data
-        # except (TypeError,  SyntaxError, AttributeError, UnicodeDecodeError, UnicodeError):
-        #     continue
+        except (TypeError,  SyntaxError, AttributeError, UnicodeDecodeError, UnicodeError):
+            continue
         except FileNotFoundError:
             print("Файл не валиден")
             return -1
