@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
 class VKPost:
+
     def __init__(self, post_id: int, user_id: int) -> None:
         self.id = post_id
         self.owner_id = user_id
@@ -15,15 +17,19 @@ class VKPost:
     def get_sort_lambda(self, sort_by: str) -> callable:
         sort_key = None
         if sort_by == 'fresh':
-            sort_key = lambda p: p.id
+            def sort_key(p):
+                return p.id
         elif sort_by == 'popular':
-            sort_key = lambda p: (len(p.read_by), p.id)
+            def sort_key(p):
+                return (len(p.read_by), p.id)
         else:
             raise KeyError("unknown sort_by value: {}".format(sort_by))
 
         return sort_key
 
+
 class VKUser:
+
     def __init__(self, user_id: int) -> None:
         self.id = user_id
         self.follows = dict()
@@ -40,12 +46,12 @@ class VKUser:
         return post
 
     def get_posts(self, limit: int = -1, sort_by: str = 'fresh') -> list:
-
         sort_key = VKPost.get_sort_lambda(sort_by)
         userposts = list(self.posts.values())
         # print("userposts:", userposts)
         # print('type', type(userposts))
         return sorted(userposts, key=sort_key, reverse=True)[:limit]
+
 
 class VKPoster:
 
@@ -115,7 +121,7 @@ class VKPoster:
 
         return sorted(followee_posts, key=VKPost.get_sort_lambda(sort_by), reverse=True)[:limit]
 
-    def get_recent_posts(self, user_id: int, k: int)-> list:
+    def get_recent_posts(self, user_id: int, k: int) -> list:
         '''
         Метод который вызывается когда пользователь user_id
         запрашивает k свежих постов людей на которых он подписан.
@@ -137,4 +143,4 @@ class VKPoster:
         '''
         myposts = list(self.posts.values())
         # print("posts", [(k, len(self.posts[k].read_by))for k in self.posts])
-        return [ p.id for p in sorted(myposts, key=VKPost.get_sort_lambda('popular'), reverse=True)[:k]]
+        return [p.id for p in sorted(myposts, key=VKPost.get_sort_lambda('popular'), reverse=True)[:k]]
