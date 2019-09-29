@@ -11,21 +11,17 @@ def calculate_determinant(list_of_lists):
     :param list_of_lists: список списков - исходная матрица
     :return: значение определителя или None
     '''
-    
     def findTable(table, i, j):
         t1 = []
         t2 = []
         n = 0
         for k in table:
             if n != i:
-                #print("la-la")
                 t2 = k[::]
-                #print("ha-ha")
                 t2.pop(j)
                 t1.append(t2[::])
             n = n + 1
         return t1        
-    
     def findDet(table):
         size = len(table)
         i = 0
@@ -43,12 +39,10 @@ def calculate_determinant(list_of_lists):
             k = -k
             i = i + 1
         return d
-    
     l = len(list_of_lists)
     for i in list_of_lists:
         if len(i) != l:
             return None
     d = findDet(list_of_lists)
     return d
-    
     raise NotImplementedError
