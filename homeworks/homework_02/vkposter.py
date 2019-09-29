@@ -22,6 +22,7 @@ class VKPoster:
         else:
             self.user_posts[user_id] = [post_id]
         self.read_users[post_id] = []
+        print("Adding post: ", post_id, "from user ", user_id)
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -34,6 +35,8 @@ class VKPoster:
         if post_id in self.read_users:
             if user_id not in self.read_users[post_id]:
                 self.read_users[post_id].append(user_id)
+        else:
+            self.read_users[post_id]=[user_id]
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
@@ -78,17 +81,13 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
+        print("All post: ", self.read_users)
+        sorting_list = []
         pop_posts = []
-        sorting = {}  # number of views:post id
-        for t_post in self.read_users:
-            n = len(self.read_users[t_post])
-            if n not in sorting:
-                sorting[n] = []
-            sorting[n].append(t_post)
-        t_list = sorted(sorting, reverse=True)
-        for itr in t_list:
-            sorting[itr].sort(reverse=True)  # sort for posttime
-            pop_posts += sorting[itr]
-        if len(pop_posts) > k:
-            pop_posts = pop_posts[:k]
+        for post_id in self.read_users:
+            sorting_list.append((len(self.read_users[post_id]), post_id))
+        sorting_list.sort(reverse=True)
+        for i in range(k):
+            pop_posts.append(sorting_list[i][1])
+        print("Actual pop_post", pop_posts)
         return pop_posts
