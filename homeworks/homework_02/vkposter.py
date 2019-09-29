@@ -20,9 +20,12 @@ class VKPoster:
         self.post_views[post_id].add(user_id)
 
     def user_follow_for(self, follower_user_id, followee_user_id):
+        if followee_user_id not in self.users:
+            self.users[followee_user_id] = []
         if follower_user_id not in self.follow:
             self.follow[follower_user_id] = set()
         self.follow[follower_user_id].add(followee_user_id)
+
 
     def get_recent_posts(self, user_id, k)-> list:
         list_a = list(self.follow[user_id])
