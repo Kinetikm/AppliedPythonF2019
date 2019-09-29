@@ -9,7 +9,6 @@ class VKPoster:
         users = dict()
         follow = dict()
 
-
     def user_posted_post(self, user_id: int, post_id: int):
         '''
         Метод который вызывается когда пользователь user_id
@@ -18,11 +17,11 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        VKPoster.posts[post_id] = []
+        self.posts[post_id] = []
         try:
-            VKPoster.users[user_id].append(post_id)
+            self.users[user_id].append(post_id)
         except KeyError:
-            VKPoster.users[user_id] = [post_id]
+            self.users[user_id] = [post_id]
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -32,16 +31,16 @@ class VKPoster:
         :param post_id: id поста. Число.
         :return: ничего
         '''
-        if post_id in (VKPoster.posts.keys()):
-            if user_id in VKPoster.posts[post_id]:
+        if post_id in (self.posts.keys()):
+            if user_id in self.posts[post_id]:
                 return None
             else:
                 try:
-                    VKPoster.posts[post_id].append(user_id)
+                    self.posts[post_id].append(user_id)
                 except KeyError:
-                    VKPoster.posts[post_id] = [user_id]
+                    self.posts[post_id] = [user_id]
         else:
-            VKPoster.posts[post_id] = [user_id]
+            self.posts[post_id] = [user_id]
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
@@ -52,9 +51,9 @@ class VKPoster:
         :return: ничего
         '''
         try:
-            VKPoster.follow[follower_user_id].append(followee_user_id)
+            self.follow[follower_user_id].append(followee_user_id)
         except KeyError:
-            VKPoster.follow[follower_user_id] = [followee_user_id]
+            self.follow[follower_user_id] = [followee_user_id]
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         '''
@@ -66,9 +65,9 @@ class VKPoster:
         ленте пользователя. list
         '''
         sort_list = list()
-        for i in VKPoster.follow[user_id]:
-            if i in (VKPoster.users.keys()):
-                for j in VKPoster.users[i]:
+        for i in self.follow[user_id]:
+            if i in (self.users.keys()):
+                for j in self.users[i]:
                     sort_list.append(j)
             else:
                 continue
@@ -89,7 +88,7 @@ class VKPoster:
         '''
         ret_list = list()
         dict_posts = dict()
-        for key, value in VKPoster.posts.items():
+        for key, value in self.posts.items():
             try:
                 dict_posts[len(value)].append(key)
             except KeyError:
