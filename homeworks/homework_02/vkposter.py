@@ -24,7 +24,7 @@ class VKPoster:
             self.follow[follower_user_id] = set()
             self.follow[follower_user_id].add(followee_user_id)
 
-    def get_recent_posts(self, user_id, k):
+    def get_recent_posts(self, user_id, k) -> list:
         list_a = list(self.follow[user_id])
         list_b = []
         for user in list_a:
