@@ -59,15 +59,15 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        fresh_posts = []
+        fpop_postsh_posts = []
         for itr in self.user_subscriptions[user_id]:
             if itr in self.user_posts:
-                fresh_posts += self.user_posts[itr]
-                fresh_posts.sort()
-            if len(fresh_posts) > k:
-                del fresh_posts[:len(fresh_posts) - k]
-        fresh_posts = fresh_posts[::-1]
-        return fresh_posts
+                fpop_postsh_posts += self.user_posts[itr]
+                fpop_postsh_posts.sort()
+            if len(fpop_postsh_posts) > k:
+                del fpop_postsh_posts[:len(fpop_postsh_posts) - k]
+        fpop_postsh_posts = fpop_postsh_posts[::-1]
+        return fpop_postsh_posts
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -77,11 +77,17 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        sorting_list = []
         pop_posts = []
-        for itr in self.all_posts:
-            sorting_list.append((len(self.all_posts[itr]), itr))
-        sorting_list.sort(reverse=True)
-        for i in range(k):
-            pop_posts.append(sorting_list[i][1])
+        sorting = {}  # number of views:post id
+        for t_post in self.all_posts:
+            n = len(self.all_posts[t_post])
+            if n not in sorting:
+                sorting[n] = []
+            sorting[n].append(t_post)
+        t_list = sorted(sorting, reverse=True)
+        for itr in t_list:
+            sorting[itr].sort(reverse=True)# sort for posttime
+            pop_posts += sorting[itr]
+        if len(pop_posts) > k:
+            pop_posts = pop_posts[:k]
         return pop_posts
