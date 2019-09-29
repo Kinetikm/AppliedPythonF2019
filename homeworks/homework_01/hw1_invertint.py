@@ -3,7 +3,10 @@
 
 
 def reverse(number):
-    sign = number // abs(number)
+    if number != 0:
+        sign = number // abs(number)
+    else:
+        return 0
     inverted = 0
     number = abs(number)
     while number > 0:
