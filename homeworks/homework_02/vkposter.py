@@ -3,57 +3,47 @@
 
 
 class VKPoster:
-
     def __init__(self):
-        raise NotImplementedError
+        self.post = {}  # ключ - post_id, значение-list_user_id
+        self.read = {}  # ключ - post_id, значение-set_user_id
+        self.follow = {}  # ключ - follow_id, значение-list_followee_id
 
     def user_posted_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        выложил пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
-        pass
+        if post_id not in self.post:
+            self.post[post_id] = []
+        self.post[post_id] = user_id
 
     def user_read_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        прочитал пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
-        pass
+        if post_id not in self.read:
+            self.read[post_id] = set()
+        self.read[post_id].add(user_id)
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
-        '''
-        Метод который вызывается когда пользователь follower_user_id
-        подписался на пользователя followee_user_id.
-        :param follower_user_id: id пользователя. Число.
-        :param followee_user_id: id пользователя. Число.
-        :return: ничего
-        '''
-        pass
+        if follower_user_id not in self.follow:
+            self.follow[follower_user_id] = []
+        self.follow[follower_user_id] += [followee_user_id]
 
-    def get_recent_posts(self, user_id: int, k: int)-> list:
-        '''
-        Метод который вызывается когда пользователь user_id
-        запрашивает k свежих постов людей на которых он подписан.
-        :param user_id: id пользователя. Число.
-        :param k: Сколько самых свежих постов необходимо вывести. Число.
-        :return: Список из post_id размером К из свежих постов в
-        ленте пользователя. list
-        '''
-        pass
+    def get_recent_posts(self, user_id: int, k: int) -> list:
+        ich_new_post = sorted(self.post.keys(), reverse=True)
+        ich_new_post_id = []
+        for post in ich_new_post:
+            if self.post[post] in self.follow[user_id]:
+                ich_new_post_id += [post]
+            if len(ich_new_post_id) == k:
+                return ich_new_post_id
+        return ich_new_post_id
 
     def get_most_popular_posts(self, k: int) -> list:
-        '''
-        Метод который возвращает список k самых популярных постов за все время,
-        остортированных по свежести.
-        :param k: Сколько самых свежих популярных постов
-        необходимо вывести. Число.
-        :return: Список из post_id размером К из популярных постов. list
-        '''
-        pass
+        ich_dict = {}
+        for key in self.read:
+            ich_dict[key] = len(self.read[key])
+        ich_list = list(ich_dict.items())
+        ich_list.sort(key=lambda i: i[0], reverse=True)
+        ich_list.sort(key=lambda i: i[1], reverse=True)
+        ich_famous = []
+        for i in range(len(ich_list)):
+            if len(ich_famous) == k:
+                return ich_famous
+            ich_famous.append(ich_list[i][0])
+        ich_famous.sort(reverse=True)
+        return ich_famous
