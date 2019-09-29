@@ -43,6 +43,6 @@ class VKPoster:
         tmp.sort(key=lambda tmp: tmp[1], reverse=True)
         tmp.sort(key=lambda tmp: tmp[0], reverse=True)
         res = []
-        for i in range(k):
+        for i in range(min(k, len(tmp))):
             res.append(tmp[i][0])
         return res
