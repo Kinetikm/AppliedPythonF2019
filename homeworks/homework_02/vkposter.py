@@ -75,7 +75,7 @@ class VKPoster:
            sort_list.sort()
            sort_list.reverse()
            return sort_list[:k]
-       else:
+        else:
            return sort_list
 
 
