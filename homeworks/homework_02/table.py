@@ -3,7 +3,7 @@ import json
 import traceback
 import json_handler
 import tsv_handler
-import pretty_print
+import pt_print
 
 
 if __name__ == '__main__':
@@ -39,5 +39,5 @@ if __name__ == '__main__':
         directory = sys.modules[__name__]
 
         if hasattr(directory, 'handler'):
-            print_f = pretty_print.PrettyPrint(handler)
-            #print_f.pretty_print()
+            print_f = pt_print.PrettyPrint(handler)
+            print_f.pretty_print()
