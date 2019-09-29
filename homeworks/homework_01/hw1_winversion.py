@@ -22,6 +22,6 @@ def word_inversion(input_lst):
             n = n + 1
         input_lst.pop(0)
         n = n
-        l = 1    
+        l = 1
     return input_lst
     raise NotImplementedError
