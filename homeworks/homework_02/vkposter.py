@@ -13,7 +13,6 @@ class VKPoster:
 
     def user_read_post(self, user_id: int, post_id: int):
         if post_id not in self.post.keys():
-            self.post.update({post_id: ['anonymous']})
             self.post[post_id] = set()
         self.post[post_id].append(user_id)
 
@@ -28,7 +27,7 @@ class VKPoster:
         if user_id in self.follow.keys():
             for i in self.follow[user_id]:
                 if i in self.user:
-                    list_post.append(self.user[i])
+                    list_post.extend(self.user[i])
         list_post.sort(reverse=True)
         return list_post[:k]
 
