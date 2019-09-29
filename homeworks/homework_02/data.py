@@ -16,7 +16,7 @@ def read_data(f, enc, type_f):
                     m.append(str(x))
                 else:
                     m.append(x)
-            result.append(l)
+            result.append(m)
     else:
         data = csv.reader(file, delimiter="\t")
         for i in data:
@@ -35,10 +35,10 @@ def print_data(data):
             if s < len(data[k][j]):
                 s = len(data[k][j])
         size.append(s + 2 * indent)
-    summ = sum(size) - (m - 1)
-    print(summ * '-')
+    s = sum(size) - (m - 1)
+    print(s * '-')
     begin = ''
-    for j in range(l):
+    for j in range(m):
         spaces = int((size[j] - len(data[0][j]) - 2) / 2)
         begin += '|' + spaces * ' ' + data[0][j] + spaces * ' '
     begin += '|'
@@ -46,12 +46,12 @@ def print_data(data):
     spaces = 2
     for x in range(1, i):
         string = ''
-        for j in range(l):
+        for j in range(m):
             last = size[j] - len(data[x][j]) - 2 * spaces
-            if j != l - 1:
+            if j != m - 1:
                 string += '|' + spaces * ' ' + data[x][j] + last * ' '
             else:
                 string += '|' + last * ' ' + data[x][j] + spaces * ' '
         string += '|'
         print(string)
-    print(summ * '-')
+    print(s * '-')
