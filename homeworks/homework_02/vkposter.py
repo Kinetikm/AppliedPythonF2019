@@ -54,8 +54,22 @@ class VKPoster:
         list_d = list(self.posts.items())
         list_d.sort(key=lambda x: len(x[1]), reverse=True)
         temp = [i[0] for i in list_d[:k]]
-        temp.sort(reverse=True)
+        # temp.sort(reverse=True)
         return temp
 
     def print_VK(self):
         print("self.post_relationship: ", self.post_relationship, "\n", "self.posts: ", self.posts, "\n\n")
+
+
+a = VKPoster()
+for i in range(15):
+    a.user_posted_post(i, 10+i)
+
+for i in range(5):
+    a.user_read_post(i, 10)
+for i in range(8):
+    a.user_read_post(i, 11)
+for i in range(3):
+    a.user_read_post(i, 17)
+
+print(a.get_most_popular_posts(5))
