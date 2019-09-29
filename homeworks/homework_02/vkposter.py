@@ -8,6 +8,7 @@ class VKPoster:
         self.user_posts = {}
         self.posts = {}
         self.follows = {}
+        self.readed = {}
 
     def user_posted_post(self, user_id: int, post_id: int):
         '''
