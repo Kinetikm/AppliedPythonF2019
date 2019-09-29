@@ -1,9 +1,9 @@
 def check_codir(filename):
-    for codir in ('utf8', 'utf16', 'cp1251'):
+    for encode in ('utf8', 'utf16', 'cp1251'):
         try:
-            with open(file=filename, mode='r', encoding=codir) as d:
-                d = d.readline()
-                return codir
+            with open(file=filename, mode='r', encoding=encode) as f:
+                f = f.readline()
+                return encode
         except UnicodeError:
             pass
         except FileNotFoundError:

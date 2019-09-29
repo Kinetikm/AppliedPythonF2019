@@ -9,9 +9,9 @@ def print_data(data_list):
         row = list(row) + [''] * (n_cols - len(row))
         for i, col in enumerate(row):
             if i == len(row) - 1:
-                row[i] = str(col).rjust(col_size[i])
+                row[i] = str(col).rjust(col_size[i])  # для последнего
             else:
-                row[i] = str(col).ljust(col_size[i])
+                row[i] = str(col).ljust(col_size[i])  # для остальных
         result.append(row)
     count = sum(col_size.values()) + 5 * len(col_size.keys()) + 1
     print("-" * count)
