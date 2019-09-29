@@ -80,8 +80,8 @@ class VKPoster:
         '''
         pop_posts = []
         sorting = {}  # number of views:post id
-        for t_post in self.all_posts:
-            n = len(self.all_posts[t_post])
+        for t_post in self.read_users:
+            n = len(self.read_users[t_post])
             if n not in sorting:
                 sorting[n] = []
             sorting[n].append(t_post)
