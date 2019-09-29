@@ -18,7 +18,10 @@ if __name__ == '__main__':
         coding = coding.detect_coding(string)
         result = filetype.define_type(filename, coding)
         if type(result) == str:
-            data = readtsv.read(filename, coding)
+            if result == 'Not json':
+                data = readtsv.read(filename, coding)
+            else:
+                print(result)
         else:
             data = result
         if data:

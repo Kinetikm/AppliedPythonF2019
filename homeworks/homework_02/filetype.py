@@ -7,4 +7,9 @@ def define_type(filename, coding):
             data = json.load(file)
         except:
             return 'Not json'
-    return data
+        else:
+            head = data[0].keys()
+            for line in data:
+                if line.keys() != head:
+                    return "Формат не валиден"
+            return data
