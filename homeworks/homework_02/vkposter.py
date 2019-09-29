@@ -40,7 +40,6 @@ class VKPoster:
         if user_id not in self._posts[post_id]:
             self._posts[post_id].append(user_id)
 
-
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
         Метод который вызывается когда пользователь follower_user_id
@@ -78,6 +77,6 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        ans = sorted(self._posts, key=lambda x: len(self._posts[x]), reverse=True)[:k]
-        ans.sort(reverse=True)
+        ans = sorted(self._posts, reverse=True)[:k]
+        ans.sort(key=lambda x: len(self._posts[x]), reverse=True)
         return ans
