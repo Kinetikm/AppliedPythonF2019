@@ -87,4 +87,4 @@ class VKPoster:
             top.append(post)
         if k <= len(top):
             top = top[0:k]
-        return sorted(top)
+        return sorted(top, reverse=True)
