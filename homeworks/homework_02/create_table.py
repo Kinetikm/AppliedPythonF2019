@@ -23,17 +23,17 @@ def print_table(title: tuple, rows: list):
     #print(max_lst[3])
     for i, val in enumerate(title):
         if i != len(title):
-            print(f'|  {val:^{max_lst[i]}}  ', end = '')
+            print(f'|  {val:^{max_lst[i]}}  ', end='')
         else:
-            print(f'|  {val:^{max_lst[i]}}', end = '')
+            print(f'|  {val:^{max_lst[i]}}', end='')
     print('|')
 
     for row in rows:
         for i, val in enumerate(row):
             if i != len(row) - 1:
-                print(f'|  {val:<{max_lst[i]}}  ', end = '')
+                print(f'|  {val:<{max_lst[i]}}  ', end='')
             else:
-                print(f'|  {val:>{max_lst[i]}}', end = '')
+                print(f'|  {val:>{max_lst[i]}}', end='')
         print('  |')
 
     print('-' * lenght)
