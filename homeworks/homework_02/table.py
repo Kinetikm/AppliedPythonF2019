@@ -1,8 +1,15 @@
 import sys
-
-# Ваши импорты
+import printer
 
 if __name__ == '__main__':
     filename = sys.argv[1]
 
-    # Ваш код
+
+def result(file_name):
+    printer.print_t(file_name)
+
+
+if filename is not None:
+    result(filename)
+else:
+    print("Файл не валиден")
