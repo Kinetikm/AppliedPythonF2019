@@ -4,7 +4,7 @@ def writer(s):
     for i in dl:
         sch = sch + i
     sch = sch + (len(dl) * 5) + 1
-    print ('-' * sch)
+    print('-' * sch)
     h = []
     for i in range(0, len(dl), 1):
         h.append(s[0][i])
