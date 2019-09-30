@@ -29,26 +29,15 @@ class VKPoster:
             self.user_views[user_id] = {post_id}
         return
 
-    def get_most_popular_posts(self, k: int) -> list:
-        l = {}
-        ls = []
-        q = []
-        for x in self.read_id:
-            if len(self.read_id[x]) not in l:
-                l[len(self.read_id[x])] = [x]
-            else:
-                l[len(self.read_id[x])] += [x]
-            l[len(self.read_id[x])].sort(reverse=True)
-            if len(self.read_id[x]) not in ls:
-                ls.append(len(self.read_id[x]))
-        ls.sort(reverse=True)
-        for i in ls:
-            for j in l[i]:
-                if (len(q) != k):
-                    q.append(j)
-                else:
-                    break
-        return q
+    def user_follow_for(self, follower_user_id: int, followee_user_id: int):
+        try:
+            if followee_user_id not in self.user_follows[follower_user_id]\
+                    or follower_user_id != followee_user_id:
+                self.user_follows[follower_user_id].add(followee_user_id)
+        except KeyError:
+            if follower_user_id != followee_user_id:
+                self.user_follows[follower_user_id] = {followee_user_id}
+        return
     
     def get_recent_posts(self, user_id: int, k: int) -> list:
         ls = []
