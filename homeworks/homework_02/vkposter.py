@@ -29,7 +29,7 @@ class VKPoster:
             if i in self.post_viewes.keys():
                 list.extend(self.post_viewes[i])
         list.sort()
-        return list[:k:-1]
+        return list[len(list)-1-k:len(list)-1:-1]
 
     def get_most_popular_posts(self, k: int) -> list:
         list = []
