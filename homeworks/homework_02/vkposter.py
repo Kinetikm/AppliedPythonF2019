@@ -57,7 +57,7 @@ class VKPoster:
         ленте пользователя. list
         """
         posts = []
-        for id in self.follow[user_id]:
+        for id in self.user_follow[user_id]:
             if id in self.user_posts:
                 posts += self.user_posts[id]
         posts.sort()
