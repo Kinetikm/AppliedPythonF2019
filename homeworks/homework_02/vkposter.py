@@ -27,7 +27,8 @@ class VKPoster:
         for i in self.user_follows:
             list.extend(self.user_follows[i])
             list.sort()
-        return list[:k:-1]
+            list = list[:k:-1]
+        return list
 
     def get_most_popular_posts(self, k: int) -> list:
         list = []
