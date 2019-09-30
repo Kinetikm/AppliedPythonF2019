@@ -4,6 +4,9 @@ function check_python_code(){
 
 function check_branch_name(){
  IFS=', ' read -r -a branch_data <<< "$(git show -s --pretty=%d HEAD | tr -d '()')"
+ echo "$(git show -s --pretty=%d HEAD)"
+ echo "${branch_data[0]}"
+ echo "${branch_data[1]}"
  if [ "$1" != "${branch_data[2]}" ]; then
    echo "Bad branch name your value: ${branch_data[2]}, asked: $1}"
    exit 1
