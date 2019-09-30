@@ -4,19 +4,11 @@ class VKPoster:
         self.user_posts = {}
         self.user_views = {}
         self.user_follows = {}
-        self.sequence_of_user_posts = []
         self.post_views = {}
         self.recent_posts = []
         self.lst = []
 
     def user_posted_post(self, user_id: int, post_id: int):
-        try:
-            self.sequence_of_user_posts.index(post_id)
-        except ValueError:
-            self.sequence_of_user_posts.append(post_id)
-        '''
-        sequence_of_user_posts --> последовательность добавленных постов(list)
-        '''
         try:
             self.user_posts[user_id].add(post_id)
         except KeyError:
@@ -48,13 +40,13 @@ class VKPoster:
         return
     
     def get_recent_posts(self, user_id: int, k: int) -> list:
-        l = []
+        ls = []
         for i in self.user_follows[user_id]:
             try:
-                l += self.data_id[i]
+                ls += self.user_posts[i]
             except KeyError:
                 continue
-        l= sorted(list(set(l)), reverse=True)
+        l= sorted(list(set(ls)), reverse=True)
         return l[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
