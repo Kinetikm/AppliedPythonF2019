@@ -10,7 +10,7 @@ def csv_read(file):
         text = []
         for row in reader:
             text.append(row)
-    return text
+        return text
 
 
 # счет джейсона
@@ -27,4 +27,4 @@ def json_read(file):
             for j in js[i]:
                 string.append(js[i][j])
             text.append(string)
-    return text
+        return text

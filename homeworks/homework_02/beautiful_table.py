@@ -27,8 +27,12 @@ def cool_table(lst):
                 string[i] += '{:>{width}}'.format(str(lst[i][j]), width=k)
             else:
                 string[i] += '{:{width}}'.format(str(lst[i][j]), width=k)
-            string[i] += '  |  '
-    final_string.append('-'*(len(string[0]) - 1))
+            if j != (len(lst[i]) - 1):
+                string[i] += '  |  '
+            else:
+                string[i] += '  |'
+    top = '-'*(len(string[0]))
+    final_string.append(top)
     final_string += string
-    final_string.append('-'*(len(string[0]) - 1))
+    final_string.append(top)
     return final_string
