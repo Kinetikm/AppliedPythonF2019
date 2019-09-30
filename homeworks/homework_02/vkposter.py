@@ -12,7 +12,7 @@ class VKPoster:
         self.user_follows = {}
 
     def user_posted_post(self, user_id: int, post_id: int):
-        self.all_posts.setdefault(user_id, []).append(post_id)
+        self.post_viewes.setdefault(user_id, []).append(post_id)
 
     def user_read_post(self, user_id: int, post_id: int):
         if post_id in self.all_posts.keys():
