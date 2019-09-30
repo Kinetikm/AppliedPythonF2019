@@ -5,7 +5,6 @@ from draw_table import draw_table
 
 
 if __name__ == '__main__':
-if __name__ == '__main__':
     filename = sys.argv[1]
     filename = sys.argv[1]
 
