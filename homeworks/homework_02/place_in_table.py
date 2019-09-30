@@ -18,7 +18,7 @@ def determine_widths(data, num_of_col):
             widths.append(width_of_col)
         return widths
     except IndexError:
-        print('Формат не валиден')
+        print('Формат не валиден8')
         exit()
 
 
