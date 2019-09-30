@@ -15,6 +15,10 @@ if __name__ == '__main__':
             data = read_utf16(filename)
         if data is None:
             data = read_cp1251(filename)
+    except FileNotFoundError:
+        print('Файл не валиден')
+        sys.exit(1)
+    try:
         data = read_json(data)
         if not data:
             data = read_csv(data)
@@ -33,8 +37,3 @@ if __name__ == '__main__':
     except UnicodeDecodeError:
         print('Формат не валиден')
         sys.exit(1)
-    except FileNotFoundError:
-        print("Файл не валиден")
-        sys.exit(1)
-    except:
-        print("Файл не валиден")
