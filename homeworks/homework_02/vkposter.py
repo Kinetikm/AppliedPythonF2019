@@ -17,14 +17,14 @@ class VKPoster:
     def user_follow_for(self, user_id, followee_id):
         self.user_followees[user_id].add(followee_id)
 
-    def fresh_posts_for(self, user_id, limit=5):
+    def get_recent_posts(self, user_id, limit=5):
         followees = self.user_followees[user_id]
         followees_posts = map(self.user_posts.__getitem__, followees)
         posts = list(chain.from_iterable(followees_posts))
         posts.sort(reverse=True)
         return posts[:limit]
 
-    def top_posts(self, limit=5):
+    def get_most_popular_posts(self, limit=5):
         posts = self.post_views.keys()
         posts.sort(
             key=lambda post_id: len(self.post_views[post_id]),
