@@ -38,4 +38,3 @@ class VKPoster:
             heapq.heappush(tmp_list, (len(val), id))
         list = [i[1] for i in heapq.nlargest(k, tmp_list)]
         return list
-    
