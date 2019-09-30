@@ -20,5 +20,5 @@ class TestPrRules(unittest.TestCase):
         if pr_data.status_code != 200:
             raise Exception("Pull requests is not gotten. Ask your teacher to help")
         pr_data = pr_data.json()
-        self.assertTrue(re.match("^hw(\d*)\s*(?:fixed|)\s*\w+\s*\w+$", pr_data['title'].lower()))
+        self.assertTrue(re.match("^hw(\d*)\s(?:fixed|)\s\w+\s\w+$", pr_data['title'].lower()))
         self.assertEqual(pr_data['base']['ref'], pr_data['head']['ref'])
