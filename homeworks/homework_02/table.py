@@ -7,7 +7,8 @@ import print_table as prnt
 if __name__ == '__main__':
     filename = sys.argv[1]
 
-    # Ваш код
+
+# Ваш код
 def table(file_name):
     prnt.prt_table(file_name)
 

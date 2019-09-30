@@ -8,7 +8,7 @@ def check(file_name):
         except FileNotFoundError:
             print("Файл не валиден")
             return None
-        except (UnicodeDecodeError, UnicodeError, SyntaxError, AttributeError,IndexError):
+        except (UnicodeDecodeError, UnicodeError, SyntaxError, AttributeError, IndexError):
             continue
     print("Формат не валиден")
     return None

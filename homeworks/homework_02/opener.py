@@ -22,4 +22,3 @@ def json_tsv(file_name):
         except Exception:
             return tsv_open(file_name, encoding)
     return None
-
