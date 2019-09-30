@@ -11,12 +11,12 @@ if __name__ == '__main__':
     except FileNotFoundError:
         print("Файл не валиден")
         ind = False
-    if l == None and ind:
+    if l is None and ind:
         print("Формат не валиден")
     else:
         if ind:
             ll = b.parcer(l)
-    if ll == None and ind:
+    if ll is None and ind:
         print("Формат не валиден")
     else:
         if ind:
