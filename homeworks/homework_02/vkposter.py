@@ -7,14 +7,14 @@ class VKPoster:
         self.post_views = {}
 
     def user_posted_post(self, user_id: int, post_id: int):
-        if user_id not in self.data_id:
+        if user_id not in self.user_posts:
             self.user_posts[user_id] = [post_id]
         else:
             self.user_posts[user_id].append(post_id)
         return None
 
     def user_read_post(self, user_id: int, post_id: int):
-        if post_id not in self.read_id:
+        if post_id not in self.user_views:
             self.user_views[post_id] = {user_id}
         else:
             self.user_views[post_id].add(user_id)
