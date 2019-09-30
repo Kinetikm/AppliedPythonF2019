@@ -1,59 +1,45 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 class VKPoster:
 
     def __init__(self):
-        raise NotImplementedError
+        self.users = {}
+        self.posts = {}
 
     def user_posted_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        выложил пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
-        pass
+        if user_id not in self.users:
+            self.users[user_id] = {'posts': [], 'followees': []}
+        self.users[user_id]['posts'].append(post_id)
 
     def user_read_post(self, user_id: int, post_id: int):
-        '''
-        Метод который вызывается когда пользователь user_id
-        прочитал пост post_id.
-        :param user_id: id пользователя. Число.
-        :param post_id: id поста. Число.
-        :return: ничего
-        '''
-        pass
+        if post_id in self.posts:
+            if user_id not in self.posts[post_id][1:]:
+                self.posts[post_id][0] += 1
+                self.posts[post_id].append(user_id)
+        else:
+            self.posts[post_id] = [1, user_id]
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
-        '''
-        Метод который вызывается когда пользователь follower_user_id
-        подписался на пользователя followee_user_id.
-        :param follower_user_id: id пользователя. Число.
-        :param followee_user_id: id пользователя. Число.
-        :return: ничего
-        '''
-        pass
+        if follower_user_id not in self.users:
+            self.users[follower_user_id] = {'posts': [], 'followees': []}
+        self.users[follower_user_id]['followees'].append(followee_user_id)
 
-    def get_recent_posts(self, user_id: int, k: int)-> list:
-        '''
-        Метод который вызывается когда пользователь user_id
-        запрашивает k свежих постов людей на которых он подписан.
-        :param user_id: id пользователя. Число.
-        :param k: Сколько самых свежих постов необходимо вывести. Число.
-        :return: Список из post_id размером К из свежих постов в
-        ленте пользователя. list
-        '''
-        pass
+    def get_recent_posts(self, user_id: int, k: int) -> list:
+        mat = []
+        for user in self.users[user_id]['followees']:
+            mat += self.users[user]['posts']
+        mat = sorted(mat, reverse=True)
+        return mat[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
-        '''
-        Метод который возвращает список k самых популярных постов за все время,
-        остортированных по свежести.
-        :param k: Сколько самых свежих популярных постов
-        необходимо вывести. Число.
-        :return: Список из post_id размером К из популярных постов. list
-        '''
-        pass
+        max_id = max(self.posts)
+        func = max_id*[0]
+        for i in range(1, max_id+1):
+            if i in self.posts:
+                func[max_id - i] = self.posts[i][0]
+
+        mat = []
+        for i in range(k):
+            temp = func.index(max(func))
+            func[temp] = -1
+            mat.append(max_id - temp)
+
+        return mat
