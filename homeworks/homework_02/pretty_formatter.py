@@ -14,16 +14,21 @@ class PrettyFormatter:
                 if len(key) > self.maxes[key]:
                     self.maxes[key] = len(key)
         for item in self.maxes:
-            self.maxes[item] += 2
+            self.maxes[item] += 4
 
     def single_item__pretty(self, item):
         inner_line = ""
         for key in item.keys():
             num_spaces = self.maxes[key] - len(str(item[key]))
-            num_spaces_left = num_spaces // 2
-            num_spaces_right = num_spaces - num_spaces_left
-            inner_line += " " * num_spaces_left + str(item[key]) +\
-                          " " * num_spaces_right + "|"
+            num_spaces_left = 2
+            num_spaces_right = num_spaces - 2
+            if key == 'Оценка':
+                inner_line += " " * num_spaces_right + str(item[key]) + \
+                              " " * num_spaces_left + "|"
+            else:
+                inner_line += " " * num_spaces_left + str(item[key]) +\
+                              " " * num_spaces_right + "|"
+
         line = f"|{inner_line}"
         return line
 
