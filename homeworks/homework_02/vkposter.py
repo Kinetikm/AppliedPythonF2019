@@ -69,6 +69,6 @@ class VKPoster:
             q.append(list(self.post_views.items())[x][::-1])
         q.sort()
         q.reverse()
-        for x in range(k)
+        for x in range(k):
             ql.append(q[x][1])
         return ql
