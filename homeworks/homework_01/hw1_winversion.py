@@ -14,7 +14,6 @@ def word_inversion(input_lst):
         if input_lst[-i-t] == ' ':
             start = ln - i
             for l in range(start + 1, stop):
-                #input_lst.append(input_lst.pop(start+1))
                 input_lst += [input_lst.pop(start+1)]
             stop = start
             input_lst += [input_lst.pop(start)]
