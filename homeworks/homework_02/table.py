@@ -12,7 +12,7 @@ if __name__ == '__main__':
     try:
         input_data = choose_of_encode(filename)
         input_data = choose_type(input_data)
-        pretty_print_table(input_data)
+        print_table(input_data)
     except FileNotFoundError:
         print("Файл не валиден")
     except UnicodeDecodeError:

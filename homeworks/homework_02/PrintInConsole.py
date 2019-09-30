@@ -1,29 +1,38 @@
-def pretty_print_table(data):
+def print_table(data):
     if data[0] == "json":
         text = data[1]
     if data[0] == "csv":
         text = data[1][:-1]
 
-    if text is not None:
-        row = {}
-        e = 0
-        for i in text.keys():
-            row[i] = len(str(text[i][0]))
-            for elem in text[i]:
-                e += 1
-                if row[i] < len(str(elem)):
-                    row[i] = len(str(elem))
-            row[i] = (row[i] // 2) * 2
-        s = len(row) * 11 + 1
-        for i in row.keys():
-            s += row[i]
-        print('-' * s)
-        for elem in text.keys():
-            print("|" + elem.center(row[elem] + 10, " "))
-        print("|")
-        e //= 4
-        for i in range(e):
-            for elem in text.keys():
-                print("|" + 2 * " " + str(text[elem][i]) + " " * (row[elem] + 8 - len(str(text[elem][i]))))
-            print("|")
-        print('-' * s)
+    width_column = {i: 0 for i in range(len(text[0].split('\t')))}
+    for line in text:
+        line_data = line.split('\t')
+        if not line_data:
+            raise
+
+        for column, data in enumerate(line_data):
+            if not len(data):
+                raise
+            if width_column[column] < len(data):
+                width_column[column] = len(data)
+
+    sum_range = sum(list(width_column.values())) + 5 * len(width_column) + 1
+    first_line = '-' * sum_range
+
+    for i, line in enumerate(text):
+        format_line = line.split('\t')
+        if len(format_line) != len(width_column):
+            raise
+        sim = '^' if i == 0 else '<'
+
+        for j, coll in enumerate(format_line):
+            sim = '>' if j == 3 else sim
+            format_line[j] = ("{:" + sim + str(width_column[j]) + "}").format(coll)
+        text[i] = format_line
+
+    result_text = first_line + '\n'
+    for line in text:
+        column_line = "|  {}  |\n".format("  |  ".join(line))
+        result_text += column_line
+    result_text += first_line + '\n'
+    print(result_text)
