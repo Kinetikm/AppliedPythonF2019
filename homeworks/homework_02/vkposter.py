@@ -37,6 +37,6 @@ class VKPoster:
     def get_most_popular_posts(self, k: int) -> list:
         list = []
         for i, read in self.all_posts.items():
-            heapq.heappush(list, (len(read), i))
+            heapq.heappush(list, (len(list), i))
         list = [j[1] for j in heapq.nlargest(k, list)]
         return list
