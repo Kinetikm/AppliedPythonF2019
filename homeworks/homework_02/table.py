@@ -18,4 +18,4 @@ if __name__ == '__main__':
     except UnicodeDecodeError:
         print("Формат не валиден")
     except:
-        print("Формат не валиден")
+        print("Формат не валиден1")

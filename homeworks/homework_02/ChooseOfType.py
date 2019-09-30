@@ -36,4 +36,4 @@ def choose_type(input_data):
     if data:
         return data
     if not data:
-        raise FileNotFoundError
+        raise

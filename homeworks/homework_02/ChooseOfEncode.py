@@ -36,4 +36,4 @@ def choose_of_encode(file):
     if data:
         return data
     else:
-        raise UnicodeDecodeError
+        raise
