@@ -7,7 +7,7 @@ from json_csv_read import *
 from read_file import *
 
 if __name__ == '__main__':
-    filename = 'posts-cp1251.json'
+    filename = sys.argv[1]
 
     try:
         data = read_utf8(filename)
