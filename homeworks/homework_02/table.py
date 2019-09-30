@@ -17,5 +17,3 @@ if __name__ == '__main__':
         print("Файл не валиден")
     except UnicodeDecodeError:
         print("Формат не валиден")
-    except:
-        print("Формат не валиден1")
