@@ -9,7 +9,7 @@ import re
 
 class TestPrRules(unittest.TestCase):
 
-    def check_pr_name(self):
+    def test_pr_name(self):
         run_test = os.environ.get("TRAVIS_EVENT_TYPE", "not_travis")
         if run_test != "pull_request":
             return True
