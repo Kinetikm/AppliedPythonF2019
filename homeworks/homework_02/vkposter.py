@@ -46,16 +46,16 @@ class VKPoster:
             if follower_user_id != followee_user_id:
                 self.user_follows[follower_user_id] = {followee_user_id}
         return
-
+    
     def get_recent_posts(self, user_id: int, k: int) -> list:
-        for j in range(k):
-            for i in self.user_follows[user_id]:
-                if self.sequence_of_user_posts[::-1][j] in self.user_posts[user_id]:
-                    if self.sequence_of_user_posts[::-1][j] in self.recent_posts:
-                        continue
-                    else:
-                        self.recent_posts.append(self.sequence_of_user_posts[::-1][j])
-        return self.recent_posts
+        l = []
+        for i in self.user_follows[user_id]:
+            try:
+                l += self.data_id[i]
+            except KeyError:
+                continue
+        l= sorted(list(set(l)), reverse=True)
+        return l[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
         q = []
