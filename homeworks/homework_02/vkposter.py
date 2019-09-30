@@ -5,29 +5,20 @@ class VKPoster:
         self.user_views = {}
         self.user_follows = {}
         self.post_views = {}
-        self.recent_posts = []
-        self.lst = []
 
     def user_posted_post(self, user_id: int, post_id: int):
-        try:
-            self.user_posts[user_id].add(post_id)
-        except KeyError:
-            self.user_posts[user_id] = {post_id}
-        return
+        if user_id not in self.data_id:
+            self.user_posts[user_id] = [post_id]
+        else:
+            self.user_posts[user_id].append(post_id)
+        return None
 
     def user_read_post(self, user_id: int, post_id: int):
-        if post_id not in self.post_views:
-            self.post_views[post_id] = 1
+        if post_id not in self.read_id:
+            self.user_views[post_id] = {user_id}
         else:
-            self.post_views[post_id] = self.post_views[post_id] + 1
-        '''
-        post --> число просмотров для постов
-        '''
-        try:
-            self.user_views[user_id].add(post_id)
-        except KeyError:
-            self.user_views[user_id] = {post_id}
-        return
+            self.user_views[post_id].add(user_id)
+        return None
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         try:
