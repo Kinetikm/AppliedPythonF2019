@@ -8,6 +8,7 @@ from place_in_table import place_in_table
 if __name__ == '__main__':
     filename = sys.argv[1]
     data = File_Writer(filename)
+    print(data)
     if data is None:
         pass
     else:
