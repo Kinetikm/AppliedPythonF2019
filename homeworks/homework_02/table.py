@@ -12,4 +12,7 @@ if __name__ == '__main__':
         pass
     else:
         table = place_in_table(data)
-        print(table)
+        if table is None:
+            pass
+        else:
+            print(table)

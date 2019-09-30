@@ -1,22 +1,25 @@
 def place_in_table(data):
-    try:
-        num_of_col = len(data[0])
-        widths = determine_widths(data, num_of_col)
+    num_of_col = len(data[0])
+    widths = determine_widths(data, num_of_col)
+    if widths is None:
+        return widths
+    else:
         table = make_a_table(data, num_of_col, widths)
         return table
-    except:
-        print('Формат не валиден')
-        exit()
 
 
 def determine_widths(data, num_of_col):
-    widths = []
-    for i in range(num_of_col):
-        width_of_col = 0
-        for d in data:
-            width_of_col = max(width_of_col, len(str(d[i]))+2)
-        widths.append(width_of_col)
-    return widths
+    try:
+        widths = []
+        for i in range(num_of_col):
+            width_of_col = 0
+            for d in data:
+                width_of_col = max(width_of_col, len(str(d[i]))+2)
+            widths.append(width_of_col)
+        return widths
+    except IndexError:
+        print('Формат не валиден')
+        return None
 
 
 def make_a_table(data, num_of_col, widths):
