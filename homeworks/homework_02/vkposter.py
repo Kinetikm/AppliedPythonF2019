@@ -25,7 +25,7 @@ class VKPoster:
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         list = []
-        for i in self.dict_of_followers.getdefault(user_id, []):
+        for i in self.dict_of_followers.setdefault(user_id, []):
             list.extend(self.dict_of_users[i])
         list.sort()
         list.reverse()
