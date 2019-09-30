@@ -22,7 +22,7 @@ class VKPoster:
         else:
             if post_id not in self.users[user_id]:
                 self.users[user_id].append(post_id)
-                self.posts[post_id] = [user_id]
+                self.posts[post_id] = []
         pass
 
     def user_read_post(self, user_id: int, post_id: int):
@@ -84,13 +84,24 @@ class VKPoster:
         необходимо вывести. Число.
         :return: Список из post_id размером К из популярных постов. list
         '''
-        popular_posts = []
-        for post in self.posts:
-            popular_posts.append((post, len(self.posts[post])))
-        popular_posts.sort(key=lambda post_num: post_num[1])
+        popular_posts = self.posts.copy()
+        for post in popular_posts:
+            popular_posts[post] = len(popular_posts[post])
+        popular_posts = list(popular_posts.items())
+        popular_posts.sort(key=lambda i: i[1])
         popular_posts.reverse()
-        popular_posts = popular_posts[:k]
+        top_views_dict = {}
+        top_views_list = []
         for i in range(len(popular_posts)):
-            popular_posts[i] = popular_posts[i][0]
-        return popular_posts
+            if popular_posts[i][1] not in top_views_dict:
+                top_views_dict[popular_posts[i][1]] = [popular_posts[i][0]]
+                top_views_list.append(popular_posts[i][1])
+            else:
+                top_views_dict[popular_posts[i][1]].append(popular_posts[i][0])
+        for view in top_views_dict:
+            top_views_dict[view].sort(reverse=True)
+        result = []
+        for i in range(len(top_views_list)):
+            result = result + top_views_dict[top_views_list[i]]
+        return result[:k]
         pass
