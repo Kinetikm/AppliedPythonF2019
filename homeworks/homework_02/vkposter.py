@@ -19,7 +19,6 @@ class VKPoster:
         '''
         self.pp.setdefault(user_id, [])
         self.pp[user_id].append(post_id)
-        pass
 
     def user_read_post(self, user_id: int, post_id: int):
         '''
@@ -31,7 +30,6 @@ class VKPoster:
         '''
         self.pr.setdefault(post_id, [])
         self.pr[post_id].append(user_id)
-        pass
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         '''
@@ -43,7 +41,6 @@ class VKPoster:
         '''
         self.pf.setdefault(follower_user_id, [])
         self.pf[follower_user_id].append(followee_user_id)
-        pass
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         '''
@@ -64,7 +61,6 @@ class VKPoster:
                         q.append(l1[j])
         q = sorted(q, reverse=True)
         return q[:k]
-        pass
 
     def get_most_popular_posts(self, k: int) -> list:
         '''
@@ -89,6 +85,4 @@ class VKPoster:
                 if q[i] == v:
                     ks.append(k1)
         ks = ks[:k]
-        ks = sorted(ks, reverse=True)
         return ks
-        pass
