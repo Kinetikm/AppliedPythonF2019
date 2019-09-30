@@ -46,7 +46,7 @@ class VKPoster:
                 ls += self.user_posts[i]
             except KeyError:
                 continue
-        l= sorted(list(set(ls)), reverse=True)
+        l = sorted(list(set(ls)), reverse=True)
         return l[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
