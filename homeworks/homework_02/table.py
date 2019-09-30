@@ -7,7 +7,7 @@ from json_csv_read import *
 from read_file import *
 
 if __name__ == '__main__':
-    filename = sys.argv[1]
+    filename = 'posts-cp1251.json'
 
     try:
         data = read_utf8(filename)
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     except UnicodeDecodeError:
         print('Формат не валиден')
         sys.exit(1)
-    except FileNotFound:
+    except FileNotFoundError:
         print("Файл не валиден")
         sys.exit(1)
     except:
