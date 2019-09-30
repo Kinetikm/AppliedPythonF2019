@@ -38,14 +38,22 @@ class VKPoster:
         return l[:k]
 
     def get_most_popular_posts(self, k: int) -> list:
+        l = {}
+        ls = []
         q = []
-        ql = []
-        if k > len(self.post_views):
-            k = len(self.post_views)
-        for x in range(k):
-            q.append(list(self.post_views.items())[x][::-1])
-        q.sort()
-        q.reverse()
-        for x in range(k):
-            ql.append(q[x][1])
-        return ql
+        for x in self.read_id:
+            if len(self.read_id[x]) not in l:
+                l[len(self.read_id[x])] = [x]
+            else:
+                l[len(self.read_id[x])] += [x]
+            l[len(self.read_id[x])].sort(reverse=True)
+            if len(self.read_id[x]) not in ls:
+                ls.append(len(self.read_id[x]))
+        ls.sort(reverse=True)
+        for i in ls:
+            for j in l[i]:
+                if (len(q) != k):
+                    q.append(j)
+                else:
+                    break
+        return q
