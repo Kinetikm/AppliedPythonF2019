@@ -5,8 +5,6 @@ import parсer as b
 
 if __name__ == '__main__':
     filename = sys.argv[1]
-
-    filename = "files/posts-cp1251.json"
     ind = True
     try:
         l = a.reader(filename)
