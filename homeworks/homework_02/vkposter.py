@@ -15,10 +15,8 @@ class VKPoster:
         self.post_viewes.setdefault(user_id, []).append(post_id)
 
     def user_read_post(self, user_id: int, post_id: int):
-        if post_id in self.all_posts.keys():
-            self.all_posts[post_id] += 1
-        else:
-            self.all_posts[post_id] = 1
+        if user_id not in self.all_posts.setdefault(post_id, []):
+            self.all_posts[post_id].append(user_id)
 
     def user_follow_for(self, follower_user_id: int, followee_user_id: int):
         self.user_follows.setdefault(follower_user_id, []).append(followee_user_id)
@@ -36,7 +34,7 @@ class VKPoster:
 
     def get_most_popular_posts(self, k: int) -> list:
         list = []
-        for i, read in self.all_posts.items():
-            heapq.heappush(list, (read, i))
+        for i, num in self.all_posts.items():
+            heapq.heappush(list, (len(num), i))
         list = [j[1] for j in heapq.nlargest(k, list)]
         return list
