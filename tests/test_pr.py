@@ -18,7 +18,7 @@ class TestPrRules(unittest.TestCase):
             return False
         pr_data = requests.get("https://api.github.com/repos/Kinetikm/AppliedPythonF2019/pulls/{}".format(pr_id))
         if pr_data.status_code != 200:
-            raise Exception("Pull requests is not gotten. Ask your teacher to help")
+            raise Exception("Что-то сломалось, напиши преподу")
         pr_data = pr_data.json()
-        self.assertTrue(re.match("^hw(\d*)\s(?:fixed|)\s\w+\s\w+$", pr_data['title'].lower()))
-        self.assertEqual(pr_data['base']['ref'], pr_data['head']['ref'])
+        self.assertTrue(re.match("^hw(\d*)\s(?:fixed|)\s\w+\s\w+$", pr_data['title'].lower()), msg="Формат имени пулл-реквест не соответствует заданному")
+        self.assertEqual(pr_data['base']['ref'], pr_data['head']['ref'], msg="Какая-то хрень, почему не совпадают ветки пулл-реквеста?")
