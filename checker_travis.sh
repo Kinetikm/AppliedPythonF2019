@@ -4,6 +4,7 @@ function check_python_code(){
 
 function check_branch_name(){
  echo "$TRAVIS_PULL_REQUEST"
+ printenv
  exit 1
 }
 
