@@ -26,7 +26,8 @@ class VKPoster:
     def get_recent_posts(self, user_id: int, k: int)-> list:
         list = []
         for i in self.user_follows[user_id]:
-            list.extend(self.post_viewes[i])
+            if i in self.post_viewes.keys():
+                list.extend(self.post_viewes[i])
         list.sort()
         return list[:k:-1]
 
