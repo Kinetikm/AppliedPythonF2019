@@ -8,16 +8,6 @@ def place_in_table(data):
         exit()
 
 
-def place_in_table(data):
-    try:
-        num_of_col = len(data[0])
-        widths = determine_widths(data, num_of_col)
-        table = make_a_table(data, num_of_col, widths)
-        return table
-    except:
-        exit()
-
-
 def determine_widths(data, num_of_col):
     try:
         widths = []
