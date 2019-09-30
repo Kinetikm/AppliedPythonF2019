@@ -2,17 +2,18 @@ from exceptions import FileNotFound
 
 
 class EncodingsFileReader:
-    __encodings = ['cp1251', 'utf-16', 'utf-8']
+    __encodings = ['cp1251', 'utf-8', 'utf-16']
 
     def __init__(self, file_name):
         try:
             for i in EncodingsFileReader.__encodings:
-                try:
-                    with open(file_name, encoding=i) as file:
-                        self.__output_str = file.read()
+                with open(file_name, 'rb') as file:
+                    self.__output_str = file.read()
+                    try:
+                        self.__output_str.decode(i)
                         self.encoding = i
-                except (UnicodeDecodeError, UnicodeError):
-                    pass
+                    except UnicodeDecodeError:
+                        self.encoding = "cp1251"
         except (FileNotFoundError):
             raise FileNotFound()
 
