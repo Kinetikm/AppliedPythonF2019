@@ -2,4 +2,4 @@ language: python
 python:
     - "3.6"
 install: pip install -r requirements.txt
-script: bash checker_travis.sh travis_tests
+script: py.test --pep8 && pytest
