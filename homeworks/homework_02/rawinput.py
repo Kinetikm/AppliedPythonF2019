@@ -16,7 +16,7 @@ def read_tfile(file_name, encode):
     with open(file_name, "r", encoding=encode) as file:
         str = [i.split("\t") for i in file.read().split("\n")]
         ret = [{key: data for key, data in zip(str[0], str[j])}
-                    for j in range(1, len(str) - 1)]
+            for j in range(1, len(str) - 1)]
         return ret
 
 
