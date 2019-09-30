@@ -56,4 +56,4 @@ class VKPoster:
                     q.append(j)
                 else:
                     break
-        return qk
+        return q
