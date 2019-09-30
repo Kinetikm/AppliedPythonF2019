@@ -26,7 +26,7 @@ class VKPoster:
         else:
             self.user_follows[follower_user_id].add(followee_user_id)
         return None
-    
+
     def get_recent_posts(self, user_id: int, k: int) -> list:
         ls = []
         for i in self.user_follows[user_id]:
