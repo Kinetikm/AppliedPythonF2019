@@ -3,6 +3,7 @@
 
 import heapq
 
+
 class VKPoster:
 
     def __init__(self):
@@ -24,11 +25,10 @@ class VKPoster:
 
     def get_recent_posts(self, user_id: int, k: int)-> list:
         list = []
-        for i in self.user_follows:
+        for i in self.user_follows[user_id]:
             list.extend(self.user_follows[i])
-            list.sort()
-            list = list[:k:-1]
-        return list
+        list.sort()
+        return list[:k:-1]
 
     def get_most_popular_posts(self, k: int) -> list:
         list = []
