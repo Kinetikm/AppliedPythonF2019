@@ -41,14 +41,14 @@ class VKPoster:
         l = {}
         ls = []
         q = []
-        for x in self.read_id:
-            if len(self.read_id[x]) not in l:
-                l[len(self.read_id[x])] = [x]
+        for x in self.user_views:
+            if len(self.user_views[x]) not in l:
+                l[len(self.user_views[x])] = [x]
             else:
-                l[len(self.read_id[x])] += [x]
-            l[len(self.read_id[x])].sort(reverse=True)
-            if len(self.read_id[x]) not in ls:
-                ls.append(len(self.read_id[x]))
+                l[len(self.user_views[x])] += [x]
+            l[len(self.user_views[x])].sort(reverse=True)
+            if len(self.user_views[x]) not in ls:
+                ls.append(len(self.user_views[x]))
         ls.sort(reverse=True)
         for i in ls:
             for j in l[i]:
