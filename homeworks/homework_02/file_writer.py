@@ -30,9 +30,6 @@ def File_Writer(filename):
         except AttributeError:
             print('Формат не валиден')
             return None
-        except SyntaxError:
-            print('Формат не валиден')
-            return None
         except IndexError:
             print('Формат не валиден')
             return None

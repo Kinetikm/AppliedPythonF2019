@@ -1,5 +1,5 @@
 def place_in_table(data):
-    num_of_col = len(data[0])  # Считаем, что тут уже проверенные
+    num_of_col = len(data[0])  # nут уже проверенные
     widths = determine_widths(data, num_of_col)
     table = make_a_table(data, num_of_col, widths)
     return table
