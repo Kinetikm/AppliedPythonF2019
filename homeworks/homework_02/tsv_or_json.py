@@ -1,5 +1,7 @@
 import csv
 import json
+
+
 def unpack(file_path, coding) -> list:
     with open(file=file_path, mode="r", encoding=coding) as fp:
         file_ex = file_path[file_path.index('.') + 1::]
