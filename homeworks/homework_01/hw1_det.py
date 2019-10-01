@@ -15,20 +15,18 @@ def calculate_determinant(list_of_lists):
         return None
     elif len(list_of_lists) == 1:
         return list_of_lists[0][0]
-    # elif len(list_of_lists) == 2:
-    #     return list_of_lists[0][0] * list_of_lists[1][1] - list_of_lists[0][1] * list_of_lists[1][0]
     else:
         minor = 1
-        ilog = 0
+        complete_det = 0
         for i in range(len(list_of_lists)):
-            kek = []
+            subarr = []
             for y in range(1, len(list_of_lists)):
-                lol = []
+                tmp_str = []
                 for k in range(0, len(list_of_lists)):
                     if k != i:
-                        lol.append(list_of_lists[y][k])
-                kek.append(lol)
+                        tmp_str.append(list_of_lists[y][k])
+                subarr.append(tmp_str)
 
-            ilog = ilog + list_of_lists[0][i] * minor * calculate_determinant(kek)
+            complete_det = complete_det + list_of_lists[0][i] * minor * calculate_determinant(subarr)
             minor = -minor
-    return ilog
+    return complete_det
