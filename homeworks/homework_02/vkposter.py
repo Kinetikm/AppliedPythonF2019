@@ -75,7 +75,7 @@ class VKPoster:
         for key in self.pr:
             self.pr[key] = list(set(self.pr[key]))
             s = len(self.pr[key])
-            kdsetdefault(key, s)
+            kd.setdefault(key, s)
         t_list = list(kd.items())
         t_list.sort(key=lambda elem: elem[0], reverse=True)
         t_list.sort(key=lambda elem: elem[1], reverse=True)
