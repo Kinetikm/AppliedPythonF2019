@@ -1,12 +1,13 @@
-# -*- coding: utf-8 -*-
-
 import csv
 
 
 def tsv_data(tsv_file, cod):
-    list_dicts = []
+    list_rows = []
+
     file = open(tsv_file, encoding=cod)
-    tsv = csv.DictReader(file, delimiter="\t")
-    for line in tsv:
-        list_dicts.append(dict(line))
-    return list_dicts
+    reader = csv.reader(file)
+
+    for row in reader:
+        list_rows.append(row[0].split('\t'))
+
+    return list_rows
