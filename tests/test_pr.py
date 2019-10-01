@@ -21,6 +21,6 @@ class TestPrRules(unittest.TestCase):
             raise Exception("Что-то сломалось, напиши преподу")
         pr_data = pr_data.json()
         self.assertTrue(re.match("^hw([1-9]+\d*)(?:\sfixed|)\s[A-ZА-Я][a-zа-я]+\s[A-ZА-Я][a-zа-я]+$", pr_data['title']),
-                                 msg="Формат имени пулл-реквест не соответствует заданному")
+                        msg="Формат имени пулл-реквест не соответствует заданному")
         self.assertEqual(pr_data['base']['ref'], pr_data['head']['ref'],
                          msg="Какая-то хрень, почему не совпадают ветки пулл-реквеста?")
