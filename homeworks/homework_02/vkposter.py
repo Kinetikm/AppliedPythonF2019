@@ -51,7 +51,6 @@ class VKPoster:
         :return: Список из post_id размером К из свежих постов в
         ленте пользователя. list
         '''
-        q = list()
         s = self.pf[user_id]
         for i in range(len(s)):
             for k1, v in self.pp.items():
@@ -71,18 +70,14 @@ class VKPoster:
         :return: Список из post_id размером К из популярных постов. list
         '''
         kd = {}
-        q = []
         ks = []
         for key in self.pr:
             self.pr[key] = list(set(self.pr[key]))
             s = len(self.pr[key])
             kd.setdefault(key, s)
-            q.append(s)
-        q = list(set(q))
-        q = sorted(q, reverse=True)
-        for i in range(len(q)):
-            for k1, v in kd.items():
-                if q[i] == v:
-                    ks.append(k1)
-        ks = ks[:k]
-        return ks
+        t_list = list(kd.items())
+        t_list.sort(key=lambda elem: elem[0], reverse=True)
+        t_list.sort(key=lambda elem: elem[1], reverse=True)
+        for i in range(len(t_list)):
+            ks.append(t_list[i][0])
+        return ks[:k]
