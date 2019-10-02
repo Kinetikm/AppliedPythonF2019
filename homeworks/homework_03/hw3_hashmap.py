@@ -14,18 +14,20 @@ class HashMap:
             :param key: ключ
             :param value: значение
             """
+            self._key = key
+            self._velue = value
 
         def get_key(self):
             # TODO возвращаем ключ
-            raise NotImplementedError
+            return self._key
 
         def get_value(self):
             # TODO возвращаем значение
-            raise NotImplementedError
+            return self._value
 
         def __eq__(self, other):
             # TODO реализовать функцию сравнения
-            raise NotImplementedError
+            return self._value == other._value and self._key == other._key
 
     def __init__(self, bucket_num=64):
         """
