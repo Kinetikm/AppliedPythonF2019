@@ -27,10 +27,7 @@ class HashMap:
 
         def __eq__(self, other):
             # TODO реализовать функцию сравнения
-            '''
-            :param other: другой объект Entry
-            '''
-            return self._key == other.get_key()  # and self._value == other.get_value():
+            return self._key == other.get_key()
 
     class IterKeys:
 
@@ -162,13 +159,3 @@ class HashMap:
             for j in range(len(self._map[i])):
                 list.append(self._map[i][j])
         return list
-
-
-a = HashMap(10)
-entries = [(4, 7), (6, 56), (7, 54.), (14, "t"), (9, 123)]
-for k, v in entries:
-    a.put(k, v)
-b = []
-for v in a.keys():
-    b.append(v)
-print(b)
