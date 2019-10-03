@@ -111,9 +111,10 @@ class HashMap:
         # если такого ключа нет, то возвращаем дефолт
         if not self._table[idx]:
             return default_value
-        for elem in self._table[idx]:
-            if key == elem.get_key():
-                return elem.get_value()
+        if self.__contains__(key):
+            for elem in self._table[idx]:
+                if key == elem.get_key():
+                    return elem.get_value()
         return default_value
 
     def put(self, key, value):
@@ -208,6 +209,7 @@ class HashMap:
         '''
         Метод проверяющий есть ли объект (через in)
         '''
-        for key in self.keys():
-            if item == key:
+        idx = self._get_index(self._get_hash(item))
+        for elem in self._table[idx]:
+            if item == elem.get_key():
                 return True
