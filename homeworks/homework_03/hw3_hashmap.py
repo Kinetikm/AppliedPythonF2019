@@ -71,7 +71,6 @@ class HashMap:
                     self.pointer_1 += 1
                     return item
                 else:
-                    print(self.pointer_1, self.pointer_2)
                     if self.pointer_2 < len(self.table[self.pointer_1]):
                         item = self.return_this_type(self.pointer_1, self.pointer_2)
                         self.pointer_2 += 1
@@ -126,25 +125,27 @@ class HashMap:
         '''
         # индекс ячейки, в которую будем класть элемент
         idx = self._get_index(self._get_hash(key))
+        node = self.Entry(key, value)
         # если ячейка пустая, то просто кладем элемент
         # если ячейка не пустая, то проверяем, есть ли искомый ключ
         # если ключ есть, то заменяем, если нет, то кладем в конец листа
         if not self._table[idx]:
-            self._table[idx].append(self.Entry(key, value))
+            self._table[idx].append(node)
             self._num_nodes += 1
             return
-        else:
+        if self.__contains__(key):
             for i in range(len(self._table[idx])):
-                if key == self._table[idx][i].get_key():
-                    self._table[idx][i] = self.Entry(key, value)
+                if node == self._table[idx][i]:
+                    self._table[idx][i] = node
                     if self._num_nodes > self._LOAD_COEFF * self._bucket_num:
                         self._resize()
-                    return None
-        self._table[idx].append(self.Entry(key, value))
-        self._num_nodes += 1
-        if self._num_nodes > self._LOAD_COEFF * self._bucket_num:
-            self._resize()
-        return
+                    return
+        else:
+            self._table[idx].append(node)
+            self._num_nodes += 1
+            if self._num_nodes > self._LOAD_COEFF * self._bucket_num:
+                self._resize()
+            return
 
     def __len__(self):
         '''
