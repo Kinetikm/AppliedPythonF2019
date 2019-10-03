@@ -83,4 +83,4 @@ class HashMap:
         return 'buckets: {buckets1}\nitems: {items1}'.format(buckets1=buckets, items1=items)
 
     def __contains__(self, item):
-        return self.get(item.get_key()) == item
+        return self.get(item) == item
