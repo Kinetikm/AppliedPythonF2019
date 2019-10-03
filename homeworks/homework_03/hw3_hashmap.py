@@ -150,7 +150,7 @@ class HashMap:
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
-        return f'buckets: {self.hash_map}, items: {[(key, self.get(key)) for key in self.keys_list]}'
+        return f'buckets: {self.size}, items: {self.elem_num}'
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
