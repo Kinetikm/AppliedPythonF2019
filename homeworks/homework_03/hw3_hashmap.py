@@ -18,6 +18,7 @@ class HashMap:
         self.array = [[] for _ in range(bucket_num)]
         self.table_size = bucket_num
         self.fill_factor = 20
+        self.len_ = 0
 
     def get(self, key, default_value=None):
         idx = self._get_index(self._get_hash(key))
@@ -28,19 +29,23 @@ class HashMap:
 
     def put(self, key, value):
         idx = self._get_index(self._get_hash(key))
-        for i in self.array[idx]:
-            if i.get_key() == key:
-                i.value = value
-                return
-        self.array[idx].append(self.Entry(key, value))
-        if self.__len__() / self.table_size > self.fill_factor:
-            self._resize()
+        if self.array[idx] is not None:
+            for i in self.array[idx]:
+                if i.get_key() == key:
+                    i.value = value
+                    return
+            self.array[idx].append(self.Entry(key, value))
+            self.len_ += 1
+            if self.__len__() / self.table_size > self.fill_factor:
+                self._resize()
+        else:
+            self.array[idx].append(self.Entry(key, value))
+            self.len_ += 1
+            if self.__len__() / self.table_size > self.fill_factor:
+                self._resize()
 
     def __len__(self):
-        len_ = 0
-        for i in self.array:
-            len_ += len(i)
-        return len_
+        return self.len_
 
     def _get_hash(self, key):
         return hash(key)
@@ -83,4 +88,8 @@ class HashMap:
         return 'buckets: {buckets1}\nitems: {items1}'.format(buckets1=buckets, items1=items)
 
     def __contains__(self, item):
-        return self.get(item) == item
+        idx = self._get_index(self._get_hash(item))
+        for i in self.array[idx]:
+            if i.get_key() == item:
+                return True
+        return False
