@@ -12,7 +12,7 @@ class HashMap:
             return self.value
 
         def __eq__(self, other):
-            return self.key == other.get_key
+            return self.key == other.key
 
     def __init__(self, bucket_num=64):
         self.array = [[] for _ in range(bucket_num)]
