@@ -3,80 +3,117 @@
 
 
 class HashMap:
-    """
-    Давайте сделаем все объектненько,
-     поэтому внутри хешмапы у нас будет Entry
-    """
+
     class Entry:
         def __init__(self, key, value):
-            """
-            Сущность, которая хранит пары ключ-значение
-            :param key: ключ
-            :param value: значение
-            """
+            self.key = key
+            self.value = value
 
         def get_key(self):
-            # TODO возвращаем ключ
-            raise NotImplementedError
+            return self.key
 
         def get_value(self):
-            # TODO возвращаем значение
-            raise NotImplementedError
+            return self.value
 
         def __eq__(self, other):
-            # TODO реализовать функцию сравнения
-            raise NotImplementedError
+            return True if self.key == other.get_key() else False
 
     def __init__(self, bucket_num=64):
-        """
-        Реализуем метод цепочек
-        :param bucket_num: число бакетов при инициализации
-        """
-        raise NotImplementedError
+        self.len = 0
+        self.bucket_num = bucket_num
+        self.map = [None for _ in range(bucket_num)]
 
     def get(self, key, default_value=None):
-        # TODO метод get, возвращающий значение,
-        #  если оно присутствует, иначе default_value
-        raise NotImplementedError
+        _id = self._get_index(self._get_hash(key))
+        arr = self.map[_id]
+        if arr is None:
+            return default_value
+        else:
+            for el in arr:
+                if el.get_key() == key:
+                    return el.get_value()
+            return default_value
 
     def put(self, key, value):
-        # TODO метод put, кладет значение по ключу,
-        #  в случае, если ключ уже присутствует он его заменяет
-        raise NotImplementedError
+        _id = self._get_index(self._get_hash(key))
+        arr = self.map[_id]
+        if arr is None:
+            self.map[_id] = [self.Entry(key, value)]
+            self.len += 1
+            return True
+        else:
+            for el in arr:
+                if el.get_key() == key:
+                    el.value = value
+                    return True
+            self.map[_id].append(self.Entry(key, value))
+            self.len += 1
+            return True
 
     def __len__(self):
-        # TODO Возвращает количество Entry в массиве
-        raise NotImplementedError
+        return self.len
 
     def _get_hash(self, key):
-        # TODO Вернуть хеш от ключа,
-        #  по которому он кладется в бакет
-        raise NotImplementedError
+        return hash(key)
 
     def _get_index(self, hash_value):
-        # TODO По значению хеша вернуть индекс элемента в массиве
-        raise NotImplementedError
+        return hash_value % self.bucket_num
 
     def values(self):
-        # TODO Должен возвращать итератор значений
-        raise NotImplementedError
+        val_list = []
+        for arr in self.map:
+            if arr is None:
+                continue
+            for el in arr:
+                val_list.append(el.get_value())
+        return val_list
 
     def keys(self):
-        # TODO Должен возвращать итератор ключей
-        raise NotImplementedError
+        key_list = []
+        for arr in self.map:
+            if arr is None:
+                continue
+            for el in arr:
+                key_list.append(el.get_key())
+        return key_list
 
     def items(self):
-        # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        raise NotImplementedError
+        items_list = []
+        for arr in self.map:
+            if arr is None:
+                continue
+            for el in arr:
+                items_list.append((el.get_key(), el.get_value()))
+        return items_list
 
     def _resize(self):
-        # TODO Время от времени нужно ресайзить нашу хешмапу
-        raise NotImplementedError
+        self.map += [None for _ in range(self.bucket_num)]
+        self.bucket_num *= 2
+        i = 0
+        while i < self.bucket_num:
+            arr = self.map[i]
+            if arr is not None:
+                j, length = 0, len(arr)
+                while j < length:
+                    new_id = self._get_index(self._get_hash(arr[j].get_key()))
+                    if new_id != i:
+                        self.put(arr[j].get_key(), arr[j].get_value())
+                        arr.pop(j)
+                        length = len(arr)
+                    j += 1
+            i += 1
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
         raise NotImplementedError
 
     def __contains__(self, item):
-        # TODO Метод проверяющий есть ли объект (через in)
-        raise NotImplementedError
+        _id = self._get_index(self._get_hash(item))
+        arr = self.map[_id]
+        if arr is None:
+            return False
+        else:
+            for el in arr:
+                if el.get_key() == item:
+                    return True
+            return False
