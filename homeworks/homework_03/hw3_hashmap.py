@@ -47,8 +47,6 @@ class HashMap:
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
         idx = self._get_index(self._get_hash(key))
-        if not self.map[idx]:
-            return default_value
         for entry in self.map[idx]:
             if entry.get_key() == key:
                 return entry.get_value()
@@ -58,15 +56,18 @@ class HashMap:
         # TODO метод put, кладет значение по ключу,
         #  в случае, если ключ уже присутствует он его заменяет
         idx = self._get_index(self._get_hash(key))
-        put_entry = self.Entry(key, value)
+        item = self.Entry(key, value)
 
-        for i, entry in enumerate(self.map[idx]):
-            if entry == put_entry:
-                self.map[idx].pop(i)
-                break
-        self.map[idx].append(put_entry)
-        control_num = self.bucket_num * self.CHECK
-        if len([lst for lst in self.map if lst]) > control_num:
+        if not self.__contains__(key):
+            self.map[idx].append(item)
+        else:
+            for i, entry in enumerate(self.map[idx]):
+                if entry == item:
+                    self.map[idx].pop(i)
+                    break
+            self.map[idx].append(item)
+
+        if len([lst for lst in self.map if lst]) > self.bucket_num * self.CHECK:
             self._resize()
 
     def __len__(self):
