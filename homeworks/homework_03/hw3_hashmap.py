@@ -44,11 +44,8 @@ class HashMap:
             '''
             self.pointer_1 = 0
             self.pointer_2 = 0
-            self.table = []
+            self.table = table
             self.type_ = type_
-            for item in table:
-                if item:
-                    self.table.append(item)
 
         def return_this_type(self, pointer_1, pointer_2):
             if self.type_ == 'key':
@@ -64,27 +61,15 @@ class HashMap:
             return self
 
         def __next__(self):
-            if self.pointer_1 < len(self.table):
-                if len(self.table[self.pointer_1]) == 1:
-                    self.pointer_2 = 0
-                    item = self.return_this_type(self.pointer_1, self.pointer_2)
-                    self.pointer_1 += 1
-                    return item
-                else:
+            while self.pointer_1 < len(self.table):
+                if len(self.table[self.pointer_1]) >= 1:
                     if self.pointer_2 < len(self.table[self.pointer_1]):
-                        item = self.return_this_type(self.pointer_1, self.pointer_2)
+                        element = self.return_this_type(self.pointer_1, self.pointer_2)
                         self.pointer_2 += 1
-                        return item
-                    else:
-                        self.pointer_1 += 1
-                        if self.pointer_1 < len(self.table):
-                            self.pointer_2 = 0
-                            item = self.return_this_type(self.pointer_1, self.pointer_2)
-                            return item
-                        else:
-                            raise StopIteration
-            else:
-                raise StopIteration
+                        return element
+                self.pointer_1 += 1
+                self.pointer_2 = 0
+            raise StopIteration
 
     def __init__(self, bucket_num=64):
         """
@@ -109,8 +94,6 @@ class HashMap:
         # если в ячейке ничего нет, то возвращаем дефолт
         # если в ячейке, что-то есть, то пытаемся найти элемент, сравнивая ключи
         # если такого ключа нет, то возвращаем дефолт
-        if not self._table[idx]:
-            return default_value
         if self.__contains__(key):
             for elem in self._table[idx]:
                 if key == elem.get_key():
@@ -136,7 +119,7 @@ class HashMap:
             return
         if self.__contains__(key):
             for i in range(len(self._table[idx])):
-                if node == self._table[idx][i]:
+                if node.get_key() == self._table[idx][i].get_key():
                     self._table[idx][i] = node
                     if self._num_nodes > self._LOAD_COEFF * self._bucket_num:
                         self._resize()
@@ -190,10 +173,9 @@ class HashMap:
         '''
         Увеличивает количество бакетов и перестраивать таблицу
         '''
-        items = [item for item in self.items()]
+        items = [it for it in self.items()]
         self._bucket_num *= self._COEFF
         num_elements_save = self._num_nodes
-        del self._table
         self._table = [[] for _ in range(self._bucket_num)]
         for key, value in items:
             self.put(key, value)
