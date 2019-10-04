@@ -67,7 +67,6 @@ class HashMap:
         if len([lst for lst in self.map if lst]) > control_num:
             self._resize()
 
-
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
         return len(self.items())
