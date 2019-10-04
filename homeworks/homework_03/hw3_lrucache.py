@@ -50,5 +50,4 @@ class LRUCacheDecorator:
                 if self.ttl:
                     self.time_list = self.time_list[1::]
                     self.time_list.append(time.time())
-            print(self.cache)
         return cashing
