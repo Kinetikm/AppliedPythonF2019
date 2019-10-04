@@ -27,14 +27,15 @@ class LRUCacheDecorator:
                     self.cach_time[temp] = time()
                 else:
                     result = self.cach_args[temp]
+                    self.cach_time[temp] = time()
             else:
                 result = func(*args, **kwargs)
                 if len(self.cach_args) >= self.maxsize:
-                    for arg, time_ in self.cach_time.items():
-                        max_ = time_
-                        key = arg
-                        if time_ < max_:
-                            max_ = time_
+                    min_ = time()
+                    for arg in self.cach_args.keys():
+                        time_ = self.cach_time[arg]
+                        if time_ < min_:
+                            min_ = time_
                             key = arg
                     self.cach_args.pop(key)
                 self.cach_args[temp] = result
