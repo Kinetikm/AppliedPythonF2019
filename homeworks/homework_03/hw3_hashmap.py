@@ -69,6 +69,7 @@ class HashMap:
         for i in range(self.bucket_num):
             self.dict_.append([])
         self.num_of_items = 0
+        self.bucket_use = 0
 
     def get(self, key, default_value=None):
         # TODO метод get, возвращающий значение,
@@ -86,14 +87,15 @@ class HashMap:
         item = self.Entry(key, value)
         index = self._get_index(self._get_hash(key))
         if not self.__contains__(key):
-            self.dict_[index].append(item)
             self.num_of_items += 1
+            if len(self.dict_[index]) == 0:
+                self.bucket_use += 1
+            self.dict_[index].append(item)
         else:
             for i, element in enumerate(self.dict_[index]):
-                if element == item:
+                if element.get_key() == item.get_key():
                     self.dict_[index][i] = item
-
-        if self.bucket_num / self.__len__() < 1.5:
+        if self.bucket_use / self.__len__() < 1.5:
             self._resize()
 
     def __len__(self):
@@ -120,7 +122,6 @@ class HashMap:
         return self.Iterator(self.dict_, 'items')
 
     def _resize(self):
-        # TODO Время от времени нужно ресайзить нашу хешмапу
         self.num_of_items = 0
         array = []
         self.bucket_num *= 4
