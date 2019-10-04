@@ -1,82 +1,76 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 class HashMap:
-    """
-    Давайте сделаем все объектненько,
-     поэтому внутри хешмапы у нас будет Entry
-    """
+
+    fill_factor = 1/3
+    exp_coeff = 2
+
     class Entry:
         def __init__(self, key, value):
-            """
-            Сущность, которая хранит пары ключ-значение
-            :param key: ключ
-            :param value: значение
-            """
+            self.__key = key
+            self.__value = value
 
         def get_key(self):
-            # TODO возвращаем ключ
-            raise NotImplementedError
+            return self.__key
 
         def get_value(self):
-            # TODO возвращаем значение
-            raise NotImplementedError
+            return self.__value
 
         def __eq__(self, other):
-            # TODO реализовать функцию сравнения
-            raise NotImplementedError
+            return self.__key == other.get_key()
+
+        def __iter__(self):
+            yield self.__key
+            yield self.__value
 
     def __init__(self, bucket_num=64):
-        """
-        Реализуем метод цепочек
-        :param bucket_num: число бакетов при инициализации
-        """
-        raise NotImplementedError
+        self.bucket_num = bucket_num
+        self.map = [[] for i in range(self.bucket_num)]
 
     def get(self, key, default_value=None):
-        # TODO метод get, возвращающий значение,
-        #  если оно присутствует, иначе default_value
-        raise NotImplementedError
+        idx = self._get_index(self._get_hash(key))
+        for entry in self.map[idx]:
+            if entry.get_key() == key:
+                return entry.get_value()
+        return default_value
 
     def put(self, key, value):
-        # TODO метод put, кладет значение по ключу,
-        #  в случае, если ключ уже присутствует он его заменяет
-        raise NotImplementedError
+        idx = self._get_index(self._get_hash(key))
+        put_entry = self.Entry(key, value)
+        for i, entry in enumerate(self.map[idx]):
+            if entry == put_entry:
+                self.map[idx].pop(i)
+                break
+        self.map[idx].append(put_entry)
+        control_num = self.bucket_num*self.fill_factor
+        if len([lst for lst in self.map if lst]) > control_num:
+            self._resize()
 
     def __len__(self):
-        # TODO Возвращает количество Entry в массиве
-        raise NotImplementedError
+        return len(self.items())
 
     def _get_hash(self, key):
-        # TODO Вернуть хеш от ключа,
-        #  по которому он кладется в бакет
-        raise NotImplementedError
+        return hash(key)
 
     def _get_index(self, hash_value):
-        # TODO По значению хеша вернуть индекс элемента в массиве
-        raise NotImplementedError
+        return hash_value % self.bucket_num
 
     def values(self):
-        # TODO Должен возвращать итератор значений
-        raise NotImplementedError
+        return [entry.get_value() for entry in self.items()]
 
     def keys(self):
-        # TODO Должен возвращать итератор ключей
-        raise NotImplementedError
+        return [entry.get_key() for entry in self.items()]
 
     def items(self):
-        # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        raise NotImplementedError
+        return [entry for lst_of_entry in self.map for entry in lst_of_entry]
 
     def _resize(self):
-        # TODO Время от времени нужно ресайзить нашу хешмапу
-        raise NotImplementedError
+        self.bucket_num *= self.exp_coeff
+        items = self.items()
+        self.map = [[] for i in range(self.bucket_num)]
+        for entry in items:
+            self.put(entry.get_key(), entry.get_value())
 
     def __str__(self):
-        # TODO Метод выводит "buckets: {}, items: {}"
-        raise NotImplementedError
+        return 'buckets: {}, items: {}'.format(self.bucket_num, len(self))
 
-    def __contains__(self, item):
-        # TODO Метод проверяющий есть ли объект (через in)
-        raise NotImplementedError
+    def __contains__(self, key):
+        return key in self.keys()
