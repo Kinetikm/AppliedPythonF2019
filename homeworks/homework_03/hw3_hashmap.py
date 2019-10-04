@@ -14,24 +14,24 @@ class HashMap:
             :param key: ключ
             :param value: значение
             """
-            self.key = key
-            self.value = value
+            self.__key = key
+            self.__value = value
 
         def get_key(self):
             # TODO возвращаем ключ
-            return self.key
+            return self.__key
 
         def get_value(self):
             # TODO возвращаем значение
-            return self.value
+            return self.__value
 
         def __eq__(self, other):
             # TODO реализовать функцию сравнения
-            return self.key == other.get_key()
+            return self.__key == other.get_key()
 
         def __iter__(self):
-            yield self.key
-            yield self.value
+            yield self.__key
+            yield self.__value
 
     def __init__(self, bucket_num=64):
         """
@@ -40,8 +40,8 @@ class HashMap:
         """
         self.bucket_num = bucket_num
         self.map = [[] for i in range(self.bucket_num)]
-        self.CHECK = 0.8
-        self.RESIZE = 1.2
+        self.CHECK = 0.33
+        self.RESIZE = 2
 
     def get(self, key, default_value=None):
         # TODO метод get, возвращающий значение,
@@ -57,6 +57,7 @@ class HashMap:
         #  в случае, если ключ уже присутствует он его заменяет
         idx = self._get_index(self._get_hash(key))
         put_entry = self.Entry(key, value)
+
         for i, entry in enumerate(self.map[idx]):
             if entry == put_entry:
                 self.map[idx].pop(i)
@@ -94,6 +95,7 @@ class HashMap:
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
         self.bucket_num *= self.RESIZE
+
         items = self.items()
         self.map = [[] for i in range(self.bucket_num)]
         for entry in items:
@@ -103,6 +105,6 @@ class HashMap:
         # TODO Метод выводит "buckets: {}, items: {}"
         return 'buckets: {}, items: {}'.format(self.bucket_num, len(self))
 
-    def __contains__(self, item):
+    def __contains__(self, key):
         # TODO Метод проверяющий есть ли объект (через in)
-        return item in self.keys()
+        return key in self.keys()
