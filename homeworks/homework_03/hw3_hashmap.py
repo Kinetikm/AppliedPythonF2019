@@ -4,8 +4,7 @@
 
 class HashMap:
 
-    fill_factor = 1/3
-    exp_coeff = 2
+
 
     class Entry:
         def __init__(self, key, value):
@@ -28,6 +27,8 @@ class HashMap:
     def __init__(self, bucket_num=64):
         self.bucket_num = bucket_num
         self.map = [[] for i in range(self.bucket_num)]
+        self.CHECK = 0.4
+        self.RESIZE = 2
 
     def get(self, key, default_value=None):
         idx = self._get_index(self._get_hash(key))
@@ -44,7 +45,7 @@ class HashMap:
                 self.map[idx].pop(i)
                 break
         self.map[idx].append(put_entry)
-        control_num = self.bucket_num*self.fill_factor
+        control_num = self.bucket_num*self.CHECK
         if len([lst for lst in self.map if lst]) > control_num:
             self._resize()
 
@@ -67,7 +68,7 @@ class HashMap:
         return [entry for lst_of_entry in self.map for entry in lst_of_entry]
 
     def _resize(self):
-        self.bucket_num *= self.exp_coeff
+        self.bucket_num *= self.RESIZE
         items = self.items()
         self.map = [[] for i in range(self.bucket_num)]
         for entry in items:
