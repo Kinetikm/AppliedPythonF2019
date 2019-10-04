@@ -33,7 +33,6 @@ class HashMap:
             yield self.key
             yield self.value
 
-
     def __init__(self, bucket_num=64):
         """
         Реализуем метод цепочек
@@ -48,14 +47,16 @@ class HashMap:
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
         idx = self._get_index(self._get_hash(key))
-        if entry.get_key() == key:
-            return entry.get_value()
-        return default_value
+        for entry in self.map[idx]:
+            if entry.get_key() == key:
+                return entry.get_value()
+            return default_value
 
     def put(self, key, value):
         # TODO метод put, кладет значение по ключу,
         #  в случае, если ключ уже присутствует он его заменяет
         idx = self._get_index(self._get_hash(key))
+        put_entry = self.Entry(key, value)
         for i, entry in enumerate(self.map[idx]):
             if entry == put_entry:
                 self.map[idx].pop(i)
