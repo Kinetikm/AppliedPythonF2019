@@ -55,18 +55,16 @@ class HashMap:
     def put(self, key, value):
         # TODO метод put, кладет значение по ключу,
         #  в случае, если ключ уже присутствует он его заменяет
-        item = self.Entry(key, value)
-        index = self._get_index(self._get_hash(key))
-        if not self.__contains__(key):
-            self.num_of_items += 1
-            if len(self.dict_[index]) == 0:
-                self.bucket_use += 1
-            self.dict_[index].append(item)
-        else:
-            for i, element in enumerate(self.dict_[index]):
-                if element.get_key() == item.get_key():
-                    self.dict_[index][i] = item
-        if self.bucket_use / self.__len__() < 1.5:
+        idx = self._get_index(self._get_hash(key))
+        put_entry = self.Entry(key, value)
+
+        for i, entry in enumerate(self.map[idx]):
+            if entry == put_entry:
+                self.map[idx].pop(i)
+                break
+        self.map[idx].append(put_entry)
+        control_num = self.bucket_num * (1/3)
+        if len([lst for lst in self.map if lst]) > control_num:
             self._resize()
 
 
