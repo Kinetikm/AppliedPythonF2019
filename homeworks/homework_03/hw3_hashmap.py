@@ -131,7 +131,7 @@ class HashMap:
         #  по которому он кладется в бакет
         return hash(key)
 
-    def _get_index(self, hash_value):
+    def get_index(self, hash_value):
         # TODO По значению хеша вернуть индекс элемента в массиве
         return hash_value % self.bucket_num
 
