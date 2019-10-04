@@ -78,6 +78,7 @@ class HashMap:
         """
         self._bucket_num = bucket_num
         self._num_nodes = 0  # количество Entry в массиве
+        self._not_empty_buckets = 0
         self._table = [[] for _ in range(self._bucket_num)]  # задаем начальную пустую таблицу
         self._LOAD_COEFF = 0.66  # коэффициент заполнения (2/3)
         self._COEFF = 4  # во сколько раз будем увеличивать размер таблицы
@@ -116,18 +117,19 @@ class HashMap:
         if not self._table[idx]:
             self._table[idx].append(node)
             self._num_nodes += 1
+            self._not_empty_buckets += 1
             return
         if self.__contains__(key):
             for i in range(len(self._table[idx])):
                 if node.get_key() == self._table[idx][i].get_key():
                     self._table[idx][i] = node
-                    if self._num_nodes > self._LOAD_COEFF * self._bucket_num:
+                    if self._not_empty_buckets > self._LOAD_COEFF * self._bucket_num:
                         self._resize()
                     return
         else:
             self._table[idx].append(node)
             self._num_nodes += 1
-            if self._num_nodes > self._LOAD_COEFF * self._bucket_num:
+            if self._not_empty_buckets > self._LOAD_COEFF * self._bucket_num:
                 self._resize()
             return
 
