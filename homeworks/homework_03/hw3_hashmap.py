@@ -65,8 +65,6 @@ class HashMap:
             else:
                 raise StopIteration
 
-
-
     def __init__(self, bucket_num=64):
         """
         Реализуем метод цепочек
@@ -79,32 +77,20 @@ class HashMap:
         self.INDICATE = 0.8
         self.RESIZER = 3
 
-
     def get(self, key, default_value=None):
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
         index = self._get_index(self._get_hash(key))
-        if not self.hash_table[index]:
-            return default_value
-        for staff in self.hash_table[index]:
-            if key == staff.get_key():
-                return staff.get_value()
+        for entry in self.hash_table[index]:
+            if key == entry.get_key():
+                return entry.get_value()
         return default_value
-
-
 
     def put(self, key, value):
         # TODO метод put, кладет значение по ключу,
         #  в случае, если ключ уже присутствует он его заменяет
         index = self._get_index(self._get_hash(key))
-        if not self.hash_table[index]:
-            self.hash_table[index].append(self.Entry(key, value))
-            self.list_of_keys.append(key)
-            self.count_of_Entry += 1
-            if self.count_of_Entry > (self.INDICATE * self.buckets):
-                self._resize()
-            return None
-        else:
+        if self.hash_table[index]:
             for i in range(len(self.hash_table[index])):
                 self.hash_table[index][i] = self.Entry(key, value)
                 return None
@@ -114,7 +100,6 @@ class HashMap:
         if self.count_of_Entry > (self.INDICATE * self.buckets):
             self._resize()
         return None
-
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
@@ -151,7 +136,6 @@ class HashMap:
         for key, value in zip(self.list_of_keys, items):
             self.put(key, value)
         self.count_of_Entry = remain
-
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
