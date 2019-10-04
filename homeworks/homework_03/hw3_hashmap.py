@@ -131,7 +131,7 @@ class HashMap:
         #  по которому он кладется в бакет
         return hash(key)
 
-    def get_index(self, hash_value):
+    def _get_index(self, hash_value):
         # TODO По значению хеша вернуть индекс элемента в массиве
         return hash_value % self.bucket_num
 
@@ -167,7 +167,7 @@ class HashMap:
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
-        ind = self.get_index(self._get_hash(item))
+        ind = self._get_index(self._get_hash(item))
         for i in self.table[ind]:
             if item == i.get_key():
                 return True
