@@ -90,11 +90,11 @@ class HashMap:
     def get(self, key, default_value=None):
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
-        ind = self.get_index(self._get_hash(key))
-        if not self._table[ind]:
+        ind = self._get_index(self._get_hash(key))
+        if not self.table[ind]:
             return default_value
         if self.__contains__(key):
-            for el in self._table[ind]:
+            for el in self.table[ind]:
                 if key == el.get_key():
                     return el.get_value()
         else:
@@ -110,9 +110,9 @@ class HashMap:
             self.num_nodes += 1
             return
         if self.__contains__(key):
-            for i in range(len(self.table[idx])):
-                if node == self.table[idx][i]:
-                    self.table[idx][i] = node
+            for i in range(len(self.table[ind])):
+                if node == self.table[ind][i]:
+                    self.table[ind][i] = node
                     if self.num_nodes > self.load_coeff * self.bucket_num:
                         self._resize()
                     return
