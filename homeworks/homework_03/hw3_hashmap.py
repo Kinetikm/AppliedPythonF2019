@@ -141,9 +141,12 @@ class HashMap:
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
-        new_map = HashMap(self._bucket_num*self._koef)
+        self._bucket_num *= self._koef
+        new_map = HashMap(self._bucket_num)
         for key in self.keys():
             new_map.put(key, self.get(key))
+        self._map = new_map
+
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
