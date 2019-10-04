@@ -105,8 +105,8 @@ class HashMap:
         #  в случае, если ключ уже присутствует он его заменяет
         ind = self._get_index(self._get_hash(key))
         node = self.Entry(key, value)
-        if not self.table[idx]:
-            self.table[idx].append(node)
+        if not self.table[ind]:
+            self.table[ind].append(node)
             self.num_nodes += 1
             return
         if self.__contains__(key):
@@ -163,7 +163,7 @@ class HashMap:
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
-        return 'buckets: {}, items: {}'.format(self.bucket_num,self.num_nodes)
+        return 'buckets: {}, items: {}'.format(self.bucket_num, self.num_nodes)
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
