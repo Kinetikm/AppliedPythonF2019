@@ -47,6 +47,8 @@ class HashMap:
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
         idx = self._get_index(self._get_hash(key))
+        if not self.map[idx]:
+            return default_value
         for entry in self.map[idx]:
             if entry.get_key() == key:
                 return entry.get_value()
