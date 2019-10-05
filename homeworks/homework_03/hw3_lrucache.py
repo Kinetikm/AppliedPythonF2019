@@ -12,7 +12,7 @@ class LRUCacheDecorator:
 
     def __call__(self, func):
         def wrapper(*args, **kwargs):
-            key = hash(args, tuple(kwargs))
+            key = hash(str(args) + str(tuple(kwargs)) + str(tuple(kwargs.values())))
             print(key)
             if key not in self.cache:
                 result = func(*args, **kwargs)
