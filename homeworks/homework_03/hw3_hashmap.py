@@ -32,7 +32,7 @@ class HashMap:
     class IteratorOfItems:
         def __init__(self, list_of_keys, hash_map):
             self.hash_map = hash_map
-            self.list_of_keys = list_of_keys
+            self.list = list_of_keys
             self.amount = 0
 
         def __iter__(self):
@@ -41,7 +41,7 @@ class HashMap:
         def __next__(self):
             if self.amount < len(self.hash_map):
                 self.amount += 1
-                return self.list_of_keys[self.amount - 1], self.hash_map.get(self.list_of_keys[self.amount - 1])
+                return self.list[self.amount - 1], self.hash_map.get(self.list[self.amount - 1])
             else:
                 raise StopIteration
 
@@ -49,7 +49,7 @@ class HashMap:
         def __next__(self):
             if self.amount < len(self.hash_map):
                 self.amount += 1
-                return self.list_of_keys[self.amount - 1]
+                return self.list[self.amount - 1]
             else:
                 raise StopIteration
 
@@ -57,7 +57,7 @@ class HashMap:
         def __next__(self):
             if self.amount < len(self.hash_map):
                 self.amount += 1
-                return self.hash_map.get(self.list_of_keys[self.amount - 1])
+                return self.hash_map.get(self.list[self.amount - 1])
             else:
                 raise StopIteration
             
