@@ -15,25 +15,25 @@ class LRUCacheDecorator:
         self._maxsize = maxsize
         self._ttl = ttl
         self._cach = {}
-        self._times = {}
+        self._time = {}
 
     def __call__(self, func):
         def cach(*args, **kwargs):
-            args = (args, str(kwargs))
-            if args in self._cach:
-                if self._ttl and (time() - self._times[args])*1000 > self._ttl:
+            args_ = (args, str(kwargs))
+            if args_ in self._cach:
+                if self._ttl and (time() - self._time[args_])*1000 > self._ttl:
                     result = func(*args, **kwargs)
-                    self._cach[args] = result
-                    self._time[args] = time()
+                    self._cach[args_] = result
+                    self._time[args_] = time()
                 else:
-                    result = self._cach[args]
-                    self._time[args] = time()
+                    result = self._cach[args_]
+                    self._time[args_] = time()
             else:
                 result = func(*args, **kwargs)
                 if len(self._cach) >= self._maxsize:
                     self._pop()
-                self._cach[args] = result
-                self._time[args] = time()
+                self._cach[args_] = result
+                self._time[args_] = time()
             return result
         return cach
 
