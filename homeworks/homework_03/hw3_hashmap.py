@@ -105,5 +105,5 @@ class HashMap:
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
         index = self._get_index(self._get_hash(item))
-        for i in (len(self.dict_[index])):
+        for i in (len(self.container[index])):
             return self.container[i].get_key() == item
