@@ -1,19 +1,34 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+import time
 
 class LRUCacheDecorator:
 
     def __init__(self, maxsize, ttl):
-        '''
-        :param maxsize: максимальный размер кеша
-        :param ttl: время в млсек, через которое кеш
-                    должен исчезнуть
-        '''
-        # TODO инициализация декоратора
-        #  https://www.geeksforgeeks.org/class-as-decorator-in-python/
-        raise NotImplementedError
+        self.maxsize = maxsize
+        self.ttl = ttl
+        self.cache = {}
 
-    def __call__(self, *args, **kwargs):
-        # TODO вызов функции
-        raise NotImplementedError
+    def __call__(self, func):
+        def wrapper(*args, **kwargs):
+            key = (args, tuple(kwargs), tuple(kwargs.values()))
+            if key not in self.cache:
+                result = func(*args, **kwargs)
+                if len(self.cache) < self.maxsize:
+                    self.cache[key] = [result, time.time()]
+                else:
+                    keymax = max(self.cache,  key = lambda x: time.time() - self.cache[x][1])
+                    self.cache.pop(keymax)
+                    self.cache[key] = [result, time.time()]
+                return result
+            else:
+                if self.ttl:
+                    if time.time() - self.cache[key][1] > self.ttl:
+                        self.cache.pop(key)
+                        result = func(*args, **kwargs)
+                        self.cache[key] = result
+                        return result
+                    else:
+                        self.cache[key][1] = time.time()
+                        return self.cache[key][0]
+        return wrapper
