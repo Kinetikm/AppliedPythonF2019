@@ -89,7 +89,7 @@ class HashMap:
         cur_entry = self.Entry(key, value)
         if not self.__contains__(key):
             self.elem_amount += 1
-            self.list_of_entries.append(cur_entry)
+            self.list_of_entries[index].append(cur_entry)
         else:
             for i, el in enumerate(self.list_of_entries[index]):
                 if el.get_key() == cur_entry.get_key():
