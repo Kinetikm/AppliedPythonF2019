@@ -39,6 +39,6 @@ class LRUCacheDecorator:
                         self.cache.pop(key)
                         self.cache[key] = [self.func(*args, **kwargs), time.time()]
                         return self.func(*args, **kwargs)
-                self.cahe[key][1] = time.time()
+                self.cache[key][1] = time.time()
                 return self.cache[key][0]
         return inner_func
