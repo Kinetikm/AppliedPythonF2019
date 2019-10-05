@@ -33,11 +33,8 @@ class HashMap:
         def __init__(self, table, type):
             self.ind_1 = 0
             self.ind_2 = 0
-            self.table = []
+            self.table = table
             self.type = type
-            for item in table:
-                if item:
-                    self.table.append(item)
 
         def __iter__(self):
             return self
@@ -151,7 +148,7 @@ class HashMap:
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
-        return 'buckets: {}, items: {}'.format(self.bucket_num, self.num_nodes)
+        return 'buckets: {}, items: {}'.format(self.bucket_num, self.num_entry)
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
