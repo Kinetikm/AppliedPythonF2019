@@ -25,6 +25,7 @@ class LRUCacheDecorator:
                     self.cache_bank[cache] = [res, time.time()]
                     return res
                 else:
+                    self.cache_bank[cache][1] = time.time()
                     return self.cache_bank[cache][0]
             else:
                 if len(self.cache_bank.keys()) == self.maxsize:
