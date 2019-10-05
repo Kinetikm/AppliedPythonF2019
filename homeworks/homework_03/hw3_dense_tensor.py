@@ -315,10 +315,17 @@ class Tensor:
             # умножаем вектор-строку на матрицу
             if self.shape[0] != other.shape[0]:
                 raise ValueError("Dimension mismatch")
-            result = np.zeros((self.shape[0], other.shape[1]))
+            result = np.zeros((other.shape[1]))
+            for y in range(result.shape[0]):
+                result[y] = sum((self.__getitem__(j) * other[j, y] for j in range(other.shape[0])))
+            return Tensor(result.tolist())
+        if other.dim == 1:
+            # умножаем матрицу на вектор столбец
+            if self.shape[1] != other.shape[0]:
+                raise ValueError("Dimension mismatch")
+            result = np.zeros((self.shape[0]))
             for x in range(result.shape[0]):
-                for y in range(result.shape[1]):
-                    result[x,y] = sum((self.__getitem__(x) * other[j, y] for j in range(other.shape[0])))
+                result[x] = sum((self.__getitem__([x, j]) * other[j] for j in range(other.shape[0])))
             return Tensor(result.tolist())
         if self.shape[1] != other.shape[0]:
             raise ValueError("Dimension mismatch")
@@ -349,11 +356,6 @@ if __name__ == '__main__':
     #print(k)
     #print(m.max(axis=0))
     print(n.mean(axis=0))'''
-    m = Tensor([[1, 1], [1, 1]])
-    k = Tensor([1, 1])
-    print(k @ m)
-    print(k[0])
-
     '''
     np.random.seed(42)
     shapes = (20, 10, 20, 10)
@@ -389,3 +391,41 @@ if __name__ == '__main__':
     for ind in itertools.product(*[range(k) for k in s1_true.shape]):
         assert s1[ind] == s1_true[ind]
     '''
+    np.random.seed(42)
+
+    shape_x, shape_y = 2, 3
+    matrix1 = np.random.randint(-1, 2, (shape_x, shape_y))
+    matrix2 = np.random.randint(-1, 2, (shape_y, shape_x))
+
+    a = Tensor(matrix1.tolist())
+    b = Tensor(matrix2.tolist())
+    a1 = Tensor(matrix1[0].tolist())
+    a2 = Tensor(matrix1[:, 0].tolist())
+
+    c = a @ b
+    c1 = a @ a1
+    c2 = a2 @ a
+    c_true = matrix1 @ matrix2
+    c1_true = matrix1 @ matrix1[0]
+    c2_true = matrix1[:, 0] @ matrix1
+
+    flag = True
+    try:
+        a @ a
+        a @ a2
+        a1 @ a
+        flag = False
+    except ValueError:
+        pass
+    assert flag
+
+    for i, j in zip(range(c_true.shape[0]), range(c_true.shape[1])):
+        assert c_true[i, j] == c[i, j]
+
+    #print(c2)
+    #print(c2_true)
+    for i in range(c1_true.shape[0]):
+        assert c1_true[i] == c1[i]
+
+    for i in range(c2_true.shape[0]):
+        assert c2_true[i] == c2[i]
