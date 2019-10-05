@@ -30,7 +30,7 @@ class LRUCacheDecorator:
             list = args
             if self.function_result.get(list):#есть ли в хеше
                 if self.ttl is not None:
-                    if self.ttl < (time.time() - self.time_in_cache[list])
+                    if self.ttl < (time.time() - self.time_in_cache[list]):
                         self.del_old(list)
                         newresult = function(*args, **kwargs)
                         self.update_cache(list, newresult)
