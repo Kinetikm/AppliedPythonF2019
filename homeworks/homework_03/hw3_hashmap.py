@@ -39,7 +39,7 @@ class HashMap:
             return self
 
         def __next__(self):
-            if self.amount < len(self.hash_map):
+            if self.amount < len(self.list):
                 self.amount += 1
                 return self.list[self.amount - 1], self.hash_map.get(self.list[self.amount - 1])
             else:
