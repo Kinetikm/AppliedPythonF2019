@@ -29,7 +29,7 @@ class LRUCacheDecorator:
         del self.results[last[1]]
         self.calculated -= 1
 
-    def __call__(self, function, *ar, **kw):
+    def __call__(self, function):
         self.function = self.function or function
 
         @wraps(function)
