@@ -2,11 +2,13 @@
 # coding: utf-8
 
 
+
 class HashMap:
     """
     Давайте сделаем все объектненько,
      поэтому внутри хешмапы у нас будет Entry
     """
+
     class Entry:
         def __init__(self, key, value):
             """
@@ -23,12 +25,12 @@ class HashMap:
         def get_value(self):
             return self._value
 
-        def __eq__(self, other):
-            return self._value == other.get_key()
+        def set_value(self, value):
+            self._value = value
 
-        def __iter__(self):
-            yield self._key
-            yield self._value
+        def __eq__(self, other):
+            return self._key == other.get_key()
+
 
     def __init__(self, bucket_num=64):
         """
@@ -37,13 +39,14 @@ class HashMap:
         """
         self._table = [[] for _ in range(bucket_num)]
         self._n = 0
-        self._keys = []
         self._size = bucket_num
-        self._RESIZING_RANGE = 4
+        self._RESIZING_FACTOR = 4
         self._FILLING_LIMIT = 2./3
 
     def get(self, key, default_value=None):
-        for item in self._table[self._get_index(self._get_hash(key))]:
+        """метод get, возвращающий значение, если оно присутствует, иначе default_value"""
+        index = self._get_index(self._get_hash(key))
+        for item in self._table[index]:
             if item.get_key() == key:
                 return item.get_value()
         return default_value
@@ -56,9 +59,8 @@ class HashMap:
                 return
         self._table[index].append(self.Entry(key, value))
         self._n += 1
-        self._keys.append(key)
-        if self._n > self._FILLING_LIMIT * self._size:
-            self.resize()
+        if self._n > self._size * self._FILLING_LIMIT:
+            self._resize()
 
     def __len__(self):
         return self._n
@@ -85,16 +87,19 @@ class HashMap:
                 yield entry.get_key(), entry.get_value()
 
     def _resize(self):
-        tmp_items = [[key, value] for key, value in self.items()]
-        self._table = [[] for _ in range(self._size * self._RESIZING_RANGE)]
-        for item in tmp_items:
-            self.put(item[0], item[1])
-
+        tmp = HashMap(bucket_num=self._size*self._RESIZING_FACTOR)
+        for key, value in self.items():
+            tmp.put(key, value)
+        self.__dict__.update(tmp.__dict__)
+        
+        
     def __str__(self):
-        return 'buckets: {}, items: {}'.format(str(self._table), [(key, self.get(key)) for key in self._keys])
+        return 'buckets: {}, items: {}'.format(str(self._table),[(key, value) for key, value in self.items()])
+        
 
     def __contains__(self, item):
-        return item in self._keys
-
-    def get_keys(self):
-        return self._keys
+        index = self._get_index(self._get_hash(item))
+        for entry in self._table[index]:
+            if entry.get_key() == item:
+                return True
+        return False
