@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import time from time
+from time import time
 
 
 class LRUCacheDecorator:
