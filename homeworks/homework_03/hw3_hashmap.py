@@ -91,7 +91,7 @@ class HashMap:
         self.__dict__.update(tmp.__dict__)
 
     def __str__(self):
-        return 'buckets: {}, items: {}'.format(str(self._table),[(key, value) for key, value in self.items()])
+        return 'buckets: {}, items: {}'.format(str(self._table), [(key, value) for key, value in self.items()])
 
     def __contains__(self, item):
         index = self._get_index(self._get_hash(item))

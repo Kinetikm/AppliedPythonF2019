@@ -34,36 +34,7 @@ class CSRMatrix:
             where data, row_ind and col_ind satisfy the relationship:
             a[row_ind[k], col_ind[k]] = data[k]
         """
-        if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
-            self._a = []
-            self._ia = [0]
-            self._ja = []
-            tmp = []
-            for i in range(len(init_matrix_representation[0])):
-                tmp.append({init_matrix_representation[0][i], init_matrix_representation[1][i], init_matrix_representation[2][i]})
-            tmp.sort(key=lambda x: tmp[x][1])
-            tmp.sort(key=lambda x: tmp[x][0])
-            for element in tmp:
-                if self._ia[-1] != element[0]:
-                    tmp_i = self._ia[-1]
-                    for i in range(element[0] - tmp_i):
-                        self._ia.append(self._ia[tmp_j+1])
-                self._a.append(element[2])
-                self._ja.append(element[1])
-                self._ia[-1] += 1
-        elif isinstance(init_matrix_representation, np.ndarray):
-            for i in range(len(init_matrix_representation)):
-                for j in range(len(init_matrix_representation[i])):
-                    if init_matrix_representation[i][j]:
-                        self._a.append(init_matrix_representation[i][j])
-                        if len(self.ia != i + 1):
-                            tmp = self._a[-1]
-                            for k in range(i - tmp):
-                                self._ia.append(self._a[tmp])
-                        self._ia[-1] += 1
-                        self._ja.append(j)
-        else:
-            raise ValueError
+        raise NotImplementedError
 
     def get_a(self):
         return self._a
@@ -75,7 +46,7 @@ class CSRMatrix:
         return self._ja
 
     def __add__(self, other):
-        pass
+        raise NotImplementedError
 
     def to_dense(self):
         """
