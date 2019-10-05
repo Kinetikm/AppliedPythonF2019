@@ -5,7 +5,7 @@
 class HashMap:
     """
     Давайте сделаем все объектненько,
-     поэтому внутри хешмапы у нас будет Entry
+    поэтому внутри хешмапы у нас будет Entry
     """
     class Entry:
         def __init__(self, key, value):
@@ -36,9 +36,6 @@ class HashMap:
             self.table = table
             self.type = type
 
-        def __iter__(self):
-            return self
-
         def return_type(self, ind_1, ind_2):
             if self.type == 'key':
                 return self.table[self.ind_1][self.ind_2].get_key()
@@ -48,6 +45,9 @@ class HashMap:
                 key = self.table[self.ind_1][self.ind_2].get_key()
                 value = self.table[self.ind_1][self.ind_2].get_value()
                 return (key, value)
+
+        def __iter__(self):
+            return self
 
         def __next__(self):
             while self.ind_1 < len(self.table):
@@ -80,8 +80,7 @@ class HashMap:
             for el in self.table[ind]:
                 if key == el.get_key():
                     return el.get_value()
-        else:
-            return default_value
+        return default_value
 
     def put(self, key, value):
         # TODO метод put, кладет значение по ключу,
