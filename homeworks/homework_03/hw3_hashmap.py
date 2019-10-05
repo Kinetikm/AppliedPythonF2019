@@ -7,7 +7,6 @@ class HashMap:
     Давайте сделаем все объектненько,
      поэтому внутри хешмапы у нас будет Entry
     """
-
     class Entry:
         def __init__(self, key, value):
             """
