@@ -73,7 +73,6 @@ class HashMap:
             self.list_of_entries.append([])
         self.list_of_keys = []
         self.elem_amount = 0
-        
 
     def get(self, key, default_value=None):
         # TODO метод get, возвращающий значение,
@@ -98,8 +97,6 @@ class HashMap:
                     self.list_of_entries[index][i] = cur_entry
         if self.elem_amount * 1.5 > self.bucket_num:
             self._resize()
-            
-            
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
