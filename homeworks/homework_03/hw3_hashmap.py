@@ -104,7 +104,7 @@ class HashMap:
                         self._resize()
                     return
         else:
-            self.table[ind].append(entty)
+            self.table[ind].append(entry)
             self.num_entry += 1
             if self.num_nodes >= self.load_coeff*self.bucket_num:
                 self._resize()
