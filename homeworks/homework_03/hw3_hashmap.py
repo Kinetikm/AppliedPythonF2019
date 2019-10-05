@@ -77,9 +77,9 @@ class HashMap:
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
         index = self._get_index(self._get_hash(key))
-        for x in self.list_of_entries[index]:
-            if x.get_key() == key:
-                return x.get_value()
+        for el in self.list_of_entries[index]:
+            if el.get_key() == key:
+                return el.get_value()
         return default_value
 
     def put(self, key, value):
@@ -91,7 +91,7 @@ class HashMap:
             self.elem_amount += 1
             self.list_of_entries.append(cur_entry)
         else:
-            for i, el in enumerate(self.dict_[index]):
+            for i, el in enumerate(self.list_of_entries[index]):
                 if el.get_key() == cur_entry.get_key():
                     self.list_of_entries[index][i] = cur_entry
         if self.elem_amount * 1.5 > self.bucket_num:
