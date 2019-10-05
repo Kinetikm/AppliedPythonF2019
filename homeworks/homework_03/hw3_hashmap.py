@@ -27,7 +27,7 @@ class HashMap:
 
         def __eq__(self, other):
             # TODO реализовать функцию сравнения
-            return self._key == other.get_key
+            return self._key == other.get_key()
 
     class Iterator:
         def __init__(self, table, type):
