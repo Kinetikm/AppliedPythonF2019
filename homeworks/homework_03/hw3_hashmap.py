@@ -69,9 +69,9 @@ class HashMap:
         :param bucket_num: число бакетов при инициализации
         """
         self.bucket_num = bucket_num
-        self.num_nodes = 0
+        self.num_entry = 0  # kол-во entry
         self.table = [[] for _ in range(self.bucket_num)]
-        self.keys_list = []
+        self.num_nodes = 0  # кол-во непустых ячеек
         self.load_coeff = 0.66  # коэффициент заполнения (2/3)
         self.coeff = 4  # во сколько раз увеличивается размер таблицы
 
@@ -90,9 +90,10 @@ class HashMap:
         # TODO метод put, кладет значение по ключу,
         #  в случае, если ключ уже присутствует он его заменяет
         ind = self._get_index(self._get_hash(key))
-        node = self.Entry(key, value)
+        entry = self.Entry(key, value)
         if not self.table[ind]:
-            self.table[ind].append(node)
+            self.table[ind].append(entry)
+            self.num_entry += 1
             self.num_nodes += 1
             return
         if self.__contains__(key):
@@ -103,15 +104,15 @@ class HashMap:
                         self._resize()
                     return
         else:
-            self.table[ind].append(node)
-            self.num_nodes += 1
+            self.table[ind].append(entty)
+            self.num_entry += 1
             if self.num_nodes >= self.load_coeff*self.bucket_num:
                 self._resize()
             return
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
-        return self.num_nodes
+        return self.num_entry
 
     def _get_hash(self, key):
         # TODO Вернуть хеш от ключа,
@@ -138,7 +139,7 @@ class HashMap:
         # TODO Время от времени нужно ресайзить нашу хешмапу
         lst_item = [i for i in self.items()]
         self.bucket_num *= self.coeff
-        num_el = self.num_nodes
+        num_el = self.num_entry
         #  Удаляем  table, чтобы переобозначить её элементы, предварительно скопировав их
         del self.table
         self.table = [[] for _ in range(self.bucket_num)]
@@ -146,7 +147,7 @@ class HashMap:
             self.put(key, value)
         #  В методе put происходит увеличение num_nodes, но поскольку
         #  происходит лишь переобозначение , то нужно вернуть num_nodes к исходному значению
-        self.num_nodes = num_el
+        self.num_entry = num_el
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
