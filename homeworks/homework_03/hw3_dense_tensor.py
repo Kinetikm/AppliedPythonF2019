@@ -59,9 +59,8 @@ class Tensor:
     def __len__(self):
         return self.shape[0]*self.shape[1]
 
-    def _get_ofset(self, pos, shape=None):
-        if shape is None:
-            shape = self.shape
+    def _get_ofset(self, pos):
+        shape = self.shape
         offset = 0
         if self.dim == 1:
             return pos
@@ -284,29 +283,24 @@ class Tensor:
         axis = list(axis)
         if len(axis) < self.dim:
             raise ValueError("axes don't match array")
-        new_shape = list(np.array(self.shape)[axis])
-        new_elements = [0 for _ in range(len(self.elements))]
+        result = deepcopy(self)
+        result.shape = list(np.array(self.shape)[axis])
         for i in range(len(self.elements)):
             index = np.array(self._get_index(i))
             index = index[axis]
-            offset = self._get_ofset(index, shape=new_shape)
-            new_elements[offset] = self.elements[i]
-        self.elements = new_elements
-        self.shape = new_shape
-        return self
+            result[index] = self.elements[i]
+        return result
 
     def swapaxes(self, ax1, ax2):
         new_shape = copy(self.shape)
         new_shape[ax1], new_shape[ax2] = new_shape[ax2], new_shape[ax1]
-        new_elements = [0 for _ in range(len(self.elements))]
+        result = deepcopy(self)
+        result.shape = new_shape
         for i in range(len(self.elements)):
             index = np.array(self._get_index(i))
             index[ax1], index[ax2] = index[ax2], index[ax1]
-            offset = self._get_ofset(index, shape=new_shape)
-            new_elements[offset] = self.elements[i]
-        self.elements = new_elements
-        self.shape = new_shape
-        return self
+            result[index] = self.elements[i]
+        return result
 
     def __matmul__(self, other: 'Tensor'):
         if not self.dim <= 2 and other.dim <= 2:
@@ -369,9 +363,9 @@ if __name__ == '__main__':
         if not s[ind] == s_true[ind]:
             print(ind)
     #print(matrix)
-    print(s_true)
-    print(s)
-    '''
+    #print(s_true)
+    #print(s)
+
     '''
     np.random.seed(42)
 
@@ -379,53 +373,14 @@ if __name__ == '__main__':
     matrix = np.random.randint(-20, 30, shapes)
     tensor = Tensor(matrix.tolist())
 
-
     s = tensor.transpose(2, 0, 3, 1)
     s_true = matrix.transpose(2, 0, 3, 1)
-    #s1 = tensor.swapaxes(2, 0)
-    #s1_true = matrix.swapaxes(2, 0)
+    s1 = tensor.swapaxes(2, 0)
+    s1_true = matrix.swapaxes(2, 0)
 
     for ind in itertools.product(*[range(k) for k in s_true.shape]):
         assert s[ind] == s_true[ind]
 
     for ind in itertools.product(*[range(k) for k in s1_true.shape]):
         assert s1[ind] == s1_true[ind]
-    '''
-    np.random.seed(42)
 
-    shape_x, shape_y = 2, 3
-    matrix1 = np.random.randint(-1, 2, (shape_x, shape_y))
-    matrix2 = np.random.randint(-1, 2, (shape_y, shape_x))
-
-    a = Tensor(matrix1.tolist())
-    b = Tensor(matrix2.tolist())
-    a1 = Tensor(matrix1[0].tolist())
-    a2 = Tensor(matrix1[:, 0].tolist())
-
-    c = a @ b
-    c1 = a @ a1
-    c2 = a2 @ a
-    c_true = matrix1 @ matrix2
-    c1_true = matrix1 @ matrix1[0]
-    c2_true = matrix1[:, 0] @ matrix1
-
-    flag = True
-    try:
-        a @ a
-        a @ a2
-        a1 @ a
-        flag = False
-    except ValueError:
-        pass
-    assert flag
-
-    for i, j in zip(range(c_true.shape[0]), range(c_true.shape[1])):
-        assert c_true[i, j] == c[i, j]
-
-    #print(c2)
-    #print(c2_true)
-    for i in range(c1_true.shape[0]):
-        assert c1_true[i] == c1[i]
-
-    for i in range(c2_true.shape[0]):
-        assert c2_true[i] == c2[i]
