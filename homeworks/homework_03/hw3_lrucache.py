@@ -21,14 +21,14 @@ class LRUCacheDecorator:
         self.function_result.popitem(*args)
         self.time_in_cache.popitem(*args)
 
-    def update_cache(self, arg,result):
+    def update_cache(self, arg, result):
         self.function_result[arg] = result
         self.time_in_cache[arg] = time.time()
 
     def __call__(self, function):
         def lru_function(*args, **kwargs):
             list = args
-            if self.function_result.get(list):#есть ли в хеше
+            if self.function_result.get(list):
                 if self.ttl is not None:
                     if self.ttl < (time.time() - self.time_in_cache[list]):
                         self.del_old(list)
@@ -39,12 +39,12 @@ class LRUCacheDecorator:
                         return self.function_result[list]
                 else:
                     return self.function_result[list]
-            else:#нет в хеше
-                if self.maxsize > len(self.function_result):#хеш не забит
+            else:
+                if self.maxsize > len(self.function_result):
                     newresult = function(*args, **kwargs)
                     self.update_cache(list, newresult)
                     return newresult
-                else:#хеш забит
+                else:
                     self.del_old(list)
                     newresult = function(*args, **kwargs)
                     self.update_cache(list, newresult)
