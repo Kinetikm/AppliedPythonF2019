@@ -18,7 +18,7 @@ class LRUCacheDecorator:
         self.cache = {}
 
     def __call__(self, func):
-        def inner(*args, **kwargs):
+        def inner_func(*args, **kwargs):
             self.func = func
             key = (args, tuple(kwargs))
             if key not in self.cache:
@@ -35,9 +35,10 @@ class LRUCacheDecorator:
                 return self.cache[key][0]
             else:
                 if self.ttl is not None:
-                    if (time.time() - self.cache[key][1]) > self.ttl:
+                    if (time.time() - self.cache[key][1])*1000 > self.ttl:
                         self.cache.pop(key)
                         self.cache[key] = [self.func(*args, **kwargs), time.time()]
                         return self.func(*args, **kwargs)
+                self.cahe[key][1] = time.time()
                 return self.cache[key][0]
-        return inner
+        return inner_func
