@@ -70,7 +70,7 @@ class HashMap:
         self.bucket_num = bucket_num
         self.list_of_entries = []
         for i in range(self.bucket_num):
-            self.list.append([])
+            self.list_of_entries.append([])
         self.list_of_keys = []
         self.elem_amount = 0
         
