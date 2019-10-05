@@ -15,7 +15,7 @@ class LRUCacheDecorator:
     def __call__(self, func):
         def _dec(*args, **kwargs):
             number = str(args) + str(*kwargs)
-            num_ = number[0]
+            num_ = number[1]
             if  num_ in self.cache: 
                 if (time.time() - self.cache_time[num_]) * 1000 < self.ttl and self.ttl is not None:
                     return self.cache[num_]
