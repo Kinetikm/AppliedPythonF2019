@@ -84,7 +84,7 @@ class HashMap:
 
     def put(self, key, value):
         # TODO метод put, кладет значение по ключу,
-        #  в случае, если ключ уже присутствует он его заменяет
+        #  в случае, если ключ уже присутствует он его заменяет /
         index = self._get_index(self._get_hash(key))
         cur_entry = self.Entry(key, value)
         for i, el in enumerate(self.list_of_entries[index]):
