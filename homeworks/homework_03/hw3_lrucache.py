@@ -29,7 +29,7 @@ class LRUCacheDecorator:
                     for i in self.cache:
                         if (time.time() - self.cache[i][1]) > max:
                             max = time.time() - self.cache[i][1]
-                            key_max = k
+                            key_max = i
                     self.cache.pop(key_max)
                     self.cache[key] = [self.func(*args, **kwargs), time.time()]
                 return self.cache[key][0]
