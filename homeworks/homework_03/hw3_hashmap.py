@@ -86,12 +86,12 @@ class HashMap:
 
     def items(self):
         #  Должен возвращать итератор пар ключ и значение (tuples)
-        return ((item.get_key(),item.get_value) for array in self.container for item in array)
+        return ((item.get_key(), item.get_value) for array in self.container for item in array)
 
     def _resize(self):
         #  Время от времени нужно ресайзить нашу хешмапу
         self.filled = 0
-        tmp = copy(self.container)
+        tmp = self.container.copy()
         self.bucket_num *= 2
         self.container = [[] for t in range(self.bucket_num)]
         for array in tmp:
@@ -105,5 +105,5 @@ class HashMap:
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
         index = self._get_index(self._get_hash(item))
-        for i in (len(self.container[index])):
+        for i in range(len(self.container[index])):
             return self.container[i].get_key() == item
