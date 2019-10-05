@@ -87,13 +87,13 @@ class HashMap:
         #  в случае, если ключ уже присутствует он его заменяет
         index = self._get_index(self._get_hash(key))
         cur_entry = self.Entry(key, value)
-        if not self.__contains__(key):
-            self.elem_amount += 1
-            self.list_of_entries[index].append(cur_entry)
-        else:
-            for i, el in enumerate(self.list_of_entries[index]):
-                if el.get_key() == cur_entry.get_key():
-                    self.list_of_entries[index][i] = cur_entry
+        for i, el in enumerate(self.list_of_entries[index]):
+            if el.get_key() == key:
+                self.list_of_entries[index][i] = cur_entry
+                return None
+        self.list_of_entries[index].append(cur_entry)
+        self.elem_amount += 1
+        self.list_of_keys.append(key)
         if self.elem_amount * 1.5 > self.bucket_num:
             self._resize()
 
