@@ -31,8 +31,8 @@ class HashMap:
 
     class Iterator:
         def __init__(self, table, type):
-            self.point_1 = 0
-            self.point_2 = 0
+            self.ind_1 = 0
+            self.ind_2 = 0
             self.table = []
             self.type = type
             for item in table:
@@ -42,38 +42,26 @@ class HashMap:
         def __iter__(self):
             return self
 
-        def return_type(self, point_1, point_2):
+        def return_type(self, ind_1, ind_2):
             if self.type == 'key':
-                return self.table[self.point_1][self.point_2].get_key()
+                return self.table[self.ind_1][self.ind_2].get_key()
             elif self.type == 'value':
-                return self.table[self.point_1][self.point_2].get_value()
+                return self.table[self.ind_1][self.ind_2].get_value()
             elif self.type == 'item':
-                key = self.table[self.point_1][self.point_2].get_key()
-                value = self.table[self.point_1][self.point_2].get_value()
+                key = self.table[self.ind_1][self.ind_2].get_key()
+                value = self.table[self.ind_1][self.ind_2].get_value()
                 return (key, value)
 
         def __next__(self):
-            if self.point_1 < len(self.table):
-                if len(self.table[self.point_1]) == 1:
-                    self.point_2 = 0
-                    item = self.return_type(self.point_1, self.point_2)
-                    self.point_1 += 1
-                    return item
-                else:
-                    if self.point_2 < len(self.table[self.point_1]):
-                        item = self.return_type(self.point_1, self.point_2)
-                        self.point_2 += 1
-                        return item
-                    else:
-                        self.point_1 += 1
-                        if self.point_1 < len(self.table):
-                            self.point_2 = 0
-                            item = self.return_type(self.point_1, self.point_2)
-                            return item
-                        else:
-                            raise StopIteration
-            else:
-                raise StopIteration
+            while self.ind_1 < len(self.table):
+                if len(self.table[self.ind_1]) >= 1:
+                    if self.ind_2 < len(self.table[self.ind_1]):
+                        el = self.return_type(self.ind_1, self.ind_2)
+                        self.ind_2 += 1
+                        return el
+                self.ind_1 += 1
+                self.ind_2 = 0
+            raise StopIteration
 
     def __init__(self, bucket_num=64):
         """
