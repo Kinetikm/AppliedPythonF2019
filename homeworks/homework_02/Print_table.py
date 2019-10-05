@@ -61,16 +61,16 @@ def print_tsv(table):
                 list = (max_list[i] - len(k[i]))//2
                 add_space = (max_list[i] - len(k[i])) % 2
                 h += '|  ' + ' ' * t + ' ' * add_space + str(k[i])\
-                        + ' ' * t + '  '
+                    + ' ' * t + '  '
             h += '|'
         else:
             for i in range(len(k)):
                 if i != len(k) - 1:
                     list = (max_list[i] - len(k[i]))
-                    h += '|  ' + str(k[i]) + ' '*list + '  '
+                    h += '|  ' + str(k[i]) + ' '* list + '  '
                 else:
                     list = (max_list[i] - len(k[i]))
-                    h += '|  ' + ' ' *list + str(k[i]) + '  '
+                    h += '|  ' + ' ' * list + str(k[i]) + '  '
             h += '|'
         print(h)
     print(trait)
