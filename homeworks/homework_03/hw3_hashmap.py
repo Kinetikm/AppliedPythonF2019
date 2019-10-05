@@ -59,7 +59,7 @@ class HashMap:
                     return
 
         self.container[index].append(item)
-            self.filled += 1
+        self.filled += 1
         if self.__len__() / self.bucket_num > 0.67:
             self._resize()
 
