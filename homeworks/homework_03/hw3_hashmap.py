@@ -154,8 +154,7 @@ class HashMap:
 
     def __str__(self):
         """Метод выводит 'buckets: {}, items: {}'"""
-        return 'buckets: {table}, items: {items}'.format(table=str(self._table),
-                                                         items=[(key, self.get(key)) for key in self._keys_list])
+        return 'buckets: {b}, items: {i}'.format(b=self._table_size, i=self._num_element)
 
     def __contains__(self, item):
         """Метод проверяющий есть ли объект (через in)"""
