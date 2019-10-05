@@ -47,7 +47,7 @@ class HashMap:
 
     class IteratorOfKeys(IteratorOfItems):
         def __next__(self):
-            if self.amount < len(self.hash_map):
+            if self.amount < len(self.list):
                 self.amount += 1
                 return self.list[self.amount - 1]
             else:
@@ -55,7 +55,7 @@ class HashMap:
 
     class IteratorOfValues(IteratorOfItems):
         def __next__(self):
-            if self.amount < len(self.hash_map):
+            if self.amount < len(self.list):
                 self.amount += 1
                 return self.hash_map.get(self.list[self.amount - 1])
             else:
