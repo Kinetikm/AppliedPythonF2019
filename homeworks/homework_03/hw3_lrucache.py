@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 import time
+from functools import wraps
 
 
 class LRUCacheDecorator:
 
-    def __init__(self, function, *, maxsize, ttl):
+    def __init__(self, maxsize, ttl):
         '''
         :param maxsize: максимальный размер кеша
         :param ttl: время в млсек, через которое кеш
@@ -13,43 +14,66 @@ class LRUCacheDecorator:
         '''
         # TODO инициализация декоратора
         #  https://www.geeksforgeeks.org/class-as-decorator-in-python/
+
         self.results = {}
         self.calculated = 0
         self.maxsize = maxsize
         self.ttl = ttl
-        self.function = function
+        self.function = None
 
-    def lru_del(self, call_time):
+    def lru_del(self):
+        print(self.results)
         if self.calculated <= 1:
             self.results = {}
             self.calculated = 0
             return
-        last = (call_time,None)
+        last = (time.time(), None)
         for key in self.results:
             if self.results[key][0] < last[0]:
                 last = (self.results[key][0], key)
         del self.results[last[1]]
+        print(self.results)
         self.calculated -= 1
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, function, *ar, **kw):
         # TODO вызов функции
-        call_time = time.time()
-        res = None
-        if (args, kwargs) in self.results:
-            if self.ttl is None or (call_time - self.results[(args, kwargs)][0]) * 1000 < self.ttl:
-                res = self.results[(args, kwargs)]
-                self.results[(args, kwargs)] = (call_time, res)
-                return res
+        self.function = self.function or function
+
+        @wraps(function)
+        def f(*args, **kwargs):
+            call_time = time.time()
+            res = None
+            key = (args, tuple(kwargs.items()))
+            print(self.results)
+            if key in self.results:
+                if self.ttl is None or (call_time - self.results[key][0]) * 1000 < self.ttl:
+                    res = self.results[key][1]
+                    self.results[key] = (call_time, res)
+                    return res
+                else:
+                    res = self.function(*args, **kwargs)
+                    call_time = time.time()
+                    self.results[key] = (call_time, res)
+                    return res
             else:
                 res = self.function(*args, **kwargs)
-                self.results[(args, kwargs)] = (call_time, res)
-        if self.calculated < self.maxsize:
-            self.results[(args, kwargs)] = (call_time, res)
-        else:
-            res = self.function(*args, **kwargs)
-            if self.calculated < self.maxsize:
-                self.results[(args, kwargs)] = (call_time, res)
-            else:
-                self.lru_del(call_time)
-                self.results[(args, kwargs)] = (call_time, res)
-        return res
+                call_time = time.time()
+                if self.calculated < self.maxsize:
+                    self.results[key] = (call_time, res)
+                    self.calculated += 1
+                else:
+                    self.lru_del()
+                    self.results[key] = (call_time, res)
+                    self.calculated += 1
+            return res
+        return f
+
+
+@LRUCacheDecorator(maxsize=5, ttl=10)
+def qq():
+    time.sleep(5)
+    return 10
+
+
+print(qq())
+print(qq())
