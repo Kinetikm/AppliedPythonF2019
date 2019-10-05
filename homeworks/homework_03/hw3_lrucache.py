@@ -27,7 +27,7 @@ class LRUCacheDecorator:
                     if self.cache_time[num] == sorted(self.cache_time.values(), reserve=True)[0]:
                         self.cache_time.pop(num)
                         self.cache.pop(num)
-                        self.cache[num_] = func(*args, **kwargs)
-                        self.cache_time[num_] = time.time()
+            self.cache[num_] = func(*args, **kwargs)
+            self.cache_time[num_] = time.time()
             return self.cache[num_]
         return _dec
