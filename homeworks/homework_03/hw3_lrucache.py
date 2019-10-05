@@ -16,12 +16,12 @@ class LRUCacheDecorator:
         self.ttl = ttl
         self.cache_bank = dict()
 
-    def __call__(self, func):
+    def __call__(self, f):
         def wrapped(*args, **kwargs):
             cache = str(args) + str(kwargs)
             if cache in self.cache_bank.keys():
                 if self.ttl and (time.time() - self.cache_bank[cache][1]) * 1000 > self.ttl:
-                    res = func(*args, **kwargs)
+                    res = f(*args, **kwargs)
                     self.cache_bank[cache] = [res, time.time()]
                     return res
                 else:
@@ -30,11 +30,11 @@ class LRUCacheDecorator:
             else:
                 if len(self.cache_bank.keys()) == self.maxsize:
                     del[self.cache_bank[min(self.cache_bank.items(), key=lambda x: x[1][1])[0]]]
-                    res = func(*args, **kwargs)
+                    res = f(*args, **kwargs)
                     self.cache_bank[cache] = [res, time.time()]
                     return res
                 else:
-                    res = func(*args, **kwargs)
+                    res = f(*args, **kwargs)
                     self.cache_bank[cache] = [res, time.time()]
                     return res
         return wrapped
