@@ -98,7 +98,7 @@ class HashMap:
             return
         if self.__contains__(key):
             for i in range(len(self.table[ind])):
-                if node == self.table[ind][i]:
+                if entry.get_key() == self.table[ind][i].get_key():
                     self.table[ind][i] = node
                     if self.num_nodes > self.load_coeff * self.bucket_num:
                         self._resize()
