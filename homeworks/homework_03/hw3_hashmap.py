@@ -2,7 +2,6 @@
 # coding: utf-8
 
 
-
 class HashMap:
     """
     Давайте сделаем все объектненько,
@@ -30,7 +29,6 @@ class HashMap:
 
         def __eq__(self, other):
             return self._key == other.get_key()
-
 
     def __init__(self, bucket_num=64):
         """
@@ -91,11 +89,9 @@ class HashMap:
         for key, value in self.items():
             tmp.put(key, value)
         self.__dict__.update(tmp.__dict__)
-        
-        
+
     def __str__(self):
         return 'buckets: {}, items: {}'.format(str(self._table),[(key, value) for key, value in self.items()])
-        
 
     def __contains__(self, item):
         index = self._get_index(self._get_hash(item))
