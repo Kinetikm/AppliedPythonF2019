@@ -67,7 +67,7 @@ def print_tsv(table):
             for i in range(len(k)):
                 if i != len(k) - 1:
                     list = (max_list[i] - len(k[i]))
-                    h += '|  ' + str(k[i]) + ' '* list + '  '
+                    h += '|  ' + str(k[i]) + ' '*list + '  '
                 else:
                     list = (max_list[i] - len(k[i]))
                     h += '|  ' + ' ' * list + str(k[i]) + '  '
