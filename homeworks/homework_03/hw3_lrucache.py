@@ -48,9 +48,7 @@ class LRUCacheDecorator:
     @staticmethod
     def _get_oldest_key(dict_with_time_in_value: dict):
         max_time = min(dict_with_time_in_value.values())
-        return list(dict_with_time_in_value.keys())[
-            list(dict_with_time_in_value.values()).index(max_time)
-        ]
+        return list(dict_with_time_in_value.keys())[list(dict_with_time_in_value.values()).index(max_time)]
 
     @staticmethod
     def _get_hash(args, kwargs):
