@@ -143,6 +143,7 @@ class HashMap:
 
     def __contains__(self, key):
         # Метод проверяющий есть ли объект (через in)
+        # :)
         idx = self._get_index(self._get_hash(key))
         for entry in self._hash_map[idx]:
             if entry.get_key() == key:
