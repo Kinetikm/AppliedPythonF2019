@@ -19,7 +19,7 @@ class LRUCacheDecorator:
 
     def __call__(self, func):
         def cach(*args, **kwargs):
-            args = ((args, str(kwargs)))
+            args = (args, str(kwargs))
             if args in self._cach:
                 if self._ttl and (time() - self._times[args])*1000 > self._ttl:
                     result = func(*args, **kwargs)
@@ -34,9 +34,12 @@ class LRUCacheDecorator:
                     self._pop()
                 self._cach[args] = result
                 self._time[args] = time()
+            return result
+        return cach
 
     def _pop(self):
         oldness = time()
+        pop_args = None
         for args in self._cach.keys():
             tmp_time = self._time[args]
             if tmp_time < oldness:
@@ -44,5 +47,3 @@ class LRUCacheDecorator:
                 pop_args = args
         self._cach.pop(pop_args)
         self._time.pop(pop_args)
-        
-                
