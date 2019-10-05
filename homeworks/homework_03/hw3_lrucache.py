@@ -2,8 +2,8 @@
 # coding: utf-8
 import time
 
-class LRUCacheDecorator:
 
+class LRUCacheDecorator:
 
     def __init__(self, maxsize, ttl):
         self.maxsize = maxsize
@@ -13,7 +13,6 @@ class LRUCacheDecorator:
     def __call__(self, func):
         def wrapper(*args, **kwargs):
             key = hash(str(args) + str(tuple(kwargs)) + str(tuple(kwargs.values())))
-            print(key)
             if key not in self.cache:
                 result = func(*args, **kwargs)
                 if len(self.cache) < self.maxsize:
@@ -28,9 +27,8 @@ class LRUCacheDecorator:
                     if (time.time() - self.cache[key][1]) * 1000 > self.ttl:
                         self.cache.pop(key)
                         result = func(*args, **kwargs)
-                        self.cache[key] = result
-                        return result
-                    else:
                         self.cache[key] = [result, time.time()]
-                        return self.cache[key][0]
+                        return result
+                self.cache[key][1] = time.time()
+                return self.cache[key][0]
         return wrapper
