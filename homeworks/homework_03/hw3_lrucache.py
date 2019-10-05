@@ -5,7 +5,6 @@ import time
 from collections import OrderedDict
 
 class LRUCacheDecorator:
-
     def __init__(self, maxsize, ttl):
         '''
         :param maxsize: максимальный размер кеша
@@ -50,5 +49,3 @@ class LRUCacheDecorator:
                     self.update_cache(list, newresult)
                     return newresult
         return lru_function
-
-
