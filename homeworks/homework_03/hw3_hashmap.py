@@ -23,11 +23,11 @@ class HashMap:
 
         def get_value(self):
             #  возвращаем значение
-            self.value
+            return self.value
 
         def __eq__(self, other):
             #  реализовать функцию сравнения
-            self.key == other.key
+            return self.key == other.key
 
     def __init__(self, bucket_num=64):
         """
@@ -45,23 +45,30 @@ class HashMap:
         for t in self.container[index]:
             if t.get_key() == key:
                 default_value = t.get_value()
+        print("get = ", default_value)
         return default_value
 
     def put(self, key, value):
         #  метод put, кладет значение по ключу,
         #  в случае, если ключ уже присутствует он его заменяет
+        print("Put = ", key," ", value)
         item = self.Entry(key, value)
         index = self._get_index(self._get_hash(key))
+        print("index = ", index)
         if self.container[index] is not None:
             for i in self.container[index]:
                 if i.get_key() == key:
-                    i = item
+                    i.value = item.value
+                    print("item.key = ",item.key)
+                    print("item.value = ",item.value)
                     return
-
+        print("item.key = ",item.key)
+        print("item.value = ",item.value)            
         self.container[index].append(item)
         self.filled += 1
         if self.__len__() / self.bucket_num > 0.67:
             self._resize()
+        print(self)
 
     def __len__(self):
         #  Возвращает количество Entry в массиве
@@ -90,14 +97,17 @@ class HashMap:
 
     def _resize(self):
         #  Время от времени нужно ресайзить нашу хешмапу
+        print("RESIZE BEGIN")
         self.filled = 0
         tmp = self.container.copy()
         self.bucket_num *= 2
         self.container = [[] for t in range(self.bucket_num)]
         for array in tmp:
             for i in range(len(array)):
+                # print("array[i] = ",array[i].key," ",array[i].value)
                 self.put(array[i].get_key(), array[i].get_value())
-
+        print("RESIZE END")
+                 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
         return 'buckets: {}, items: {}'.format(self.bucket_num, self.__len__())
@@ -105,5 +115,5 @@ class HashMap:
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
         index = self._get_index(self._get_hash(item))
-        for i in range(len(self.container[index])):
-            return self.container[i].get_key() == item
+        for i in self.container[index]:
+            return i.get_key() == item
