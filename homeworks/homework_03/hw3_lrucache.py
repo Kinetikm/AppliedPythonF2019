@@ -35,7 +35,7 @@ class LRUCacheDecorator:
                 return self.cache[key][0]
             else:
                 if self.ttl is not None:
-                    if (time.time() - self.cache[key][1])*1000 > self.ttl:
+                    if (time.time() - self.cache[key][1]) > self.ttl:
                         self.cache.pop(key)
                         self.cache[key] = [self.func(*args, **kwargs), time.time()]
                         return self.func(*args, **kwargs)
