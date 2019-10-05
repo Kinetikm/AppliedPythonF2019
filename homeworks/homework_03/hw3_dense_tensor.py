@@ -3,7 +3,6 @@
 import itertools
 from copy import deepcopy, copy
 from numpy import prod
-from operator import itemgetter
 import numpy as np
 
 
@@ -82,30 +81,14 @@ class Tensor:
         indexes = [0 for _ in range(self.dim)]
         for i in range(self.dim):
             indexes[i] = int(position//(prod(self.shape[i+1:])))
-            position = int(position%(prod(self.shape[i+1:])))
+            position = int(position % (prod(self.shape[i+1:])))
         return indexes
 
     def __getitem__(self, pos):
-        '''offset = 0
-        for i in range(len(pos)):
-            index = pos[i]
-            if index < 0:
-                raise IndexError("Negative index")
-            if index >= self.shape[i]:
-                raise IndexError("Index out of range")
-            offset += int(prod(self.shape[i+1:]))*index'''
         offset = self._get_ofset(pos)
         return self.elements[offset]
 
     def __setitem__(self, pos, value):
-        '''offset = 0
-        for i in range(len(pos)):
-            index = pos[i]
-            if index < 0:
-                raise IndexError("Negative index")
-            if index >= self.shape[i]:
-                raise IndexError("Index out of range")
-            offset += int(prod(self.shape[i + 1:])) * index'''
         offset = self._get_ofset(pos)
         self.elements[offset] = value
 
@@ -186,7 +169,7 @@ class Tensor:
             return sum(self.elements)
         result_shape = [self.shape[i] for i in range(self.dim) if i != axis]
         result = np.zeros(result_shape)
-        selected_index = [i for i in range(self.dim) if i!=axis]
+        selected_index = [i for i in range(self.dim) if i != axis]
         for i in range(len(self.elements)):
             index = self._get_index(i)
             # print(index)
@@ -201,14 +184,11 @@ class Tensor:
             return sum(self.elements)/len(self.elements)
         result_shape = [self.shape[i] for i in range(self.dim) if i != axis]
         result = np.zeros(result_shape)
-        selected_index = [i for i in range(self.dim) if i!=axis]
+        selected_index = [i for i in range(self.dim) if i != axis]
         for i in range(len(self.elements)):
             index = self._get_index(i)
-            # print(index)
             index = [index[j] for j in selected_index]
-            # print(index)
             result[tuple(index)] += self.elements[i]
-            # print(result)
         return result/self.shape[axis]
 
     def max(self, axis=None):
@@ -216,15 +196,12 @@ class Tensor:
             return max(self.elements)
         result_shape = [self.shape[i] for i in range(self.dim) if i != axis]
         result = np.zeros(result_shape)
-        selected_index = [i for i in range(self.dim) if i!=axis]
+        selected_index = [i for i in range(self.dim) if i != axis]
         for i in range(len(self.elements)):
             index = self._get_index(i)
-            # print(index)
             index = [index[j] for j in selected_index]
-            # print(index)
             if result[tuple(index)] < self.elements[i]:
                 result[tuple(index)] = self.elements[i]
-            # print(result)
         return result
 
     def min(self, axis=None):
@@ -232,15 +209,12 @@ class Tensor:
             return min(self.elements)
         result_shape = [self.shape[i] for i in range(self.dim) if i != axis]
         result = np.zeros(result_shape)
-        selected_index = [i for i in range(self.dim) if i!=axis]
+        selected_index = [i for i in range(self.dim) if i != axis]
         for i in range(len(self.elements)):
             index = self._get_index(i)
-            # print(index)
             index = [index[j] for j in selected_index]
-            # print(index)
             if result[tuple(index)] > self.elements[i]:
                 result[tuple(index)] = self.elements[i]
-            # print(result)
         return result
 
     def argmax(self, axis=None):
@@ -249,16 +223,13 @@ class Tensor:
         result_shape = [self.shape[i] for i in range(self.dim) if i != axis]
         result = np.zeros(result_shape)
         result_indeces = np.zeros(result_shape)
-        selected_index = [i for i in range(self.dim) if i!=axis]
+        selected_index = [i for i in range(self.dim) if i != axis]
         for i in range(len(self.elements)):
             index = self._get_index(i)
-            # print(index)
             index_sel = [index[j] for j in selected_index]
-            # print(index)
             if result[tuple(index_sel)] < self.elements[i]:
                 result[tuple(index_sel)] = self.elements[i]
                 result_indeces[tuple(index_sel)] = index[axis]
-            # print(result)
         return result_indeces.astype(int)
 
     def argmin(self, axis=None):
@@ -267,16 +238,13 @@ class Tensor:
         result_shape = [self.shape[i] for i in range(self.dim) if i != axis]
         result = np.zeros(result_shape)
         result_indeces = np.zeros(result_shape)
-        selected_index = [i for i in range(self.dim) if i!=axis]
+        selected_index = [i for i in range(self.dim) if i != axis]
         for i in range(len(self.elements)):
             index = self._get_index(i)
-            # print(index)
             index_sel = [index[j] for j in selected_index]
-            # print(index)
             if result[tuple(index_sel)] > self.elements[i]:
                 result[tuple(index_sel)] = self.elements[i]
                 result_indeces[tuple(index_sel)] = index[axis]
-            # print(result)
         return result_indeces.astype(int)
 
     def transpose(self, *axis):
@@ -323,64 +291,9 @@ class Tensor:
             return Tensor(result.tolist())
         if self.shape[1] != other.shape[0]:
             raise ValueError("Dimension mismatch")
-        if other.dim == 1:
-             result = np.zeros((self.shape[0], other.shape[0]))
         else:
             result = np.zeros((self.shape[0], other.shape[1]))
         for x in range(result.shape[0]):
             for y in range(result.shape[1]):
-                result[x,y] = sum((self.__getitem__([x, j]) * other[j, y] for j in range(other.shape[0])))
+                result[x, y] = sum((self.__getitem__([x, j]) * other[j, y] for j in range(other.shape[0])))
         return Tensor(result.tolist())
-
-
-if __name__ == '__main__':
-    '''m = Tensor([[[1, 1], [1, 1]], [[2, 2], [2, 2]]])
-    k = Tensor([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
-    n = Tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-    # print(m[0, 0, 0])
-    # print(m[1, 1, 1])
-    # print(n[1, 1])
-    # print(n[2, 1])
-    # print(m[2, 1])
-    # m[2, 1] = 0
-    # print(m[2, 1])
-    # print(pow(m, 2))
-    #print(m+k)
-    #print(m)
-    #print(k)
-    #print(m.max(axis=0))
-    print(n.mean(axis=0))'''
-    '''
-    np.random.seed(42)
-    shapes = (20, 10, 20, 10)
-    matrix = np.random.randint(-20, 30, shapes)
-    #m = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
-    #matrix = np.array(m)
-    tensor = Tensor(matrix.tolist())
-    s_true = matrix.transpose(2, 0, 3, 1)
-    s = tensor.transpose(2, 0, 3, 1)
-    for ind in itertools.product(*[range(k) for k in s_true.shape]):
-        if not s[ind] == s_true[ind]:
-            print(ind)
-    #print(matrix)
-    #print(s_true)
-    #print(s)
-
-    '''
-    np.random.seed(42)
-
-    shapes = (20, 10, 20, 10)
-    matrix = np.random.randint(-20, 30, shapes)
-    tensor = Tensor(matrix.tolist())
-
-    s = tensor.transpose(2, 0, 3, 1)
-    s_true = matrix.transpose(2, 0, 3, 1)
-    s1 = tensor.swapaxes(2, 0)
-    s1_true = matrix.swapaxes(2, 0)
-
-    for ind in itertools.product(*[range(k) for k in s_true.shape]):
-        assert s[ind] == s_true[ind]
-
-    for ind in itertools.product(*[range(k) for k in s1_true.shape]):
-        assert s1[ind] == s1_true[ind]
-
