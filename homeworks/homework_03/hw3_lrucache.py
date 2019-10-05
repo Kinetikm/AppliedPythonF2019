@@ -21,15 +21,9 @@ class LRUCacheDecorator:
             cache = str(args) + str(kwargs)
             if cache in self.cache_bank.keys():
                 if self.ttl and (time.time() - self.cache_bank[cache][1]) * 1000 > self.ttl:
-                    if len(self.cache_bank.keys()) == self.maxsize:
-                        del [self.cache_bank[min(self.cache_bank.items(), key=lambda x: x[1][1])[0]]]
-                        res = f(*args, **kwargs)
-                        self.cache_bank[cache] = [res, time.time()]
-                        return res
-                    else:
-                        res = f(*args, **kwargs)
-                        self.cache_bank[cache] = [res, time.time()]
-                        return res
+                    res = f(*args, **kwargs)
+                    self.cache_bank[cache] = [res, time.time()]
+                    return res
                 else:
                     return self.cache_bank[cache][0]
             else:
