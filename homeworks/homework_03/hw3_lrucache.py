@@ -6,7 +6,6 @@ import time
 
 class LRUCacheDecorator:
 
-
     def __init__(self, maxsize, ttl):
         ''' 
         :param maxsize: максимальный размер кеша
@@ -21,7 +20,7 @@ class LRUCacheDecorator:
         def wrapped(*args, **kwargs):
             cache = str(args) + str(kwargs)
             if cache in self.cache_bank.keys():
-                if self.ttl:
+                if self.ttl != None:
                     if (time.time() - self.cache_bank[cache][1]) * 1000 < self.ttl:
                         print('from cache_bank')
                         return self.cache_bank[cache][0]
