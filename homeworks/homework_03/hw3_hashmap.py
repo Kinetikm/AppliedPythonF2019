@@ -127,7 +127,7 @@ class HashMap:
         new_size = self.bucket_num * 4
         new_hashmap = HashMap(new_size)
         for key, value in self.items():
-            new_map.put(key, value)
+            new_hashmap.put(key, value)
         self.__dict__.update(new_hashmap.__dict__)
 
     def __str__(self):
