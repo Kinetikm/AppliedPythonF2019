@@ -79,8 +79,6 @@ class HashMap:
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
         ind = self._get_index(self._get_hash(key))
-        if not self.table[ind]:
-            return default_value
         if self.__contains__(key):
             for el in self.table[ind]:
                 if key == el.get_key():
