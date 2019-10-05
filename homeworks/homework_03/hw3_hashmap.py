@@ -109,6 +109,7 @@ class HashMap:
             self.num_nodes += 1
             if self.num_nodes >= self.load_coeff*self.bucket_num:
                 self._resize()
+            return
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
