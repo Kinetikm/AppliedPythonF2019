@@ -60,7 +60,6 @@ class HashMap:
                 return self.hash_map.get(self.list[self.amount - 1])
             else:
                 raise StopIteration
-            
 
     def __init__(self, bucket_num=64):
         """
