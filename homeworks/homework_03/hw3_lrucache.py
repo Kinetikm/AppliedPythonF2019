@@ -24,7 +24,7 @@ class LRUCacheDecorator:
                     self.cache_time[num_] = time.time()
             if len(self.cache) >= self.maxsize:
                 for num in self.cache_time:
-                    if self.cache_time[num] == sorted(self.cache_time.values(), reserve=True)[0]:
+                    if self.cache_time[num] == sorted(self.cache_time.values(), reverse=True)[0]:
                         self.cache_time.pop(num)
                         self.cache.pop(num)
             self.cache[num_] = func(*args, **kwargs)
