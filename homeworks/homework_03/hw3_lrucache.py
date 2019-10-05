@@ -21,8 +21,8 @@ class LRUCacheDecorator:
             return hash(tuple(arg))
 
     def __get_full_hash(self, *args, **kwargs):
-        h_args = ''.join([self.__get_hash(arg) for arg in args])
-        h_kwargs = ''.join([self.__get_hash(kwargs[key]) for key in kwargs])
+        h_args = ''.join([str(self.__get_hash(arg)) for arg in args])
+        h_kwargs = ''.join([str(self.__get_hash(kwargs[k])) for k in kwargs])
         return h_args + ' ' + h_kwargs
 
     def __call__(self, func):
