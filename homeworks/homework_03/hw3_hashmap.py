@@ -21,27 +21,36 @@ class HashMap:
         def __eq__(self, other):
             return self._key == other.get_key
 
+        def __iter__(self):
+            yield self._key
+            yield self._value
+
     def __init__(self, bucket_num=64):
-        self.bucket_num = bucket_num
-        self.vals = [[] for l in range(bucket_num)]
+        sself.bucket_num = bucket_num
+        self.vals = [[] for i in range(int(self.bucket_num))]
+        self.CHECK = 0.75
+
 
     def get(self, key, default_value=None):
         indx = self._get_index(self._get_hash(key))
-        for l in self.vals[indx]:
-            if l.get_key() == key:
-                return l.get_value()
+        for ent in self.vals[indx]:
+            if ent.get_key() == key:
+                return ent.get_value()
         return default_value
+
 
     def put(self, key, value):
         indx = self._get_index(self._get_hash(key))
-        while len(self.vals) < self.bucket_num:
-            self.vals.append([])
-        new = self.Entry(key, value)
-        if new in self.vals[indx]:
-            self.vals[indx].remove(new)
-        self.vals[indx].append(new)
-        if len([1 for l in self.vals if i]) > self.bucket_num * 0.5:
-            self._resize
+        item = self.Entry(key, value)
+        for i, ent in enumerate(self.vals[indx]):
+            if ent == item:
+                self.vals[indx].pop(i)
+                break
+        self.vals[indx].append(item)
+        counter = self.bucket_num * self.CHECK
+
+        if len([lst for lst in self.vals if lst]) > counter:
+            self._resize()
 
     def __len__(self):
         return len(self.items())
@@ -53,20 +62,21 @@ class HashMap:
         return hash_value % self.bucket_num
 
     def values(self):
-        return ([l.get_value() for case in self.vals for l in case])
+        return [ent.get_value() for ent in self.items()]
 
     def keys(self):
-        return ([l.get_key() for case in self.vals for l in case])
+        return [ent.get_key() for ent in self.items()]
 
     def items(self):
-        return ([(l.get_key(), l.get_value()) for case in self.vals for s in case])
+        return [ent for lst_of_ent in self.vals for ent in lst_of_ent]
 
     def _resize(self):
         self.bucket_num *= 2
-        entries = self.items()
+        items = self.items()
         self.vals = [[] for i in range(self.bucket_num)]
-        for j in entries:
-            self.put(*j)
+        for ent in items:
+            self.put(ent.get_key(), ent.get_value())
+
 
     def __str__(self):
         return 'buckets: {}, items: {}'.format(self.bucket_num, len(self))
