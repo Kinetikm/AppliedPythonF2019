@@ -70,4 +70,4 @@ class HashMap:
                 format(self.size, len(self.items())))
 
     def __contains__(self, item):
-        return s in self.keys()
+        return item in self.keys()
