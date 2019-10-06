@@ -34,13 +34,13 @@ class HashMap:
 
     def put(self, key, value):
         indx = self._get_index(self._get_hash(key))
-        while len(self.vals) < self.size:
+        while len(self.vals) < self.bucket_num:
             self.vals.append([])
         new = self.Entry(key, value)
         if new in self.vals[indx]:
             self.vals[indx].remove(new)
         self.vals[indx].append(new)
-        if len([1 for i in self.vals if i]) > self.size * 0.5:
+        if len([1 for i in self.vals if i]) > self.bucket_num * 0.5:
             self._resize
 
     def __len__(self):
@@ -50,7 +50,7 @@ class HashMap:
         return hash(key)
 
     def _get_index(self, hash_value):
-        return hash_value % self.size
+        return hash_value % self.bucket_num
 
     def values(self):
         return ([l.get_value() for case in self.vals for l in case])
@@ -62,9 +62,9 @@ class HashMap:
         return ([(l.get_key(), l.get_value()) for case in self.vals for s in case])
 
     def _resize(self):
-        self.size *= 2
+        self.bucket_num *= 2
         entries = self.items()
-        self.vals = [[] for i in range(self.size)]
+        self.vals = [[] for i in range(self.bucket_num)]
         for j in entries:
             self.put(*j)
 
