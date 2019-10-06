@@ -35,7 +35,7 @@ class HashMap:
         :param bucket_num: число бакетов при инициализации
         """
         self.length = bucket_num
-        self._bucket = [[] for i in range(int(self.bucket_num))]
+        self._bucket = [[] for i in range(int(self.length))]
         self.capacity = 0
         self.free_place = 0.66
 
