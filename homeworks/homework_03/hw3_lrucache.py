@@ -12,6 +12,7 @@ class LRUCacheDecorator:
         :param ttl: время в млсек, через которое кеш
                     должен исчезнуть
         '''
+
         self._maxsize = maxsize
         self._ttl = ttl
         self._cach = {}
