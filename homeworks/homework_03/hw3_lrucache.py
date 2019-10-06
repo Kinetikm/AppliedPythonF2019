@@ -15,7 +15,7 @@ class LRUCacheDecorator:
         #  https://www.geeksforgeeks.org/class-as-decorator-in-python/
         self._maxsize = maxsize
         self._ttl = ttl
-        self._cache = {} # {key: [val, time]}
+        self._cache = {}
 
     def __call__(self, func, *args, **kwargs):
         # TODO вызов функции
