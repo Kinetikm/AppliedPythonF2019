@@ -9,27 +9,26 @@ class HashMap:
     """
     class Entry:
         def __init__(self, key, value):
-            self._key = key
+            self.__key = key
             self._value = value
 
         def get_key(self):
-            return self._key
+            return self.__key
 
         def get_value(self):
-            return self._value
+            return self.__value
 
         def __eq__(self, other):
-            return self._key == other.get_key
+            return self.__key == other.get_key
 
         def __iter__(self):
-            yield self._key
-            yield self._value
+            yield self.__key
+            yield self.__value
 
     def __init__(self, bucket_num=64):
         self.bucket_num = bucket_num
         self.vals = [[] for i in range(int(self.bucket_num))]
         self.CHECK = 0.75
-
 
     def get(self, key, default_value=None):
         indx = self._get_index(self._get_hash(key))
@@ -37,7 +36,6 @@ class HashMap:
             if ent.get_key() == key:
                 return ent.get_value()
         return default_value
-
 
     def put(self, key, value):
         indx = self._get_index(self._get_hash(key))
@@ -76,7 +74,6 @@ class HashMap:
         self.vals = [[] for i in range(self.bucket_num)]
         for ent in items:
             self.put(ent.get_key(), ent.get_value())
-
 
     def __str__(self):
         return 'buckets: {}, items: {}'.format(self.bucket_num, len(self))
