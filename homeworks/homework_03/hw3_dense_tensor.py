@@ -1,5 +1,4 @@
 from itertools import product
-from copy import deepcopy
 
 
 class Tensor:
@@ -8,9 +7,17 @@ class Tensor:
 
     @classmethod
     def create_empty_tensor(cls, size):
-        empty_matrix = [0 for i in range(size[-1])]
-        for i in range(2, len(size)+1):
-            empty_matrix = [deepcopy(empty_matrix) for j in range(size[-i])]
+        num_of_elements = 1
+        for s in size:
+            num_of_elements *= s
+        empty_matrix = [0 for i in range(num_of_elements)]
+        for i in range(1, len(size)):
+            help_list = []
+            for j in range(len(empty_matrix)):
+                help_list.append(empty_matrix.pop(0))
+                if (j + 1) % size[-i] == 0:
+                    empty_matrix.append(help_list)
+                    help_list = []
         return cls(empty_matrix)
 
     def size(self):
