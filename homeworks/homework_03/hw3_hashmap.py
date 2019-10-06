@@ -30,24 +30,6 @@ class HashMap:
             return self.key == other.key
             # TODO реализовать функцию сравнения
 
-    def key_generator(self):
-        for bucket in self.H:
-            if bucket is not None:
-                for elem in bucket:
-                    yield elem.key
-
-    def value_generator(self):
-        for bucket in self.H:
-            if bucket is not None:
-                for elem in bucket:
-                    yield elem.value
-
-    def item_generator(self):
-        for bucket in self.H:
-            if bucket is not None:
-                for elem in bucket:
-                    yield elem.key, elem.value
-
     def __init__(self, bucket_num=64):
         self._length = 0
         self.H = [None] * bucket_num
@@ -72,6 +54,7 @@ class HashMap:
 
     def put(self, key, value):
         if len(self.H) < self.__len__() + 1:
+            print(40000)
             self._resize()
         if not self.__contains__(key):
             self._length += 1
@@ -81,6 +64,7 @@ class HashMap:
             self.H[index] = [HashMap.Entry(key, value)]
         else:
             self.H[index].insert(0, HashMap.Entry(key, value))
+        print(self.H)
         # TODO метод put, кладет значение по ключу,
         #  в случае, если ключ уже присутствует он его заменяет
 
@@ -98,20 +82,39 @@ class HashMap:
         # TODO По значению хеша вернуть индекс элемента в массиве
 
     def values(self):
-        return self.value_generator()
+        for bucket in self.H:
+            if bucket is not None:
+                for elem in bucket:
+                    yield elem.value
         # TODO Должен возвращать итератор значений
 
     def keys(self):
-        return self.key_generator()
+        for bucket in self.H:
+            if bucket is not None:
+                for elem in bucket:
+                    yield elem.key
         # TODO Должен возвращать итератор ключей
 
     def items(self):
-        return self.item_generator()
+        for bucket in self.H:
+            if bucket is not None:
+                for elem in bucket:
+                    yield elem.key, elem.value
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
 
     def _resize(self):
+        items = [(k, v) for k, v in self.items()]
+
+        self.H = [None] * 2 * len(self.H)
+        for k, v in items:
+            print(k, v, '0000')
+        for k, v in items:
+            ind = self._get_index(self._get_hash(k))
+            if self.H[ind] is not None:
+                self.H[ind].append(self.Entry(k, v))
+            else:
+                self.H[ind] = [self.Entry(k, v)]
         # TODO Время от времени нужно ресайзить нашу хешмапу
-        self.H.extend([None] * self._length)
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
