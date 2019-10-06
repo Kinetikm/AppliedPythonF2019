@@ -40,8 +40,7 @@ class HashMap:
         """
         self.bucket_num = bucket_num
         self.h_map = [[] for i in range(int(self.bucket_num))]
-        self.CHECK = 0.4
-        self.RESIZE = 2
+        self.check = 0.75
 
     def get(self, key, default_value=None):
         # TODO метод get, возвращающий значение,
@@ -62,7 +61,7 @@ class HashMap:
                 self.h_map[h_id].pop(i)
                 break
         self.h_map[h_id].append(item)
-        counter = self.bucket_num * self.CHECK
+        counter = self.bucket_num * self.check
 
         if len([lst for lst in self.h_map if lst]) > counter:
             self._resize()
@@ -94,7 +93,7 @@ class HashMap:
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
-        self.bucket_num *= self.RESIZE
+        self.bucket_num *= 2
         items = self.items()
         self.h_map = [[] for i in range(self.bucket_num)]
         for ent in items:
