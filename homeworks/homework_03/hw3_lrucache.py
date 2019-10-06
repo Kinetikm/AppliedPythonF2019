@@ -15,8 +15,8 @@ class LRUCacheDecorator:
 
     def __call__(self, function):
         def wrapped(*args, **kwargs):
-            if (args in self.cash) and (self.ttl is not None) \
-            and (abs(time.time() - self.cash.get(args)[1]) > self.ttl):
+            if (args in self.cash) and (self.ttl is not None) and \
+            (abs(time.time() - self.cash.get(args)[1]) > self.ttl):
                 self.cash.pop(args)
             if args in self.cash:
                 cur_time = time.time()
