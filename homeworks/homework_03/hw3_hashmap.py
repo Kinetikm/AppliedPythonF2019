@@ -58,7 +58,7 @@ class HashMap:
         if self.container[index] is not None:
             for i in self.container[index]:
                 if i.get_key() == key:
-                    i.value = item.value
+                    i.value = value
                     print("item.key zamena = ",item.key)
                     print("item.value zamena = ",item.value)
                     return
