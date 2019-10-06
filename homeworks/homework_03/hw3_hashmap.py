@@ -62,7 +62,7 @@ class HashMap:
         self.hash_map = [[] for i in range(int(self.bucket_num))]
         self.CHECK = 0.4
         self.RESIZE = 2
-        self.num_nodes = 0
+        self.count_of_items = 0
         self.not_empty_buckets = 0
 
     def get(self, key, default_value=None):
