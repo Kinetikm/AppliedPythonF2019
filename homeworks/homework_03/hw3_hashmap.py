@@ -107,5 +107,3 @@ class HashMap:
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
         return item in self.keys()
-
-
