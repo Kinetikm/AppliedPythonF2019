@@ -2,11 +2,35 @@ from itertools import product
 
 
 class Tensor:
+    """
+    Your realisation of numpy tensor.
+
+    Must be implemented:
+    1. Getting and setting element by indexes of row and col.
+    a[i, j] = v -- set value in i-th row and j-th column to value.
+    b = a[i, j] -- get value from i-th row and j-th column.
+    2. Pointwise operations.
+    c = a + b -- sum of two Tensors of the same shape or sum with scalar.
+    c = a - b -- difference --//--.
+    c = a * b -- product --//--.
+    c = a / alpha -- divide Tensor a by nonzero scalar alpha.
+    c = a ** b -- raises each element of a to the power b.
+    3. Sum, mean, max, min, argmax, argmin by axis.
+    if axis is None then operation over all elements.
+    4. Transpose by given axes (by default reverse dimensions).
+    5. Swap two axes.
+    6. Matrix multiplication for tensors with dimension <= 2.
+    """
     def __init__(self, matrix):
+        """
+        :param init_matrix_representation: list of lists
+        """
         self.matrix = matrix
+        self.sizes = []
+        self.dim = self.def_dim(init_matrix_representation)
 
     @classmethod
-    def create_empty_tensor(cls, size):
+    def create(cls, size):
         num_of_elements = 1
         for s in size:
             num_of_elements *= s
@@ -56,7 +80,7 @@ class Tensor:
     def __calcul_result_of_oper(self, other, oper):
         size = self.size()
         coordinates = [range(max_idx) for max_idx in size]
-        result = Tensor.create_empty_tensor(size)
+        result = Tensor.create(size)
         if isinstance(other, Tensor):
             if size != other.size():
                 raise ValueError
@@ -104,12 +128,12 @@ class Tensor:
         else:
             max_idx = size.pop(axis)
             coordinates = [range(max_idx) for max_idx in size]
-            result = {'sum': Tensor.create_empty_tensor(size),
-                      'mean': Tensor.create_empty_tensor(size),
-                      'max': Tensor.create_empty_tensor(size),
-                      'min': Tensor.create_empty_tensor(size),
-                      'argmax': Tensor.create_empty_tensor(size),
-                      'argmin': Tensor.create_empty_tensor(size)}
+            result = {'sum': Tensor.create(size),
+                      'mean': Tensor.create(size),
+                      'max': Tensor.create(size),
+                      'min': Tensor.create(size),
+                      'argmax': Tensor.create(size),
+                      'argmin': Tensor.create(size)}
             for coor in product(*coordinates):
                 lst = []
                 coor = list(coor)
@@ -146,7 +170,7 @@ class Tensor:
     def transpose(self, *new_dimensions):
         size = self.size()
         new_size = [size[d] for d in new_dimensions]
-        result = Tensor.create_empty_tensor(new_size)
+        result = Tensor.create(new_size)
         coordinates = [range(max_idx) for max_idx in size]
         for coor in product(*coordinates):
             new_coor = [coor[d] for d in new_dimensions]
@@ -168,7 +192,7 @@ class Tensor:
             raise ValueError
         n = num1_of_columns
         tensor2 = tensor2.transpose(1, 0)
-        result = Tensor.create_empty_tensor((num1_of_rows, num2_of_columns))
+        result = Tensor.create((num1_of_rows, num2_of_columns))
         for i, row1 in enumerate(tensor1.matrix):
             for j, row2 in enumerate(tensor2.matrix):
                 result[i, j] = sum([row1[k]*row2[k] for k in range(n)])
