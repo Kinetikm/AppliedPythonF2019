@@ -9,17 +9,19 @@ class LRUCacheDecorator:
         self.maxsize = maxsize
         self.time = ttl
         self.cache = {}
-        self.realsize = 0
+        self.size = 0
 
     def __call__(self, function):
-        def internal(*args, **kwargs):
+        def decorated(*args, **kwargs):
             key = args + tuple(sorted(kwargs.items()))
             if key not in self.cache.keys():
-                if self.realsize < self.maxsize:
-                    self.realsize += 1
+                if self.size < self.maxsize:
+                    self.size += 1
                 else:
-                    index = min(self.cache.items(),
-                                key=lambda i: i[1][1])
+                    if self.cache.items() < key=lambda i: i[1][1]:
+                        index = self.cache.items()
+                    else:
+                        index = key
                     del self.cache[index[0]]
             else:
                 item = self.cache[key]
@@ -29,4 +31,4 @@ class LRUCacheDecorator:
                     return item[0]
             self.cache[key] = (function(*args, **kwargs), time.time() * 1000)
             return self.cache[key][0]
-        return internal
+        return decorated
