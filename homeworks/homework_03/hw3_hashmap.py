@@ -1,274 +1,175 @@
 #!/usr/bin/env python
 # coding: utf-8
+import random
+import time
+
 import numpy as np
 import itertools
-from copy import deepcopy
-from itertools import product
 
 
-class Tensor:
+class HashMap:
     """
-    Your realisation of numpy tensor.
-
-    Must be implemented:
-    1. Getting and setting element by indexes of row and col.
-    a[i, j] = v -- set value in i-th row and j-th column to value.
-    b = a[i, j] -- get value from i-th row and j-th column.
-    2. Pointwise operations.
-    c = a + b -- sum of two Tensors of the same shape or sum with scalar.
-    c = a - b -- difference --//--.
-    c = a * b -- product --//--.
-    c = a / alpha -- divide Tensor a by nonzero scalar alpha.
-    c = a ** b -- raises each element of a to the power b.
-    3. Sum, mean, max, min, argmax, argmin by axis.
-    if axis is None then operation over all elements.
-    4. Transpose by given axes (by default reverse dimensions).
-    5. Swap two axes.
-    6. Matrix multiplication for tensors with dimension <= 2.
+    Давайте сделаем все объектненько,
+     поэтому внутри хешмапы у нас будет Entry
     """
 
-    def dim(self, a):
-        if not type(a) == list:
-            return []
-        return [len(a)] + self.dim(a[0])
+    class Iter:
+        def __init__(self, hashmap):
+            self.map = []
+            for el in hashmap:
+                if el:
+                    for pair in el:
+                        self.map.append(pair)
 
-    def __init__(self, init_matrix_representation):
+    class IterKeys(Iter):
+        def __init__(self, hashmap):
+            super().__init__(hashmap)
+            self.pos = 0
+
+        def __iter__(self):
+            return self
+
+        def __next__(self):
+            if self.pos == len(self.map):
+                raise StopIteration
+            key = self.map[self.pos].get_key()
+            self.pos += 1
+            return key
+
+    class IterValues(Iter):
+        def __init__(self, hashmap):
+            super().__init__(hashmap)
+            self.pos = 0
+
+        def __iter__(self):
+            return self
+
+        def __next__(self):
+            if self.pos == len(self.map):
+                raise StopIteration
+            value = self.map[self.pos].get_value()
+            self.pos += 1
+            return value
+
+    class IterItems(Iter):
+        def __init__(self, hashmap):
+            super().__init__(hashmap)
+            self.pos = 0
+
+        def __iter__(self):
+            return self
+
+        def __next__(self):
+            if self.pos == len(self.map):
+                raise StopIteration
+            key, value = self.map[self.pos].get_key(), self.map[self.pos].get_value()
+            self.pos += 1
+            return key, value
+
+    class Entry:
+        def __init__(self, key, value):
+            """
+            Сущность, которая хранит пары ключ-значение
+            :param key: ключ
+            :param value: значение
+            """
+            self.key = key
+            self.value = value
+
+        def get_key(self):
+            # TODO возвращаем ключ
+            return self.key
+
+        def get_value(self):
+            # TODO возвращаем значение
+            return self.value
+
+        def __eq__(self, other):
+            # TODO реализовать функцию сравнения
+            return self.key == other
+
+    def __init__(self, bucket_num=64):
         """
-        :param init_matrix_representation: list of lists
+        Реализуем метод цепочек
+        :param bucket_num: число бакетов при инициализации
         """
-        if isinstance(init_matrix_representation, list):
-            self.tensor = deepcopy(init_matrix_representation)
-            self.size = tuple(self.dim(self.tensor))
-        elif isinstance(init_matrix_representation, tuple):
-            self.size = init_matrix_representation
-            self.tensor = [0 for i in range(self.size[-1])]
-            for i in range(2, len(self.size) + 1):
-                self.tensor = [deepcopy(self.tensor) for j in range(self.size[-i])]
+        self.size = 0
+        self.coefficient = 2
+        self.bucket_num = bucket_num
+        self.map = [None for _ in range(self.bucket_num)]
 
-    def __getitem__(self, ids):
-        res = self.tensor
-        try:
-            if isinstance(ids, int):
-                return res[ids]
-            else:
-                for i in ids:
-                    res = res[i]
-                return res
-        except:
-            raise IndexError
+    def get(self, key, default_value=None):
+        key_hash = self._get_hash(key)
+        key_index = self._get_index(key_hash)
+        if self.map[key_index]:
+            for i in self.map[key_index]:
+                if key == i:
+                    return i.get_value()
+        return default_value
 
-    def set_additional(self, data, ind, value):
-        i = ind[0]
-        if isinstance(data[i], list):
-            self.set_additional(data[i], ind[1:], value)
-        else:
-            data[i] = value
+    def put(self, key, value):
+        # TODO метод put, кладет значение по ключу,
+        #  в случае, если ключ уже присутствует он его заменяет
+        key_hash = self._get_hash(key)
+        key_index = self._get_index(key_hash)
+        if self.map[key_index] is None:
+            self.map[key_index] = [self.Entry(key, value)]
+            self.size += 1
             return True
+        for i in self.map[key_index]:
+            if i == key:
+                i.value = value
+                return True
+        self.size += 1
+        self.map[key_index].append(self.Entry(key, value))
+        return True
 
-    def __setitem__(self, ids, value):
-        try:
-            self.set_additional(self.tensor, ids, value)
-        except:
-            raise IndexError
+    def __len__(self):
+        # TODO Возвращает количество Entry в массиве
+        return self.size
 
-    def additional_operation(self, data, other, func):
-        if isinstance(data, list):
-            for i, v in enumerate(data):
-                if isinstance(other, list):
-                    temp = self.additional_operation(data[i], other[i], func)
-                else:
-                    temp = self.additional_operation(data[i], other, func)
-                if temp is not None:
-                    data[i] = temp
-        else:
-            return func(data, other)
+    def _get_hash(self, key):
+        # TODO Вернуть хеш от ключа,
+        #  по которому он кладется в бакет
+        return hash(key)
 
-    def __add__(self, other):
-        if isinstance(other, Tensor):
-            if self.size != other.size:
-                raise ValueError
-            result = deepcopy(self.tensor)
-            self.additional_operation(result, other.tensor, lambda x, y: x + y)
-            return Tensor(result)
-        elif isinstance(other, int) or isinstance(other, float):
-            result = deepcopy(self.tensor)
-            self.additional_operation(result, other, lambda x, y: x + y)
-            return Tensor(result)
-        raise ValueError
+    def _get_index(self, hash_value):
+        # TODO По значению хеша вернуть индекс элемента в массиве
+        return hash_value % self.bucket_num
 
-    __radd__ = __add__
+    def values(self):
+        # TODO Должен возвращать итератор значений
+        values = []
+        for elem in self.map:
+            if elem:
+                for pair in elem:
+                    values.append(pair.get_value())
+        return self.IterValues(self.map)
 
-    def __sub__(self, other):
-        if isinstance(other, Tensor):
-            if self.size != other.size:
-                raise ValueError
-            result = deepcopy(self.tensor)
-            self.additional_operation(result, other.tensor, lambda x, y: x - y)
-            return Tensor(result)
-        elif isinstance(other, int) or isinstance(other, float):
-            result = deepcopy(self.tensor)
-            self.additional_operation(result, other, lambda x, y: x - y)
-            return Tensor(result)
-        raise ValueError
+    def keys(self):
+        # TODO Должен возвращать итератор ключей
+        return self.IterKeys(self.map)
 
-    __rsub__ = __sub__
+    def items(self):
+        # TODO Должен возвращать итератор пар ключ и значение (tuples)
+        return self.IterItems(self.map)
 
-    def __mul__(self, other):
-        if isinstance(other, Tensor):
-            if self.size != other.size:
-                raise ValueError
-            result = deepcopy(self.tensor)
-            self.additional_operation(result, other.tensor, lambda x, y: x * y)
-            return Tensor(result)
-        elif isinstance(other, int) or isinstance(other, float):
-            result = deepcopy(self.tensor)
-            self.additional_operation(result, other, lambda x, y: x * y)
-            return Tensor(result)
-        raise ValueError
+    def _resize(self):
+        # TODO Время от времени нужно ресайзить нашу хешмапу
+        self.map += [None for _ in range((self.coefficient - 1) * self.bucket_num)]
+        self.bucket_num *= self.coefficient
+        return True
 
-    __rmul__ = __mul__
+    def __str__(self):
+        # TODO Метод выводит "buckets: {}, items: {}"
+        return "buckets: {}, items: {}".format(self.bucket_num, self.size)
 
-    def __pow__(self, power, modulo=None):
-        if isinstance(power, int):
-            result = deepcopy(self.tensor)
-            self.additional_operation(result, power, lambda x, y: x ** y)
-            return Tensor(result)
-        raise ValueError
-
-    def __truediv__(self, other):
-        if isinstance(other, int) or isinstance(other, float):
-            if other == 0:
-                raise ZeroDivisionError
-            result = deepcopy(self.tensor)
-            self.additional_operation(result, other, lambda x, y: x / y)
-            return Tensor(result)
-        raise ValueError
-
-    def __matmul__(self, other):
-        if len(self.size) == 1 or len(other.size) == 1:
-            return self.mulvector(other)
-        if self.size[1] != other.size[0]:
-            raise ValueError
-        result = [[0 for _ in range(other.size[1])] for _ in range(self.size[0])]
-        rows = {}
-        col = {}
-        for i, r in enumerate(self.tensor):
-            for j, v in enumerate(r):
-                try:
-                    rows[i][j] = v
-                except:
-                    rows[i] = {}
-                    rows[i][j] = v
-        for i, r in enumerate(other.tensor):
-            for j, v in enumerate(r):
-                try:
-                    col[j][i] = v
-                except:
-                    col[j] = {}
-                    col[j][i] = v
-        for i, v1 in rows.items():
-            for j, v2 in col.items():
-                result[i][j] = sum({k: v * v2[k] for k, v in v1.items() if k in v2}.values())
-        return Tensor(result)
-
-    def mulvector(self, second):
-        rows = {}
-        col = {}
-        if len(self.size) == 1:
-            result = [0 for _ in range(second.size[1])]
-            for i, r in enumerate(second.tensor):
-                for j, v in enumerate(r):
-                    try:
-                        col[j][i] = v
-                    except:
-                        col[j] = {}
-                        col[j][i] = v
-            rows = {i: self.tensor[i] for i in range(len(self.tensor))}
-            for j, v2 in {0: rows}.items():
-                for i, v1 in col.items():
-                    result[i] = sum({k: v * v1[k] for k, v in v2.items() if k in v1}.values())
-        else:
-            result = [0 for _ in range(self.size[0])]
-            for i, r in enumerate(self.tensor):
-                for j, v in enumerate(r):
-                    try:
-                        rows[i][j] = v
-                    except:
-                        rows[i] = {}
-                        rows[i][j] = v
-                col = {i: second.tensor[i] for i in range(len(second.tensor))}
-            for i, v1 in rows.items():
-                result[i] = sum({k: v * col[k] for k, v in v1.items() if k in col}.values())
-        return Tensor(result)
-
-    __rmatmul__ = __matmul__
-
-    def additional(self, func):
-        arrays = [range(i) for i in self.size]
-        cp = list(product(*arrays))
-        res = []
-        for i in cp:
-            res.append(self[i])
-        res_min = min(res)
-        res_max = max(res)
-        return func(res)
-
-    def additional_axis(self, axis, func):
-        temp_size = list(self.size)
-        del temp_size[axis]
-        arrays = [range(i) for i in temp_size]
-        cp = list(product(*arrays))
-        res = Tensor(tuple(temp_size))
-        for ind in cp:
-            temp = []
-            for indexes in range(self.size[axis]):
-                ind = list(ind)
-                ind.insert(axis, indexes)
-                temp.append(self[ind])
-                del ind[axis]
-            res[ind] = func(temp)
-        return res
-
-    def sum(self, axis=None):
-        if axis is not None:
-            return self.additional_axis(axis, lambda x: sum(x))
-        return self.additional(lambda x: sum(x))
-
-    def mean(self, axis=None):
-        if axis is not None:
-            return self.additional_axis(axis, lambda x: sum(x) / len(x))
-        return self.additional(lambda x: sum(x) / len(x))
-
-    def min(self, axis=None):
-        if axis is not None:
-            return self.additional_axis(axis, lambda x: min(x))
-        return self.additional(lambda x: min(x))
-
-    def max(self, axis=None):
-        if axis is not None:
-            return self.additional_axis(axis, lambda x: max(x))
-        return self.additional(lambda x: max(x))
-
-    def argmin(self, axis=None):
-        if axis is not None:
-            return self.additional_axis(axis, lambda x: x.index(min(x)))
-        return self.additional(lambda x: x.index(min(x)))
-
-    def argmax(self, axis=None):
-        if axis is not None:
-            return self.additional_axis(axis, lambda x: x.index(max(x)))
-        return self.additional(lambda x: x.index(max(x)))
-
-    def transpose(self, *size):
-        temp_size = [self.size[i] for i in size]
-        res = Tensor(tuple(temp_size))
-        arrays = [range(i) for i in self.size]
-        cp = list(product(*arrays))
-        for ind in cp:
-            res[[ind[i] for i in size]] = self[ind]
-        return res
-
-    def swapaxes(self, *axis):
-        size = [i for i in range(len(self.size))]
-        size[axis[0]], size[axis[1]] = size[axis[1]], size[axis[0]]
-        return self.transpose(*size)
+    def __contains__(self, item):
+        # TODO Метод проверяющий есть ли объект (через in)
+        key_hash = self._get_hash(item)
+        key_index = self._get_index(key_hash)
+        if self.map[key_index]:
+            for i in self.map[key_index]:
+                if item == i:
+                    return True
+        return False

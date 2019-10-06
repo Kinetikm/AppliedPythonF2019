@@ -25,8 +25,6 @@ class LRUCacheDecorator:
             self.function = args[0]
             self.mode = "calling"
             return self
-        for i in args:
-            print(i)
         if len(self.cache) > self.maxsize:
             self.cache.popitem(last=False)
         key = (*args, *kwargs)
