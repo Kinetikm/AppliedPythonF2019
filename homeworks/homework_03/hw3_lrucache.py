@@ -23,7 +23,7 @@ class LRUCacheDecorator:
             key = args + tuple(sorted(kwargs.items()))
             if key in self.hashTable.keys():
                 item = self.hashTable[key]
-                if self.ttl is None or (time.time()- item[1]) * 1000 <= self.ttl:
+                if self.ttl is None or (time.time() - item[1]) * 1000 <= self.ttl:
                     self.hashTable[key] = (item[0], time.time())
                     return item[0]
                 else:
