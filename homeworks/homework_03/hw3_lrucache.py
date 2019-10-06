@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import collections
+import time
+
 
 class LRUCacheDecorator:
 
@@ -12,8 +15,36 @@ class LRUCacheDecorator:
         '''
         # TODO инициализация декоратора
         #  https://www.geeksforgeeks.org/class-as-decorator-in-python/
-        raise NotImplementedError
+        self.maxsize = maxsize
+        self.ttl = ttl
+        self.cache = collections.OrderedDict()
+        self.timings = {}
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, func):
         # TODO вызов функции
-        raise NotImplementedError
+
+        def inner(*args):
+            present_time = time.time()
+            if args in self.cache:
+                if self.ttl and ((present_time - self.timings[args]) > self.ttl):
+                    result = func(*args)
+                    del self.cache[args]
+                    self.cache[args] = result
+                    self.timings[args] = present_time
+                    if len(self.cache) > self.maxsize:
+                        self.cache.popitem(last=False)
+                else:
+                    result = self.cache[args]
+                    self.cache.move_to_end(args)
+            else:
+                result = func(*args)
+                self.cache[args] = result
+                self.timings[args] = present_time
+                if len(self.cache) > self.maxsize:
+                    del self.timings[self.cache.popitem(last=False)[0]]
+            return result
+
+        return inner
+
+
+
