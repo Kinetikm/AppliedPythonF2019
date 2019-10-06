@@ -27,7 +27,7 @@ class Tensor:
         """
         self.matrix = matrix
         self.sizes = []
-        self.dim = self.def_dim(init_matrix_representation)
+        self.dim = self.def_dim(matrix)
 
     @classmethod
     def create(cls, size):
@@ -43,6 +43,18 @@ class Tensor:
                     empty_matrix.append(help_list)
                     help_list = []
         return cls(empty_matrix)
+
+    def def_dim(self, matrix, dim=0):
+        if isinstance(matrix, list):
+            if not matrix:
+                return dim
+            dim += 1
+            self.sizes.append(len(matrix))
+            dim = self.def_dim(matrix[0], dim)
+            return dim
+        else:
+            # нужно ли возвращать None, если dim == 0?
+            return dim
 
     def size(self):
         size = [len(self.matrix)]
