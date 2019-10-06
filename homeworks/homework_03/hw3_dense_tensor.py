@@ -311,57 +311,57 @@ class Tensor:
         if first < 0 or first >= len(self.dimen) or second < 0 or second >= len(self.dimen):
             raise ValueError
         res = Tensor()
-        res.dimensions = copy.deepcopy(self.dimen)
+        res.dimen = copy.deepcopy(self.dimen)
         res.data = self.data
-        res.dim_offset = copy.deepcopy(self.dim_of)
-        v = res.dimensions[first]
-        res.dimensions[first] = res.dimensions[second]
-        res.dimensions[second] = v
-        v = res.dim_offset[first]
-        res.dim_offset[first] = res.dim_offset[second]
-        res.dim_offset[second] = v
+        res.dim_of = copy.deepcopy(self.dim_of)
+        v = res.dimen[first]
+        res.dimen[first] = res.dimen[second]
+        res.dimen[second] = v
+        v = res.dim_of[first]
+        res.dim_of[first] = res.dim_of[second]
+        res.dim_of[second] = v
         return res
 
     def transpose(self, *ax):
         res = Tensor()
         res.data = self.data
         if ax is None:
-            res.dimensions = copy.deepcopy(self.dimen)
-            res.dim_offset = copy.deepcopy(self.dim_of)
-            for i in range(len(res.dimensions) // 2):
-                v = res.dimensions[i]
-                res.dimensions[i] = res.dimensions[len(res.dimensions) - 1 - i]
-                res.dimensions[len(res.dimensions) - 1 - i] = v
-                v = res.dim_offset[i]
-                res.dim_offset[i] = res.dim_offset[len(res.dimensions) - 1 - i]
-                res.dim_offset[len(res.dimensions) - 1 - i] = v
+            res.dimen = copy.deepcopy(self.dimen)
+            res.dim_of = copy.deepcopy(self.dim_of)
+            for i in range(len(res.dimen) // 2):
+                v = res.dimen[i]
+                res.dimen[i] = res.dimen[len(res.dimen) - 1 - i]
+                res.dimen[len(res.dimen) - 1 - i] = v
+                v = res.dim_of[i]
+                res.dim_of[i] = res.dim_of[len(res.dimen) - 1 - i]
+                res.dim_of[len(res.dimen) - 1 - i] = v
         else:
             if not isinstance(ax, tuple):
                 raise ValueError
             if len(ax) != len(self.dimen):
                 raise ValueError
             for i, new_i in enumerate(ax):
-                res.dimensions[i] = copy.copy(self.dimen[new_i])
-                res.dim_offset[i] = copy.copy(self.dim_of[new_i])
+                res.dimen[i] = copy.copy(self.dimen[new_i])
+                res.dim_of[i] = copy.copy(self.dim_of[new_i])
         return res
 
     def __matmul__(self, other):
-        if len(self.dimen) == len(other.dimensions) == 1:
-            if len(self.dimen[0]) == len(other.dimensions[0]):
+        if len(self.dimen) == len(other.dimen) == 1:
+            if len(self.dimen[0]) == len(other.dimen[0]):
                 res = 1
                 for i in range(self.dimen[0]):
                     res *= self.data[i] * other.data[i]
                 return res
             else:
                 raise ValueError
-        if len(self.dimen) == len(other.dimensions) == 2:
-            if self.dimen[1] == other.dimensions[0]:
+        if len(self.dimen) == len(other.dimen) == 2:
+            if self.dimen[1] == other.dimen[0]:
                 res = Tensor()
                 m = self.dimen[0]
-                k = other.dimensions[1]
+                k = other.dimen[1]
                 res.dimen[0] = m
                 res.dimen[1] = k
-                res.dim_offset = {}
+                res.dim_of = {}
                 res._calc_offsets()
                 res.data = [0] * (m * k)
                 for i, j in [(x, y) for x in range(m) for y in range(k)]:
@@ -370,24 +370,24 @@ class Tensor:
                 return res
             else:
                 raise ValueError
-        if len(self.dimen) == 1 and len(other.dimensions) == 2:
-            if self.dimen[0] == other.dimensions[0]:
+        if len(self.dimen) == 1 and len(other.dimen) == 2:
+            if self.dimen[0] == other.dimen[0]:
                 res = Tensor()
-                res.dimen[0] = other.dimensions[1]
-                res.data = [0] * other.dimensions[1]
-                for i, j in [(x, y) for x in range(1) for y in range(other.dimensions[1])]:
-                    for p in range(other.dimensions[0]):
+                res.dimen[0] = other.dimen[1]
+                res.data = [0] * other.dimen[1]
+                for i, j in [(x, y) for x in range(1) for y in range(other.dimen[1])]:
+                    for p in range(other.dimen[0]):
                         res.data[j] += self.data[p] * other[p, j]
                 return res
             else:
                 raise ValueError
-        if len(self.dimen) == 2 and len(other.dimensions) == 1:
-            if self.dimen[1] == other.dimensions[0]:
+        if len(self.dimen) == 2 and len(other.dimen) == 1:
+            if self.dimen[1] == other.dimen[0]:
                 res = Tensor()
                 res.dimen[0] = self.dimen[0]
                 res.data = [0] * self.dimen[0]
                 for i, j in [(x, y) for x in range(self.dimen[0]) for y in range(1)]:
-                    for p in range(other.dimensions[0]):
+                    for p in range(other.dimen[0]):
                         res.data[i] += self[i, p] * other.data[p]
                 return res
             else:
