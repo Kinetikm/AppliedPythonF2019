@@ -138,7 +138,6 @@ def test_hashmap_07():
         assert k in hashmap
 
 def test_lrucache_01():
-
     try:
         @LRUCacheDecorator(maxsize=3, ttl=None)
         def get_sq(s):
