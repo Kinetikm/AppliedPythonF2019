@@ -9,7 +9,6 @@ class CSRMatrix:
     """
     CSR (2D) matrix.
     Here you can read how CSR sparse matrix works: https://en.wikipedia.org/wiki/Sparse_matrix
-
     Must be implemented:
     1. Getting and setting element by indexes of row and col.
     a[i, j] = v -- set value in i-th row and j-th column to value
@@ -25,6 +24,13 @@ class CSRMatrix:
     c = a @ b --//--
     4. nnz attribute -- number of nonzero elements in matrix
     """
+    operation = {
+        "+": lambda x, y: x + y,
+        "-": lambda x, y: x - y,
+        "*": lambda x, y: x * y,
+        "/": lambda x, y: x / y,
+        "**": lambda x, y: x ** y
+    }
 
     def __init__(self, init_matrix_representation):
         """
@@ -34,8 +40,8 @@ class CSRMatrix:
             where data, row_ind and col_ind satisfy the relationship:
             a[row_ind[k], col_ind[k]] = data[k]
         """
-        self.matrix = init_matrix_representation
-        if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
+        if isinstance(init_matrix_representation, tuple) and len(
+                init_matrix_representation) == 3:
             self.row = deepcopy(init_matrix_representation[0])
             self.col = deepcopy(init_matrix_representation[1])
             self.data = deepcopy(init_matrix_representation[2])
@@ -48,9 +54,9 @@ class CSRMatrix:
             for rn, row in enumerate(init_matrix_representation):
                 for cn, val in enumerate(row):
                     if val != 0:
-                        self.row.append(rn)
-                        self.col.append(cn)
-                        self.data.append(val)
+                        self.row += [rn]
+                        self.col += [cn]
+                        self.data += [val]
             self.rn = len(init_matrix_representation)
             self.cn = len(init_matrix_representation[0])
         elif isinstance(init_matrix_representation, CSRMatrix):
@@ -79,15 +85,15 @@ class CSRMatrix:
         """
         Return dense representation of matrix (2D np.array).
         """
-        dense = np.zeros((self.rn, self.cn))
+        result = np.zeros((self.rn, self.cn))
         for i, j, v in zip(self.row, self.col, self.data):
-            dense[i, j] = v
-        return dense
+            result[i, j] = v
+        return result
 
-    def __getitem__(self, item):
-        for i in range(len(self.row)):
-            if item[0] == self.row[i] and self.col[i] == item[1]:
-                return self.data[i]
+    def __getitem__(self, index):
+        for ind, val in enumerate(self.row):
+            if val == index[0] and self.col[ind] == index[1]:
+                return self.data[ind]
         return 0
 
     def __setitem__(self, index, value):
@@ -125,9 +131,8 @@ class CSRMatrix:
         row = []
         col = []
         data = []
-        cur_ind_a = 0
-        cur_ind_b = 0
-        while cur_ind_a < self._nnz and cur_ind_b < other.nnz:
+        cur_ind_a, cur_ind_b = 0, 0
+        while cur_ind_a < self.nnz and cur_ind_b < other.nnz:
             if self.row[cur_ind_a] < other.row[cur_ind_b] or \
                 self.row[cur_ind_a] == other.row[cur_ind_b] \
                     and self.col[cur_ind_a] < other.col[cur_ind_b]:
@@ -153,7 +158,7 @@ class CSRMatrix:
                 cur_ind_a += 1
                 cur_ind_b += 1
 
-        while cur_ind_a < self._nnz:
+        while cur_ind_a < self.nnz:
             row += [self.row[cur_ind_a]]
             col += [self.col[cur_ind_a]]
             data += [self.operation[sign](self.data[cur_ind_a], 0)]
@@ -166,14 +171,6 @@ class CSRMatrix:
             cur_ind_b += 1
 
         return CSRMatrix((row, col, data))
-
-    operation = {
-        "+": lambda a, b: a + b,
-        "-": lambda a, b: a - b,
-        "*": lambda a, b: a * b,
-        "/": lambda a, b: a / b,
-        "**": lambda a, b: a ** b
-    }
 
     def __sub__(self, other):
         if isinstance(other, CSRMatrix):
@@ -213,8 +210,7 @@ class CSRMatrix:
         return self.alpha_result(other, "*")
 
     def __matmul__(self, other):
-        data1 = {}
-        data2 = {}
+        data1, data2 = {}, {}
         if self.cn != other.rn:
             raise ValueError
         for ind, val in enumerate(self.row):
@@ -233,9 +229,10 @@ class CSRMatrix:
         data = []
         for i, val_frs in data1.items():
             for j, val_sec in data2.items():
-                s = sum(
+                cell = sum(
                     {key: val * val_sec[key] for key, val in val_frs.items() if key in val_sec}.values())
-                if s != 0:
+
+                if cell != 0:
                     row += [i]
                     col += [j]
                     data += [cell]
