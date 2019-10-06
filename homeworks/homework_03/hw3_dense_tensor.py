@@ -29,17 +29,14 @@ class Tensor:
         :param init_matrix_representation: list of lists
 
         """
+        self.dim_of = {}
         self.dimen = {}
         self.data = []
-        self.dim_of = {}
-        if type(init_matrix_representation) is list:
-            if all(i is list for i in init_matrix_representation):
-                self._wrap(init_matrix_representation, 0)
-                self._calc_offsets()
-            else:
+        if init_matrix_representation is not None:
+            if not isinstance(init_matrix_representation, list):
                 raise ValueError
-        else:
-            raise ValueError
+            self._wrap(init_matrix_representation, 0)
+            self._calc_offsets()
 
     def _calc_offsets(self):
         self.dim_of[len(self.dimen) - 1] = 1
