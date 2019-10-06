@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+class CSRMatrix:
+
+    def __init__(self):
+        pass
+
 """
 import numpy as np
 from copy import deepcopy
