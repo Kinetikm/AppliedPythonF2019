@@ -3,6 +3,7 @@
 from time import time
 
 
+# :)
 class LRUCacheDecorator:
 
     def __init__(self, maxsize, ttl):
@@ -36,4 +37,5 @@ class LRUCacheDecorator:
                 self.cache['time'][key] = time()
                 out = self.cache['key_value'][key]
             return out
+
         return inner
