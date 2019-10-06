@@ -29,7 +29,7 @@ class HashMap:
 
     def get(self, key, default_value=None):
         i = self._get_index(self._get_hash(key))
-        if self._bucket[i] is not None:
+        if self.buckets[i] is not None:
             for j in self._bucket[i]:
                 if j.key == key:
                     return j.value
@@ -79,7 +79,7 @@ class HashMap:
         return self._get_items()
 
     def _resize(self):
-        self._bucket.extend([None for _ in range(self.length)])
+        self.buckets.extend([None for _ in range(self.length)])
         self.length *= 2
 
     def __str__(self):
