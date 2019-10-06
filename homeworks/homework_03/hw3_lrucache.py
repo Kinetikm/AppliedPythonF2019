@@ -20,25 +20,25 @@ class LRUCacheDecorator:
 
     def __call__(self, func):
         def lru_func(*args, **kwargs):
-            key = args + list(sorted(kwargs.items()))
+            key = args + tuple(sorted(kwargs.items()))
             if key in self.hashTable.keys():
                 item = self.hashTable[key]
                 if self.ttl is None or (time.time()- item[1]) * 1000 <= self.ttl:
-                    self.hashTable[key] = [item[0], time.time()]
+                    self.hashTable[key] = (item[0], time.time())
                     return item[0]
                 else:
                     res = func(*args, **kwargs)
-                    self.chashTable[key] = [res, time.time()]
+                    self.chashTable[key] = (res, time.time())
                     return res
             else:
                 if self.cursize < self.maxsize:
                     self.cursize += 1
                     res = func(*args, **kwargs)
-                    self.hashTable[key] = [res, time.time()]
+                    self.hashTable[key] = (res, time.time())
                     return res
                 else:
                     del self.hashTable[min(self.hashTable.items(), key=lambda i: i[1][1])[0]]
                     res = func(*args, **kwargs)
-                    self.hashTable[key] = [res, time.time()]
+                    self.hashTable[key] = (res, time.time())
                     return res
         return lru_func
