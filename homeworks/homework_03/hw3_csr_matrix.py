@@ -21,15 +21,18 @@ class CSRMatrix(object):
         # from 3 arrays
 
         elif isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
-            row_amount = max(init_matrix_representation[0])
-            col_amount = len(init_matrix_representation[2])//row_amount
-            matr = []
-            for i in range(row_amount):
-                matr.append([0] * col_amount)
-            for i in range(len(init_matrix_representation[2])):
-                matr[init_matrix_representation[0][i]-1][init_matrix_representation[1][i]-1] = init_matrix_representation[2][i]
-                a = np.array(matr)
-            self.__init__(a)
+            self.items = init_matrix_representation[2]
+            self.col_indxs = init_matrix_representation[1]
+            self.amounts = [0]
+            cur_sum = 0
+            prev = init_matrix_representation[0][0]
+            for i in range(len(init_matrix_representation[0])):
+                if init_matrix_representation[0][i] != prev:
+                    prev = init_matrix_representation[0][i]
+                    self.amounts.append(cur_sum + self.amounts[-1])
+                    cur_sum = 0
+                else:
+                    cur_sum += 1
         else:
             raise ValueError
 
@@ -76,9 +79,9 @@ class CSRMatrix(object):
                         cur_row_len_s -= 1
 
                     elif self.col_indxs[cur_pos_s - 1] == other.col_indxs[cur_pos_o - 1]:
-                        if self.items[cur_pos_s - 1] + other.items[cur_pos_o -1] != 0:
-                            out.items.append(self.items[cur_pos_s -1] + other.items[cur_pos_o -1])
-                            out.col_indxs.append(self.col_indxs[cur_pos_s-1])
+                        if self.items[cur_pos_s - 1] + other.items[cur_pos_o - 1] != 0:
+                            out.items.append(self.items[cur_pos_s - 1] + other.items[cur_pos_o - 1])
+                            out.col_indxs.append(self.col_indxs[cur_pos_s - 1])
                             out.amounts[-1] += 1
                         cur_pos_s += 1
                         cur_pos_o += 1
@@ -129,8 +132,8 @@ class CSRMatrix(object):
                         cur_row_len_s -= 1
 
                     elif self.col_indxs[cur_pos_s - 1] == other.col_indxs[cur_pos_o - 1]:
-                        if self.items[cur_pos_s - 1] + other.items[cur_pos_o -1] != 0:
-                            out.items.append(self.items[cur_pos_s -1] - other.items[cur_pos_o - 1])
+                        if self.items[cur_pos_s - 1] + other.items[cur_pos_o - 1] != 0:
+                            out.items.append(self.items[cur_pos_s - 1] - other.items[cur_pos_o - 1])
                             out.col_indxs.append(self.col_indxs[cur_pos_s-1])
                             out.amounts[-1] += 1
                         cur_pos_s += 1
@@ -199,7 +202,7 @@ class CSRMatrix(object):
         m = max(self.col_indxs)
         for col_n in range(m+1):
             out.amounts.append(out.amounts[-1])
-            for row_n in range(len(self.amounts)-1):
+            for row_n in range(len(self.amounts) - 1):
                 if col_n in self.col_indxs[self.amounts[row_n]:self.amounts[row_n + 1]]:
                     inx = self.col_indxs[self.amounts[row_n]:self.amounts[row_n + 1]].index(col_n) + self.amounts[row_n]
                     out.items.append(self.items[inx])
@@ -211,16 +214,16 @@ class CSRMatrix(object):
         if max(self.col_indxs)+1 != len(other.amounts) - 1:
             raise ValueError
         out = CSRMatrix()
-        mmatr = other.transp()
+        matr = other.transp()
 
-        for row_n in range(len(self.amounts)-1):  # go by rows at first matrix
+        for row_n in range(len(self.amounts) - 1):  # go by rows at first matrix
             out.amounts.append(out.amounts[-1])
-            for col_n in range(len(mmatr.amounts)-1):  # go by colons at second matrix
+            for col_n in range(len(matr.amounts) - 1):  # go by colons at second matrix
                 sm = 0
                 for el_ind in range(self.amounts[row_n], self.amounts[row_n + 1]):  # check row items
-                    if self.col_indxs[el_ind] in mmatr.col_indxs[mmatr.amounts[col_n]:mmatr.amounts[col_n+1]]:
-                        inx = mmatr.col_indxs[mmatr.amounts[col_n]:mmatr.amounts[col_n+1]].index(self.col_indxs[el_ind])
-                        sm += self.items[el_ind] * mmatr.items[mmatr.amounts[col_n] + inx]
+                    if self.col_indxs[el_ind] in matr.col_indxs[matr.amounts[col_n]:matr.amounts[col_n+1]]:
+                        inx = matr.col_indxs[matr.amounts[col_n]:matr.amounts[col_n + 1]].index(self.col_indxs[el_ind])
+                        sm += self.items[el_ind] * matr.items[matr.amounts[col_n] + inx]
                 out.items.append(sm)
                 out.amounts[-1] += 1
                 out.col_indxs.append(col_n)
@@ -241,3 +244,22 @@ class CSRMatrix(object):
             for i_ct in range(self.amounts[row_cnt + 1]-self.amounts[row_cnt]):
                 dense[row_cnt][self.col_indxs[self.amounts[row_cnt] + i_ct]] = self.items[self.amounts[row_cnt] + i_ct]
         return dense
+
+
+
+
+t1 =([1, 3, 4, 8, 9, 12], [1, 3, 4, 8, 9, 12], [1, 1, 1, 1, 1, 1])
+a=CSRMatrix(t1)
+a.to_dense()
+'''
+row_amount = max(init_matrix_representation[0])
+            col_amount = len(init_matrix_representation[2])//row_amount
+            matr = []
+            for i in range(row_amount):
+                matr.append([0] * col_amount)
+            for i in range(len(init_matrix_representation[2])):
+                matr[init_matrix_representation[0][i]-1][init_matrix_representation[1][i]-1]\
+                    = init_matrix_representation[2][i]
+                a = np.array(matr)
+            self.__init__(a)
+'''
