@@ -140,7 +140,7 @@ class Tensor:
     def argmin(self, axis=None):
         return self.__consider_tensor(axis)['argmin']
 
-    def transposing(self, *new_dimensions):
+    def transpose(self, *new_dimensions):
         size = self.size_of_matrix()
         new_size = [size[dimension] for dimension in new_dimensions]
         result = Tensor.create_empty_tensor(new_size)
@@ -150,10 +150,10 @@ class Tensor:
             result[new_coor] = self[coordinate]
         return result
 
-    def swapping(self, a1, a2):
+    def swapaxes(self, a1, a2):
         new_dim = list(range(len(self.size_of_matrix())))
         new_dim[a1], new_dim[a2] = new_dim[a2], new_dim[a1]
-        return self.transposing(*new_dim)
+        return self.transpose(*new_dim)
 
     def __matmul__(self, other):
         l1, l2 = len(self.size_of_matrix()), len(other.size_of_matrix())
@@ -164,7 +164,7 @@ class Tensor:
         if num1_of_columns != num2_of_rows:
             raise ValueError
         n = num1_of_columns
-        tensor2 = tensor2.transposing(1, 0)
+        tensor2 = tensor2.transpose(1, 0)
         result = Tensor.create_empty_tensor((num1_of_rows, num2_of_columns))
         for i, row1 in enumerate(tensor1.matrix):
             for j, row2 in enumerate(tensor2.matrix):
