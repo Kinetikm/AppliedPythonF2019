@@ -28,7 +28,7 @@ class LRUCacheDecorator:
                     return item[0]
                 else:
                     res = func(*args, **kwargs)
-                    self.chashTable[key] = (res, time.time())
+                    self.hashTable[key] = (res, time.time())
                     return res
             else:
                 if self.cursize < self.maxsize:
