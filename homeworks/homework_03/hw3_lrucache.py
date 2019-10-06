@@ -11,22 +11,29 @@ class LRUCacheDecorator:
         self.cache_time = dict()
         self.maxsize = maxsize
         self.ttl = ttl
-        
+
     def __call__(self, func):
         def _dec(*args, **kwargs):
             number = str(args) + str(*kwargs)
             num_ = number[1]
             if num_ in self.cache:
-                if self.ttl is not None and (time.time() - self.cache_time[num_]) * 1000 < self.ttl:
+                if (time.time() - self.cache_time[num_]) * 1000 < self.ttl and self.ttl is not None:
+                    self.cache_time[num_] = time.time()
                     return self.cache[num_]
                 else:
                     self.cache[num_] = func(*args, **kwargs)
                     self.cache_time[num_] = time.time()
-            if len(self.cache) >= self.maxsize:
+                    return self.cache[num_]
+            elif len(self.cache) == self.maxsize:
                 for num in self.cache_time:
-                    if self.cache_time[num] == sorted(self.cache_time.values(), reverse=True)[0]:
+                    if self.cache_time[num] == sorted(self.cache_time.values())[0]:
                         self.cache_time.pop(num)
                         self.cache.pop(num)
+                        break
+            else:
+                self.cache[num_] = func(*args, **kwargs)
+                self.cache_time[num_] = time.time()
+                return self.cache[num_]
             self.cache[num_] = func(*args, **kwargs)
             self.cache_time[num_] = time.time()
             return self.cache[num_]
