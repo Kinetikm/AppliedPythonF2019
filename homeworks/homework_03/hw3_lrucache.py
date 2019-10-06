@@ -7,7 +7,7 @@ from collections import OrderedDict
 
 class LRUCacheDecorator:
 
-    def __init__(self, function, maxsize, ttl):
+    def __init__(self, maxsize, ttl):
         """
         :param maxsize: максимальный размер кеша
         :param ttl: время в млсек, через которое кеш
@@ -15,7 +15,6 @@ class LRUCacheDecorator:
         """
         # TODO инициализация декоратора
         #  https://www.geeksforgeeks.org/class-as-decorator-in-python/
-        self.function = function
         self.maxsize = maxsize
         self.ttl = ttl
         self.results = OrderedDict()
@@ -29,20 +28,21 @@ class LRUCacheDecorator:
         self.results[arg] = result
         self.time_in_cache[arg] = time.time()
 
-    def __call__(self, *args, **kwargs):
-        # TODO вызов функции
-        list = args
-        if self.results.get(list):
-            if self.ttl is not None:
-                if self.ttl < (time.time() - self.time_in_cache[list]):
+    def __call__(self, function):
+        def lruCache(*args, **kwargs):
+            list = args
+            if self.results.get(list):
+                if self.ttl is not None:
+                    if self.ttl < (time.time() - self.time_in_cache[list]):
+                        self.clean_tail(list)
+                        new_result = function(*args, **kwargs)
+                        self.refresh(list, new_result)
+                        return new_result
+                return self.results[list]
+            else:
+                if self.maxsize <= len(self.results):
                     self.clean_tail(list)
-                    new_result = function(*args, **kwargs)
-                    self.refresh(list, new_result)
-                    return new_result
-            return self.results[list]
-        else:
-            if self.maxsize <= len(self.results):
-                self.clean_tail(list)
-            new_result = function(*args, **kwargs)
-            self.refresh(list, new_result)
-            return new_result
+                new_result = function(*args, **kwargs)
+                self.refresh(list, new_result)
+                return new_result
+        return lruCache

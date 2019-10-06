@@ -35,7 +35,7 @@ class HashMap:
         :param bucket_num: число бакетов при инициализации
         """
         self.length = bucket_num
-        self._bucket = [None for i in range(self.length)]
+        self._bucket = [[] for i in range(int(self.bucket_num))]
         self.capacity = 0
         self.free_place = 0.66
 
@@ -43,10 +43,9 @@ class HashMap:
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
         index = self._get_index(self._get_hash(key))
-        if self._bucket[index] is not None:
-            for var in self._bucket[index]:
-                if var.key == key:
-                    default_value = var.value
+        for var in self._bucket[index]:
+            if var.key == key:
+                default_value = var.value
         return default_value
 
     def put(self, key, value):
@@ -54,10 +53,7 @@ class HashMap:
         #  в случае, если ключ уже присутствует он его заменяет
         if key not in self.keys():
             index = self._get_index(self._get_hash(key))
-            if self._bucket[index] is None:
-                self._bucket[index] = [self.Entry(key, value)]
-            else:
-                self._bucket[index].append(self.Entry(key, value))
+            self._bucket[index].append(self.Entry(key, value))
             self.capacity += 1
         else:
             index = self._get_index(self._get_hash(key))
@@ -101,15 +97,10 @@ class HashMap:
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
         self.length *= 2
-        tmp_buckets = []
-        for bucket in self._bucket:
-            if bucket is not None:
-                for entry in bucket:
-                    if entry is not None:
-                        tmp_buckets.append(entry)
-            self._bucket = [None for i in range(self.length)]
-        for entry in tmp_buckets:
-            self.put(entry.key, entry.value)
+        items = self.items()
+        self._bucket = [[] for i in range(self.bucket_num)]
+        for ent in items:
+            self.put(ent.get_key(), ent.get_value())
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
