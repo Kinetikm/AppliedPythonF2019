@@ -29,21 +29,6 @@ class Tensor:
         self.sizes = []
         self.dim = self.def_dim(matrix)
 
-    @classmethod
-    def create(cls, size):
-        num_of_elements = 1
-        for s in size:
-            num_of_elements *= s
-        empty_matrix = [0 for i in range(num_of_elements)]
-        for i in range(1, len(size)):
-            help_list = []
-            for j in range(len(empty_matrix)):
-                help_list.append(empty_matrix.pop(0))
-                if (j + 1) % size[-i] == 0:
-                    empty_matrix.append(help_list)
-                    help_list = []
-        return cls(empty_matrix)
-
     def def_dim(self, matrix, dim=0):
         if isinstance(matrix, list):
             if not matrix:
@@ -223,7 +208,6 @@ class Tensor:
                     lst.append(self[coor])
                     coor.pop(axis)
                 result[coor] = max(lst)
-                result['min'][coor] = min(lst)
             return result
 
     def min(self, axis=None):
@@ -294,6 +278,21 @@ class Tensor:
                     coor.pop(axis)
                 result[coor] = lst.index(result[coor])
             return result
+
+    @classmethod
+    def create(cls, size):
+        num_of_elements = 1
+        for s in size:
+            num_of_elements *= s
+        empty_matrix = [0 for i in range(num_of_elements)]
+        for i in range(1, len(size)):
+            help_list = []
+            for j in range(len(empty_matrix)):
+                help_list.append(empty_matrix.pop(0))
+                if (j + 1) % size[-i] == 0:
+                    empty_matrix.append(help_list)
+                    help_list = []
+        return cls(empty_matrix)
 
     def transpose(self, *new_dimensions):
         size = self.size()
