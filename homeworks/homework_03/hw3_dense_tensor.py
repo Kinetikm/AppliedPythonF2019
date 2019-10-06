@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+import sys
+from copy import deepcopy
 
 class Tensor:
     """
@@ -27,5 +28,6 @@ class Tensor:
         """
         :param init_matrix_representation: list of lists
         """
-
+        pass
         raise NotImplementedError
+
