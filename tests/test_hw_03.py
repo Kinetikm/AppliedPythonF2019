@@ -25,6 +25,7 @@ def test_hashmap_01():
         assert hashmap._get_index(hashmap._get_hash(k)) == hash(k) % 10
         assert hashmap._get_index(hashmap._get_hash(v)) == hash(v) % 10
 
+
 def test_hashmap_02():
     try:
         hashmap = HashMap(10)
@@ -136,6 +137,7 @@ def test_hashmap_07():
     assert len(hashmap) == 5
     for k, v in entries:
         assert k in hashmap
+
 
 def test_lrucache_01():
     try:
