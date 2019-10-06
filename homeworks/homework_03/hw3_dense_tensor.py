@@ -143,7 +143,7 @@ class Tensor:
             s = self.sizes
             size = s.pop(axis)
             coordinates = [range(size) for size in s]
-            res = deepcopy(self)
+            res = Tensor.create_special_tensor(s)
             for i in product(*coordinates):
                 lst = []
                 i = list(i)
@@ -165,7 +165,7 @@ class Tensor:
             s = self.sizes
             size = s.pop(axis)
             coordinates = [range(size) for size in s]
-            res = deepcopy(self)
+            res = Tensor.create_special_tensor(s)
             for i in product(*coordinates):
                 lst = []
                 i = list(i)
@@ -174,7 +174,7 @@ class Tensor:
                     lst.append(self[i])
                     i.pop(axis)
                 res[i] = sum(lst)/len(lst)
-            return res
+            return res 
 
     def max(self, axis=None):
         if axis is None:
@@ -188,7 +188,7 @@ class Tensor:
             s = self.sizes
             size = s.pop(axis)
             coordinates = [range(size) for size in s]
-            res = deepcopy(self)
+            res = Tensor.create_special_tensor(s)
             for i in product(*coordinates):
                 lst = []
                 i = list(i)
@@ -211,7 +211,7 @@ class Tensor:
             s = self.sizes
             size = s.pop(axis)
             coordinates = [range(size) for size in s]
-            res = deepcopy(self)
+            res = Tensor.create_special_tensor(s)
             for i in product(*coordinates):
                 lst = []
                 i = list(i)
@@ -234,7 +234,7 @@ class Tensor:
             s = self.sizes
             size = s.pop(axis)
             coordinates = [range(size) for size in s]
-            res = deepcopy(self)
+            res = Tensor.create_special_tensor(s)
             for i in product(*coordinates):
                 lst = []
                 i = list(i)
@@ -257,7 +257,7 @@ class Tensor:
             s = self.sizes
             size = s.pop(axis)
             coordinates = [range(size) for size in s]
-            res = deepcopy(self)
+            res = Tensor.create_special_tensor(s)
             for i in product(*coordinates):
                 lst = []
                 i = list(i)
@@ -268,17 +268,29 @@ class Tensor:
                 res[i] = lst.index(res[i])
             return res
 
+    @classmethod
+    def create_special_tensor(cls, size):
+        num_of_elements = 1
+        for s in size:
+            num_of_elements *= s
+        empty_matrix = [0 for i in range(num_of_elements)]
+        for i in range(1, len(size)):
+            help_list = []
+            for j in range(len(empty_matrix)):
+                help_list.append(empty_matrix.pop(0))
+                if (j + 1) % size[-i] == 0:
+                    empty_matrix.append(help_list)
+                    help_list = []
+        return cls(empty_matrix)
+
     def transpose(self, *axis):
-        axis = list(axis)
-        if len(axis) < self.dim:
-            raise ValueError("axes don't match array")
-        res = deepcopy(self)
-        res.sizes = list(np.array(self.sizes)[axis])
-        coordinates = [range(size) for size in self.sizes]
+        size = self.sizes
+        new_size = [size[d] for d in axis]
+        res = Tensor.create_special_tensor(new_size)
+        coordinates = [range(s) for s in size]
         for i in product(*coordinates):
-            index = np.array(i)
-            index = index[axis]
-            res[index] = self[i]
+            new_i = [i[d] for d in axis]
+            res[new_i] = self[i]
         return res
 
     def swapaxes(self, ax1, ax2):
