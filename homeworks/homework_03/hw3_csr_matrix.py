@@ -141,27 +141,31 @@ class CSRMatrix:
         return CSRMatrix(tuple([self.row_ind, self.column_ind, [i / other for i in self.data]]))
 
     def __matmul__(self, other):
-        if self.shape[-1] != other.shape[0]:
+        if self.shape[1] != other.shape[0]:
             raise ValueError
-        res = {}
-        for row_1, column_1, data_1 in zip(self.row_ind, self.column_ind, self.data):
-            for row_2, column_2, data_2 in zip(other.row_ind, other.column_ind, other.data):
-                if column_1 != row_2:
-                    continue
-                if (row_1, column_2) in res:
-                    res[(row_1, column_2)] += data_1 * data_2
-                else:
-                    res[(row_1, column_2)] = data_1 * data_2
+        rows = {}
+        columns = {}
+        for i, v in enumerate(self.row_ind):
+            if v in rows:
+                rows[v][self.column_ind[i]] = self.data[i]
+            else:
+                rows[v] = {self.column_ind[i]: self.data[i]}
 
-        res_r, res_c, res_d = [], [], []
-        for item in res.items():
-            if not item[1]:
-                continue
-            res_r.append(item[0][0])
-            res_c.append(item[0][1])
-            res_d.append(item[1])
+        for i, v in enumerate(other.column_ind):
+            if v in columns:
+                columns[v][other.row_ind[i]] = other.data[i]
+            else:
+                columns[v] = {other.row_ind[i]: other.data[i]}
 
-        return CSRMatrix(tuple([res_r, res_c, res_d]))
+        res_rows, res_columns, res_data = [], [], []
+        for row, data_1 in rows.items():
+            for col, data_2 in columns.items():
+                res = sum({k: v * data_2[k] for k, v in data_1.items() if k in data_2}.values())
+                if res:
+                    res_rows.append(row)
+                    res_columns.append(col)
+                    res_data.append(res)
+        return CSRMatrix((res_rows, res_columns, res_data))
 
     def to_dense(self):
         dense_matrix = np.zeros((self.row_ind[-1] + 1, self.column_ind[-1] + 1))
