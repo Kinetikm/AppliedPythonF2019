@@ -57,6 +57,16 @@ class CSRMatrix:
             raise ValueError
         self.nnz = len(self.data)
 
+    @nnz.setter
+    def nnz(self, value):
+        if value != len(self.data):
+            raise AttributeError
+        self.nnz = value
+
+    @nnz.getter
+    def nnz(self):
+        return self.nnz
+
     def to_dense(self):
         """
         Return dense representation of matrix (2D np.array).
@@ -215,7 +225,6 @@ class CSRMatrix:
             for j, val_sec in data2.items():
                 sum = sum(
                     {key: val * val_sec[key] for key, val in val_frs.items() if key in val_sec}.values())
-
                 if sum != 0:
                     row += [i]
                     col += [j]
