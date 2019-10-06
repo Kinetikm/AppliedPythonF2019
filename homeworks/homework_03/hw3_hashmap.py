@@ -98,7 +98,7 @@ class HashMap:
         # TODO Время от времени нужно ресайзить нашу хешмапу
         self.length *= 2
         items = self.items()
-        self._bucket = [[] for i in range(self.bucket_num)]
+        self._bucket = [[] for i in range(self.length)]
         for ent in items:
             self.put(ent.get_key(), ent.get_value())
 
