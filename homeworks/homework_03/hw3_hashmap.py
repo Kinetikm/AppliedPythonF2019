@@ -31,7 +31,7 @@ class HashMap:
             Сравнивает объекты по ключу
             :param other:
             """
-            return self.value == other.get_key()
+            return self.key == other.get_key()
 
     def __init__(self, bucket_num=64, coef_for_resize=0.9):
         """
