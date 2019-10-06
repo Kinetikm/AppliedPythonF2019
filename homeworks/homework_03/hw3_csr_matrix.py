@@ -3,6 +3,7 @@
 
 
 import numpy as np
+import copy
 
 
 class CSRMatrix:
@@ -34,17 +35,132 @@ class CSRMatrix:
             where data, row_ind and col_ind satisfy the relationship:
             a[row_ind[k], col_ind[k]] = data[k]
         """
+        self.A = []
+        self.IA = [0]
+        self.JA = []
         if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
-            pass
+            for i in range(len(init_matrix_representation[2])):
+                self.A.append(init_matrix_representation[2][i])
+                self.JA.append(init_matrix_representation[1][i])
+            for i in range(max(init_matrix_representation[0]) + 1):
+                self.IA.append(init_matrix_representation[0].count(i) + self.IA[-1])
         elif isinstance(init_matrix_representation, np.ndarray):
-            pass
+            for i in range(len(init_matrix_representation)):
+                num = 0
+                for j in range(len(init_matrix_representation[i])):
+                    if init_matrix_representation[i][j] != 0:
+                        num += 1
+                        self.A.append(init_matrix_representation[i][j])
+                        self.JA.append(j)
+                self.IA.append(num + self.IA[-1])
         else:
             raise ValueError
 
-        raise NotImplementedError
+    @property
+    def nnz(self):
+        return int(self.IA[-1])
 
     def to_dense(self):
         """
         Return dense representation of matrix (2D np.array).
         """
-        raise NotImplementedError
+        list_of_lists = [[] for _ in range(len(self.IA) - 1)]
+        for i in range(len(self.IA) - 1):
+            for j in range(max(self.JA) + 1):
+                list_of_lists[i].append(self.__getitem__((i, j)))
+        return np.array(list_of_lists)
+
+    def __getitem__(self, item):
+        for i in range(self.IA[item[0]], self.IA[item[0]+1]):
+            if self.JA[i] == item[1]:
+                return self.A[i]
+        return 0
+
+    def __setitem__(self, key, value):
+        if self.__getitem__(key) != 0:
+            for i in range(self.IA[key[0]], self.IA[key[0] + 1]):
+                if self.JA[i] == key[1]:
+                    break
+            if value != 0:
+                self.A[i] = value
+            else:
+                self.A.pop(i)
+                self.JA.pop(i)
+                for j in range(key[0]+1, len(self.IA)):
+                    self.IA[j] -= 1
+        else:
+            if value != 0:
+                if self.IA[key[0] + 1] - self.IA[key[0]] == 0:
+                    self.A.insert(self.IA[key[0] + 1], value)
+                    self.JA.insert(self.IA[key[0] + 1], key[1])
+                else:
+                    for j in range(self.IA[key[0]], self.IA[key[0] + 1]):
+                        if self.JA[j] > key[1]:
+                            self.A.insert(j, value)
+                            self.JA.insert(j, key[1])
+                            break
+                        if j == self.IA[key[0]]:
+                            self.A.insert(j, value)
+                            self.JA.insert(j, key[1])
+                for it in range(key[0] + 1, len(self.IA)):
+                    self.IA[it] += 1
+
+    def multiset(self, other):
+
+        """
+        :param other: другая матрица тех же размеров
+        :return: Мультимножество, значение - строка  other где есть ненулевой
+        элемент, количество вхождений - число ненулевых элементов в строке
+        """
+        multiset = []
+        for i in range(len(other.IA) - 1):
+            for k in range(other.IA[i + 1] - other.IA[i]):
+                multiset.append(i)
+        return multiset
+
+    def __add__(self, other):
+        matrix_sum = copy.deepcopy(self)
+        multiset = self.multiset(other)
+        for i in range(len(multiset)):
+            matrix_sum[multiset[i], other.JA[i]] += other.A[i]
+        return matrix_sum
+
+    def __sub__(self, other):
+        m_sub = copy.deepcopy(self)
+        multiset = self.multiset(other)
+        for i in range(len(multiset)):
+            m_sub[multiset[i], other.JA[i]] -= other.A[i]
+        return m_sub
+
+    def __mul__(self, other):
+        product_matrix = CSRMatrix(np.zeros((len(self.IA)-1, max(self.JA) + 1)))
+        multiset = self.multiset(other)
+        for i in range(len(multiset)):
+            if other[multiset[i], other.JA[i]] != 0 and self[multiset[i], other.JA[i]] != 0:
+                product_matrix[multiset[i], other.JA[i]] = self[multiset[i], other.JA[i]] * other.A[i]
+        return product_matrix
+
+    def __rmul__(self, other):
+        product_matrix = copy.deepcopy(self)
+        product_matrix.A = np.multiply(self.A, other, casting="unsafe")
+        return product_matrix
+
+    def __truediv__(self, other):
+        product_matrix = copy.deepcopy(self)
+        product_matrix.A = np.true_divide(self.A, other, casting="unsafe")
+        return product_matrix
+
+    def __matmul__(self, other):
+        if max(other.JA) + 1 != len(self.IA) - 1:
+            raise ValueError
+        product_matrix = CSRMatrix(np.zeros((len(self.IA) - 1, max(other.JA) + 1)))
+        temp = 0
+        for i in range(len(self.IA) - 1):
+            for j in range(max(other.JA) + 1):
+                for k in range(len(other.IA) - 1):
+                    if self[i, k] & other[k, j]:
+                        temp += self[i, k] * other[k, j]
+                if temp != 0:
+                    product_matrix[i, j] = temp
+                    temp = 0
+        return product_matrix
