@@ -44,26 +44,28 @@ class HashMap:
         index = self._get_index(self._get_hash(key))
         for t in self.container[index]:
             if t.get_key() == key:
-                default_value = t.get_value()
-        #  print("get = ", default_value)
+                return t.get_value()
+        print("get = ", default_value)
         return default_value
 
     def put(self, key, value):
         #  метод put, кладет значение по ключу,
         #  в случае, если ключ уже присутствует он его заменяет
-        #  print("Put = ", key," ", value)
+        print("Put = ", key," ", value)
         item = self.Entry(key, value)
         index = self._get_index(self._get_hash(key))
-        #  print("index = ", index)
+        print("index = ", index)
         if self.container[index] is not None:
             for i in self.container[index]:
                 if i.get_key() == key:
                     i.value = item.value
-                    #  print("item.key = ",item.key)
-                    #  print("item.value = ",item.value)
+                    print("item.key zamena = ",item.key)
+                    print("item.value zamena = ",item.value)
                     return
-        #  print("item.key = ",item.key)
-        #  print("item.value = ",item.value)
+                else:
+                    print("pass zamena")
+        print("item.key = ",item.key)
+        print("item.value = ",item.value)
         self.container[index].append(item)
         self.filled += 1
         if self.__len__() / self.bucket_num > 0.67:
@@ -97,16 +99,16 @@ class HashMap:
 
     def _resize(self):
         #  Время от времени нужно ресайзить нашу хешмапу
-        #  print("RESIZE BEGIN")
+        print("RESIZE BEGIN")
         self.filled = 0
         tmp = self.container.copy()
         self.bucket_num *= 2
         self.container = [[] for t in range(self.bucket_num)]
         for array in tmp:
             for i in range(len(array)):
-                # print("array[i] = ",array[i].key," ",array[i].value)
+                print("array[i] = ",array[i].key," ",array[i].value)
                 self.put(array[i].get_key(), array[i].get_value())
-        #  print("RESIZE END")
+        print("RESIZE END")
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
