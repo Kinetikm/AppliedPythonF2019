@@ -2,8 +2,8 @@
 # coding: utf-8
 from time import time
 
-class LRUCacheDecorator:
 
+class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
         '''
         :param maxsize: максимальный размер кеша
@@ -20,7 +20,7 @@ class LRUCacheDecorator:
     def __call__(self, func):
         # TODO вызов функции
         def lrucache(*args, **kwargs):
-            point = ((args, kwargs))
+            point = ((args, str(kwargs)))
             if point in self.args_in_cache:
                 if (time() - self.time_in_cache[point]) * 1000 > self.ttl and self.ttl is not None:
                     result = func(*args, **kwargs)
@@ -41,4 +41,3 @@ class LRUCacheDecorator:
                 self.args_in_cache[point] = result
             return result
         return lrucache
-
