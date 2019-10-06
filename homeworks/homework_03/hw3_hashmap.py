@@ -31,7 +31,7 @@ class HashMap:
             Сравнивает объекты по ключу
             :param other:
             """
-            return self.key == other.get_key()
+            return isinstance(other, type(self)) and self.key == other.get_key()
 
     def __init__(self, bucket_num=64, coef_for_resize=0.9):
         """
@@ -40,7 +40,6 @@ class HashMap:
         """
         self.hash_table = [None for i in range(bucket_num)]
         self.bucket_num = bucket_num
-        self.bucket_count = 0
         self.coef_res = coef_for_resize
 
     def get(self, key, default_value=None):
@@ -60,14 +59,13 @@ class HashMap:
         item = self.Entry(key, value)
         if self.hash_table[ind] is None:
             self.hash_table[ind] = [item]
-            self.bucket_count += 1
             return
         for i, elem in enumerate(self.hash_table[ind]):
-            if elem.get_key() == item:
+            if elem.get_key() == key:
                 self.hash_table[ind][i] = item
                 return
         self.hash_table[ind] += [item]
-        if self.bucket_count / self.bucket_num > self.coef_res:
+        if self.__len__() / self.bucket_num > self.coef_res:
             self._resize()
 
     def __len__(self):
