@@ -7,23 +7,15 @@ class HashMap:
         def __init__(self, key, value):
             self.key = key
             self.value = value
-            """
-            Сущность, которая хранит пары ключ-значение
-            :param key: ключ
-            :param value: значение
-            """
 
         def get_key(self):
             return self.key
-            # TODO возвращаем ключ
 
         def get_value(self):
             return self.value
-            # TODO возвращаем значение
 
         def __eq__(self, other):
             return self.get_key() == other.get_key()
-            # TODO реализовать функцию сравнения
 
     def __init__(self, bucket_num=67):
         self.size = bucket_num
@@ -64,6 +56,13 @@ class HashMap:
 
     def items(self):
         return ([(s.get_key(), s.get_value()) for case in self.list for s in case])
+
+    def _resize(self):
+        self.size *=2
+        entries = self.items()
+        self.list = [[] for i in range(self.size)]
+        for s in entries:
+            self.put(*s)
 
     def __str__(self):
         return ("buckets: {}, items: {}".
