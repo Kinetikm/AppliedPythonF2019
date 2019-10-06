@@ -253,7 +253,7 @@ class Tensor:
                     coor.insert(axis, i)
                     lst.append(self[coor])
                     coor.pop(axis)
-                result[coor] = lst.index(result[coor])
+                result[coor] = lst.index(max(lst))
             return result
 
     def argmin(self, axis=None):
@@ -276,7 +276,7 @@ class Tensor:
                     coor.insert(axis, i)
                     lst.append(self[coor])
                     coor.pop(axis)
-                result[coor] = lst.index(result[coor])
+                result[coor] = lst.index(min(lst))
             return result
 
     @classmethod
