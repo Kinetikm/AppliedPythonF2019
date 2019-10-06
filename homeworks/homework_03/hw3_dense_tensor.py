@@ -156,15 +156,15 @@ class Tensor:
         return self.transposing(*new_dim)
 
     def __matmul__(self, other):
-        l1, l2 = len(self.size_of_matrix()), len(other.size())
+        l1, l2 = len(self.size_of_matrix()), len(other.size_of_matrix())
         tensor1 = Tensor([self.matrix]) if l1 == 1 else self
         tensor2 = Tensor([[element] for element in other.matrix]) if l2 == 1 else other
         num1_of_rows, num1_of_columns = tensor1.size_of_matrix()
-        num2_of_rows, num2_of_columns = tensor2.size()
+        num2_of_rows, num2_of_columns = tensor2.size_of_matrix()
         if num1_of_columns != num2_of_rows:
             raise ValueError
         n = num1_of_columns
-        tensor2 = tensor2.transpose(1, 0)
+        tensor2 = tensor2.transposing(1, 0)
         result = Tensor.create_empty_tensor((num1_of_rows, num2_of_columns))
         for i, row1 in enumerate(tensor1.matrix):
             for j, row2 in enumerate(tensor2.matrix):
