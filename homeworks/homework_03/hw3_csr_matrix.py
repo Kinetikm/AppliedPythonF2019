@@ -76,7 +76,6 @@ class CSRMatrix:
             raise AttributeError
         self._nnz = value
 
-
     @nnz.getter
     def nnz(self):
         return self._nnz
