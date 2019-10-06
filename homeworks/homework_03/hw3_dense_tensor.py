@@ -64,6 +64,14 @@ class Tensor:
             element = element[0]
         return size
 
+    def __getitem__(self, coordinates):
+        if isinstance(coordinates, int):
+            return self.matrix[coordinates]
+        element = self.matrix
+        for coor in coordinates:
+            element = element[coor]
+        return element
+
     def __setitem__(self, coordinates, item):
         if isinstance(coordinates, int):
             self.matrix[coordinates] = item
@@ -73,23 +81,7 @@ class Tensor:
             element = element[coordinates[i]]
         element[coordinates[-1]] = item
 
-    def __getitem__(self, coordinates):
-        if isinstance(coordinates, int):
-            return self.matrix[coordinates]
-        element = self.matrix
-        for coor in coordinates:
-            element = element[coor]
-        return element
-
-    def __calculator(self, value1, value2, oper):
-        if oper == '+':
-            return value1 + value2
-        elif oper == '*':
-            return value1 * value2
-        else:
-            return value1 ** value2
-
-    def __calcul_result_of_oper(self, other, oper):
+    def __add__(self, other):
         size = self.size()
         coordinates = [range(max_idx) for max_idx in size]
         result = Tensor.create(size)
@@ -97,31 +89,72 @@ class Tensor:
             if size != other.size():
                 raise ValueError
             for coor in product(*coordinates):
-                result[coor] = self.__calculator(self[coor], other[coor], oper)
+                result[coor] = self[coor] + other[coor]
         elif isinstance(other, int) or isinstance(other, float):
             for coor in product(*coordinates):
-                result[coor] = self.__calculator(self[coor], other, oper)
+                result[coor] = self[coor] + other
         return result
-
-    def __add__(self, other):
-        return self.__calcul_result_of_oper(other, '+')
 
     def __radd__(self, other):
         return self + other
 
     def __sub__(self, other):
-        return self.__calcul_result_of_oper(other*(-1), '+')
+        size = self.size()
+        coordinates = [range(max_idx) for max_idx in size]
+        result = Tensor.create(size)
+        if isinstance(other, Tensor):
+            if size != other.size():
+                raise ValueError
+            for coor in product(*coordinates):
+                result[coor] = self[coor] - other[coor]
+        elif isinstance(other, int) or isinstance(other, float):
+            for coor in product(*coordinates):
+                result[coor] = self[coor] - other
+        return result
 
     def __mul__(self, other):
-        return self.__calcul_result_of_oper(other, '*')
+        size = self.size()
+        coordinates = [range(max_idx) for max_idx in size]
+        result = Tensor.create(size)
+        if isinstance(other, Tensor):
+            if size != other.size():
+                raise ValueError
+            for coor in product(*coordinates):
+                result[coor] = self[coor] * other[coor]
+        elif isinstance(other, int) or isinstance(other, float):
+            for coor in product(*coordinates):
+                result[coor] = self[coor] * other
+        return result
 
     def __truediv__(self, other):
         if other == 0:
             raise ZeroDivisionError
-        return self.__calcul_result_of_oper(1/other, '*')
+        size = self.size()
+        coordinates = [range(max_idx) for max_idx in size]
+        result = Tensor.create(size)
+        if isinstance(other, Tensor):
+            if size != other.size():
+                raise ValueError
+            for coor in product(*coordinates):
+                result[coor] = self[coor] / other[coor]
+        elif isinstance(other, int) or isinstance(other, float):
+            for coor in product(*coordinates):
+                result[coor] = self[coor] / other
+        return result
 
     def __pow__(self, other):
-        return self.__calcul_result_of_oper(other, '^')
+        size = self.size()
+        coordinates = [range(max_idx) for max_idx in size]
+        result = Tensor.create(size)
+        if isinstance(other, Tensor):
+            if size != other.size():
+                raise ValueError
+            for coor in product(*coordinates):
+                result[coor] = self[coor] ** other[coor]
+        elif isinstance(other, int) or isinstance(other, float):
+            for coor in product(*coordinates):
+                result[coor] = self[coor] ** other
+        return result
 
     def __consider_tensor(self, axis=None):
         size = self.size()
