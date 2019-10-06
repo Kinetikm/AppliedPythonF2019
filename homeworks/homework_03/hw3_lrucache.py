@@ -22,7 +22,7 @@ class LRUCacheDecorator:
         def lrucache(*args, **kwargs):
             point = ((args, str(kwargs)))
             if point in self.args_in_cache:
-                if (time() - self.time_in_cache[point]) * 1000 > self.ttl and self.ttl is not None:
+                if self.ttl is not None and (time() - self.time_in_cache[point]) * 1000 > self.ttl:
                     result = func(*args, **kwargs)
                     self.time_in_cache[point] = time()
                     self.args_in_cache[point] = result
