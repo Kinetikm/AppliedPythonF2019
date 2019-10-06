@@ -39,7 +39,7 @@ class LRUCacheDecorator:
                 return new_result
             return self.results[list]
         else:
-            if self.maxsize <= len(self.function_result):
+            if self.maxsize <= len(self.results):
                 self.clean_tail(list)
             new_result = function(*args, **kwargs)
             self.refresh(list, new_result)

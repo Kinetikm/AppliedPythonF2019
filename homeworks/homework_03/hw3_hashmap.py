@@ -65,7 +65,7 @@ class HashMap:
                 for var in self._bucket[index]:
                     if var.key == key:
                         var.value = value
-        if self.capacity / self.length > self.threshold:
+        if self.capacity / self.length > self.free_place:
             self._resize()
 
     def __len__(self):
