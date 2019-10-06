@@ -32,15 +32,16 @@ class LRUCacheDecorator:
         # TODO вызов функции
         list = args
         if self.results.get(list):
-            if self.ttl < (time.time() - self.time_in_cache[list]):
-                self.clean_tail(list)
-                new_result = function(*args, **kwargs)
-                self.refresh(list, new_result)
-                return new_result
+            if self.ttl is not None:
+                if self.ttl < (time.time() - self.time_in_cache[list]):
+                    self.clean_tail(list)
+                    new_result = self(*args, **kwargs)
+                    self.refresh(list, new_result)
+                    return new_result
             return self.results[list]
         else:
             if self.maxsize <= len(self.results):
                 self.clean_tail(list)
-            new_result = function(*args, **kwargs)
+            new_result = self(*args, **kwargs)
             self.refresh(list, new_result)
             return new_result

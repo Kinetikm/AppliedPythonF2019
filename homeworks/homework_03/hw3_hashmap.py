@@ -100,14 +100,12 @@ class HashMap:
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
-        self._bucket.extend([None for _ in range(self.length)])
         self.length *= 2
         tmp_buckets = []
         for bucket in self._bucket:
-            if len(bucket) != 0:
-                for entry in bucket:
-                    tmp_buckets.append(entry)
-            bucket = None
+            for entry in bucket:
+                tmp_buckets.append(entry)
+            self._bucket = [None for i in range(self.length)]
         for entry in tmp_buckets:
             self.put(entry.key, entry.value)
 
