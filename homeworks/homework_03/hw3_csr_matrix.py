@@ -31,6 +31,7 @@ class CSRMatrix:
         self._nnz = len(self.data)
 
     nnz = property()
+
     @nnz.getter
     def nnz(self):
         return self._nnz
