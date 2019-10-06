@@ -13,10 +13,10 @@ class HashMap:
             self._value = value
 
         def get_key(self):
-            return self._value
+            return self.value
 
         def get_value(self):
-            return self._key
+            return self.key
 
         def __eq__(self, other):
             return self._key == other.get_key
@@ -27,9 +27,9 @@ class HashMap:
 
     def get(self, key, default_value=None):
         indx = self._get_index(self._get_hash(key))
-        for i in self.vals[indx]:
-            if i.get_key() == key:
-                return i.get_value()
+        for l in self.vals[indx]:
+            if l.get_key() == key:
+                return l.get_value()
         return default_value
 
     def put(self, key, value):
@@ -40,7 +40,7 @@ class HashMap:
         if new in self.vals[indx]:
             self.vals[indx].remove(new)
         self.vals[indx].append(new)
-        if len([1 for i in self.vals if i]) > self.bucket_num * 0.5:
+        if len([1 for l in self.vals if i]) > self.bucket_num * 0.5:
             self._resize
 
     def __len__(self):
