@@ -5,7 +5,7 @@ class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
         self.maxsize = maxsize
         self.ttl = ttl
-        self.cache = {}
+        self.cache = {}     # work together
         self.time = {}
 
     def __call__(self, func):
