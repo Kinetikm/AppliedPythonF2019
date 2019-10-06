@@ -33,16 +33,12 @@ class HashMap:
             """
             return self.key == other.get_key()
 
-        def __iter__(self):
-            yield self.key
-            yield self.value
-
     def __init__(self, bucket_num=64, coef_for_resize=0.9):
         """
         Реализуем метод цепочек
         :param bucket_num: число бакетов при инициализации
         """
-        self.hash_table = [[] for i in range(bucket_num)]
+        self.hash_table = [None for i in range(bucket_num)]
         self.bucket_num = bucket_num
         self.bucket_count = 0
         self.coef_res = coef_for_resize
@@ -51,9 +47,10 @@ class HashMap:
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
         ind = self._get_index(self._get_hash(key))
-        for entry in self.hash_table[ind]:
-            if entry.get_key() == key:
-                return entry.get_value()
+        if self.hash_table[ind] is not None:
+            for entry in self.hash_table[ind]:
+                if entry.get_key() == key:
+                    return entry.get_value()
         return default_value
 
     def put(self, key, value):
@@ -61,20 +58,25 @@ class HashMap:
         #  в случае, если ключ уже присутствует он его заменяет
         ind = self._get_index(self._get_hash(key))
         item = self.Entry(key, value)
-        if not self.__contains__(key):
-            self.hash_table[ind].append(item)
+        if self.hash_table[ind] is None:
+            self.hash_table[ind] = [item]
             self.bucket_count += 1
-        else:
-            for i, elem in enumerate(self.hash_table[ind]):
-                if elem == item:
-                    self.hash_table[i] = item
-
+            return
+        for i, elem in enumerate(self.hash_table[ind]):
+            if elem.get_key() == item:
+                self.hash_table[ind][i] = item
+                return
+        self.hash_table[ind] += [item]
         if self.bucket_count / self.bucket_num > self.coef_res:
             self._resize()
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
-        return len(self.items())
+        length = 0
+        for i in self.hash_table:
+            if i is not None:
+                length += len(i)
+        return length
 
     def _get_hash(self, key):
         # TODO Вернуть хеш от ключа,
@@ -87,15 +89,24 @@ class HashMap:
 
     def values(self):
         # TODO Должен возвращать итератор значений
-        return ([entry.get_value() for list_entry in self.hash_table for entry in list_entry])
+        for i in self.hash_table:
+            if i is not None:
+                for j in i:
+                    yield j.get_key()
 
     def keys(self):
         # TODO Должен возвращать итератор ключей
-        return ([entry.get_key() for list_entry in self.hash_table for entry in list_entry])
+        for i in self.hash_table:
+            if i is not None:
+                for j in i:
+                    yield j.get_value()
 
     def items(self):
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        return ([(entry.get_value(), entry.get_value()) for list_entry in self.hash_table for entry in list_entry])
+        for i in self.hash_table:
+            if i is not None:
+                for j in i:
+                    yield (j.get_key(), j.get_value())
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
@@ -112,7 +123,9 @@ class HashMap:
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
-        for key in self.keys():
-            if item == key:
-                return True
+        ind = self._get_index(self._get_hash(item))
+        if self.hash_table[ind] is not None:
+            for i in self.hash_table[ind]:
+                if i.get_key() == item:
+                    return True
         return False
