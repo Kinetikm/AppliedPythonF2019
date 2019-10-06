@@ -156,7 +156,7 @@ class Tensor:
                 result[coor] = self[coor] ** other
         return result
 
-    def __consider_tensor(self, axis=None):
+    def sum(self, axis=None):
         size = self.size()
         if axis is None:
             result = []
@@ -164,21 +164,11 @@ class Tensor:
             for coor in product(*coordinates):
                 result.append(self[coor])
             max_el, min_el = max(result), min(result)
-            return {'sum': sum(result),
-                    'mean': sum(result)/len(result),
-                    'max': max_el,
-                    'min': min_el,
-                    'argmax': result.index(max_el),
-                    'argmin': result.index(min_el)}
+            return sum(result)
         else:
             max_idx = size.pop(axis)
             coordinates = [range(max_idx) for max_idx in size]
-            result = {'sum': Tensor.create(size),
-                      'mean': Tensor.create(size),
-                      'max': Tensor.create(size),
-                      'min': Tensor.create(size),
-                      'argmax': Tensor.create(size),
-                      'argmin': Tensor.create(size)}
+            result = Tensor.create(size)
             for coor in product(*coordinates):
                 lst = []
                 coor = list(coor)
@@ -186,31 +176,124 @@ class Tensor:
                     coor.insert(axis, i)
                     lst.append(self[coor])
                     coor.pop(axis)
-                result['sum'][coor] = sum(lst)
-                result['mean'][coor] = sum(lst)/len(lst)
-                result['max'][coor] = max(lst)
-                result['min'][coor] = min(lst)
-                result['argmax'][coor] = lst.index(result['max'][coor])
-                result['argmin'][coor] = lst.index(result['min'][coor])
+                result[coor] = sum(lst)
             return result
 
-    def sum(self, axis=None):
-        return self.__consider_tensor(axis)['sum']
-
     def mean(self, axis=None):
-        return self.__consider_tensor(axis)['mean']
+        size = self.size()
+        if axis is None:
+            result = []
+            coordinates = [range(max_idx) for max_idx in size]
+            for coor in product(*coordinates):
+                result.append(self[coor])
+            max_el, min_el = max(result), min(result)
+            return sum(result)/len(result)
+        else:
+            max_idx = size.pop(axis)
+            coordinates = [range(max_idx) for max_idx in size]
+            result = Tensor.create(size)
+            for coor in product(*coordinates):
+                lst = []
+                coor = list(coor)
+                for i in range(max_idx):
+                    coor.insert(axis, i)
+                    lst.append(self[coor])
+                    coor.pop(axis)
+                result[coor] = sum(lst)/len(lst)
+            return result
 
     def max(self, axis=None):
-        return self.__consider_tensor(axis)['max']
+        rsize = self.size()
+        if axis is None:
+            result = []
+            coordinates = [range(max_idx) for max_idx in size]
+            for coor in product(*coordinates):
+                result.append(self[coor])
+            max_el, min_el = max(result), min(result)
+            return max_el
+        else:
+            max_idx = size.pop(axis)
+            coordinates = [range(max_idx) for max_idx in size]
+            result = Tensor.create(size)
+            for coor in product(*coordinates):
+                lst = []
+                coor = list(coor)
+                for i in range(max_idx):
+                    coor.insert(axis, i)
+                    lst.append(self[coor])
+                    coor.pop(axis)
+                result[coor] = max(lst)
+                result['min'][coor] = min(lst)
+            return result
 
     def min(self, axis=None):
-        return self.__consider_tensor(axis)['min']
+        size = self.size()
+        if axis is None:
+            result = []
+            coordinates = [range(max_idx) for max_idx in size]
+            for coor in product(*coordinates):
+                result.append(self[coor])
+            max_el, min_el = max(result), min(result)
+            return min_el
+        else:
+            max_idx = size.pop(axis)
+            coordinates = [range(max_idx) for max_idx in size]
+            result = Tensor.create(size)
+            for coor in product(*coordinates):
+                lst = []
+                coor = list(coor)
+                for i in range(max_idx):
+                    coor.insert(axis, i)
+                    lst.append(self[coor])
+                    coor.pop(axis)
+                result[coor] = min(lst)
+            return result
 
     def argmax(self, axis=None):
-        return self.__consider_tensor(axis)['argmax']
+        size = self.size()
+        if axis is None:
+            result = []
+            coordinates = [range(max_idx) for max_idx in size]
+            for coor in product(*coordinates):
+                result.append(self[coor])
+            max_el, min_el = max(result), min(result)
+            return result.index(max_el)
+        else:
+            max_idx = size.pop(axis)
+            coordinates = [range(max_idx) for max_idx in size]
+            result = Tensor.create(size)
+            for coor in product(*coordinates):
+                lst = []
+                coor = list(coor)
+                for i in range(max_idx):
+                    coor.insert(axis, i)
+                    lst.append(self[coor])
+                    coor.pop(axis)
+                result[coor] = lst.index(result[coor])
+            return result
 
     def argmin(self, axis=None):
-        return self.__consider_tensor(axis)['argmin']
+        size = self.size()
+        if axis is None:
+            result = []
+            coordinates = [range(max_idx) for max_idx in size]
+            for coor in product(*coordinates):
+                result.append(self[coor])
+            max_el, min_el = max(result), min(result)
+            return result.index(min_el)
+        else:
+            max_idx = size.pop(axis)
+            coordinates = [range(max_idx) for max_idx in size]
+            result = Tensor.create(size)
+            for coor in product(*coordinates):
+                lst = []
+                coor = list(coor)
+                for i in range(max_idx):
+                    coor.insert(axis, i)
+                    lst.append(self[coor])
+                    coor.pop(axis)
+                result[coor] = lst.index(result[coor])
+            return result
 
     def transpose(self, *new_dimensions):
         size = self.size()
