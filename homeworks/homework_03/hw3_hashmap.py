@@ -58,7 +58,7 @@ class HashMap:
         return ([(s.get_key(), s.get_value()) for case in self.list for s in case])
 
     def _resize(self):
-        self.size *=2
+        self.size *= 2
         entries = self.items()
         self.list = [[] for i in range(self.size)]
         for s in entries:
