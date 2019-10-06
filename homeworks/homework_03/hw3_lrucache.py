@@ -22,12 +22,14 @@ class LRUCacheDecorator:
              (abs(time.time() - self.cash.get(args)[1]) > self.ttl):
                 self.cash.pop(args)
             if args in self.cash:
-                time.sleep(0.00001)
                 cur_time = time.time()
                 self.cash.get(args)[1] = cur_time
                 return self.cash.get(args)[0]
             if len(self.cash) == self.maxsize:
-                old = (min(self.cash.items(), key=operator.itemgetter(1))[0])
+                temp = {}
+                for i in self.cash:
+                    temp[i] = self.cash.get(i)[1]
+                old = (min(temp.items(), key=operator.itemgetter(1))[0])
                 self.cash.pop(old)
             result = function(*args, **kwargs)
             self.cash[args] = []
