@@ -53,19 +53,27 @@ class CSRMatrix:
                         self.data.append(val)
             self.rn = len(init_matrix_representation)
             self.cn = len(init_matrix_representation[0])
+        elif isinstance(init_matrix_representation, CSRMatrix):
+            self.row = init_matrix_representation.row
+            self.col = init_matrix_representation.col
+            self.data = init_matrix_representation.data
+            self.rn = init_matrix_representation.rn
+            self.cn = init_matrix_representation.cn
         else:
             raise ValueError
-        self.nnz = len(self.data)
+        self._nnz = len(self.data)
+
+    nnz = property()
 
     @nnz.setter
     def nnz(self, value):
         if value != len(self.data):
             raise AttributeError
-        self.nnz = value
+        self._nnz = value
 
     @nnz.getter
     def nnz(self):
-        return self.nnz
+        return self._nnz
 
     def to_dense(self):
         """
@@ -184,6 +192,8 @@ class CSRMatrix:
         result.alpha_result(other, "*")
         return result
 
+    __rmul__ = __mul__
+
     def __truediv__(self, other):
         if isinstance(other, CSRMatrix):
             return
@@ -223,9 +233,9 @@ class CSRMatrix:
         data = []
         for i, val_frs in data1.items():
             for j, val_sec in data2.items():
-                sum = sum(
+                s = sum(
                     {key: val * val_sec[key] for key, val in val_frs.items() if key in val_sec}.values())
-                if sum != 0:
+                if s != 0:
                     row += [i]
                     col += [j]
                     data += [cell]
