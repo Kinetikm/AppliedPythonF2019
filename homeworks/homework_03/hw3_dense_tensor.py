@@ -38,7 +38,7 @@ class Tensor:
                 raise ValueError
             self._roll(init_matrix_representation, 0)
             self._calculate_offsets()
-            
+
     def _calculate_offsets(self):
         self.dim_offset[len(self.dimensions) - 1] = 1
         for i in range(len(self.dimensions) - 2, -1, -1):
