@@ -56,7 +56,7 @@ class Tensor:
         return el
 
     def __setitem__(self, coordinates, value):
-        if self.dim == 1:
+        if (self.dim == 1) or isinstance(coordinates, int):
             self.tensor[coordinates] = value
             return
         el = self.tensor
@@ -68,7 +68,7 @@ class Tensor:
         coordinates = [range(size) for size in self.sizes]
         res = deepcopy(self)
         if isinstance(other, Tensor):
-            if (self.dim != other.dim) or (self.sizes != self.sizes):
+            if (self.dim != other.dim) or (self.sizes != other.sizes):
                 raise ValueError('different tensors')
             for i in product(*coordinates):
                 res[i] = self[i] + other[i]
@@ -82,7 +82,7 @@ class Tensor:
         coordinates = [range(size) for size in self.sizes]
         res = deepcopy(self)
         if isinstance(other, Tensor):
-            if (self.dim != other.dim) or (self.sizes != self.sizes):
+            if (self.dim != other.dim) or (self.sizes != other.sizes):
                 raise ValueError('different tensors')
             for i in product(*coordinates):
                 res[i] = self[i] - other[i]
@@ -96,7 +96,7 @@ class Tensor:
         coordinates = [range(size) for size in self.sizes]
         res = deepcopy(self)
         if isinstance(other, Tensor):
-            if (self.dim != other.dim) or (self.sizes != self.sizes):
+            if (self.dim != other.dim) or (self.sizes != other.sizes):
                 raise ValueError('different tensors')
             for i in product(*coordinates):
                 res[i] = self[i] * other[i]
@@ -122,7 +122,7 @@ class Tensor:
         coordinates = [range(size) for size in self.sizes]
         res = deepcopy(self)
         if isinstance(other, Tensor):
-            if (self.dim != other.dim) or (self.sizes != self.sizes):
+            if (self.dim != other.dim) or (self.sizes != other.sizes):
                 raise ValueError('different tensors')
             for i in product(*coordinates):
                 res[i] = self[i] ** other[i]
