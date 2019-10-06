@@ -30,7 +30,7 @@ class HashMap:
     def get(self, key, default_value=None):
         i = self._get_index(self._get_hash(key))
         if self.buckets[i] is not None:
-            for j in self._bucket[i]:
+            for j in self.buckets[i]:
                 if j.key == key:
                     return j.value
         return default_value
