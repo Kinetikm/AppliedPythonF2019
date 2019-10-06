@@ -160,34 +160,34 @@ class Tensor:
                 res.data[i] = val ** power
         return res
 
-    def _compress(self, ax):
+    def _compress(self, axis):
         res = Tensor()
         for k in self.dimen:
-            if k > ax:
+            if k > axis:
                 res.dimen[k - 1] = self.dimen[k]
-            elif k == ax:
+            elif k == axis:
                 continue
             else:
                 res.dimen[k] = self.dimen[k]
         res._calc_offsets()
         return res
 
-    def sum(self, ax=None):
-        if ax is None:
+    def sum(self, axis=None):
+        if axis is None:
             res = 0
             for i in self.data:
                 res += i
             return res
         else:
-            res = self._compress(ax)
-            n_el = len(self.data) // self.dimen[ax]
+            res = self._compress(axis)
+            n_el = len(self.data) // self.dimen[axis]
             res.data = [0] * n_el
             dims = []
             for i in range(len(self.dimen)):
                 dims.append(self.dimen[i])
             for index in product(*[range(k) for k in dims]):
                 i = list(index)
-                i.pop(ax)
+                i.pop(axis)
                 res[tuple(i)] += self[index]
             return res
 
@@ -218,93 +218,93 @@ class Tensor:
         else:
             return arr
 
-    def mean(self, ax=None):
-        if ax is None:
+    def mean(self, axis=None):
+        if axis is None:
             ret = 0
             for i in self.data:
                 ret += i
             return ret / len(self.data)
         else:
-            t = self.sum(ax)
+            t = self.sum(axis)
             for i, it in enumerate(t.data):
-                t.data[i] = it / self.dimen[ax]
+                t.data[i] = it / self.dimen[axis]
             return t
 
-    def min(self, ax=None):
-        if ax is None:
+    def min(self, axis=None):
+        if axis is None:
             return min(self.data)
         else:
-            res = self._compress(ax)
-            n_el = len(self.data) // self.dimen[ax]
+            res = self._compress(axis)
+            n_el = len(self.data) // self.dimen[axis]
             res.data = [max(self.data)] * n_el
             dims = []
             for i in range(len(self.dimen)):
                 dims.append(self.dimen[i])
             for index in product(*[range(k) for k in dims]):
                 i = list(index)
-                i.pop(ax)
+                i.pop(axis)
                 if self[index] < res[tuple(i)]:
                     res[tuple(i)] = self[index]
             return res
 
-    def max(self, ax=None):
-        if ax is None:
+    def max(self, axis=None):
+        if axis is None:
             return max(self.data)
         else:
-            res = self._compress(ax)
-            n_el = len(self.data) // self.dimen[ax]
+            res = self._compress(axis)
+            n_el = len(self.data) // self.dimen[axis]
             res.data = [min(self.data)] * n_el
             dims = []
             for i in range(len(self.dimen)):
                 dims.append(self.dimen[i])
             for index in product(*[range(k) for k in dims]):
                 i = list(index)
-                i.pop(ax)
+                i.pop(axis)
                 if self[index] > res[tuple(i)]:
                     res[tuple(i)] = self[index]
             return res
 
-    def argmax(self, ax=None):
+    def argmax(self, axis=None):
         max_val = max(self.data)
-        if ax is None:
+        if axis is None:
             return self.data.index(max_val)
         else:
-            res = self._compress(ax)
-            n_el = len(self.data) // self.dimen[ax]
+            res = self._compress(axis)
+            n_el = len(self.data) // self.dimen[axis]
             res.data = [0] * n_el
             dims = []
             for i in range(len(self.dimen)):
                 dims.append(self.dimen[i])
             for index in product(*[range(k) for k in dims]):
                 i = list(index)
-                k = i.pop(ax)
+                k = i.pop(axis)
                 j = copy.deepcopy(i)
-                j.insert(ax, res[tuple(i)])
+                j.insert(axis, res[tuple(i)])
                 if self[index] > self[tuple(j)]:
                     res[tuple(i)] = k
             return res
 
-    def argmin(self, ax=None):
+    def argmin(self, axis=None):
         min_val = min(self.data)
-        if ax is None:
+        if axis is None:
             return self.data.index(min_val)
         else:
-            res = self._compress(ax)
-            n_el = len(self.data) // self.dimen[ax]
+            res = self._compress(axis)
+            n_el = len(self.data) // self.dimen[axis]
             res.data = [0] * n_el
             dims = []
             for i in range(len(self.dimen)):
                 dims.append(self.dimen[i])
             for index in product(*[range(k) for k in dims]):
                 i = list(index)
-                k = i.pop(ax)
+                k = i.pop(axis)
                 j = copy.deepcopy(i)
-                j.insert(ax, res[tuple(i)])
+                j.insert(axis, res[tuple(i)])
                 if self[index] < self[tuple(j)]:
                     res[tuple(i)] = k
             return res
 
-    def swap(self, first, second):
+    def swapaxes(self, first, second):
         if first < 0 or first >= len(self.dimen) or second < 0 or second >= len(self.dimen):
             raise ValueError
         res = Tensor()
@@ -319,10 +319,10 @@ class Tensor:
         res.dim_of[second] = v
         return res
 
-    def transpose(self, *ax):
+    def transpose(self, *axis):
         res = Tensor()
         res.data = self.data
-        if ax is None:
+        if axis is None:
             res.dimen = copy.deepcopy(self.dimen)
             res.dim_of = copy.deepcopy(self.dim_of)
             for i in range(len(res.dimen) // 2):
@@ -333,11 +333,11 @@ class Tensor:
                 res.dim_of[i] = res.dim_of[len(res.dimen) - 1 - i]
                 res.dim_of[len(res.dimen) - 1 - i] = v
         else:
-            if not isinstance(ax, tuple):
+            if not isinstance(axis, tuple):
                 raise ValueError
-            if len(ax) != len(self.dimen):
+            if len(axis) != len(self.dimen):
                 raise ValueError
-            for i, new_i in enumerate(ax):
+            for i, new_i in enumerate(axis):
                 res.dimen[i] = copy.copy(self.dimen[new_i])
                 res.dim_of[i] = copy.copy(self.dim_of[new_i])
         return res
