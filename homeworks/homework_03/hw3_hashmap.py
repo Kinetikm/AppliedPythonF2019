@@ -59,7 +59,7 @@ class HashMap:
         item = self.Entry(key, value)
         for i, ent in enumerate(self.h_map[h_id]):
             if ent == item:
-                self.hash_map[h_id].pop(i)
+                self.h_map[h_id].pop(i)
                 break
         self.h_map[h_id].append(item)
         counter = self.bucket_num * self.CHECK
