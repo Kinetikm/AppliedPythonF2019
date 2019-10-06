@@ -18,6 +18,7 @@ class CSRMatrix(object):
                         self.amounts[-1] += 1
                         self.items.append(init_matrix_representation[i][j])
                         self.col_indxs.append(j)
+            self.nnz = len(self.items) 
         # from 3 arrays
 
         elif isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
@@ -33,8 +34,12 @@ class CSRMatrix(object):
                     cur_sum = 0
                 else:
                     cur_sum += 1
+            self.nnz = len(self.items)
         else:
             raise ValueError
+
+    def nnz(self):
+        return self.nnz
 
     def __getitem__(self, index):
         if (index[0] > len(self.amounts)) or (index[1] > max(self.col_indxs) + 1):
@@ -45,6 +50,10 @@ class CSRMatrix(object):
         return 0
 
     def __setitem__(self, key, value):
+        if len(self.col_indxs) == 0:
+            self.items = value
+            self.col_indxs = key[1]
+            self.amounts.append(1)
         if (key[0] > len(self.amounts)) or (key[1] > max(self.col_indxs) + 1):
             raise ValueError
         for i in range(self.amounts[key[0]] - self.amounts[key[0]-1]):
