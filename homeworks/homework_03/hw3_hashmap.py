@@ -3,80 +3,82 @@
 
 
 class HashMap:
-    """
-    Давайте сделаем все объектненько,
-     поэтому внутри хешмапы у нас будет Entry
-    """
+
     class Entry:
         def __init__(self, key, value):
-            """
-            Сущность, которая хранит пары ключ-значение
-            :param key: ключ
-            :param value: значение
-            """
+            self._key = key
+            self._value = value
 
         def get_key(self):
-            # TODO возвращаем ключ
-            raise NotImplementedError
+            return self._key
 
         def get_value(self):
-            # TODO возвращаем значение
-            raise NotImplementedError
+            return self._value
 
         def __eq__(self, other):
-            # TODO реализовать функцию сравнения
-            raise NotImplementedError
+            return self._key == other.get_key()
+
+        def __iter__(self):
+            yield self._key
+            yield self._value
 
     def __init__(self, bucket_num=64):
-        """
-        Реализуем метод цепочек
-        :param bucket_num: число бакетов при инициализации
-        """
-        raise NotImplementedError
+        self.bucket_num = bucket_num
+        self.map_of_bucket = [[] for i in range(bucket_num)]
 
     def get(self, key, default_value=None):
-        # TODO метод get, возвращающий значение,
-        #  если оно присутствует, иначе default_value
-        raise NotImplementedError
+        index = self._get_index(self._get_hash(key))
+        for entry in self.map_of_bucket[index]:
+            if key == entry.get_key():
+                return entry.get_value()
+        return default_value
 
     def put(self, key, value):
-        # TODO метод put, кладет значение по ключу,
-        #  в случае, если ключ уже присутствует он его заменяет
-        raise NotImplementedError
+        indx = self._get_index(self._get_hash(key))
+        put_entry = self.Entry(key, value)
+        while True:
+            if len(self.map_of_bucket) <= indx:
+                self.map_of_bucket.append([])
+            else:
+                break
+        if put_entry in self.map_of_bucket[indx]:
+            self.map_of_bucket[indx].remove(put_entry)
+        self.map_of_bucket[indx].append(put_entry)
+        if (len([backet for backet in self.map_of_bucket if backet]) >
+                0.5 * self.bucket_num):
+            self._resize()
 
     def __len__(self):
-        # TODO Возвращает количество Entry в массиве
-        raise NotImplementedError
+        return len(self.items())
 
     def _get_hash(self, key):
-        # TODO Вернуть хеш от ключа,
-        #  по которому он кладется в бакет
-        raise NotImplementedError
+        return hash(key)
 
     def _get_index(self, hash_value):
-        # TODO По значению хеша вернуть индекс элемента в массиве
-        raise NotImplementedError
+        return hash_value % 10
 
     def values(self):
-        # TODO Должен возвращать итератор значений
-        raise NotImplementedError
+        return ([entry.get_value() for bucket in
+                self.map_of_bucket for entry in bucket])
 
     def keys(self):
-        # TODO Должен возвращать итератор ключей
-        raise NotImplementedError
+        return ([entry.get_key() for bucket in
+                self.map_of_bucket for entry in bucket])
 
     def items(self):
-        # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        raise NotImplementedError
+        return ([(entry.get_key(), entry.get_value()) for bucket in
+                self.map_of_bucket for entry in bucket])
 
     def _resize(self):
-        # TODO Время от времени нужно ресайзить нашу хешмапу
-        raise NotImplementedError
+        self.bucket_num *= 2
+        items = self.items()
+        self.map_of_bucket = [[] for i in range(self.bucket_num)]
+        for entry in items:
+            self.put(*entry)
 
     def __str__(self):
-        # TODO Метод выводит "buckets: {}, items: {}"
-        raise NotImplementedError
+        return ("buckets: {}, items: {}".
+                format(self.bucket_num, len(self.items())))
 
     def __contains__(self, item):
-        # TODO Метод проверяющий есть ли объект (через in)
-        raise NotImplementedError
+        return item in self.keys()
