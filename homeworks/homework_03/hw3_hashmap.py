@@ -79,7 +79,6 @@ class HashMap:
         self._table = [[] for _ in range(bucket_num)]
         self._num_element = 0  # число элементов в таблице
         self._table_size = bucket_num
-        self._keys_list = []  # список ключей (нужен для итераторов)
         self._SCALE_COEFFICIENT = 4
         self._SCALE_COEFFICIENT_BOUNDARY = 5*10e4
 
@@ -100,7 +99,6 @@ class HashMap:
             # ячейка пустая, заполняем
             self._table[index].append(self.Entry(key, value))
             self._num_element += 1
-            self._keys_list.append(key)
             return
         # в ячейки уже что-то есть, идем по цепочке
         for item in self._table[index]:
@@ -111,7 +109,6 @@ class HashMap:
         # прошли по цепочке, ключа нет, добавляем
         self._table[index].append(self.Entry(key, value))
         self._num_element += 1
-        self._keys_list.append(key)
         if self._num_element > 0.66 * self._table_size:
             self._resize()
 
@@ -129,15 +126,15 @@ class HashMap:
 
     def values(self):
         """"возвращает итератор значений"""
-        return self.ValueIterator(self, self._keys_list)
+        return self.ValueIterator(self, [entry.get_key() for lst_of_entry in self._table for entry in lst_of_entry])
 
     def keys(self):
         """возвращает итератор ключей"""
-        return self.KeyIterator(self, self._keys_list)
+        return self.KeyIterator(self, [entry.get_key() for lst_of_entry in self._table for entry in lst_of_entry])
 
     def items(self):
         """ возвращает итератор пар ключ и значение (tuples) """
-        return self.ItemIterator(self, self._keys_list)
+        return self.ItemIterator(self, [entry.get_key() for lst_of_entry in self._table for entry in lst_of_entry])
 
     def _resize(self):
         """Время от времени нужно ресайзить нашу хешмапу"""
@@ -158,4 +155,4 @@ class HashMap:
 
     def __contains__(self, item):
         """Метод проверяющий есть ли объект (через in)"""
-        return item in self._keys_list
+        return item in [entry.get_key() for lst_of_entry in self._table for entry in lst_of_entry]
