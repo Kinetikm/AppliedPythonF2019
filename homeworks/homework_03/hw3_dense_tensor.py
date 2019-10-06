@@ -1,31 +1,73 @@
-#!/usr/bin/env python
-# coding: utf-8
+from itertools import product
+import copy
+import numpy
 
 
 class Tensor:
-    """
-    Your realisation of numpy tensor.
 
-    Must be implemented:
-    1. Getting and setting element by indexes of row and col.
-    a[i, j] = v -- set value in i-th row and j-th column to value.
-    b = a[i, j] -- get value from i-th row and j-th column.
-    2. Pointwise operations.
-    c = a + b -- sum of two Tensors of the same shape or sum with scalar.
-    c = a - b -- difference --//--.
-    c = a * b -- product --//--.
-    c = a / alpha -- divide Tensor a by nonzero scalar alpha.
-    c = a ** b -- raises each element of a to the power b.
-    3. Sum, mean, max, min, argmax, argmin by axis.
-    if axis is None then operation over all elements.
-    4. Transpose by given axes (by default reverse dimensions).
-    5. Swap two axes.
-    6. Matrix multiplication for tensors with dimension <= 2.
-    """
+    def __init__(self, matrix):
+        self.matrix = matrix
 
-    def __init__(self, init_matrix_representation):
-        """
-        :param init_matrix_representation: list of lists
-        """
-
+        self.all_size = [len(self.matrix)]
+        sub_matrix = self.matrix
+        while True:
+            try:
+                self.all_size.append(len(sub_matrix[0]))
+                sub_matrix = sub_matrix[0]
+            except Exception:
+                break
         raise NotImplementedError
+
+    def __setitem__(self, item, value):
+        sub_matrix = self.matrix
+        for i in item[:-1]:
+            sub_matrix = sub_matrix[i]
+        sub_matrix[item[-1]] = value
+
+    def __getitem__(self, item):
+        sub_matrix = self.matrix
+        for i in item:
+            sub_matrix = sub_matrix[i]
+        return sub_matrix
+
+    def __add__(self, other):
+        return self._recursion(other, '+')
+
+    __radd__ = __add__
+
+    def __sub__(self, other):
+        return self._recursion(other, '-')
+
+    def __mul__(self, other):
+        return self._recursion(other, '*')
+
+    def __truediv__(self, other):
+        return self._recursion(other, '/')
+
+    def __pow__(self, other):
+        return self._recursion(other, '**')
+
+    def _recursion(self, other, sign):
+        xyz = [range(i) for i in self.all_size]
+        result = Tensor(copy.deepcopy(self.matrix))
+        if isinstance(other, Tensor):
+            if self.all_size != other.all_size:
+                raise ValueError
+            for ind in product(*xyz):
+                result[ind] = self._base_oper(self[ind], other[ind], sign)
+        else:
+            for ind in product(*xyz):
+                result[ind] = self._base_oper(self[ind], other, sign)
+        return result
+
+    def _base_oper(self, val_1, val_2, sign):
+        if sign == '+':
+            return val_1 + val_2
+        elif sign == '-':
+            return val_1 - val_2
+        elif sign == '*':
+            return val_1 * val_2
+        elif sign == '/':
+            return val_1 / val_2
+        else:
+            return val_1 ** val_2
