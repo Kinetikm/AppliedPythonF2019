@@ -23,7 +23,7 @@ class HashMap:
 
     def __init__(self, bucket_num=64):
         self.bucket_num = bucket_num
-        self.vals = [[] for i in range(bucket_num)]
+        self.vals = [[] for l in range(bucket_num)]
 
     def get(self, key, default_value=None):
         indx = self._get_index(self._get_hash(key))
