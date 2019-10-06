@@ -1,42 +1,12 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-from copy import deepcopy
 from itertools import product
-import numpy as np
 
 
 class Tensor:
-    """
-    Your realisation of numpy tensor.
-
-    Must be implemented:
-    1. Getting and setting element by indexes of row and col.
-    a[i, j] = v -- set value in i-th row and j-th column to value.
-    b = a[i, j] -- get value from i-th row and j-th column.
-    2. Pointwise operations.
-    c = a + b -- sum of two Tensors of the same shape or sum with scalar.
-    c = a - b -- difference --//--.
-    c = a * b -- product --//--.
-    c = a / alpha -- divide Tensor a by nonzero scalar alpha.
-    c = a ** b -- raises each element of a to the power b.
-    3. Sum, mean, max, min, argmax, argmin by axis.
-    if axis is None then operation over all elements.
-    4. Transpose by given axes (by default reverse dimensions).
-    5. Swap two axes.
-    6. Matrix multiplication for tensors with dimension <= 2.
-    """
-
-    def __init__(self, init_matrix_representation):
-        """
-        :param init_matrix_representation: list of lists
-        """
-        self.tensor = init_matrix_representation
-        self.sizes = []
-        self.dim = self.def_dim(init_matrix_representation)
+    def __init__(self, matrix):
+        self.matrix = matrix
 
     @classmethod
-    def create(cls, size):
+    def create_empty_tensor(cls, size):
         num_of_elements = 1
         for s in size:
             num_of_elements *= s
@@ -50,268 +20,142 @@ class Tensor:
                     help_list = []
         return cls(empty_matrix)
 
-    def def_dim(self, matrix, dim=0):
-        if isinstance(matrix, list):
-            if not matrix:
-                return dim
-            dim += 1
-            self.sizes.append(len(matrix))
-            dim = self.def_dim(matrix[0], dim)
-            return dim
-        else:
-            # нужно ли возвращать None, если dim == 0?
-            return dim
-
     def size(self):
-        size = [len(self.tensor)]
-        el = self.matrix
-        while isinstance(el[0], list):
-            size.append(len(el[0]))
-            el = el[0]
+        size = [len(self.matrix)]
+        element = self.matrix
+        while isinstance(element[0], list):
+            size.append(len(element[0]))
+            element = element[0]
         return size
 
-    def __getitem__(self, coordinates):
-        if (self.dim == 1) or isinstance(coordinates, int):
-            return coordinates
-        el = self.tensor
-        for i in coordinates:
-            el = el[i]
-        return el
-
-    def __setitem__(self, coordinates, value):
-        if self.dim == 1:
-            self.tensor[coordinates] = value
+    def __setitem__(self, coordinates, item):
+        if isinstance(coordinates, int):
+            self.matrix[coordinates] = item
             return
-        el = self.tensor
-        for i in range(len(coordinates) - 1):
-            el = el[coordinates[i]]
-        el[coordinates[-1]] = value
+        element = self.matrix
+        for i in range(len(coordinates)-1):
+            element = element[coordinates[i]]
+        element[coordinates[-1]] = item
+
+    def __getitem__(self, coordinates):
+        if isinstance(coordinates, int):
+            return self.matrix[coordinates]
+        element = self.matrix
+        for coor in coordinates:
+            element = element[coor]
+        return element
+
+    def __calculator(self, value1, value2, oper):
+        if oper == '+':
+            return value1 + value2
+        elif oper == '*':
+            return value1 * value2
+        else:
+            return value1 ** value2
+
+    def __calcul_result_of_oper(self, other, oper):
+        size = self.size()
+        coordinates = [range(max_idx) for max_idx in size]
+        result = Tensor.create_empty_tensor(size)
+        if isinstance(other, Tensor):
+            if size != other.size():
+                raise ValueError
+            for coor in product(*coordinates):
+                result[coor] = self.__calculator(self[coor], other[coor], oper)
+        elif isinstance(other, int) or isinstance(other, float):
+            for coor in product(*coordinates):
+                result[coor] = self.__calculator(self[coor], other, oper)
+        return result
 
     def __add__(self, other):
-        size = self.size()
-        coordinates = [range(idx) for idx in size]
-        res = Tensor.create(size)
-        if isinstance(other, Tensor):
-            if (self.dim != other.dim) or (self.sizes != self.sizes):
-                raise ValueError('different tensors')
-            for i in product(*coordinates):
-                res[i] = self[i] + other[i]
-            return res
-        elif isinstance(other, int) or isinstance(other, float):
-            for i in product(*coordinates):
-                res[i] = self[i] + other
-            return res
-
-    def __sub__(self, other):
-        size = self.size()
-        coordinates = [range(idx) for idx in size]
-        res = Tensor.create(size)
-        if isinstance(other, Tensor):
-            if (self.dim != other.dim) or (self.sizes != self.sizes):
-                raise ValueError('different tensors')
-            for i in product(*coordinates):
-                res[i] = self[i] - other[i]
-            return res
-        elif isinstance(other, int) or isinstance(other, float):
-            for i in product(*coordinates):
-                res[i] = self[i] - other
-            return res
-
-    def __mul__(self, other):
-        size = self.size()
-        coordinates = [range(idx) for idx in size]
-        res = Tensor.create(size)
-        if isinstance(other, Tensor):
-            if (self.dim != other.dim) or (self.sizes != self.sizes):
-                raise ValueError('different tensors')
-            for i in product(*coordinates):
-                res[i] = self[i] * other[i]
-            return res
-        elif isinstance(other, int) or isinstance(other, float):
-            for i in product(*coordinates):
-                res[i] = self[i] * other
-            return res
+        return self.__calcul_result_of_oper(other, '+')
 
     def __radd__(self, other):
         return self + other
 
+    def __sub__(self, other):
+        return self.__calcul_result_of_oper(other*(-1), '+')
+
+    def __mul__(self, other):
+        return self.__calcul_result_of_oper(other, '*')
+
     def __truediv__(self, other):
         if other == 0:
             raise ZeroDivisionError
-        size = self.size()
-        coordinates = [range(idx) for idx in size]
-        res = Tensor.create(size)
-        if isinstance(other, Tensor):
-            raise ValueError
-        elif isinstance(other, int) or isinstance(other, float):
-            for i in product(*coordinates):
-                res[i] = self[i] / other
-            return res
+        return self.__calcul_result_of_oper(1/other, '*')
 
     def __pow__(self, other):
+        return self.__calcul_result_of_oper(other, '^')
+
+    def __consider_tensor(self, axis=None):
         size = self.size()
-        coordinates = [range(idx) for idx in size]
-        res = Tensor.create(size)
-        if isinstance(other, Tensor):
-            if (self.dim != other.dim) or (self.sizes != self.sizes):
-                raise ValueError('different tensors')
-            for i in product(*coordinates):
-                res[i] = self[i] ** other[i]
-            return res
-        elif isinstance(other, int) or isinstance(other, float):
-            for i in product(*coordinates):
-                res[i] = self[i] ** other
-            return res
+        if axis is None:
+            result = []
+            coordinates = [range(max_idx) for max_idx in size]
+            for coor in product(*coordinates):
+                result.append(self[coor])
+            max_el, min_el = max(result), min(result)
+            return {'sum': sum(result),
+                    'mean': sum(result)/len(result),
+                    'max': max_el,
+                    'min': min_el,
+                    'argmax': result.index(max_el),
+                    'argmin': result.index(min_el)}
+        else:
+            max_idx = size.pop(axis)
+            coordinates = [range(max_idx) for max_idx in size]
+            result = {'sum': Tensor.create_empty_tensor(size),
+                      'mean': Tensor.create_empty_tensor(size),
+                      'max': Tensor.create_empty_tensor(size),
+                      'min': Tensor.create_empty_tensor(size),
+                      'argmax': Tensor.create_empty_tensor(size),
+                      'argmin': Tensor.create_empty_tensor(size)}
+            for coor in product(*coordinates):
+                lst = []
+                coor = list(coor)
+                for i in range(max_idx):
+                    coor.insert(axis, i)
+                    lst.append(self[coor])
+                    coor.pop(axis)
+                result['sum'][coor] = sum(lst)
+                result['mean'][coor] = sum(lst)/len(lst)
+                result['max'][coor] = max(lst)
+                result['min'][coor] = min(lst)
+                result['argmax'][coor] = lst.index(result['max'][coor])
+                result['argmin'][coor] = lst.index(result['min'][coor])
+            return result
 
     def sum(self, axis=None):
-        size = self.size()
-        if axis is None:
-            res = []
-            coordinates = [range(idx) for idx in size]
-            for i in product(*coordinates):
-                res.append(self[i])
-            return sum(res)
-        else:
-            max_idx = size.pop(axis)
-            coordinates = [range(max_idx) for max_idx in size]
-            res = Tensor.create(size)
-            for i in product(*coordinates):
-                lst = []
-                i = list(i)
-                for j in range(idx):
-                    i.insert(axis, j)
-                    lst.append(self[i])
-                    i.pop(axis)
-                res[i] = sum(lst)
-            return res
+        return self.__consider_tensor(axis)['sum']
 
     def mean(self, axis=None):
-        size = self.size()
-        if axis is None:
-            res = []
-            coordinates = [range(idx) for idx in size]
-            for i in product(*coordinates):
-                res.append(self[i])
-            return sum(res)/len(res)
-        else:
-            max_idx = size.pop(axis)
-            coordinates = [range(max_idx) for max_idx in size]
-            res = Tensor.create(size)
-            for i in product(*coordinates):
-                lst = []
-                i = list(i)
-                for j in range(idx):
-                    i.insert(axis, j)
-                    lst.append(self[i])
-                    i.pop(axis)
-                res[i] = sum(lst)/len(lst)
-            return res
+        return self.__consider_tensor(axis)['mean']
 
     def max(self, axis=None):
-        size = self.size()
-        if axis is None:
-            res = []
-            coordinates = [range(idx) for idx in size]
-            for i in product(*coordinates):
-                res.append(self[i])
-            max_e = max(res)
-            return max_e
-        else:
-            max_idx = size.pop(axis)
-            coordinates = [range(max_idx) for max_idx in size]
-            res = Tensor.create(size)
-            for i in product(*coordinates):
-                lst = []
-                i = list(i)
-                for j in range(idx):
-                    i.insert(axis, j)
-                    lst.append(self[i])
-                    i.pop(axis)
-                res[i] = max(lst)
-            return res 
+        return self.__consider_tensor(axis)['max']
 
     def min(self, axis=None):
-        size = self.size()
-        if axis is None:
-            res = []
-            coordinates = [range(idx) for idx in size]
-            for i in product(*coordinates):
-                res.append(self[i])
-            min_e = min(res)
-            return min_e
-        else:
-            max_idx = size.pop(axis)
-            coordinates = [range(max_idx) for max_idx in size]
-            res = Tensor.create(size)
-            for i in product(*coordinates):
-                lst = []
-                i = list(i)
-                for j in range(idx):
-                    i.insert(axis, j)
-                    lst.append(self[i])
-                    i.pop(axis)
-                res[i] = min(lst)
-            return res
+        return self.__consider_tensor(axis)['min']
 
     def argmax(self, axis=None):
-        size = self.size()
-        if axis is None:
-            res = []
-            coordinates = [range(idx) for idx in size]
-            for i in product(*coordinates):
-                res.append(self[i])
-            max_e = max(res)
-            return res.insex(max_e)
-        else:
-            max_idx = size.pop(axis)
-            coordinates = [range(max_idx) for max_idx in size]
-            res = Tensor.create(size)
-            for i in product(*coordinates):
-                lst = []
-                i = list(i)
-                for j in range(idx):
-                    i.insert(axis, j)
-                    lst.append(self[i])
-                    i.pop(axis)
-                res[i] = lst.index(res[i])
-            return res
+        return self.__consider_tensor(axis)['argmax']
 
     def argmin(self, axis=None):
-        size = self.size()
-        if axis is None:
-            res = []
-            coordinates = [range(idx) for idx in size]
-            for i in product(*coordinates):
-                res.append(self[i])
-            min_e = min(res)
-            return res.index(min_e)
-        else:
-            max_idx = size.pop(axis)
-            coordinates = [range(max_idx) for max_idx in size]
-            res = Tensor.create(size)
-            for i in product(*coordinates):
-                lst = []
-                i = list(i)
-                for j in range(idx):
-                    i.insert(axis, j)
-                    lst.append(self[i])
-                    i.pop(axis)
-                res[i] = lst.index(res[i])
-            return res
+        return self.__consider_tensor(axis)['argmin']
 
-    def transpose(self, *axis):
+    def transpose(self, *new_dimensions):
         size = self.size()
-        new_size = [size[d] for d in axis]
-        res = Tensor.create(new_size)
-        coordinates = [range(s) for s in size]
-        for i in product(*coordinates):
-            new_i = [i[d] for d in axis]
-            res[new_i] = self[i]
-        return res
+        new_size = [size[d] for d in new_dimensions]
+        result = Tensor.create_empty_tensor(new_size)
+        coordinates = [range(max_idx) for max_idx in size]
+        for coor in product(*coordinates):
+            new_coor = [coor[d] for d in new_dimensions]
+            result[new_coor] = self[coor]
+        return result
 
-    def swapaxes(self, ax1, ax2):
+    def swapaxes(self, a1, a2):
         new_dim = list(range(len(self.size())))
-        new_dim[ax1], new_dim[ax2] = new_dim[ax2], new_dim[ax1]
+        new_dim[a1], new_dim[a2] = new_dim[a2], new_dim[a1]
         return self.transpose(*new_dim)
 
     def __matmul__(self, other):
