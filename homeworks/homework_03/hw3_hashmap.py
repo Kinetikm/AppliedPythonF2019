@@ -26,7 +26,7 @@ class HashMap:
             yield self._value
 
     def __init__(self, bucket_num=64):
-        sself.bucket_num = bucket_num
+        self.bucket_num = bucket_num
         self.vals = [[] for i in range(int(self.bucket_num))]
         self.CHECK = 0.75
 
