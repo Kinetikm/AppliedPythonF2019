@@ -9,6 +9,11 @@ class HashMap:
     """
     class Entry:
         def __init__(self, key, value):
+            """
+            Сущность, которая хранит пары ключ-значение
+            :param key: ключ
+            :param value: значение
+            """
 
         def get_key(self):
             # TODO возвращаем ключ
