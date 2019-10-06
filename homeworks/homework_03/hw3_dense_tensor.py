@@ -7,12 +7,6 @@ class Tensor:
     Your realisation of numpy tensor.
 
     Must be implemented:
-    2. Pointwise operations.
-    c = a + b -- sum of two Tensors of the same shape or sum with scalar.
-    c = a - b -- difference --//--.
-    c = a * b -- product --//--.
-    c = a / alpha -- divide Tensor a by nonzero scalar alpha.
-    c = a ** b -- raises each element of a to the power b.
     3. Sum, mean, max, min, argmax, argmin by axis.
     if axis is None then operation over all elements.
     4. Transpose by given axes (by default reverse dimensions).
@@ -28,63 +22,53 @@ class Tensor:
             axis = axis[0]
         return shape
 
-    def __init__(self, init_matrix_representation):
-        self.matrix = init_matrix_representation
-        self.shape = Tensor.shape_calc(self.matrix)
-        self.dim = len(self.shape)
+    def flat_matrix(matrix):
+        line = []
+        if len(Tensor.shape_calc(matrix)) == 1:
+            return matrix
+        else:
+            for row in matrix:
+                line += Tensor.flat_matrix(row)
+            return line
 
-    def __getitem__(self, item):
-        if isinstance(item, int):
-            return self.matrix[item]
-        elif isinstance(item, tuple):
-            result = self.matrix[item[0]]
-            i = 1
-            while isinstance(result, list):
-                result = result[item[i]]
-                i += 1
-            return result
+    def __init__(self, init_matrix_representation, shape=None):
+        raise NotImplementedError
+        self.matrix = Tensor.flat_matrix(init_matrix_representation)
+        if shape is None:
+            self.shape = Tensor.shape_calc(init_matrix_representation)
+        else:
+            self.shape = shape
+        print(self.shape)
+        self.dim = len(self.shape)
+        self.num_of_el = self.shape[0]
+        for i in range(1, self.dim):
+            self.num_of_el *= self.shape[i]
+
+    def index_calc(num_of_el, shape, ind, start_i=0):
+        if isinstance(ind, int):
+            return ind
+        elif start_i == len(ind) - 1:
+            return ind[start_i]
+        elif isinstance(ind, tuple):
+            index = 0
+            index += ind[start_i]*(num_of_el // shape[start_i])
+            index += Tensor.index_calc(num_of_el // shape[start_i], shape, ind, start_i+1)
+            return index
+
+    def __getitem__(self, ind):
+        return self.matrix[Tensor.index_calc(self.num_of_el, self.shape, ind)]
 
     def __setitem__(self, ind, value):
-        if isinstance(ind, int):
-            self.matrix[ind] = value
-        elif isinstance(ind, tuple):
-            result = self.matrix[ind[0]]
-            i = 1
-            while isinstance(result, list):
-                if not isinstance(result[ind[i]], list):
-                    result[ind[i]] = value
-                result = result[ind[i]]
-                i += 1
-
-    def matrix_base(first, second, operation):
-        if len(Tensor.shape_calc(first)) == 1:
-            if operation == 'add':
-                return [first[i] + second[i] for i in range(Tensor.shape_calc(first)[0])]
-            elif operation == 'sub':
-                return [first[i] - second[i] for i in range(Tensor.shape_calc(first)[0])]
-            elif operation == 'mul':
-                return [first[i] * second[i] for i in range(Tensor.shape_calc(first)[0])]
-            elif operation == 'div':
-                return [first[i] / second[i] for i in range(Tensor.shape_calc(first)[0])]
-            elif operation == 'pow':
-                return [first[i] ** second[i] for i in range(Tensor.shape_calc(first)[0])]
-        else:
-            return [Tensor.matrix_base(first[i], second[i], operation) for i in range(Tensor.shape_calc(first)[0])]
-
+        self.matrix[Tensor.index_calc(self.num_of_el, self.shape, ind)] = value
 
     def __add__(self, other):
         if isinstance(other, Tensor):
             if self.shape == other.shape:
-                return Tensor(Tensor.matrix_base(self.matrix, other.matrix, 'add'))
+                return Tensor([self.matrix[i] + other.matrix[i] for i in range(self.num_of_el)], self.shape)
             else:
                 raise ValueError
         elif isinstance(other, int) or isinstance(other, float):
-            print(self.shape)
-            const_matrix = [other for i in range(self.shape[-1])]
-            for dim in range(self.dim - 1)[::-1]:
-                const_matrix = [const_matrix for i in range(self.shape[dim])]
-            print(Tensor.shape_calc(const_matrix))
-            return Tensor(Tensor.matrix_base(self.matrix, const_matrix, 'add'))
+            return Tensor([self.matrix[i] + other for i in range(self.num_of_el)], self.shape)
         else:
             raise ValueError
 
@@ -94,28 +78,22 @@ class Tensor:
     def __sub__(self, other):
         if isinstance(other, Tensor):
             if self.shape == other.shape:
-                return Tensor(Tensor.matrix_base(self.matrix, other.matrix, 'sub'))
+                return Tensor([self.matrix[i] - other.matrix[i] for i in range(self.num_of_el)], self.shape)
             else:
                 raise ValueError
         elif isinstance(other, int) or isinstance(other, float):
-            const_matrix = [other for i in range(self.shape[-1])]
-            for dim in range(self.dim - 1)[::-1]:
-                const_matrix = [const_matrix for i in range(self.shape[dim])]
-            return Tensor(Tensor.matrix_base(self.matrix, const_matrix, 'sub'))
+            return Tensor([self.matrix[i] - other for i in range(self.num_of_el)], self.shape)
         else:
             raise ValueError
 
     def __mul__(self, other):
         if isinstance(other, Tensor):
             if self.shape == other.shape:
-                return Tensor(Tensor.matrix_base(self.matrix, other.matrix, 'mul'))
+                return Tensor([self.matrix[i] * other.matrix[i] for i in range(self.num_of_el)], self.shape)
             else:
                 raise ValueError
         elif isinstance(other, int) or isinstance(other, float):
-            const_matrix = [other for i in range(self.shape[-1])]
-            for dim in range(self.dim - 1)[::-1]:
-                const_matrix = [const_matrix for i in range(self.shape[dim])]
-            return Tensor(Tensor.matrix_base(self.matrix, const_matrix, 'mul'))
+            return Tensor([self.matrix[i] * other for i in range(self.num_of_el)], self.shape)
         else:
             raise ValueError
 
@@ -123,34 +101,85 @@ class Tensor:
         if isinstance(other, int) or isinstance(other, float):
             if other == 0:
                 raise ZeroDivisionError
-            const_matrix = [other for i in range(self.shape[-1])]
-            for dim in range(self.dim - 1)[::-1]:
-                const_matrix = [const_matrix for i in range(self.shape[dim])]
-            return Tensor(Tensor.matrix_base(self.matrix, const_matrix, 'div'))
+            return Tensor([self.matrix[i] / other for i in range(self.num_of_el)], self.shape)
         else:
             raise ValueError
 
     def __pow__(self, other):
         if isinstance(other, Tensor):
             if self.shape == other.shape:
-                return Tensor(Tensor.matrix_base(self.matrix, other.matrix, 'pow'))
+                return Tensor([self.matrix[i] ** other.matrix[i] for i in range(self.num_of_el)], self.shape)
             else:
                 raise ValueError
         elif isinstance(other, int) or isinstance(other, float):
-            const_matrix = [other for i in range(self.shape[-1])]
-            for dim in range(self.dim - 1)[::-1]:
-                const_matrix = [const_matrix for i in range(self.shape[dim])]
-            return Tensor(Tensor.matrix_base(self.matrix, const_matrix, 'pow'))
+            return Tensor([self.matrix[i] ** other for i in range(self.num_of_el)], self.shape)
         else:
             raise ValueError
 
+    def sum(self, axis=None):
+        if axis is None:
+            return sum(self.matrix)
+        else:
+            num_new = self.num_of_el // self.shape[axis]
+            shape_new = []
+            for i in range(self.dim):
+                if i != axis:
+                    shape_new += [self.shape[i]]
+            print(num_new, shape_new)
 
-a = Tensor([[[1,2],[3,4]],[[5,6],[7,8]]])
+    def mean(self, axis=None):
+        if axis is None:
+            return self.sum()/self.num_of_el
+
+    def min(self, axis=None):
+        if axis is None:
+            return min(self.matrix)
+
+    def max(self, axis=None):
+        if axis is None:
+            return max(self.matrix)
+
+    def argmax(self, axis=None):
+        if axis is None:
+            return (self.matrix).index(max(self.matrix))
+
+    def argmin(self, axis=None):
+        if axis is None:
+            return (self.matrix).index(min(self.matrix))
+
+    def transpose(self, *args):
+        pass
+
+    def swapaxes(self, *args):
+        pass
+
+
+'''
+    def __matmul__(self, other):
+        if isinstance(other, Tensor) and self.shape[-1] == other.shape[0]:
+'''
+
+
+
+'''
+a = Tensor([[[1,2],[3,4]],
+            [[5,6],[7,8]]])
 b = Tensor([[[5,6],[7,8]],[[1,2],[3,4]]])
+c = Tensor([[1,2],[3,4]])
+print(a.matrix)
+print(b.matrix)
+print(a+b)
+print(a+1)
+print(a[(0,0,0)])
+print(a[(0,1,0)])
+a[(1,0,1)] = 0
+print(a.matrix)
+print(c[(0,1)])
 print((a+b).matrix)
 print(a+1)
 print(a-2)
 print(a*2)
 print((2.5 + a).matrix)
-
+#print(sum(a))
+'''
 

@@ -3,80 +3,101 @@
 
 
 class HashMap:
-    """
-    Давайте сделаем все объектненько,
-     поэтому внутри хешмапы у нас будет Entry
-    """
+
     class Entry:
+
         def __init__(self, key, value):
-            """
-            Сущность, которая хранит пары ключ-значение
-            :param key: ключ
-            :param value: значение
-            """
+            self.key = key
+            self.value = value
 
         def get_key(self):
             # TODO возвращаем ключ
-            raise NotImplementedError
+            return self.key
 
         def get_value(self):
             # TODO возвращаем значение
-            raise NotImplementedError
+            return self.value
 
         def __eq__(self, other):
             # TODO реализовать функцию сравнения
-            raise NotImplementedError
+            if not isinstance(other, HashMap.Entry):
+                return False
+            elif self.key == other.key:
+                return True
+            return False
 
     def __init__(self, bucket_num=64):
-        """
-        Реализуем метод цепочек
-        :param bucket_num: число бакетов при инициализации
-        """
-        raise NotImplementedError
+        self.entry_list = [[] for i in range(bucket_num)]
+        self.bucket_num = bucket_num
 
     def get(self, key, default_value=None):
-        # TODO метод get, возвращающий значение,
-        #  если оно присутствует, иначе default_value
-        raise NotImplementedError
+        if self.entry_list[hash(key) % self.bucket_num] != []:
+            for ent in self.entry_list[hash(key) % self.bucket_num]:
+                if ent.key == key:
+                    return ent.value
+        return default_value
 
     def put(self, key, value):
-        # TODO метод put, кладет значение по ключу,
-        #  в случае, если ключ уже присутствует он его заменяет
-        raise NotImplementedError
+        entry = self.Entry(key, value)
+        if self.entry_list[hash(key) % self.bucket_num] != []:
+            for ent in self.entry_list[hash(key) % self.bucket_num]:
+                if ent.key == key:
+                    self.entry_list[hash(key) % self.bucket_num].remove(ent)
+                    break
+        self.entry_list[hash(key) % self.bucket_num] += [entry]
 
     def __len__(self):
-        # TODO Возвращает количество Entry в массиве
-        raise NotImplementedError
+        return len(self.items())
 
     def _get_hash(self, key):
-        # TODO Вернуть хеш от ключа,
-        #  по которому он кладется в бакет
-        raise NotImplementedError
+        return hash(key)
 
     def _get_index(self, hash_value):
-        # TODO По значению хеша вернуть индекс элемента в массиве
-        raise NotImplementedError
+        return hash_value % self.bucket_num
 
     def values(self):
-        # TODO Должен возвращать итератор значений
-        raise NotImplementedError
+        value_list = []
+        for bucket in self.entry_list:
+            for ent in bucket:
+                value_list += [ent.value]
+        return value_list
 
     def keys(self):
-        # TODO Должен возвращать итератор ключей
-        raise NotImplementedError
+        key_list = []
+        for bucket in self.entry_list:
+            for ent in bucket:
+                key_list += [ent.key]
+        return key_list
 
     def items(self):
-        # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        raise NotImplementedError
+        item_list = []
+        for bucket in self.entry_list:
+            for ent in bucket:
+                item_list += [(ent.key, ent.value)]
+        return item_list
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
-        raise NotImplementedError
+        new_self = HashMap(self.bucket_num*2)
+        for ent in self.items():
+            new_self.put(ent[0], ent[1])
+        self = new_self
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
-        raise NotImplementedError
+        hashmap_str = 'buckets: '
+        n_buc = 0
+        for bucket in self.entry_list:
+            if bucket != []:
+                n_buc += 1
+        hashmap_str += str(n_buc) + ', items: ' + str(len(self.items()))
+        return hashmap_str
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
-        raise NotImplementedError
+        # print(item)
+        for ent in self.entry_list[hash(item) % self.bucket_num]:
+            if ent.key == item:
+                return True
+        else:
+            return False
