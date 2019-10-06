@@ -21,10 +21,11 @@ class LRUCacheDecorator:
         def expired(self):
             if self.ttl is None:
                 return False
-            return self.ttl > time.time() - self.last_use_time
+            return self.ttl < time.time() - self.last_use_time
 
         def get_result(self):
             if self.expired():
+                print("need recalc", self.ttl, self.last_use_time, time.time())
                 self.recalc_result()
             self.last_use_time = time.time()
             return self.result
@@ -38,6 +39,9 @@ class LRUCacheDecorator:
         def __lt__(self, other):
             # print("other", other)
             return self.last_use_time < other.last_use_time
+
+        def __repr__(self):
+            return "{} {}".format(self.ttl, self.last_use_time)
 
 
     def __init__(self, maxsize=3, ttl=None):
@@ -57,7 +61,12 @@ class LRUCacheDecorator:
 
         def cached_call(*args, **kwargs):
             cached_calls = self.funcs[func]
+
+            print("func call", time.time(), args)
+            print("cached calls:", cached_calls)
+
             if args in cached_calls:
+                print("cached")
                 return cached_calls[args].get_result()
             else:
                 # print(cached_calls)
