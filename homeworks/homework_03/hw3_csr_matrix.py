@@ -127,7 +127,7 @@ class CSRMatrix:
         data = []
         cur_ind_a = 0
         cur_ind_b = 0
-        while cur_ind_a < self.nnz and cur_ind_b < other.nnz:
+        while cur_ind_a < self._nnz and cur_ind_b < other.nnz:
             if self.row[cur_ind_a] < other.row[cur_ind_b] or \
                 self.row[cur_ind_a] == other.row[cur_ind_b] \
                     and self.col[cur_ind_a] < other.col[cur_ind_b]:
@@ -153,7 +153,7 @@ class CSRMatrix:
                 cur_ind_a += 1
                 cur_ind_b += 1
 
-        while cur_ind_a < self.nnz:
+        while cur_ind_a < self._nnz:
             row += [self.row[cur_ind_a]]
             col += [self.col[cur_ind_a]]
             data += [self.operation[sign](self.data[cur_ind_a], 0)]
