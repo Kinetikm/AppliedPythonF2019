@@ -10,6 +10,7 @@ class CSRMatrix(object):
             self.items = []
             self.amounts = [0]
             self.col_indxs = []
+            self._nnz = 0
             for i in range(len(init_matrix_representation)):
                 # check iterators
                 self.amounts.append(self.amounts[-1])  # copy prev item
@@ -34,12 +35,12 @@ class CSRMatrix(object):
                     cur_sum = 0
                 else:
                     cur_sum += 1
-            self.nnz = len(self.items)
+            self._nnz = len(self.items)
         else:
             raise ValueError
 
     def nnz(self):
-        return self.nnz
+        return self._nnz
 
     def __getitem__(self, index):
         if (index[0] > len(self.amounts)) or (index[1] > max(self.col_indxs) + 1):
@@ -50,7 +51,7 @@ class CSRMatrix(object):
         return 0
 
     def __setitem__(self, key, value):
-        if len(self.col_indxs) == 0:
+        if self.col_indxs == 0:
             self.items = value
             self.col_indxs = key[1]
             self.amounts.append(1)
@@ -119,7 +120,7 @@ class CSRMatrix(object):
                     out.amounts[-1] += 1
                     cur_pos_o += 1
                     cur_row_len_o -= 1
-        out.nnz = len(out.items)
+        out._nnz = len(out.items)
         return out
 
     def __sub__(self, other):
@@ -173,7 +174,7 @@ class CSRMatrix(object):
                     out.amounts[-1] += 1
                     cur_pos_o += 1
                     cur_row_len_o -= 1
-        out.nnz = len(out.items)
+        out._nnz = len(out.items)
         return out
 
     def __mul__(self, other):
@@ -201,7 +202,7 @@ class CSRMatrix(object):
                     out.items.append(self.items[self.amounts[i] + dif_c] * other.items[other.amounts[i] + o_d])
                     out.col_indxs.append(self.col_indxs[self.amounts[i] + dif_c])
                     out.amounts[-1] += 1
-        out.nnz = len(out.items)
+        out._nnz = len(out.items)
         return out
 
     def __truediv__(self, other):
@@ -224,7 +225,7 @@ class CSRMatrix(object):
                     out.items.append(self.items[inx])
                     out.amounts[-1] += 1
                     out.col_indxs.append(row_n)
-        out.nnz = len(out.items)
+        out._nnz = len(out.items)
         return out
 
     def __matmul__(self, other):
@@ -245,7 +246,7 @@ class CSRMatrix(object):
                 out.items.append(sm)
                 out.amounts[-1] += 1
                 out.col_indxs.append(col_n)
-        out.nnz = len(out.items)
+        out._nnz = len(out.items)
         return out
 
     def dot(self, other):
