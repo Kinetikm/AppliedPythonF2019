@@ -83,15 +83,15 @@ class HashMap:
 
     def values(self):
         # TODO Должен возвращать итератор значений
-        return [entry.get_value() for entry in self.items()]
+        return [entry[1] for entry in self.items()]
 
     def keys(self):
         # TODO Должен возвращать итератор ключей
-        return [entry.get_key() for entry in self.items()]
+        return [entry[0] for entry in self.items()]
 
     def items(self):
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        return [entry for list_entry in self.hash_table for entry in list_entry]
+        return [(entry.get_key(), entry.get_value()) for list_entry in self.hash_table for entry in list_entry]
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
@@ -104,7 +104,7 @@ class HashMap:
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
-        return 'buckets: {}, items: {}'.format(self.bucket_num, self.__len__())
+        return 'buckets: {}, items: {}'.format(self.bucket_num, len(self.items()))
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
