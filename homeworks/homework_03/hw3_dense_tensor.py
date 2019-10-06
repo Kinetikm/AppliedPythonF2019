@@ -203,7 +203,7 @@ class Tensor:
             return result
 
     def max(self, axis=None):
-        rsize = self.size()
+        size = self.size()
         if axis is None:
             result = []
             coordinates = [range(max_idx) for max_idx in size]
