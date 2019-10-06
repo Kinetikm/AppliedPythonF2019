@@ -9,7 +9,7 @@ class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
         """
         :param maxsize: максимальный размер кеша
-        :param ttl: время в млсек, через которое кеш
+        :param ttl: время в млсек, через  которое кеш
                     должен исчезнуть"""
         self.maxsize = maxsize
         self.ttl = ttl
