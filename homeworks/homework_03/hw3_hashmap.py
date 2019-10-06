@@ -19,8 +19,7 @@ class HashMap:
             return self.value
 
         def __eq__(self, other):
-            # TODO реализовать функцию сравнения
-            raise NotImplementedError
+            return self.key == other.key
 
     def __init__(self, bucket_num=64):
         self.length = bucket_num
