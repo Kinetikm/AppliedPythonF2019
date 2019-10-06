@@ -61,6 +61,14 @@ class HashMap:
     def _get_index(self, hash_value):
         return hash_value % self.length
 
+    def _get_items(self):
+        result = []
+        for bucket in self._bucket:
+            if bucket:
+                for var in bucket:
+                    result.append((var.key, var.value))
+        return result
+
     def values(self):
         return list(map(lambda x: x[1], self._get_items()))
 
@@ -68,12 +76,7 @@ class HashMap:
         return list(map(lambda x: x[0], self._get_items()))
 
     def items(self):
-        temp = []
-        for bucket in self.buckets:
-            if bucket:
-                for object in bucket:
-                    temp.append((object.key, object.value))
-        return temp
+        return self._get_items()
 
     def _resize(self):
         self._bucket.extend([None for _ in range(self.length)])
