@@ -17,13 +17,13 @@ class LRUCacheDecorator:
             number = str(args) + str(*kwargs)
             num_ = number[1]
             if num_ in self.cache:
-                if self.ttl is not None and (time.time() - self.cache_time[num_]) * 1000 <= self.ttl:
-                    self.cache_time[num_] = time.time()
-                    val = self.cache[num_]
-                    return val
-                else:
+                if self.ttl is not None and (time.time() - self.cache_time[num_]) * 1000 > self.ttl:
                     val = func(*args, **kwargs)
                     self.cache[num_] = val
+                    self.cache_time[num_] = time.time()
+                    return val
+                else:
+                    val = self.cache[num_]
                     self.cache_time[num_] = time.time()
                     return val
             elif len(self.cache) == self.maxsize:
