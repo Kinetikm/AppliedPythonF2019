@@ -27,7 +27,7 @@ class HashMap:
 
     def get(self, key, default_value=None):
         indx = self._get_index(self._get_hash(key))
-        for i in self.list[indx]:
+        for i in self.vals[indx]:
             if i.get_key() == key:
                 return i.get_value()
         return default_value
@@ -40,7 +40,7 @@ class HashMap:
         if new in self.vals[indx]:
             self.vals[indx].remove(new)
         self.vals[indx].append(new)
-        if len([1 for i in self.list if i]) > self.size * 0.5:
+        if len([1 for i in self.vals if i]) > self.size * 0.5:
             self._resize
 
     def __len__(self):
@@ -50,21 +50,21 @@ class HashMap:
         return hash(key)
 
     def _get_index(self, hash_value):
-        return hash_value % self.length
+        return hash_value % self.size
 
     def values(self):
-        return ([l.get_value() for case in self.list for l in case])
+        return ([l.get_value() for case in self.vals for l in case])
 
     def keys(self):
-        return ([l.get_key() for case in self.list for l in case])
+        return ([l.get_key() for case in self.vals for l in case])
 
     def items(self):
-        return ([(l.get_key(), l.get_value()) for case in self.list for s in case])
+        return ([(l.get_key(), l.get_value()) for case in self.vals for s in case])
 
     def _resize(self):
         self.size *= 2
         entries = self.items()
-        self.list = [[] for i in range(self.size)]
+        self.vals = [[] for i in range(self.size)]
         for j in entries:
             self.put(*j)
 
