@@ -33,6 +33,10 @@ class HashMap:
             """
             return self.key == other.get_key()
 
+        def __iter__(self):
+            yield self.key
+            yield self.value
+
     def __init__(self, bucket_num=64, coef_for_resize=0.9):
         """
         Реализуем метод цепочек
@@ -48,8 +52,8 @@ class HashMap:
         #  если оно присутствует, иначе default_value
         ind = self._get_index(self._get_hash(key))
         for entry in self.hash_table[ind]:
-            if entry.get_key == key:
-                return entry.get_value
+            if entry.get_key() == key:
+                return entry.get_value()
         return default_value
 
     def put(self, key, value):
@@ -83,15 +87,15 @@ class HashMap:
 
     def values(self):
         # TODO Должен возвращать итератор значений
-        return [entry[1] for entry in self.items()]
+        return ([entry.get_value() for list_entry in self.hash_table for entry in list_entry])
 
     def keys(self):
         # TODO Должен возвращать итератор ключей
-        return [entry[0] for entry in self.items()]
+        return ([entry.get_key() for list_entry in self.hash_table for entry in list_entry])
 
     def items(self):
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        return [(entry.get_key(), entry.get_value()) for list_entry in self.hash_table for entry in list_entry]
+        return ([(entry.get_value(), entry.get_value()) for list_entry in self.hash_table for entry in list_entry])
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
@@ -104,7 +108,7 @@ class HashMap:
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
-        return 'buckets: {}, items: {}'.format(self.bucket_num, len(self.items()))
+        return 'buckets: {}, items: {}'.format(self.bucket_num, self.__len__())
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
