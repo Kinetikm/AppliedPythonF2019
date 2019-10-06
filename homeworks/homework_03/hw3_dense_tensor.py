@@ -107,7 +107,16 @@ class Tensor:
             return res
 
     def __radd__(self, other):
-        return self + other
+        res = deepcopy(self)
+        res = self + other
+        return res
+
+    def __truediv__(self, other):
+        if other == 0:
+            raise ZeroDivisionError
+        res = deepcopy(self)
+        res = self * (1/other)
+        return res
 
     def __pow__(self, other):
         coordinates = [range(size) for size in self.sizes]
