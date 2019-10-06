@@ -18,10 +18,8 @@ class LRUCacheDecorator:
                 if self.size < self.maxsize:
                     self.size += 1
                 else:
-                    if self.cache.items() < key=lambda i: i[1][1]:
-                        index = self.cache.items()
-                    else:
-                        index = key
+                    index = min(self.cache.items(),
+                                key=lambda i: i[1][1])
                     del self.cache[index[0]]
             else:
                 item = self.cache[key]
