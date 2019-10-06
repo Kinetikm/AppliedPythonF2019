@@ -2,7 +2,9 @@
 # coding: utf-8
 import time
 
+
 class LRUCacheDecorator:
+    
     def __init__(self, maxsize, ttl):
         self.maxsize = maxsize
         self.ttl = ttl
