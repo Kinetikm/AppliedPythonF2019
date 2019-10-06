@@ -152,7 +152,7 @@ class Tensor:
                     lst.append(self[i])
                     i.pop(axis)
                 res[i] = sum(lst)
-            return res.tensor
+            return res
 
     def mean(self, axis=None):
         if axis is None:
@@ -174,7 +174,7 @@ class Tensor:
                     lst.append(self[i])
                     i.pop(axis)
                 res[i] = sum(lst)/len(lst)
-            return res.tensor
+            return res
 
     def max(self, axis=None):
         if axis is None:
@@ -197,7 +197,7 @@ class Tensor:
                     lst.append(self[i])
                     i.pop(axis)
                 res[i] = max(lst)
-            return res.tensor
+            return res
 
     def min(self, axis=None):
         if axis is None:
@@ -220,7 +220,7 @@ class Tensor:
                     lst.append(self[i])
                     i.pop(axis)
                 res[i] = min(lst)
-            return res.tensor
+            return res
 
     def argmax(self, axis=None):
         if axis is None:
@@ -243,7 +243,7 @@ class Tensor:
                     lst.append(self[i])
                     i.pop(axis)
                 res[i] = lst.index(res[i])
-            return res.tensor
+            return res
 
     def argmin(self, axis=None):
         if axis is None:
@@ -266,7 +266,7 @@ class Tensor:
                     lst.append(self[i])
                     i.pop(axis)
                 res[i] = lst.index(res[i])
-            return res.tensor
+            return res
 
     def transpose(self, *axis):
         axis = list(axis)
