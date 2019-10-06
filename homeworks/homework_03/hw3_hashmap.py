@@ -14,69 +14,139 @@ class HashMap:
             :param key: ключ
             :param value: значение
             """
+            self.key = key
+            self.value = value
 
         def get_key(self):
             # TODO возвращаем ключ
-            raise NotImplementedError
+            return self.key
 
         def get_value(self):
             # TODO возвращаем значение
-            raise NotImplementedError
+            return self.value
 
         def __eq__(self, other):
             # TODO реализовать функцию сравнения
-            raise NotImplementedError
+            return self.key == other.key
+
+    class Iterator:
+        def __init__(self, collection, type):
+            """
+            :param collection: список
+            :param cursor: индекс с которого начнется перебор коллекции.
+            так же должна быть проверка -1 >= cursor < len(collection)
+            """
+            self._collection = collection
+            self._type = type
+            self._cursor = 0
+            self._excursor = -1
+
+        def __iter__(self):
+            return self
+
+        def __next__(self):
+            if self._cursor >= len(self._collection):
+                raise StopIteration()
+            if self._collection[self._cursor]:
+                if self._excursor + 1 >= len(self._collection[self._cursor]):
+                    self._cursor += 1
+                    self._excursor = -1
+                    return
+                else:
+                    self._excursor += 1
+                    return self.current()
+
+        def current(self):
+            """
+            Возвращаяем текущий элемент
+            """
+            if self._type == 'value':
+                return self._collection[self._cursor][self._excursor].get_value()
+            elif self._type == 'key':
+                return self._collection[self._cursor][self._excursor].get_key()
+            else:
+                return (self._collection[self._cursor][self._excursor].get_key(),
+                        self._collection[self._cursor][self._excursor].get_value())
 
     def __init__(self, bucket_num=64):
         """
         Реализуем метод цепочек
         :param bucket_num: число бакетов при инициализации
         """
-        raise NotImplementedError
+        self.load = 0.75
+        self.numbuckets = bucket_num
+        self.table = [None for i in range(self.numbuckets)]
 
     def get(self, key, default_value=None):
-        # TODO метод get, возвращающий значение,
+        # TODO метод get, возвраща  ющий значение,
         #  если оно присутствует, иначе default_value
-        raise NotImplementedError
+        pos = self._get_index(self._get_hash(key))
+        if self.table[pos] is not None:
+            for entry in self.table[pos]:
+                if entry.get_key() == key:
+                    return entry.get_value()
+        return default_value
 
     def put(self, key, value):
         # TODO метод put, кладет значение по ключу,
         #  в случае, если ключ уже присутствует он его заменяет
-        raise NotImplementedError
+        entry = self.Entry(key, value)
+        pos = self._get_index(self._get_hash(key))
+        if self.table[pos] is None:
+            self.table[pos] = [entry]
+            return
+        for i in range(len(self.table[pos])):
+            if self.table[pos][i].get_key() == key:
+                self.table[pos][i] = entry
+                return
+        self.table[pos].append(entry)
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
-        raise NotImplementedError
+        sum = 0
+        for i in self.table:
+            if i is not None:
+                sum += len(i)
+        return sum
 
     def _get_hash(self, key):
         # TODO Вернуть хеш от ключа,
         #  по которому он кладется в бакет
-        raise NotImplementedError
+        return hash(key)
 
     def _get_index(self, hash_value):
         # TODO По значению хеша вернуть индекс элемента в массиве
-        raise NotImplementedError
+        return hash_value % self.numbuckets
 
     def values(self):
         # TODO Должен возвращать итератор значений
-        raise NotImplementedError
+        return self.Iterator(self.table, 'value')
 
     def keys(self):
         # TODO Должен возвращать итератор ключей
-        raise NotImplementedError
+        return self.Iterator(self.table, 'key')
 
     def items(self):
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        raise NotImplementedError
+        return self.Iterator(self.table, 'pair')
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
-        raise NotImplementedError
+        self.numbuckets = self.numbuckets*2
+        items = [item for item in self.items()]
+        self.table = [None for i in range(self.numbuckets)]
+        for pair in items:
+            self.put(pair[0], pair[1])
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
-        raise NotImplementedError
+        return 'buckets: {}, items: {}'.format(self.numbuckets, self.__len__())
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
-        raise NotImplementedError
+        pos = self._get_index(self._get_hash(item))
+        if self.table[pos] is not None:
+            for entry in self.table[pos]:
+                if entry.get_key() == item:
+                    return True
+        return False
