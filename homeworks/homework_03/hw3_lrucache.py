@@ -10,15 +10,19 @@ class LRUCacheDecorator:
 
     def __init__(self, maxsize, ttl):
         self.maxsize = maxsize
-        self.ttl = ttl
+        if ttl is not None:
+            self.ttl = int(ttl)
+        else:
+            self.ttl = None
         self.cash = {}
 
     def __call__(self, function):
         def wrapped(*args, **kwargs):
             if (args in self.cash) and (self.ttl is not None) and \
-            (abs(time.time() - self.cash.get(args)[1]) > self.ttl):
+             (abs(time.time() - self.cash.get(args)[1]) > self.ttl):
                 self.cash.pop(args)
             if args in self.cash:
+                time.sleep(0.00001)
                 cur_time = time.time()
                 self.cash.get(args)[1] = cur_time
                 return self.cash.get(args)[0]
