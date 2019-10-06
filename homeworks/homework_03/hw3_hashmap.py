@@ -93,7 +93,7 @@ class HashMap:
 
     def items(self):
         #  Должен возвращать итератор пар ключ и значение (tuples)
-        return ((item.get_key(), item.get_value) for array in self.container for item in array)
+        return ((item.get_key(), item.get_value()) for array in self.container for item in array)
 
     def _resize(self):
         #  Время от времени нужно ресайзить нашу хешмапу
@@ -107,7 +107,7 @@ class HashMap:
                 # print("array[i] = ",array[i].key," ",array[i].value)
                 self.put(array[i].get_key(), array[i].get_value())
         print("RESIZE END")
-                 
+
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
         return 'buckets: {}, items: {}'.format(self.bucket_num, self.__len__())
