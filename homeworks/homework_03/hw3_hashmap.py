@@ -100,7 +100,7 @@ class HashMap:
         items = self.items()
         self._bucket = [[] for i in range(self.length)]
         for ent in items:
-            self.put(ent.get_key(), ent.get_value())
+            self.put(ent[0], ent[1])
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
