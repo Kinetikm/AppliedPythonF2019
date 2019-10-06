@@ -4,7 +4,6 @@
 import time
 
 class LRUCacheDecorator:
-
     def __init__(self, maxsize, ttl):
         '''
         :param maxsize: максимальный размер кеша
