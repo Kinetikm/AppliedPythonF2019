@@ -58,7 +58,7 @@ class Tensor:
         coordinates = [range(max_idx) for max_idx in size]
         result = Tensor.create_empty_tensor(size)
         if isinstance(other, Tensor):
-            if self.size() != other.size():
+            if size != other.size():
                 raise ValueError
             for coor in product(*coordinates):
                 result[coor] = self.__calculator(self[coor], other[coor], oper)
