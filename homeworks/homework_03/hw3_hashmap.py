@@ -90,14 +90,14 @@ class HashMap:
         for i in self.hash_table:
             if i is not None:
                 for j in i:
-                    yield j.get_key()
+                    yield j.get_value()
 
     def keys(self):
         # TODO Должен возвращать итератор ключей
         for i in self.hash_table:
             if i is not None:
                 for j in i:
-                    yield j.get_value()
+                    yield j.get_key()
 
     def items(self):
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
