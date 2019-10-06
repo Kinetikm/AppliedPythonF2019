@@ -3,7 +3,7 @@
 
 
 import time
-import heapq
+import operator
 
 
 class LRUCacheDecorator:
