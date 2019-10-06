@@ -46,7 +46,7 @@ class CSRMatrix:
                 if prev + 1 == i:
                     self.ia += [count]
                 elif prev + 1 < i:
-                    for k in range(prev,i):
+                    for k in range(prev, i):
                         self.ia += [count]
                 count += 1
                 prev = i
@@ -110,8 +110,8 @@ class CSRMatrix:
                 self.ia[i] += 1
 
     def __add__(self, other):
-        print(self.ia[:10],self.ja[:10],self.a[0:10])
-        print(other.ia[:10], other.ja[:10],other.a[0:10])
+        # print(self.ia[:10], self.ja[:10], self.a[0:10])
+        # print(other.ia[:10], other.ja[:10], other.a[0:10])
         if not isinstance(other, CSRMatrix):
             raise TypeError
         if self.ia == other.ia and self.ja == other.ja:
@@ -217,7 +217,7 @@ class CSRMatrix:
         """
         Return dense representation of matrix (2D np.array).
         """
-        #print(self.a, self.ia, self.ja)
+        # print(self.a, self.ia, self.ja)
         result = []
         count = 0
         for i in range(1, len(self.ia)):

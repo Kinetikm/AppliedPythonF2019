@@ -160,7 +160,6 @@ class Tensor:
 '''
 
 
-
 '''
 a = Tensor([[[1,2],[3,4]],
             [[5,6],[7,8]]])
@@ -182,4 +181,3 @@ print(a*2)
 print((2.5 + a).matrix)
 #print(sum(a))
 '''
-
