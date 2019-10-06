@@ -17,7 +17,7 @@ class HashMap:
         def __eq__(self, other):
             return self.get_key() == other.get_key()
 
-    def __init__(self, bucket_num=64):
+    def __init__(self, bucket_num=67):
         self.size = bucket_num
         self.list = [[] for s in range(self.size)]
 
