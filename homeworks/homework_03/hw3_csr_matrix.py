@@ -135,18 +135,22 @@ class CSRMatrix:
         data = []
         cur_ind_a, cur_ind_b = 0, 0
         while cur_ind_a < self.nnz and cur_ind_b < other.nnz:
-            if self.row[cur_ind_a] < other.row[cur_ind_b] or self.row[cur_ind_a] == other.row[
-                    cur_ind_b] and self.col[cur_ind_a] < other.col[cur_ind_b]:
+            if self.row[cur_ind_a] < other.row[cur_ind_b] or \
+                self.row[cur_ind_a] == other.row[cur_ind_b] \
+                    and self.col[cur_ind_a] < other.col[cur_ind_b]:
                 row += [self.row[cur_ind_a]]
                 col += [self.col[cur_ind_a]]
                 data += [self.operation[sign](self.data[cur_ind_a], 0)]
                 cur_ind_a += 1
-            elif self.row[cur_ind_a] > other.row[cur_ind_b] or self.row[cur_ind_a] == other.row[cur_ind_b] and self.col[cur_ind_a] > other.col[cur_ind_b]:
+            elif self.row[cur_ind_a] > other.row[cur_ind_b] or \
+                    self.row[cur_ind_a] == other.row[cur_ind_b] and \
+                    self.col[cur_ind_a] > other.col[cur_ind_b]:
                 row += [other.row[cur_ind_b]]
                 col += [other.col[cur_ind_b]]
                 data += [self.operation[sign](0, other.data[cur_ind_b])]
                 cur_ind_b += 1
-            elif self.row[cur_ind_a] == other.row[cur_ind_b] and self.col[cur_ind_a] == other.col[cur_ind_b]:
+            elif self.row[cur_ind_a] == other.row[cur_ind_b] \
+                    and self.col[cur_ind_a] == other.col[cur_ind_b]:
                 val = self.operation[sign](
                     self.data[cur_ind_a], other.data[cur_ind_b])
                 if val != 0:
@@ -228,7 +232,7 @@ class CSRMatrix:
         for i, val_frs in data1.items():
             for j, val_sec in data2.items():
                 cell = sum(
-                    {k: v * val_sec[k] for k, v in val_frs.items() if k in val_sec}.values())
+                    {key: val * val_sec[key] for key, val in val_frs.items() if key in val_sec}.values())
 
                 if cell != 0:
                     row += [i]
