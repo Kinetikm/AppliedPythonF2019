@@ -31,30 +31,25 @@ class HashMap:
 
     class Iterator:
         def __init__(self, collection, type):
-            """
-            :param collection: список
-            :param cursor: индекс с которого начнется перебор коллекции.
-            так же должна быть проверка -1 >= cursor < len(collection)
-            """
             self._collection = collection
             self._type = type
             self._cursor = 0
-            self._excursor = -1
+            self._excursor = 0
 
         def __iter__(self):
             return self
 
         def __next__(self):
-            if self._cursor >= len(self._collection):
-                raise StopIteration()
-            if self._collection[self._cursor]:
-                if self._excursor + 1 >= len(self._collection[self._cursor]):
-                    self._cursor += 1
-                    self._excursor = -1
-                    return
-                else:
-                    self._excursor += 1
-                    return self.current()
+            "excursor указывает на элементы цепочки для позиции(по хэшу) задаваемой cursor"
+            while self._cursor < len(self._collection):
+                if self._collection[self._cursor]:
+                    if self._excursor < len(self._collection[self._cursor]):
+                        el = self.current()
+                        self._excursor += 1
+                        return el
+                self._cursor += 1
+                self._excursor = 0
+            raise StopIteration()
 
         def current(self):
             """
