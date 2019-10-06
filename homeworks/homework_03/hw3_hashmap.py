@@ -103,8 +103,10 @@ class HashMap:
         self.length *= 2
         tmp_buckets = []
         for bucket in self._bucket:
-            for entry in bucket:
-                tmp_buckets.append(entry)
+            if bucket is not None:
+                for entry in bucket:
+                    if entry is not None:
+                        tmp_buckets.append(entry)
             self._bucket = [None for i in range(self.length)]
         for entry in tmp_buckets:
             self.put(entry.key, entry.value)
