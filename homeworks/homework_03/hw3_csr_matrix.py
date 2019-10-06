@@ -90,23 +90,22 @@ class CSRMatrix:
                     self.IA[j] -= 1
         else:
             if value != 0:
-                if self.IA[key[0] + 1] - self.IA[key[0]] == 0:
-                    self.A.insert(self.IA[key[0] + 1], value)
-                    self.JA.insert(self.IA[key[0] + 1], key[1])
-                else:
-                    for j in range(self.IA[key[0]], self.IA[key[0] + 1]):
-                        if self.JA[j] > key[1]:
-                            self.A.insert(j, value)
-                            self.JA.insert(j, key[1])
-                            break
-                        if j == self.IA[key[0]]:
-                            self.A.insert(j, value)
-                            self.JA.insert(j, key[1])
-                for it in range(key[0] + 1, len(self.IA)):
-                    self.IA[it] += 1
+                for k in range(key[0] + 1, len(self.IA)):
+                    self.IA[k] += 1
+                tmp_ptr = self.IA[key[0]]
+                for el in self.JA[self.IA[key[0]]:self.IA[key[0] + 1]]:
+                    if el > key[1]:
+                        break
+                    else:
+                        tmp_ptr += 1
+                if tmp_ptr == self.IA[key[0]]:
+                    self.JA.insert(tmp_ptr, key[1])
+                    self.A.insert(tmp_ptr, value)
+                    return
+                self.JA.insert(tmp_ptr - 1, key[1])
+                self.A.insert(tmp_ptr - 1, value)
 
     def multiset(self, other):
-
         """
         :param other: другая матрица тех же размеров
         :return: Мультимножество, значение - строка  other где есть ненулевой
