@@ -8,7 +8,7 @@ class HashMap:
      поэтому внутри хешмапы у нас будет Entry
     """
     class ItemIterator:
-    
+
         def __init__(self, hashmap):
             self.limit = hashmap._table_size
             self._cursor = 0
@@ -16,7 +16,7 @@ class HashMap:
             # cached vars
             self.c_entries = []
             self.c_cursor = 0
-    
+
         def __iter__(self):
             return self
 
@@ -49,7 +49,6 @@ class HashMap:
                     self._cursor += 1
             raise StopIteration
 
-
     class KeyIterator(ItemIterator):
 
         def __next__(self):
@@ -65,7 +64,7 @@ class HashMap:
                 elif len(entries) == 1:
                     self._cursor += 1
                     return entries[0].get_key()
-                
+
                 if self.c_entries:
                     if self.c_cursor < len(self.c_entries):
                         self.c_cursor += 1
@@ -75,9 +74,8 @@ class HashMap:
                         self.c_cursor = 0
                         self._cursor += 1
                 else:
-                    self._cursor += 1   
+                    self._cursor += 1
             raise StopIteration
-
 
     class ValueIterator(ItemIterator):
 
@@ -104,8 +102,7 @@ class HashMap:
                         self._cursor += 1
                 else:
                     self._cursor += 1
-            raise StopIteration              
-         
+            raise StopIteration
 
     class Entry:
         def __init__(self, key, value):
@@ -121,7 +118,7 @@ class HashMap:
             return self._key
 
         def set_value(self, value):
-            self._value = value    
+            self._value = value
 
         def get_value(self):
             return self._value
@@ -130,7 +127,7 @@ class HashMap:
             return self.get_key() == other.get_key()
 
         def __repr__(self):
-            return str((self._key, self._value))    
+            return str((self._key, self._value))
 
     def __init__(self, bucket_num=64):
         """
@@ -147,7 +144,7 @@ class HashMap:
         for entry in entries:
             if entry.get_key() == key:
                 return entry.get_value()
-        return default_value        
+        return default_value
 
     def put(self, key, value):
         i = self._get_index(self._get_hash(key))
@@ -193,7 +190,7 @@ class HashMap:
             new_hashmap.put(key, value)
         self._table_size = new_hashmap._table_size
         self._buckets = new_hashmap._buckets
-        self._num_of_elements = new_hashmap._num_of_elements 
+        self._num_of_elements = new_hashmap._num_of_elements
 
     def __str__(self):
         return 'buckets: {}, items: {}'.format(self._table_size, self._num_of_elements)

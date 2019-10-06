@@ -3,6 +3,7 @@
 import sys
 from copy import deepcopy
 
+
 class Tensor:
     """
     Your realisation of numpy tensor.
@@ -28,6 +29,4 @@ class Tensor:
         """
         :param init_matrix_representation: list of lists
         """
-        pass
         raise NotImplementedError
-
