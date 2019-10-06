@@ -63,7 +63,7 @@ class HashMap:
 
     def _get_items(self):
         result = []
-        for bucket in self._bucket:
+        for bucket in self.buckets:
             if bucket:
                 for var in bucket:
                     result.append((var.key, var.value))
