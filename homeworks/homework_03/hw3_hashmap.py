@@ -39,9 +39,9 @@ class HashMap:
         :param bucket_num: число бакетов при инициализации
         """
         self.bucket_num = bucket_num
-        self.hash_map = [[] for i in range(self.bucket_num)]
+        self.hash_map = [[] for i in range(int(self.bucket_num))]
         self.CHECK = 0.4
-        self.RESIZE = 1.5
+        self.RESIZE = 2
 
     def get(self, key, default_value=None):
         # TODO метод get, возвращающий значение,
@@ -96,7 +96,7 @@ class HashMap:
         # TODO Время от времени нужно ресайзить нашу хешмапу
         self.bucket_num *= self.RESIZE
         items = self.items()
-        self.hash_map = [[] for i in range(self.bucket_num)]
+        self.hash_map = [[] for _ in range(self.bucket_num)]
         for entry in items:
             self.put(entry.get_key(), entry.get_value())
 
