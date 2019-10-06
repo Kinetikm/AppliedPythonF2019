@@ -1,8 +1,18 @@
+from reading import *
+from printing import *
 import sys
+import json
 
-# Ваши импорты
 
-if __name__ == '__main__':
-    filename = sys.argv[1]
+def main(filename):
+    data = read_file(filename)
+    if data:
+        pretty_print(data)
 
-    # Ваш код
+
+if __name__ == "__main__":
+    try:
+        filename = sys.argv[1]
+        main(filename)
+    except IndexError:
+        print('Файл не валиден')
