@@ -9,8 +9,13 @@ class HashMap:
     """
     class Entry:
         def __init__(self, key, value):
+            """
+            Сущность, которая хранит пары ключ-значение
+            :param key: ключ
+            :param value: значение
+            """
             self.__key = key
-            self._value = value
+            self.__value = value
 
         def get_key(self):
             return self.__key
@@ -19,35 +24,39 @@ class HashMap:
             return self.__value
 
         def __eq__(self, other):
-            return self.__key == other.get_key
+            return self.__key == other.get_key()
 
         def __iter__(self):
             yield self.__key
             yield self.__value
 
     def __init__(self, bucket_num=64):
+        """
+        Реализуем метод цепочек
+        :param bucket_num: число бакетов при инициализации
+        """
         self.bucket_num = bucket_num
-        self.vals = [[] for i in range(int(self.bucket_num))]
-        self.CHECK = 0.75
+        self.h_map = [[] for i in range(int(self.bucket_num))]
+        self.check = 0.75
 
     def get(self, key, default_value=None):
-        indx = self._get_index(self._get_hash(key))
-        for ent in self.vals[indx]:
+        h_id = self._get_index(self._get_hash(key))
+        for ent in self.h_map[h_id]:
             if ent.get_key() == key:
                 return ent.get_value()
         return default_value
 
     def put(self, key, value):
-        indx = self._get_index(self._get_hash(key))
+        h_id = self._get_index(self._get_hash(key))
         item = self.Entry(key, value)
-        for i, ent in enumerate(self.vals[indx]):
+        for i, ent in enumerate(self.h_map[h_id]):
             if ent == item:
-                self.vals[indx].pop(i)
+                self.h_map[h_id].pop(i)
                 break
-        self.vals[indx].append(item)
-        counter = self.bucket_num * self.CHECK
+        self.h_map[h_id].append(item)
+        counter = self.bucket_num * self.check
 
-        if len([lst for lst in self.vals if lst]) > counter:
+        if len([lst for lst in self.h_map if lst]) > counter:
             self._resize()
 
     def __len__(self):
@@ -66,12 +75,12 @@ class HashMap:
         return [ent.get_key() for ent in self.items()]
 
     def items(self):
-        return [ent for lst_of_ent in self.vals for ent in lst_of_ent]
+        return [ent for lst_of_ent in self.h_map for ent in lst_of_ent]
 
     def _resize(self):
         self.bucket_num *= 2
         items = self.items()
-        self.vals = [[] for i in range(self.bucket_num)]
+        self.h_map = [[] for i in range(self.bucket_num)]
         for ent in items:
             self.put(ent.get_key(), ent.get_value())
 
