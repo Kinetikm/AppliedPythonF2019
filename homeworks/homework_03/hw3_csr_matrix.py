@@ -54,6 +54,7 @@ class CSRMatrix(object):
             self.items = value
             self.col_indxs = key[1]
             self.amounts.append(1)
+            return
         if (key[0] > len(self.amounts)) or (key[1] > max(self.col_indxs) + 1):
             raise ValueError
         for i in range(self.amounts[key[0]] - self.amounts[key[0]-1]):
@@ -176,7 +177,7 @@ class CSRMatrix(object):
         return out
 
     def __mul__(self, other):
-        if type(other) == float or type(other) == int:
+        if type(other) != CSRMatrix:
             if other == 0:
                 a = np.ndarray([0])
                 out = CSRMatrix(a)
@@ -261,4 +262,5 @@ class CSRMatrix(object):
         for row_cnt in range(row_amount):
             for i_ct in range(self.amounts[row_cnt + 1]-self.amounts[row_cnt]):
                 dense[row_cnt][self.col_indxs[self.amounts[row_cnt] + i_ct]] = self.items[self.amounts[row_cnt] + i_ct]
-        return dense
+        r = np.ndarray(dense)
+        return r
