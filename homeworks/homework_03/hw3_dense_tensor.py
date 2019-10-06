@@ -294,7 +294,7 @@ class Tensor:
             if self.sizes[0] != other.sizes[0]:
                 raise ValueError("Dimension mismatch")
             res = np.zeros((other.sizes[1]))
-            for y in range(res.sizes[0]):
+            for y in range(res.shape[0]):
                 res[y] = sum((self.__getitem__(j) * other[j, y] for j in range(other.sizes[0])))
             return Tensor(res.tolist())
         if other.dim == 1:
@@ -302,14 +302,14 @@ class Tensor:
             if self.sizes[1] != other.sizes[0]:
                 raise ValueError("Dimension mismatch")
             res = np.zeros((self.sizes[0]))
-            for x in range(res.size[0]):
-                res[x] = sum((self.__getitem__([x, j]) * other[j] for j in range(other.size[0])))
+            for x in range(res.shape[0]):
+                res[x] = sum((self.__getitem__([x, j]) * other[j] for j in range(other.sizes[0])))
             return Tensor(res.tolist())
         if self.sizes[1] != other.sizes[0]:
             raise ValueError("Dimension mismatch")
         else:
             res = np.zeros((self.sizes[0], other.sizes[1]))
-        for x in range(res.sizes[0]):
-            for y in range(res.sizes[1]):
+        for x in range(res.shape[0]):
+            for y in range(res.shape[1]):
                 res[x, y] = sum((self.__getitem__([x, j]) * other[j, y] for j in range(other.sizes[0])))
         return Tensor(res.tolist())
