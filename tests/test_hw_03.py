@@ -138,7 +138,6 @@ def test_hashmap_07():
     for k, v in entries:
         assert k in hashmap
 
-
 def test_lrucache_01():
 
     try:
@@ -357,12 +356,14 @@ def test_csr_matrix_base_operations():
         return True
 
     addition = a + b
+
     diff = a - b
     product = a * b
     scalar = alpha * a
     division = a / alpha
 
     addition_true = matrix1 + matrix2
+
     diff_true = matrix1 - matrix2
     product_true = matrix1 * matrix2
     scalar_true = alpha * matrix1
