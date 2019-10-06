@@ -59,7 +59,8 @@ class CSRMatrix(object):
     def __add__(self, other):
         if (len(self.amounts) != len(other.amounts)) or (max(self.col_indxs) != max(other.col_indxs)):
             raise ValueError
-        out = CSRMatrix()
+	a = np.array()
+        out = CSRMatrix(a)
         # за один проход,добавляем сначала меньший индекс столбца из self и other,если в одном кончаются пишем все из
         # другого
         for i in range(len(self.amounts) - 1):
@@ -114,7 +115,8 @@ class CSRMatrix(object):
     def __sub__(self, other):
         if (len(self.amounts) != len(other.amounts)) or (max(self.col_indxs) != max(other.col_indxs)):
             raise ValueError
-        out = CSRMatrix()
+        a = np.array()
+        out = CSRMatrix(a)
         for i in range(len(self.amounts) - 1):
             out.amounts.append(out.amounts[-1])
             cur_row_len_s = self.amounts[i+1] - self.amounts[i]
@@ -167,7 +169,8 @@ class CSRMatrix(object):
     def __mul__(self, other):
         if type(other) == float or type(other) == int:
             if other == 0:
-                out = CSRMatrix()
+		a = np.array()
+                out = CSRMatrix(a)
                 out.amounts = [0]*len(self.amounts)
                 return out
             out = copy.deepcopy(self)
@@ -177,7 +180,8 @@ class CSRMatrix(object):
 
         if (len(self.amounts) != len(other.amounts)) or (max(self.col_indxs) != max(other.col_indxs)):
             raise ValueError
-        out = CSRMatrix()
+        a = np.array()
+        out = CSRMatrix(a)
         for i in range(len(self.amounts) - 1):
             out.amounts.append(out.amounts[-1])
             for dif_c in range(self.amounts[i + 1] - self.amounts[i]):  # amount of items in i row of self
@@ -198,7 +202,8 @@ class CSRMatrix(object):
         return out
 
     def transp(self):
-        out = CSRMatrix()
+	a = np.array()
+        out = CSRMatrix(a)
         m = max(self.col_indxs)
         for col_n in range(m+1):
             out.amounts.append(out.amounts[-1])
@@ -213,7 +218,8 @@ class CSRMatrix(object):
     def __matmul__(self, other):
         if max(self.col_indxs)+1 != len(other.amounts) - 1:
             raise ValueError
-        out = CSRMatrix()
+	a = np.array()
+        out = CSRMatrix(a)
         matr = other.transp()
 
         for row_n in range(len(self.amounts) - 1):  # go by rows at first matrix
@@ -244,22 +250,3 @@ class CSRMatrix(object):
             for i_ct in range(self.amounts[row_cnt + 1]-self.amounts[row_cnt]):
                 dense[row_cnt][self.col_indxs[self.amounts[row_cnt] + i_ct]] = self.items[self.amounts[row_cnt] + i_ct]
         return dense
-
-
-
-
-t1 =([1, 3, 4, 8, 9, 12], [1, 3, 4, 8, 9, 12], [1, 1, 1, 1, 1, 1])
-a=CSRMatrix(t1)
-a.to_dense()
-'''
-row_amount = max(init_matrix_representation[0])
-            col_amount = len(init_matrix_representation[2])//row_amount
-            matr = []
-            for i in range(row_amount):
-                matr.append([0] * col_amount)
-            for i in range(len(init_matrix_representation[2])):
-                matr[init_matrix_representation[0][i]-1][init_matrix_representation[1][i]-1]\
-                    = init_matrix_representation[2][i]
-                a = np.array(matr)
-            self.__init__(a)
-'''
