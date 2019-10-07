@@ -44,9 +44,8 @@ class LRUCacheDecorator:
             self.cache[parameters] = res, cur_time
             return res
         else:
-            sorted_cache = sorted(self.cache.items(), key=lambda t: -t[1][1])
             if self.ttl is not None:
-                old_keys = [k for k, v in sorted_cache if time.time() - v[1] >= self.ttl]
+                old_keys = [k for k, v in self.cache.items() if time.time() - v[1] >= self.ttl]
                 for key in old_keys:
                     del self.cache[key]
                 if len(self.cache) != self.maxsize:
@@ -54,6 +53,7 @@ class LRUCacheDecorator:
                     res = self.func(*args, **kwargs)
                     self.cache[parameters] = res, cur_time
                     return res
+            sorted_cache = sorted(self.cache.items(), key=lambda t: -t[1][1])
             last_key, last_val = sorted_cache[-1]
             del self.cache[last_key]
             cur_time = time.time()
