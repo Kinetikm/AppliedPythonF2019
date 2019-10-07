@@ -23,6 +23,7 @@ from itertools import product
     6. Matrix multiplication for tensors with dimension <= 2.
     """
 
+
 class Tensor:
     def __init__(self, init_matrix):
         self.matrix = init_matrix
