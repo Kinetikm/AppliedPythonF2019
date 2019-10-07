@@ -77,8 +77,8 @@ class CSRMatrix:
                 self.columns = [index[1]] + self.columns
                 self.d = [value] + self.d
             return
-        while k < len(self.d) - 1 and \
-         self.rows[k] < index[0] and self.columns[k] < index[1]:
+        while k < len(self.d) - 1 and self.rows[k] < index[0] and \
+         self.columns[k] < index[1]:
             k += 1
         if self.rows[k] == index[0] and self.columns[k] == index[1]:
             if value == 0:
