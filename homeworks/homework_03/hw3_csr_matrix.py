@@ -78,7 +78,7 @@ class CSRMatrix:
                 self.d = [value] + self.d
             return
         while k < len(self.d) - 1 and \
-         self.rows[k] < index[0] and self.columns[k] < index[1]:
+        self.rows[k] < index[0] and self.columns[k] < index[1]:
             k += 1
         if self.rows[k] == index[0] and self.columns[k] == index[1]:
             if value == 0:
@@ -112,7 +112,7 @@ class CSRMatrix:
                 c += [self.columns[a_ind]]
                 d += [self.operation[sign](self.d[a_ind], 0)]
                 a_ind += 1
-            elif self.rows[a_ind] > other.r[b_ind] or \
+            elif self.rows[a_ind] > other.rows[b_ind] or \
                     self.rows[a_ind] == other.rows[b_ind] and \
                     self.columns[a_ind] > other.columns[b_ind]:
                 r += [other.rows[b_ind]]
