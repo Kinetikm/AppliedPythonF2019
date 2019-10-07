@@ -13,25 +13,22 @@ class LRUCacheDecorator:
     def __call__(self, func):
         def obl(*args, **kwargs):
             key = hash(str(args) + str(tuple(kwargs.values())))
-            oldest_key = -1
             if key not in self.cache:
-                result = func(*args, **kwargs)
+                res = func(*args, **kwargs)
                 if len(self.cache) < self.maxsize:
-                    self.cache[key] = [result, time.time()]
+                    self.cache[key] = [res, time.time()]
                 else:
-                    for i in self.cache:
-                        if time.time() - self.cache[i][1] > oldest_key:
-                            oldest_key = i
-                    self.cache.pop(oldest_key)
-                    self.cache[key] = [result, time.time()]
-                return result
+                    keyold = max(self.cache,  key=lambda x: time.time() - self.cache[x][1])
+                    self.cache.pop(keyold)
+                    self.cache[key] = [res, time.time()]
+                return res
             else:
                 if self.ttl:
                     if (time.time() - self.cache[key][1]) * 1000 > self.ttl:
+                        res = func(*args, **kwargs)
                         self.cache.pop(key)
-                        result = func(*args, **kwargs)
-                        self.cache[key] = [result, time.time()]
-                        return result
+                        self.cache[key] = [res, time.time()]
+                        return res
                 self.cache[key][1] = time.time()
                 return self.cache[key][0]
         return obl
