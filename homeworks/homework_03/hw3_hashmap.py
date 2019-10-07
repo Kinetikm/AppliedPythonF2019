@@ -59,7 +59,7 @@ class HashMap:
                 for var in self._bucket[index]:
                     if var.key == key:
                         var.value = value
-        if len([lst for lst in self._bucket if lst]) > self.free_place:
+        if (len([lst for lst in self._bucket if lst]) / self.length) > self.free_place:
             self._resize()
 
     def __len__(self):
@@ -85,11 +85,7 @@ class HashMap:
 
     def items(self):
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        result = []
-        for bucket in self._bucket:
-                for var in bucket:
-                    result.append((var.key, var.value))
-        return result
+        return [ent for lst_of_ent in self._bucket for ent in lst_of_ent]
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
@@ -97,11 +93,11 @@ class HashMap:
         items = self.items()
         self._bucket = [[] for i in range(self.length)]
         for ent in items:
-            self.put(ent[0], ent[1])
+            self.put(ent.get_key(), ent.get_value())
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
-        return f"buckets: {self._bucket}, items: {self.items()}"
+        return 'buckets: {}, items: {}'.format(self.bucket_num, len(self))
 
     def __contains__(self, item):
         # TODO Метод проверяющий есть ли объект (через in)
