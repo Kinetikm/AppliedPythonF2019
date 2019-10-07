@@ -7,11 +7,6 @@ import numpy as np
 
 
 class Tensor:
-    def __init__(self, init_matrix_representation):
-        """
-        :param init_matrix_representation: list of lists
-        """
-
     def __init__(self, init_matrix_representation=None):
         self.dim = {}
         self.data = []
@@ -102,7 +97,7 @@ class Tensor:
                 output_.data[i] = val + other
         return output_
 
-    def __subtraction__(self, other):
+    def __sub__(self, other):
         output_ = self.from_tensor()
         if isinstance(other, Tensor):
             if self.dim == other.dim:
@@ -115,7 +110,7 @@ class Tensor:
                 output_.data[i] = val - other
         return output_
 
-    def __multiplication__(self, other):
+    def __mul__(self, other):
         output_ = self.from_tensor()
         if isinstance(other, Tensor):
             if self.dim == other.dim:
@@ -137,7 +132,7 @@ class Tensor:
                 output_.data[i] = val / other
         return output_
 
-    def __power__(self, power, modulo=None):
+    def __pow__(self, power, modulo=None):
         output_ = self.from_tensor()
         if isinstance(power, (int, float, np.int, np.float, np.int64)):
             for i, val in enumerate(self.data):
@@ -156,7 +151,7 @@ class Tensor:
         output_._calculate_offsets()
         return output_
 
-    def __summary__(self, axis=None):
+    def sum(self, axis=None):
         if axis is None:
             output_ = 0
             for i in self.data:
@@ -202,7 +197,7 @@ class Tensor:
         else:
             return arr
 
-    def mean_part(self, axis=None):
+    def mean(self, axis=None):
         if axis is None:
             r = 0
             for i in self.data:
