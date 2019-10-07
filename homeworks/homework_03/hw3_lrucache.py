@@ -23,13 +23,13 @@ class LRUCacheDecorator:
         def inner(*args, **kwargs):
             key = hash(str(args) + str(kwargs))
             if key not in self.cache['key_value']:
-                out = func(*args, **kwargs)
-                self.cache['key_value'][key] = out
-                self.cache['time'][key] = time()
-                if len(self.cache['key_value']) > self.maxsize:
+                if len(self.cache['key_value']) >= self.maxsize:
                     items = sorted(self.cache['time'].items(), key=lambda x: x[1])
                     del self.cache['key_value'][items[0][0]]
                     del self.cache['time'][items[0][0]]
+                out = func(*args, **kwargs)
+                self.cache['key_value'][key] = out
+                self.cache['time'][key] = time()
             elif self.ttl and (time() - self.cache['time'][key]) * 1000 > self.ttl:
                 out = func(*args, **kwargs)
                 self.cache['time'][key] = time()
