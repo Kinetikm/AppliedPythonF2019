@@ -33,8 +33,8 @@ class HashMap:
             # raise NotImplementedError
 
         def __iter__(self):
-            yield self.get_key()
-            yield self.get_value()
+            yield self._key()
+            yield self._value()
 
         # def __next__(self):
         #     return self.get_key()
@@ -77,7 +77,7 @@ class HashMap:
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
-        return self.capacity
+        return len(self.items())
         # raise NotImplementedError
 
     def _get_hash(self, key):
@@ -125,3 +125,6 @@ class HashMap:
         # TODO Метод проверяющий есть ли объект (через in)\
         return item in self.keys()
         # raise NotImplementedError
+a= []
+a.append(3)
+print(a)
