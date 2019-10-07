@@ -10,7 +10,7 @@ from typing import Set, Any
 class LRUCacheDecorator:
 
     class CacheEntity:
-        def __init__(self, function, arguments=(), ttl = None):
+        def __init__(self, function, arguments=(), ttl=None):
             self.last_use_time = time.time()
             self.ttl = ttl
             self.function = function
@@ -43,7 +43,6 @@ class LRUCacheDecorator:
         def __repr__(self):
             return "{} {}".format(self.ttl, self.last_use_time)
 
-
     def __init__(self, maxsize=3, ttl=None):
         '''
         :param maxsize: максимальный размер кеша
@@ -56,7 +55,7 @@ class LRUCacheDecorator:
 
     def __call__(self, func):
 
-        cached_calls: Set[LRUCacheDecorator.CacheEntity] = dict()  # todo use heap
+        cached_calls = dict()  # todo use heap
         self.funcs[func] = cached_calls
 
         def cached_call(*args, **kwargs):
