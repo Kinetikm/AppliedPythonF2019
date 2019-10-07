@@ -219,3 +219,7 @@ class CSRMatrix:
             return res
         else:
             raise ValueError
+
+    def __matmul__(self, other):
+
+        raise NotImplementedError
