@@ -16,4 +16,22 @@ def word_count_inference(path_to_dir):
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
     '''
-    raise NotImplementedError
+    manager = Manager()
+    result = manager.dict()
+    files = os.listdir(path_to_dir)
+    jobs = []
+    for file in files:
+        job = Process(target=worker, args=(path_to_dir, file, result))
+        jobs.append(job)
+        job.start()
+    for job in jobs:
+        job.join()
+    result['total'] = sum(result.values())
+    return result
+
+def worker(path_to_dir, file, result):
+    with open(path_to_dir + '/' + file) as f:
+        count = 0
+        for line in f.readlines():
+            count += len(line.split())
+        result[file] = count
