@@ -40,10 +40,10 @@ class CSRMatrix:
         else:
             raise ValueError
 
-        raise NotImplementedError
+        
 
     def to_dense(self):
         """
         Return dense representation of matrix (2D np.array).
         """
-raise NotImplementedError
+
