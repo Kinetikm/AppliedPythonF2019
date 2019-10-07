@@ -108,14 +108,9 @@ class HashMap:
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
+        self.map.extend([] for i in range(self.bucket_num))
         self.bucket_num *= 2
-        items = self.items()
-        self.map = [[] for i in range(self.bucket_num)]
-        for entry in items:
-            self.capacity = 0
-            self.put(*entry)
-
-        #raise NotImplementedError
+        # raise NotImplementedError
 
     def __str__(self):
         # TODO Метод выводит "buckets: {}, items: {}"
