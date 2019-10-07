@@ -65,7 +65,7 @@ class HashMap:
         self.map[index].append(new_put)
         self.capacity += 1
 
-        raise NotImplementedError
+        # raise NotImplementedError
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
