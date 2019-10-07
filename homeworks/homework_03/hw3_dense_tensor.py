@@ -178,7 +178,7 @@ class Tensor:
         query = []
         matrix = Tensor(self.matrix)
         while lst != [x for x in range(len(self.shape))]:
-            query.append(_dum(lst))
+            query.append(self._dum(lst))
             lst[query[-1][0]], lst[query[-1][1]] = lst[query[-1][1]], lst[
                 query[-1][0]]
         for op in query[::-1]:
