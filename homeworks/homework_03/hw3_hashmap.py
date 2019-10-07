@@ -112,6 +112,7 @@ class HashMap:
         items = self.items()
         self.map = [[] for i in range(self.bucket_num)]
         for entry in items:
+            self.capacity = 0
             self.put(*entry)
 
         #raise NotImplementedError
