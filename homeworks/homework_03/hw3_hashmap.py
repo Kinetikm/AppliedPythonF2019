@@ -59,7 +59,7 @@ class HashMap:
                 for var in self._bucket[index]:
                     if var.key == key:
                         var.value = value
-        if len([lst for lst in self.h_map if lst]) > self.free_place:
+        if len([lst for lst in self._bucket if lst]) > self.free_place:
             self._resize()
 
     def __len__(self):
