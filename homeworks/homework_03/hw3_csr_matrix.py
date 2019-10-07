@@ -36,6 +36,7 @@ class CSRMatrix:
             a[row_ind[k], col_ind[k]] = data[k]
         """
         raise NotImplementedError
+
         self.A = []
         self.IA = [0]
         self.JA = []
