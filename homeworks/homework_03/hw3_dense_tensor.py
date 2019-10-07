@@ -134,7 +134,7 @@ class Tensor:
             return mtr ** number
 
     def __pow__(self, number):
-        return self._pow(self.matrix, number)
+        return Tensor(self._pow(self.matrix, number))
 
     def makelist(self, shape):
         if len(shape) != 1:
@@ -171,7 +171,7 @@ class Tensor:
                 return lst[0][0], m[0]
 
     def transpose(self, *args):
-        if args is None:
+        if args == [];
             lst = [x for x in range(len(self.shape) - 1, -1, -1)]
         else:
             lst = list(args)
