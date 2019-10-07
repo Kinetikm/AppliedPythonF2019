@@ -36,7 +36,6 @@ class HashMap:
         """
         self.length = bucket_num
         self._bucket = [[] for i in range(int(self.length))]
-        self.capacity = 0
         self.free_place = 0.66
 
     def get(self, key, default_value=None):
@@ -54,19 +53,18 @@ class HashMap:
         if key not in self.keys():
             index = self._get_index(self._get_hash(key))
             self._bucket[index].append(self.Entry(key, value))
-            self.capacity += 1
         else:
             index = self._get_index(self._get_hash(key))
             if self._bucket[index]:
                 for var in self._bucket[index]:
                     if var.key == key:
                         var.value = value
-        if self.capacity / self.length > self.free_place:
+        if len([lst for lst in self.h_map if lst]) > self.free_place:
             self._resize()
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
-        return self.capacity
+        return len(self.items())
 
     def _get_hash(self, key):
         # TODO Вернуть хеш от ключа,
@@ -89,7 +87,6 @@ class HashMap:
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
         result = []
         for bucket in self._bucket:
-            if bucket:
                 for var in bucket:
                     result.append((var.key, var.value))
         return result
