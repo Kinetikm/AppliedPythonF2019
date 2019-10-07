@@ -7,7 +7,6 @@ import numpy as numpy
 
 class Tensor:
 
-
     def __init__(self, init_matrix_represultentation=None):
         self.dimensions = {}
         self.data = []
@@ -352,8 +351,7 @@ class Tensor:
                 result = Tensor()
                 result.dimensions[0] = other.dimensions[1]
                 result.data = [0] * other.dimensions[1]
-                for i, j in [(x, y) for x in range(1) for y \
-                 in range(other.dimensions[1])]:
+                for i, j in [(x, y) for x in range(1) for y in range(other.dimensions[1])]:
                     for p in range(other.dimensions[0]):
                         result.data[j] += self.data[p] * other[p, j]
                 return result
