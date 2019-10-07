@@ -89,7 +89,7 @@ class Tensor:
         else:
             return Tensor(self.add_num(self.matrix, other))
 
-    def __iadd__(self, other):
+    def __radd__(self, other):
         if isinstance(other, Tensor):
             if self.shape == other.shape:
                 return Tensor(self.add(self.matrix, other.matrix))
