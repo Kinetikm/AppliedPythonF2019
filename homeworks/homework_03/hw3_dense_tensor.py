@@ -7,7 +7,7 @@ class Tensor:
 
     def __getitem__(self, index):
         if type(index) == tuple:
-            return self.matr[index[0]][index[1]]
+            return self.matr[index[0]][index[1]]  # c
 
     def __setitem__(self, key, value):
         self.matr[key[0]][key[1]] = value
