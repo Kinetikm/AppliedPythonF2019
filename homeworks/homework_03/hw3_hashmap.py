@@ -31,11 +31,12 @@ class HashMap:
             # TODO реализовать функцию сравнения
             return self._key == other.get_key()
             # raise NotImplementedError
+
         def __iter__(self):
-            
             return self
+
         def __next__(self):
-            return self._key
+            return self.get_key()
 
     def __init__(self, bucket_num=64):
         """
