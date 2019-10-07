@@ -219,9 +219,13 @@ class CSRMatrix:
         """
         mat = np.zeros((len(self._imatrix) - 1, self._max_cols))
         for i in range(len(self._imatrix) - 1):
-            for k in range(self._imatrix[i], self._imatrix[i+1]):
-                mat[i, self._jmatrix[k]] = self._matrix[k]
+            if self._imatrix[i] != self._imatrix[i+1]:
+                for k in range(self._imatrix[i], self._imatrix[i+1]):
+                    mat[i, self._jmatrix[k]] = self._matrix[k]
         return mat
+
+    def __str__(self):
+        return str(self.to_dense())
 
     @property
     def nnz(self):
