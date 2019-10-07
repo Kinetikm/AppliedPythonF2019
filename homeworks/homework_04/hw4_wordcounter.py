@@ -29,6 +29,7 @@ def word_count_inference(path_to_dir):
     result['total'] = sum(result.values())
     return result
 
+
 def worker(path_to_dir, file, result):
     with open(path_to_dir + '/' + file) as f:
         count = 0
