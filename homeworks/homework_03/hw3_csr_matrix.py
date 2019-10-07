@@ -113,8 +113,3 @@ class CSRMatrix:
                 mas[i-1][self.ja[els_passed]] = self.a[els_passed]
                 els_passed += 1
         return mas
-
-
-matr = CSRMatrix(np.array([(0, 1, 1), (0, 0, 2), (0, 2, 3),
-                           (1, 0, 0), (1, 1, 0), (1, 2, 6),
-                           (2, 0, 7), (2, 1, 8), (2, 2, 9)]))
