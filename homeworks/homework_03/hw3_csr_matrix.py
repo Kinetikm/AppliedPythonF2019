@@ -81,10 +81,8 @@ class CSRMatrix:
     def __getitem__(self, item):
         row = item[0]
         col = item[1]
-        rows_num = len(self.ia) -1
-        cols_num = max(self.ja) + 1
         els_in_row = self.ia[row+1] - self.ia[row]
-        if (0 <= row < rows_num) and (0 <= col < cols_num):
+        if (0 <= row < self.rows_num) and (0 <= col < self.cols_num):
             if els_in_row == 0:
                 return 0
             else:
@@ -113,3 +111,46 @@ class CSRMatrix:
                 mas[i-1][self.ja[els_passed]] = self.a[els_passed]
                 els_passed += 1
         return mas
+
+    @property
+    def nnz(self):
+        return self.nnz
+
+    def __setitem__(self, key, value):
+        row = key[0]
+        col = key[1]
+        els_in_row = self.ia[row + 1] - self.ia[row]
+        if (0 <= row < self.rows_num) and (0 <= col < self.cols_num):
+            if els_in_row == 0:
+# Вставляем в пустую строку
+                if value != 0:
+                    self.a.insert(self.ia[row], value)
+                    self.ja.insert(self.ia[row], col)
+                    for i in range(row+1,len(self.ia)):
+                        self.ia[i] += 1
+                    self.nnz += 1
+                return
+            else:
+                els_behind = self.ia[row]
+# Вставляем на место ненулевого элемента
+                for i in range(els_in_row):
+                    if self.ja[els_behind + i] == col:
+                        if value != 0:
+                            self.a[els_behind + i] = value
+                        else:
+                            del self.a[els_behind + i]
+                            del self.ja[els_behind + i]
+                            for i in range(row+1,len(self.ia)):
+                                self.ia[i] -= 1
+                            self.nnz -= 1
+                        return
+                left_index = -1
+                rigth_index = self.ja[els_behind]
+                for i in range(els_in_row):
+                    if (left_index < col) and (col < rigth_index):
+                        self.a.insert(els_behind + i - 1, value)
+                        self.ja.insert(els_behind + i - 1, col)
+                    else:
+                        left_index = rigth_index
+                        if (rigth_index != )
+                        rigth_index = self.ja[els_behind + i + 1]
