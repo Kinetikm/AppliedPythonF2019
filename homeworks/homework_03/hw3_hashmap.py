@@ -25,6 +25,10 @@ class HashMap:
             # TODO возвращаем значение
             return self.value
 
+        def __iter__(self):
+            yield self.key
+            yield self.value
+
         def __eq__(self, other):
             # TODO реализовать функцию сравнения
             return self.key == other.key
@@ -49,12 +53,10 @@ class HashMap:
 
     def put(self, key, value):
         # TODO метод put, кладет значение по ключу,
-        #  в случае, если ключ уже присутствует он его заменяет
+        index = self._get_index(self._get_hash(key))
         if key not in self.keys():
-            index = self._get_index(self._get_hash(key))
             self._bucket[index].append(self.Entry(key, value))
         else:
-            index = self._get_index(self._get_hash(key))
             if self._bucket[index]:
                 for var in self._bucket[index]:
                     if var.key == key:
