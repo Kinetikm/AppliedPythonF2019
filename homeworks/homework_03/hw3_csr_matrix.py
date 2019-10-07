@@ -188,8 +188,10 @@ class CSRMatrix:
             raise ValueError
         if self.shape[1] != other.shape[0]:
             raise ValueError
-        result = np.zeros((self.shape[0], other.shape[1]))
-        for i in range(self.shape[0]):
+        result=(self.to_dense())@(other.to_dense())
+        return CSRMatrix(result)
+
+        '''for i in range(self.shape[0]):
             amount = self.IA[i + 1] - self.IA[i]
             for j in range(other.shape[1]):
                 element = self.IA[i]
@@ -200,8 +202,9 @@ class CSRMatrix:
                     element += 1
                 result[i, j] = temp
         return CSRMatrix(result)
+        raise NotImplementedError'''
 
-    def dot(self, other):
+    '''def dot(self, other):
         if type(self) != type(other):
             raise ValueError
         if self.shape[1] != other.shape[0]:
@@ -219,3 +222,4 @@ class CSRMatrix:
                     element += 1
                 result[i, j] = temp
         return CSRMatrix(result)
+        raise NotImplementedError'''
