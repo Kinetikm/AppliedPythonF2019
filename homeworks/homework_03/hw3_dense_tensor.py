@@ -27,5 +27,4 @@ class Tensor:
         """
         :param init_matrix_representation: list of lists
         """
-
         raise NotImplementedError
