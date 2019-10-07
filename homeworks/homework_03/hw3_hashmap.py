@@ -7,76 +7,121 @@ class HashMap:
     Давайте сделаем все объектненько,
      поэтому внутри хешмапы у нас будет Entry
     """
+    class ItemIterator:
+        def __init__(self, hash_table):
+            self._hash_table = hash_table
+            self._ind = [0, -1]
+
+        def __iter__(self):
+            return self
+
+        def __next__(self):
+            if self._ind[0] < len(self._hash_table):
+                if self._hash_table[self._ind[0]]:
+                    if self._ind[1] + 1 < len(self._hash_table[self._ind[0]]):
+                        self._ind[1] += 1
+                        entry = self._hash_table[self._ind[0]][self._ind[1]]
+                        return (entry.get_key(), entry.get_value())
+                self._ind[0] += 1
+                if self._ind[0] >= len(self._hash_table):
+                        raise StopIteration
+                while not self._hash_table[self._ind[0]]:
+                    self._ind[0] += 1
+                    if self._ind[0] >= len(self._hash_table):
+                        raise StopIteration
+                self._ind[1] = 0
+                entry = self._hash_table[self._ind[0]][self._ind[1]]
+                return (entry.get_key(), entry.get_value())
+            raise StopIteration
+
+    class KeyIterator(ItemIterator):
+        def __next__(self):
+            entry = super().__next__()
+            return entry[0]
+
+    class ValueIterator(ItemIterator):
+        def __next__(self):
+            entry = super().__next__()
+            return entry[1]
+
     class Entry:
         def __init__(self, key, value):
-            """
-            Сущность, которая хранит пары ключ-значение
-            :param key: ключ
-            :param value: значение
-            """
+            self._key = key
+            self._value = value
 
         def get_key(self):
-            # TODO возвращаем ключ
-            raise NotImplementedError
+            return self._key
 
         def get_value(self):
-            # TODO возвращаем значение
-            raise NotImplementedError
+            return self._value
 
         def __eq__(self, other):
-            # TODO реализовать функцию сравнения
-            raise NotImplementedError
+            return self._key == other._key
 
-    def __init__(self, bucket_num=64):
-        """
-        Реализуем метод цепочек
-        :param bucket_num: число бакетов при инициализации
-        """
-        raise NotImplementedError
+    def __init__(self, bucket_num=10):
+        self._bucket_num = bucket_num
+        self._hash_table = [None] * bucket_num
+        self._num = 0
 
     def get(self, key, default_value=None):
-        # TODO метод get, возвращающий значение,
-        #  если оно присутствует, иначе default_value
-        raise NotImplementedError
+        k = self._get_index(self._get_hash(key))
+        if self._hash_table[k]:
+            for item in self._hash_table[k]:
+                if item.get_key() == key:
+                    return item.get_value()
+        return default_value
 
     def put(self, key, value):
-        # TODO метод put, кладет значение по ключу,
-        #  в случае, если ключ уже присутствует он его заменяет
-        raise NotImplementedError
+        if (self._num + 1) / self._bucket_num > 2 / 3:
+            self._resize()
+        ind = self._get_index(self._get_hash(key))
+        if self._hash_table[ind]:
+            for i in range(len(self._hash_table[ind])):
+                if self._hash_table[ind][i].get_key() == key:
+                    self._hash_table[ind][i]._value = value
+                    return
+                elif i == len(self._hash_table[ind]) - 1:
+                    self._hash_table[ind].append(self.Entry(key, value))
+        else:
+            self._hash_table[ind] = [self.Entry(key, value)]
+            self._num += 1
 
     def __len__(self):
-        # TODO Возвращает количество Entry в массиве
-        raise NotImplementedError
+        count = 0
+        for i in range(self._bucket_num):
+            if self._hash_table[i]:
+                count += len(self._hash_table[i])
+        return count
 
     def _get_hash(self, key):
-        # TODO Вернуть хеш от ключа,
-        #  по которому он кладется в бакет
-        raise NotImplementedError
+        return hash(key)
 
     def _get_index(self, hash_value):
-        # TODO По значению хеша вернуть индекс элемента в массиве
-        raise NotImplementedError
+        return hash_value % self._bucket_num
 
     def values(self):
-        # TODO Должен возвращать итератор значений
-        raise NotImplementedError
+        return self.ValueIterator(self._hash_table)
 
     def keys(self):
-        # TODO Должен возвращать итератор ключей
-        raise NotImplementedError
+        return self.KeyIterator(self._hash_table)
 
     def items(self):
-        # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        raise NotImplementedError
+        return self.ItemIterator(self._hash_table)
 
     def _resize(self):
-        # TODO Время от времени нужно ресайзить нашу хешмапу
-        raise NotImplementedError
+        itr = self.items()
+        self._bucket_num *= 2
+        self._hash_table = [None] * self._bucket_num
+        for it in itr:
+            self.put(it[0], it[1])
 
     def __str__(self):
-        # TODO Метод выводит "buckets: {}, items: {}"
-        raise NotImplementedError
+        return f"buckets: {self._bucket_num}, items: {len(self._hash_table)}"
 
     def __contains__(self, item):
-        # TODO Метод проверяющий есть ли объект (через in)
-        raise NotImplementedError
+        for lst in self._hash_table:
+            if lst:
+                for entry in lst:
+                    if entry.get_key() == item:
+                        return True
+        return False
