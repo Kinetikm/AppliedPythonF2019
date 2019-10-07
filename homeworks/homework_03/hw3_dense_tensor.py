@@ -171,7 +171,7 @@ class Tensor:
                 return lst[0][0], m[0]
 
     def transpose(self, *args):
-        if args == []
+        if len(args) == 0:
             lst = [x for x in range(len(self.shape) - 1, -1, -1)]
         else:
             lst = list(args)
