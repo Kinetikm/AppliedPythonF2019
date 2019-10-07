@@ -49,7 +49,7 @@ class CSRMatrix:
             self.rn = max(self.row) + 1
             self.cn = max(self.col) + 1
         elif isinstance(init_matrix_representation, np.ndarray):
-            pself.row = []
+            self.row = []
             self.col = []
             self.data = []
             for rn, row in enumerate(init_matrix_representation):

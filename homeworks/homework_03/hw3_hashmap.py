@@ -77,11 +77,11 @@ class HashMap:
 
     def values(self):
         # TODO Должен возвращать итератор значений
-        return list(map(lambda x: x[1], self.items()))
+        return [ent.get_value() for ent in self.items()]
 
     def keys(self):
         # TODO Должен возвращать итератор ключей
-        return list(map(lambda x: x[0], self.items()))
+        return [ent.get_key() for ent in self.items()]
 
     def items(self):
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
