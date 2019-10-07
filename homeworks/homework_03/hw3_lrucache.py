@@ -3,7 +3,7 @@ from time import time
 
 class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
-        self.maxsize = maxsize   # c
+        self.maxsize = maxsize
         self.ttl = ttl
         self.cache = {}     
         self.time = {}
