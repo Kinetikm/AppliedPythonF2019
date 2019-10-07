@@ -188,7 +188,7 @@ class CSRMatrix:
             raise ValueError
         if self.shape[1] != other.shape[0]:
             raise ValueError
-        result=(self.to_dense())@(other.to_dense())
+        result = (self.to_dense()) @ (other.to_dense())
         return CSRMatrix(result)
 
         '''for i in range(self.shape[0]):
