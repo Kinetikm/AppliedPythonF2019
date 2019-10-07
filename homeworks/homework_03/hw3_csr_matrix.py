@@ -24,6 +24,7 @@ class CSRMatrix:
     c = a.dot(b) -- matrix multiplication if shapes match
     c = a @ b --//--
     4. nnz attribute -- number of nonzero elements in matrix
+    почему не перезапускаются тесты???
     """
 
     def __init__(self, init_matrix_representation):
