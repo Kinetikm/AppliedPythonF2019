@@ -103,7 +103,7 @@ class HashMap:
 
     def items(self):
         # TODO Должен возвращать итератор пар ключ и значение (tuples)
-        return ((entry.get_key(), entry.get_value) for i in self.map for entry in i)
+        return [(entry.get_key(), entry.get_value) for i in self.map for entry in i]
         # raise NotImplementedError
 
     def _resize(self):
