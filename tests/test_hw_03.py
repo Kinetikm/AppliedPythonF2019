@@ -540,8 +540,8 @@ def test_tensor_matmul():
 
     for i, j in zip(range(c_true.shape[0]), range(c_true.shape[1])):
         assert c_true[i, j] == c[i, j]
-
     for i in range(c1_true.shape[0]):
+
         assert c1_true[i] == c1[i]
 
     for i in range(c2_true.shape[0]):
