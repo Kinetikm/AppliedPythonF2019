@@ -165,7 +165,19 @@ class CSRMatrix:
         return self * (1 / other)
 
     def __matmul__(self, other):
-        return CSRMatrix(self.to_dense() @ other.to_dense())
+        if max(other.get_cols()) + 1 != len(self._rows) - 1:
+            raise ValueError
+        product_matrix = CSRMatrix(np.zeros((len(self._rows) - 1, max(other.get_cols()) + 1)))
+        tmp = 0
+        for i in range(len(self._rows) - 1):
+            for j in range(max(other.get_cols()) + 1):
+                for k in range(len(other.get_rows()) - 1):
+                    if self[i, k] and other[k, j]:
+                        tmp += self[i, k] * other[k, j]
+                if tmp:
+                    product_matrix[i, j] = tmp
+                    tmp = 0
+        return product_matrix
 
     def to_dense(self):
         """
