@@ -33,10 +33,11 @@ class HashMap:
             # raise NotImplementedError
 
         def __iter__(self):
-            return self
+            yield self.get_key()
+            yield self.get_value()
 
-        def __next__(self):
-            return self.get_key()
+        # def __next__(self):
+        #     return self.get_key()
 
     def __init__(self, bucket_num=64):
         """
