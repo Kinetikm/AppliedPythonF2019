@@ -67,8 +67,10 @@ class HashMap:
             self._resize()
         if new_put in self.map[index]:
             self.map[index].remove(new_put)
-        self.map[index].append(new_put)
-        self.capacity += 1
+            self.map[index].append(new_put)
+        else:
+            self.map[index].append(new_put)
+            self.capacity += 1
 
         # raise NotImplementedError
 
