@@ -77,7 +77,7 @@ class HashMap:
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
-        return len(self.items())
+        return self.capacity
         # raise NotImplementedError
 
     def _get_hash(self, key):
