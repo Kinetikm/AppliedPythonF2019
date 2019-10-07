@@ -5,7 +5,6 @@
 class Tensor:
     """
     Your realisation of numpy tensor.
-
     Must be implemented:
     1. Getting and setting element by indexes of row and col.
     a[i, j] = v -- set value in i-th row and j-th column to value.
