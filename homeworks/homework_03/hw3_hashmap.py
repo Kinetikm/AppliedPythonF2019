@@ -52,10 +52,9 @@ class HashMap:
         # TODO метод get, возвращающий значение,
         #  если оно присутствует, иначе default_value
         index = self._get_index(self._get_hash(key))
-        for i in self.map[index]:
-            for entry in i:
-                if entry.get_key() == key:
-                    return entry.get_value()
+        for entry in self.map[index]:
+            if entry.get_key() == key:
+                return entry.get_value()
         return default_value
         # raise NotImplementedError
 
