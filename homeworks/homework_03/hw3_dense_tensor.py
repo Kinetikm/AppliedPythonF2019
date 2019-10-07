@@ -7,7 +7,7 @@ class Tensor:
 
     def __getitem__(self, index):
         if type(index) == tuple:
-            return self.matr[index[0]][index[1]]  # c
+            return self.matr[index[0] - 1][index[1] - 1]  # c
 
     def __setitem__(self, key, value):
         self.matr[key[0]][key[1]] = value
@@ -180,7 +180,7 @@ class Tensor:
                     new_m[j][i] = self[i, j]
             self.matr = copy.deepcopy(new_m)
 
-    def swap(self, ax1, ax2):
+    def swapaxes(self, ax1, ax2):
         self.matr[ax1], self.matr[ax2] = self.matr[ax2], self.matr[ax1]
 
     def __matmul__(self, other):
