@@ -64,20 +64,21 @@ class HashMap:
         #  в случае, если ключ уже присутствует он его заменяет
         index = self._get_index(self._get_hash(key))
         new_put = self.Entry(key, value)
-        if self.capacity >= 0.9*self.bucket_num:
+        if self.capacity >= 0.75*self.bucket_num:
             self._resize()
-        if new_put in self.map[index]:
-            self.map[index].remove(new_put)
-            self.map[index].append(new_put)
-        else:
-            self.map[index].append(new_put)
-            self.capacity += 1
+        for entry in self.map[index]:
+            if entry.get_key() == key:
+                self.map[index].remove(entry)
+                self.map[index].append(new_put)
+                return
+        self.map[index].append(new_put)
+        self.capacity += 1
 
         # raise NotImplementedError
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
-        return len([[] for i in self.items()])
+        return self.capacity
         # raise NotImplementedError
 
     def _get_hash(self, key):
