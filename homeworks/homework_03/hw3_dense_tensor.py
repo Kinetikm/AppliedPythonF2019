@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
+import copy
+from itertools import product
+import numpy as np
 
 
 class Tensor:
@@ -368,4 +371,3 @@ class Tensor:
                 return res
             else:
                 raise ValueError
-
