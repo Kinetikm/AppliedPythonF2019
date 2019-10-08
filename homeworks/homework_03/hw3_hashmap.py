@@ -110,8 +110,8 @@ class HashMap:
         # TODO Время от времени нужно ресайзить нашу хешмапу
         self.bucket_num *= 2
         new_lst = self.items()
+        self.capacity = 0
         for entry in new_lst:
-            self.capacity = 0
             self.put(*entry)
         # raise NotImplementedError
 
