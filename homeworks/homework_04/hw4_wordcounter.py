@@ -7,11 +7,14 @@ import os
 
 def count_words(filename,  queue):
     cnt = 0
-    with open(filename, 'r') as f:
-        for line in f:
-            lin = line.split()
-            cnt += len(lin)
-    queue.put({filename.split('/')[-1]: cnt})
+    try:
+        with open(filename, 'r') as f:
+            for line in f:
+                lin = line.split()
+                cnt += len(lin)
+        queue.put({filename.split('/')[-1]: cnt})
+    except IsADirectoryError:
+        return
 
 
 def total_func(queue):
