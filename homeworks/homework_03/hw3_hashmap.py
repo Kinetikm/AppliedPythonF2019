@@ -73,12 +73,11 @@ class HashMap:
                 return
         self.map[index].append(new_put)
         self.capacity += 1
-
         # raise NotImplementedError
 
     def __len__(self):
         # TODO Возвращает количество Entry в массиве
-        return len([[] for i in self.items()])
+        return self.capacity
         # raise NotImplementedError
 
     def _get_hash(self, key):
@@ -109,8 +108,11 @@ class HashMap:
 
     def _resize(self):
         # TODO Время от времени нужно ресайзить нашу хешмапу
-        self.map.extend([] for i in range(self.bucket_num))
         self.bucket_num *= 2
+        new_lst = self.items()
+        for entry in new_lst:
+            self.capacity = 0
+            self.put(*entry)
         # raise NotImplementedError
 
     def __str__(self):
@@ -122,6 +124,3 @@ class HashMap:
         # TODO Метод проверяющий есть ли объект (через in)\
         return item in self.keys()
         # raise NotImplementedError
-a= []
-a.append(3)
-print(a)
