@@ -7,14 +7,8 @@ import os
 
 def num_words(dir, fname, result):
     words = 0
-    for line in open(dir):
-        pos = 'out'
-        for letter in line:
-            if letter != ' ' and pos == 'out':
-                words += 1
-                pos = 'in'
-            elif letter == ' ':
-                pos = 'out'
+    for line in open(dir).readlines():
+        words += len(line.split())
     result[fname] = words
 
 
@@ -41,7 +35,7 @@ def word_count_inference(path_to_dir):
         task.start()
     for task in tasks:
         task.join()
-    for key in result.keys():
-        total += result[key]
+    for value in result.values():
+        total += value
     result['total'] = total
     return result
