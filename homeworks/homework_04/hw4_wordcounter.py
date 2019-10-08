@@ -5,9 +5,9 @@ from multiprocessing import Process, Manager
 import os
 
 
-def num_words(fname, result):
+def num_words(dir, fname, result):
     words = 0
-    for line in open(fname):
+    for line in open(dir):
         pos = 'out'
         for letter in line:
             if letter != ' ' and pos == 'out':
@@ -36,7 +36,7 @@ def word_count_inference(path_to_dir):
     tasks = []
     lst_of_f = os.listdir(path=path_to_dir)
     for i in lst_of_f:
-        task = Process(target=num_words, args=(path_to_dir + '/' + i, result))
+        task = Process(target=num_words, args=(path_to_dir + '/' + i, i, result))
         tasks.append(task)
         task.start()
     for task in tasks:
