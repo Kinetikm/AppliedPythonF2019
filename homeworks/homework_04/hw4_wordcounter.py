@@ -36,7 +36,7 @@ def word_count_inference(path_to_dir):
     tasks = []
     lst_of_f = os.listdir(path=path_to_dir)
     for i in lst_of_f:
-        task = Process(target=num_words, args=(num_of_th[i], result))
+        task = Process(target=num_words, args=(lst_of_f[i], result))
         tasks.append(task)
         task.start()
     for task in tasks:
