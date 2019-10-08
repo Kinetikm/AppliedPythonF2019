@@ -111,6 +111,7 @@ class HashMap:
         self.bucket_num *= 2
         new_lst = self.items()
         self.capacity = 0
+        self.map = [[] for i in range(self.bucket_num)]
         for entry in new_lst:
             self.put(*entry)
         # raise NotImplementedError
