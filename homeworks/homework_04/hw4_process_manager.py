@@ -101,12 +101,12 @@ class TaskManager:
         return
 
 
-begin = time.clock_gettime(time.CLOCK_REALTIME)
-queue = Manager().Queue()
-queue.put(Task(3))
-queue.put(Task(4))
-queue.put(Task(5))
-queue.put(Task(6))
-queue.put(Task(7))
-a = TaskManager(queue, 2, 4)
-a.run()
+# begin = time.clock_gettime(time.CLOCK_REALTIME)
+# queue = Manager().Queue()
+# queue.put(Task(3))
+# queue.put(Task(4))
+# queue.put(Task(5))
+# queue.put(Task(6))
+# queue.put(Task(7))
+# a = TaskManager(queue, 2, 4)
+# a.run()
