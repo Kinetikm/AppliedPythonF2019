@@ -8,7 +8,7 @@ processes_available = os.cpu_count()
 
 
 def consumer_func(queue):
-    dict = {"total":0}
+    dict = {"total": 0}
     while True:
         val = queue.get()
         if val == "This is the end)":
@@ -33,8 +33,8 @@ def word_count_inference(path_to_dir):
     for file in os.listdir(path_to_dir):
         j = pool.apply_async(words_counter, args=(path_to_dir + '/' + file, queue))
         jobs.append(j)
-    for j in jobs:
-        j.get()
+    for s in jobs:
+        s.get()
     queue.put("This is the end)")
     pool.close()
     pool.join()
