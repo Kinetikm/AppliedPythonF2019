@@ -3,6 +3,7 @@
 import time
 from functools import wraps
 
+
 class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
         '''
