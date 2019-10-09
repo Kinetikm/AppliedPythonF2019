@@ -22,7 +22,8 @@ def queue_switching(queue):
             break
         major_dict.update(res)
     major_dict['total'] = sum(major_dict.values())
-
+    return major_dict
+    
 
 def word_count_inference(path_to_dir):
     PROCESSES_COUNT = os.cpu_count()
