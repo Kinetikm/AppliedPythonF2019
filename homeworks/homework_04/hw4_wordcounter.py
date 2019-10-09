@@ -32,8 +32,9 @@ def word_count_inference(path_to_dir):
     pool.apply_async(queue_switching, (queue, ))
     jobs = []
     for filename in os.listdir(path_to_dir):
-        job = pool.apply_async(words_in_file, (path_to_dir, filename, queue))
-        jobs.append(job)
+        if os.path.isfile(path_to_dir + '/' + filename):
+            job = pool.apply_async(words_in_file, (path_to_dir, filename, queue))
+            jobs.append(job)
 
     for job in jobs:
         job.get()
