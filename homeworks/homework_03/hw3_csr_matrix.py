@@ -40,12 +40,18 @@ class CSRMatrix:
 
         if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
             s = 0
-            for i in range(max(init_matrix_representation[0])+1):
-                s += list(init_matrix_representation[0]).count(i)
-                self.IA.append(s)
-            self.A = list(init_matrix_representation[2])
-            self.JA = list(init_matrix_representation[1])
             self.max_col = max(init_matrix_representation[1]) + 1
+            num = max(init_matrix_representation[0]) + 1
+            self.IA = [0]*(num + 1)
+            for k, item in enumerate(init_matrix_representation[0]):
+                row = item % num
+                if init_matrix_representation[2][k]:
+                    self.A.append(init_matrix_representation[2][k])
+                    self.JA.append(init_matrix_representation[1][k])
+                    s += 1
+                self.IA[row + 1] = s
+            i = self.IA.index(s)
+            self.IA[i:] = [s for _ in self.IA[i:]]
 
         elif isinstance(init_matrix_representation, np.ndarray):
             number = 0
