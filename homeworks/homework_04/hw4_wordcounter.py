@@ -23,7 +23,7 @@ def word_count_inference(path_to_dir):
 
 
 def f(file, q, res):
-    with open(f_name, 'r') as file:
+    with open(file, 'r') as file:
         tmp = 0
         for line in file:
             tmp += len(line.split())
