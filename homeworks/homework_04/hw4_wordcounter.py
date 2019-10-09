@@ -21,8 +21,8 @@ def word_count_inference(path_to_dir):
         p = pool.apply_async(f, args=(q, words))
         tasks.append(p)
 
-    for task in tasks:
-        task.get()
+    for p in tasks:
+        p.get()
 
     pool.close()
     pool.join()
