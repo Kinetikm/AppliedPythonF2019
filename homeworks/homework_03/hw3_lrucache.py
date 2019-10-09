@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from time import time
+from functools import wraps
 
 
 class LRUCacheDecorator:
@@ -12,32 +13,28 @@ class LRUCacheDecorator:
                     должен исчезнуть
         """
         self.maxsize = maxsize
-        self.ttl = ttl
+        self.ttl = ttl / 1000 if ttl is not None else None
         self.cache = {}
         self.cache_time = {}
 
     def __call__(self, func):
-        def cache(*args, **kwargs):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
             cache_key = self._get_hash(args, kwargs)
 
-            if cache_key not in self.cache:
+            if cache_key not in self.cache or self.ttl and time() - self.cache_time[cache_key] > self.ttl:
                 res = func(*args, **kwargs)
                 self.cache[cache_key] = res
                 self.cache_time[cache_key] = time()
             else:
-                if self.ttl and (time() - self.cache_time[cache_key]) * 1000 > self.ttl:
-                    res = func(*args, **kwargs)
-                    self.cache_time[cache_key] = time()
-                    self.cache[cache_key] = res
-                else:
-                    self.cache_time[cache_key] = time()
-                    res = self.cache[cache_key]
+                self.cache_time[cache_key] = time()
+                res = self.cache[cache_key]
 
             self._update_cache_if_maxsize()
 
             return res
 
-        return cache
+        return wrapper
 
     def _update_cache_if_maxsize(self):
         if len(self.cache) > self.maxsize:
@@ -47,8 +44,7 @@ class LRUCacheDecorator:
 
     @staticmethod
     def _get_oldest_key(dict_with_time_in_value: dict):
-        max_time = min(dict_with_time_in_value.values())
-        return list(dict_with_time_in_value.keys())[list(dict_with_time_in_value.values()).index(max_time)]
+        return min(dict_with_time_in_value, key=dict_with_time_in_value.get)
 
     @staticmethod
     def _get_hash(args, kwargs):

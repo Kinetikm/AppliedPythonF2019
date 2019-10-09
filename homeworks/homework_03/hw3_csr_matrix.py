@@ -42,17 +42,22 @@ class CSRMatrix:
         if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
             row_ind, col_ind, data = init_matrix_representation
 
-            self.A = deepcopy(data)
-            self.JA = deepcopy(col_ind)
+            new_row_ind = []
+            for i in range(len(data)):
+                if data[i]:
+                    self.A.append(data[i])
+                    self.JA.append(col_ind[i])
+                    new_row_ind.append(row_ind[i])
+
             count = 0
 
-            if row_ind[0] != 0:
-                for _ in range(row_ind[0]):
+            if new_row_ind[0] != 0:
+                for _ in range(new_row_ind[0]):
                     self.IA.append(count)
-            for i in range(len(row_ind) - 1):
+            for i in range(len(new_row_ind) - 1):
                 count += 1
-                if row_ind[i] != row_ind[i + 1]:
-                    for _ in range(row_ind[i + 1] - row_ind[i]):
+                if new_row_ind[i] != new_row_ind[i + 1]:
+                    for _ in range(new_row_ind[i + 1] - new_row_ind[i]):
                         self.IA.append(count)
             count += 1
             self.IA.append(count)
@@ -73,10 +78,9 @@ class CSRMatrix:
 
         self._nnz = len(self.A)
 
-    def get_nnz(self):
+    @property
+    def nnz(self):
         return self._nnz
-
-    nnz = property(fget=get_nnz)
 
     def __getitem__(self, item):
 
