@@ -38,4 +38,4 @@ def word_count_inference(path_to_dir):
     queue.put("This is the end)")
     pool.close()
     pool.join()
-    return res
+    return res.get()
