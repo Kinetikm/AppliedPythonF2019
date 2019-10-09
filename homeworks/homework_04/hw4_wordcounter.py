@@ -23,14 +23,14 @@ def queue_switching(queue):
         major_dict.update(res)
     major_dict['total'] = sum(major_dict.values())
     return major_dict
-    
+
 
 def word_count_inference(path_to_dir):
     PROCESSES_COUNT = os.cpu_count()
     manager = Manager()
     queue = manager.Queue()
     pool = Pool(PROCESSES_COUNT)
-    pool.apply_async(queue_switching, (queue, ))
+    tasks = pool.apply_async(queue_switching, (queue, ))
     jobs = []
     for filename in os.listdir(path_to_dir):
         if os.path.isfile(path_to_dir + '/' + filename):
@@ -41,5 +41,7 @@ def word_count_inference(path_to_dir):
         job.get()
 
     queue.put('kill')
+    done_tasks = tasks.get()
     pool.close()
     pool.join()
+    return done_tasks
