@@ -12,6 +12,8 @@ class LRUCacheDecorator:
         '''
         self._maxsize = maxsize
         self._ttl = ttl
+        if ttl is not None:
+            self._ttl /= 1000
         self._cache = {}
 
     def __call__(self, func):
@@ -22,22 +24,19 @@ class LRUCacheDecorator:
                 if len(self._cache) < self._maxsize:
                     self._cache[key] = [result, time.time()]
                 else:
-                    max_time = -1
-                    for k in self._cache:
-                        if (time.time() - self._cache[k][1]) > max_time:
-                            key_ = k
-                            max_time = (time.time() - self._cache[k][1])
-                    self._cache.pop(key_)
+                    # FIXED: помним, что dict -- это OrderedDict, и все становится проще и быстрее)))
+                    self._cache.pop(list(self._cache.keys())[0])
                     self._cache[key] = [result, time.time()]
                 return result
             else:
                 if not(self._ttl is None):
-                    if (time.time() - self._cache[key][1]) * 1000 > self._ttl:
+                    if (time.time() - self._cache[key][1]) > self._ttl:
                         result = func(*args, **kwargs)
                         self._cache.pop(key)
                         self._cache[key] = [result, time.time()]
                         return result
-                self._cache[key][1] = time.time()
+                res_tmp = self._cache.pop(key)[0]
+                self._cache[key] = [res_tmp, time.time()]
                 result = self._cache[key][0]
                 return result
         return _inner_function
