@@ -24,7 +24,7 @@ def word_count_inference(path_to_dir):
     queue = manager.Queue()
     pool = Pool(process_count)
     jobs = []
-    onlyfiles = [f for f in listdir(path_to_dir) if isfile(join(mypath, f))]
+    onlyfiles = [f for f in listdir(path_to_dir) if isfile(join(path_to_dir, f))]
     for i in onlyfiles:
         job = pool.apply_async(count_words, (queue, path_to_dir, i))
         jobs.append(job)
