@@ -10,18 +10,20 @@ def words_in_file(path_to_dir, filename, queue):
     temp_dict = {}
     with open(path_to_dir + "/" + filename, 'r') as f:
         sum = len(f.read().strip().split())
-    temp_dict['filename'] = sum
+    temp_dict = {filename: sum}
     queue.put(temp_dict)
 
 
 def queue_switching(queue):
+    total = 0
     major_dict = {}
     while True:
         res = queue.get()
         if res == 'kill':
             break
-        major_dict.update(res)
-    major_dict['total'] = sum(major_dict.values())
+        total += res[1]
+        major_dict[res[0]] = res[1]
+    major_dict['total'] = total
     return major_dict
 
 
