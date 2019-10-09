@@ -26,7 +26,7 @@ class CSRMatrix:
     4. nnz attribute -- number of nonzero elements in matrix
     """
 
-    def __init__(self, init_matrix_representation):
+    def __init__(self, init_matrix_representation=None):
         """
         :param init_matrix_representation: can be usual dense matrix
         or
@@ -37,14 +37,15 @@ class CSRMatrix:
         self.A = []
         self.IA = [0]
         self.JA = []
-
+        self.max_col = 0
+        self.max_row = 0
         if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
             s = 0
             self.max_col = max(init_matrix_representation[1]) + 1
-            num = max(init_matrix_representation[0]) + 1
-            self.IA = [0]*(num + 1)
+            self.max_row = max(init_matrix_representation[0]) + 1
+            self.IA = [0]*(self.max_row + 1)
             for k, item in enumerate(init_matrix_representation[0]):
-                row = item % num
+                row = item % self.max_row
                 if init_matrix_representation[2][k]:
                     self.A.append(init_matrix_representation[2][k])
                     self.JA.append(init_matrix_representation[1][k])
@@ -63,11 +64,13 @@ class CSRMatrix:
                         number += 1
                 self.IA.append(number)
             self.max_col = len(init_matrix_representation[0])
+            self.max_row = len(init_matrix_representation)
 
         else:
             raise ValueError
 
         self._nnz = self.IA[-1]
+        self.shape = (self.max_row, self.max_col)
 
     @property
     def nnz(self):
@@ -103,7 +106,7 @@ class CSRMatrix:
                 self.IA[i+1:] = [k + 1 for k in self.IA[i+1:]]
 
     def __add__(self, other):
-        if (self.max_col != other.max_col) or (len(self.IA) != len(other.IA)):
+        if self.shape != other.shape:
             raise ValueError
         else:
             row = []
@@ -127,7 +130,7 @@ class CSRMatrix:
             return CSRMatrix((row, col, data))
 
     def __sub__(self, other):
-        if (self.max_col != other.max_col) or (len(self.IA) != len(other.IA)):
+        if self.shape != other.shape:
             raise ValueError
         else:
             row = []
@@ -162,7 +165,7 @@ class CSRMatrix:
                     data.append(self.A[k]*2.5)
             return CSRMatrix((row, col, data))
         else:
-            if (self.max_col != other.max_col) or (len(self.IA) != len(other.IA)):
+            if self.shape != other.shape:
                 raise ValueError
             else:
                 for i in range(len(self.IA)-1):
@@ -191,7 +194,7 @@ class CSRMatrix:
                     data.append(self.A[k]*2.5)
             return CSRMatrix((row, col, data))
         else:
-            if (self.max_col != other.max_col) or (len(self.IA) != len(other.IA)):
+            if self.shape != other.shape:
                 raise ValueError
             else:
                 for i in range(len(self.IA)-1):
@@ -223,7 +226,8 @@ class CSRMatrix:
     def __matmul__(self, other):
 
         other = CSRMatrix(other.to_dense().transpose())
-        if max(other.JA) != max(self.JA):
+
+        if self.max_col != other.max_col:
             raise ValueError
         else:
             row = []
@@ -251,7 +255,7 @@ class CSRMatrix:
     def dot(self, other):
 
         other = CSRMatrix(other.to_dense().transpose())
-        if max(other.JA) != max(self.JA):
+        if self.max_col != other.max_col:
             raise ValueError
         else:
             row = []
