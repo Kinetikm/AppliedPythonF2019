@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 import time
-
+from functools import wraps
 
 class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
@@ -17,6 +17,7 @@ class LRUCacheDecorator:
         self._cache = {}
 
     def __call__(self, func):
+        @wraps(func)
         def _inner_function(*args, **kwargs):
             key = (args, tuple(kwargs))
             if key not in self._cache:
