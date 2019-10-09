@@ -7,11 +7,11 @@ import os
 
 def words_in_file(path_to_dir, filename, queue):
     sum = 0
-    temp_dict = {}
+    temp_set = ()
     with open(path_to_dir + "/" + filename, 'r') as f:
         sum = len(f.read().strip().split())
-    temp_dict = {filename: sum}
-    queue.put(temp_dict)
+    temp_set = (filename, sum)
+    queue.put(temp_set)
 
 
 def queue_switching(queue):
