@@ -10,7 +10,7 @@ def words_in_file(path_to_dir, filename, queue):
     temp_dict = {}
     with open(path_to_dir + "/" + filename, 'r') as f:
         sum = len(f.read().strip().split())
-    temp_dict[filename] = sum
+    temp_dict['filename'] = sum
     queue.put(temp_dict)
 
 
