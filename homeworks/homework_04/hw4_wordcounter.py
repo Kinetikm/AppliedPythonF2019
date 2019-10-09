@@ -6,40 +6,39 @@ import os
 
 
 def word_count_inference(path_to_dir):
-    q = Queue()
+    manager = Manager()
+    q = manager.Queue()
     words = Manager().dict()
     tasks = []
-
-    for file in os.listdir(path_to_dir):
-        q.put(path_to_dir+'/'+file)
-
-    files = os.listdir(path_to_dir)
+    files = [path_to_dir + "/" + i for i in os.listdir(path_to_dir)]
     pool = Pool(5)
-    result = pool.apply_async(f, args=(q, words))
+    result = pool.apply_async(f_c, args=(q, words))
 
     for i in files:
-        p = pool.apply_async(f, args=(q, words))
-        tasks.append(p)
+        p = pool.apply_async(f, args=(i, q, words))
+        tasks.get()
 
-    for p in tasks:
-        p.get()
-
-    pool.close()
-    pool.join()
-
-    words['total'] = sum(words.values())
-
-    return words
+    queue.put(-5)
+    return result.get()
 
 
-def f(queue_of_files, words_in_file):
-    try:
-        while True:
-            item = queue_of_files.get_nowait()
-            if item is not None:
-                with open(item, 'r') as f_id:
-                    words_in_file[item.split('/')[-1]] = len(f_id.read().split())
-            else:
-                break
-    except Exception as e:
-        print(e)
+def f(file, q, res):
+    with open(f_name, 'r') as file:
+        tmp = 0
+        for line in file:
+            tmp += len(line.split())
+
+        res[f_name.split('/')[-1]] = tmp
+        q.put(tmp)
+
+
+def f_c(q, words):
+    res = 0
+    while True:
+        tmp = q.get()
+        if tmp == -5:
+            break
+        res += tmp
+
+    words['total'] = res
+    return dict(words)
