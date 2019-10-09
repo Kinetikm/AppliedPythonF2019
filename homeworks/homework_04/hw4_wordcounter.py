@@ -28,7 +28,7 @@ def f(file, q, res):
         for line in file:
             tmp += len(line.split())
 
-        res[f_name.split('/')[-1]] = tmp
+        res[file.split('/')[-1]] = tmp
         q.put(tmp)
 
 
