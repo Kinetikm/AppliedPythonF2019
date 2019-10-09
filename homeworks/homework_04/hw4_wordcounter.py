@@ -5,7 +5,7 @@ from multiprocessing import Manager, Pool
 import os
 
 
-def sum_word(path, queue):
+def sum_word(path, queue):  # суммирует слова в файле
     with open(path) as f:
         lines = 0
         words = 0
@@ -24,17 +24,17 @@ def sum_word(path, queue):
     queue.put({name: words})
 
 
-def total(queue):
+def total(queue):  # суммирует число слов в очереди
     tot = []
     w = {}
     while True:
         q = queue.get()
-        if q == 'sosat':
+        if q == 'kill':
             break
         tot += q.values()
         w.update(q)
-    tot1 = sum(tot)
-    w["total"] = tot1
+    finally_tot = sum(tot)
+    w["total"] = finally_tot
     return w
 
 
@@ -49,15 +49,15 @@ def word_count_inference(path_to_dir):
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
     '''
-    a = os.listdir(path=path_to_dir)
+    list_file = os.listdir(path=path_to_dir)
     manager = Manager()
     queue = manager.Queue()
     pool = Pool()
     result = pool.apply_async(total, (queue,))
-    for file in a:
-        c = path_to_dir + '/' + file
-        poc = pool.apply_async(sum_word, (c, queue))
-    poc.get()
-    queue.put('sosat')
+    for file in list_file:
+        full_path = path_to_dir + '/' + file
+        proc = pool.apply_async(sum_word, (full_path, queue))
+    proc.get()
+    queue.put('kill')
     pool.close()
     return result.get()
