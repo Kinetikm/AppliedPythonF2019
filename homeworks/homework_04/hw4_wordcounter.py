@@ -8,8 +8,7 @@ import os
 def word_count_inference(path_to_dir):
     manager = Manager()
     q = manager.Queue()
-    words = Manager().dict()
-    tasks = []
+    words = manager.dict()
     files = [path_to_dir + "/" + i for i in os.listdir(path_to_dir)]
     pool = Pool(5)
     result = pool.apply_async(f_c, args=(q, words))
@@ -22,13 +21,13 @@ def word_count_inference(path_to_dir):
     return result.get()
 
 
-def f(file, q, res):
+def f(file, q, words):
     with open(file, 'r') as file:
         tmp = 0
         for line in file:
             tmp += len(line.split())
 
-        res[file.split('/')[-1]] = tmp
+        words[file.split('/')[-1]] = tmp
         q.put(tmp)
 
 
