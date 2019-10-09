@@ -41,4 +41,3 @@ def word_count_inference(path_to_dir):
     dictionary = d.get()
     pool.close()
     return dictionary
-
