@@ -1,4 +1,5 @@
 import time
+from functools import wraps
 
 
 class LRUCacheDecorator:
@@ -6,49 +7,48 @@ class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
         self.maxsize = maxsize
         self.ttl = ttl
-        self.cache = list()
-        self.time_list = list()
+        if ttl:
+            self.ttl = ttl / 1000
+        self.cache = {}
+        self.time_ = {}
 
     def __call__(self, func):
+        @wraps(func)
         def cashing(*args, **kwargs):
-            for i in range(len(self.cache)):
-                if self.cache[i][0] == (args, kwargs):
-                    if self.ttl and (time.time() - self.time_list[i]) * 1000 > self.ttl:
-                        tmp_cache = self.cache[::]
-                        self.cache = tmp_cache[:i:]
-                        self.cache.extend(tmp_cache[i + 1::])
+            key_arg = (args, str(kwargs))
+            if key_arg in self.cache:
+                t = time.time()
+                if self.ttl and (t - self.time_[key_arg]) > self.ttl:
+                    res = func(*args, **kwargs)
+                    del self.cache[key_arg]
+                    del self.time_[key_arg]
+                    self.cache[key_arg] = res
+                    self.time_[key_arg] = time.time()
 
-                    elif self.ttl and (time.time() - self.time_list[i]) * 1000 < self.ttl:
-                        tmp_item = self.cache[i]
-                        tmp_cache = self.cache[::]
-                        self.cache = tmp_cache[:i:]
-                        self.cache.extend(tmp_cache[i + 1::])
-                        self.cache.append(tmp_item)
-
-                        tmp_cache = self.time_list[::]
-                        self.time_list = tmp_cache[:i:]
-                        self.time_list.extend(tmp_cache[i + 1::])
-                        self.time_list.append(time.time())
-                        return tmp_item[1]
-                    else:
-                        tmp_item = self.cache[i]
-                        tmp_cache = self.cache[::]
-                        self.cache = tmp_cache[:i:]
-                        self.cache.extend(tmp_cache[i + 1::])
-                        self.cache.append(tmp_item)
-                        return tmp_item[1]
-
-            ret = func(*args, **kwargs)
-            if len(self.cache) < self.maxsize:
-                self.cache.append(((args, kwargs), ret))
-                if self.ttl:
-                    self.time_list.append(time.time())
-
+                elif self.ttl and (t - self.time_[key_arg]) < self.ttl:
+                    res = self.cache.pop(key_arg)
+                    del self.time_[key_arg]
+                    self.cache[key_arg] = res
+                    self.time_[key_arg] = time.time()
+                else:
+                    res = self.cache.pop(key_arg)
+                    self.cache[key_arg] = res
+                return res
             else:
-                self.cache = self.cache[1::]
-                self.cache.append(((args, kwargs), ret))
-                if self.ttl:
-                    self.time_list = self.time_list[1::]
-                    self.time_list.append(time.time())
-            return ret
+                res = func(*args, **kwargs)
+                if len(self.cache) < self.maxsize:
+                    self.cache[key_arg] = res
+                    if self.ttl:
+                        self.time_[key_arg] = time.time()
+
+                else:
+                    for key in self.cache:
+                        del self.cache[key]
+                        if self.ttl:
+                            del self.time_[key]
+                        break
+                    self.cache[key_arg] = res
+                    if self.ttl:
+                        self.time_[key_arg] = time.time()
+                return res
         return cashing
