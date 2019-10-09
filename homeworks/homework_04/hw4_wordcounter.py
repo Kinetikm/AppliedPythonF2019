@@ -1,30 +1,32 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process, Manager, Queue, Pool
+from multiprocessing import Process, Manager
+from multiprocessing import Pool, Manager
 import os
 
 
 def word_count_inference(path_to_dir):
+    files = [path_to_dir + "/" + i for i in os.listdir(path_to_dir)]
     manager = Manager()
     q = manager.Queue()
     words = manager.dict()
-    files = [path_to_dir + "/" + i for i in os.listdir(path_to_dir)]
     pool = Pool(5)
-    result = pool.apply_async(f_c, args=(q, words))
+
+    result = pool.apply_async(f_c, (q, words))
 
     for i in files:
-        p = pool.apply_async(f, args=(i, q, words))
+        p = pool.apply_async(f, (i, q, words))
         p.get()
 
-    queue.put(-5)
+    q.put(-1)
     return result.get()
 
 
 def f(file, q, words):
-    with open(file, 'r') as file:
+    with open(file, 'r') as f:
         tmp = 0
-        for line in file:
+        for line in f:
             tmp += len(line.split())
 
         words[file.split('/')[-1]] = tmp
@@ -32,12 +34,12 @@ def f(file, q, words):
 
 
 def f_c(q, words):
-    res = 0
+    total = 0
     while True:
         tmp = q.get()
-        if tmp == -5:
+        if tmp == -1:
             break
-        res += tmp
+        total += tmp
 
-    words['total'] = res
+    words['total'] = total
     return dict(words)
