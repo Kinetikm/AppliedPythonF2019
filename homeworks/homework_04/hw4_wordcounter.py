@@ -52,8 +52,6 @@ def word_count_inference(path_to_dir):
         process.get()
 
     queue.put('kill')
-    
     pool.close()
     pool.join()
-
     return result.get()
