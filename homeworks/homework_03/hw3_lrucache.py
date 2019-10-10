@@ -3,6 +3,7 @@
 
 import time
 from collections import OrderedDict
+from functools import wraps
 
 
 class LRUCacheDecorator:
@@ -27,27 +28,25 @@ class LRUCacheDecorator:
         self.time_in_cache[arg] = time.time()
 
     def __call__(self, function):
+        @wraps(func)
         def lru_function(*args, **kwargs):
-            list = args
-            if self.function_result.get(list):
+            t = tuple([x for x in args] + [x for x in kwargs.items()] + [None])
+            if self.function_result.get(t):
                 if self.ttl is not None:
-                    if self.ttl < (time.time() - self.time_in_cache[list]):
-                        self.del_old(list)
+                    if self.ttl < (time.time() - self.time_in_cache[t]):
+                        self.del_old(t)
                         newresult = function(*args, **kwargs)
-                        self.update_cache(list, newresult)
+                        self.update_cache(t, newresult)
                         return newresult
-                    else:
-                        return self.function_result[list]
-                else:
-                    return self.function_result[list]
+                    return self.function_result[t]
             else:
                 if self.maxsize > len(self.function_result):
                     newresult = function(*args, **kwargs)
-                    self.update_cache(list, newresult)
+                    self.update_cache(t, newresult)
                     return newresult
                 else:
-                    self.del_old(list)
+                    self.del_old()
                     newresult = function(*args, **kwargs)
-                    self.update_cache(list, newresult)
+                    self.update_cache(t, newresult)
                     return newresult
         return lru_function
