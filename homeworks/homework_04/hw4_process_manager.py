@@ -4,6 +4,7 @@
 from multiprocessing import Process, Manager
 import time
 import random
+import urllib.request
 
 
 class Task:
@@ -12,27 +13,24 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self, value):
+
+    def __init__(self):
         """
         Пофантазируйте, как лучше инициализировать
         """
-        self.value = value
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        tm = random.randint(1, 7)
-        print(self.value, 'Working.... ', tm)
-        time.sleep(tm)
-        print(self.value, ' Done! tm ==', tm)
-        return self.value
+        pass
 
 
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
+
     def __init__(self, tasks_queue):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
@@ -44,7 +42,6 @@ class TaskProcessor:
         """
         Старт работы воркера
         """
-        # print('Proc')
         hm = Process(target=self.task.get().perform)
         hm.start()
         return hm
@@ -54,6 +51,7 @@ class TaskManager:
     """
     Мастер-процесс, который управляет воркерами
     """
+
     def __init__(self, tasks_queue, n_workers, timeout):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
@@ -78,14 +76,13 @@ class TaskManager:
                 t = TaskProcessor(self.queue).run()
                 jobs.append(t)
                 tm.append(time.clock_gettime(time.CLOCK_REALTIME))
-            print('worker - queue', self.n_workers,  self.queue.qsize())
+            print('worker - queue', self.n_workers, self.queue.qsize())
             flag = False
             if len(jobs) == self.n_workers or self.n_workers > self.queue.qsize():
                 for job in jobs:
                     job.join(timeout=0.0001)
                 while len(jobs):
                     for i in range(len(jobs)):
-                        # print(jobs[i])
                         if not jobs[i].is_alive() or time.clock_gettime(time.CLOCK_REALTIME) - tm[i] > self.timeout:
                             print('time == ', time.clock_gettime(time.CLOCK_REALTIME) - tm[i])
                             if jobs[i].is_alive():
@@ -101,12 +98,62 @@ class TaskManager:
         return
 
 
-# begin = time.clock_gettime(time.CLOCK_REALTIME)
-# queue = Manager().Queue()
-# queue.put(Task(3))
-# queue.put(Task(4))
-# queue.put(Task(5))
-# queue.put(Task(6))
-# queue.put(Task(7))
-# a = TaskManager(queue, 2, 4)
-# a.run()
+class Mult(Task):
+    def __init__(self, f, argument):
+        super().__init__()
+        self.ar = argument
+        self.f = f
+
+    def perform(self):
+        tm = random.randint(1, 7)
+        print(self.ar, 'Working.... ', tm)
+        time.sleep(tm)
+        print(self.ar, ' Done! tm ==', tm)
+        return self.f(self.ar)
+
+
+def add(values):
+    return sum(values)
+
+
+class EasyTask(Task):
+    def __init__(self, argument):
+        super().__init__()
+        self.ar = argument
+
+    def perform(self):
+        tm = random.randint(1, 7)
+        print(self.ar, 'Working.... ', tm)
+        time.sleep(tm)
+        print(self.ar, ' Done! tm ==', tm)
+        return self.ar
+
+
+class DownloadData(Task):
+    def __init__(self, url):
+        super().__init__()
+        self.url = url
+
+    def perform(self):
+        tm = random.randint(1, 7)
+        print(self.url, 'Working.... ', tm)
+        time.sleep(tm)
+        print(self.url, ' Done! tm ==', tm)
+        response = urllib.request.urlopen(self.url)
+        data = response.read()
+        text = data.decode('utf-8')
+        print('result ===', text)
+        return text
+
+
+begin = time.clock_gettime(time.CLOCK_REALTIME)
+queue = Manager().Queue()
+queue.put(Mult(add, [5, 7, 1]))
+queue.put(EasyTask(3 * 5))
+queue.put(EasyTask('agagag'))
+queue.put(EasyTask([2, 5, 6]))
+queue.put(EasyTask({3: 44}))
+queue.put(EasyTask(None))
+queue.put(DownloadData('https://habr.com/ru/company/otus/blog/458694/'))
+a = TaskManager(tasks_queue=queue, n_workers=2, timeout=5)
+a.run()
