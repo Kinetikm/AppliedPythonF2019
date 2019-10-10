@@ -22,12 +22,12 @@ class Task:
         """
         Старт выполнения задачи
         """
-        print("Started = ", self.args, self.kwargs)
+        print("Started = ", *self.args, **self.kwargs)
         tmp = random.randint(1, 10)
         print(tmp)
         time.sleep(tmp)
-        self.func(self.args, self.kwargs)
-        print("Done = ", self.args, self.kwargs)
+        self.func(*self.args, **self.kwargs)
+        print("Done = ", *self.args, **self.kwargs)
 
 
 class TaskProcessor:
