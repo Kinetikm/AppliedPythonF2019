@@ -28,7 +28,7 @@ class LRUCacheDecorator:
         self.time_in_cache[arg] = time.time()
 
     def __call__(self, function):
-        @wraps(func)
+        @wraps(function)
         def lru_function(*args, **kwargs):
             t = tuple([x for x in args] + [x for x in kwargs.items()] + [None])
             if self.function_result.get(t):
