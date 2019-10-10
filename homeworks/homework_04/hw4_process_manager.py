@@ -3,6 +3,8 @@
 
 from multiprocessing import Process, Manager
 import time
+import random
+import urllib.request
 
 
 class Task:
@@ -94,3 +96,66 @@ class TaskManager:
                         flag = False
                         break
         return
+
+
+# An example of usage is below... Also uncomment import libraries
+
+class Mult(Task):
+    def __init__(self, f, argument):
+        super().__init__()
+        self.ar = argument
+        self.f = f
+
+    def perform(self):
+        tm = random.randint(1, 7)
+        print(self.ar, 'Working.... ', tm)
+        time.sleep(tm)
+        print(self.ar, ' Done! tm ==', tm)
+        return self.f(self.ar)
+
+
+def add(values):
+    return sum(values)
+
+
+class EasyTask(Task):
+    def __init__(self, argument):
+        super().__init__()
+        self.ar = argument
+
+    def perform(self):
+        tm = random.randint(1, 7)
+        print(self.ar, 'Working.... ', tm)
+        time.sleep(tm)
+        print(self.ar, ' Done! tm ==', tm)
+        return self.ar
+
+
+class DownloadData(Task):
+    def __init__(self, url):
+        super().__init__()
+        self.url = url
+
+    def perform(self):
+        tm = random.randint(1, 7)
+        print(self.url, 'Working.... ', tm)
+        time.sleep(tm)
+        print(self.url, ' Done! tm ==', tm)
+        response = urllib.request.urlopen(self.url)
+        data = response.read()
+        text = data.decode('utf-8')
+        print('result ===', text)
+        return text
+
+
+begin = time.clock_gettime(time.CLOCK_REALTIME)
+queue = Manager().Queue()
+queue.put(Mult(add, [5, 7, 1]))
+queue.put(EasyTask(3 * 5))
+queue.put(EasyTask('agagag'))
+queue.put(EasyTask([2, 5, 6]))
+queue.put(EasyTask({3: 44}))
+queue.put(EasyTask(None))
+queue.put(DownloadData('https://habr.com/ru/company/otus/blog/458694/'))
+a = TaskManager(tasks_queue=queue, n_workers=2, timeout=5)
+a.run()
