@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process, Manager, Pool
+from multiprocessing import Manager, Pool
 import os
 
 
 PROCESS_COUNT = 5
 
 
-def file_proccessing(filename, queue):
+def file_processing(filename, queue):
     with open(filename, 'r') as f:
         data = f.read()
         data = data.split()
@@ -44,8 +44,8 @@ def word_count_inference(path_to_dir):
     res = pool.apply_async(word_counter, (queue,))
 
     jobs = []
-    for file in os.listdir(path_to_dir):
-        job = pool.apply_async(file_proccessing, (path_to_dir + '/' + file, queue,))
+    for filename in os.listdir(path_to_dir):
+        job = pool.apply_async(file_processing, (path_to_dir + '/' + filename, queue,))
         jobs.append(job)
 
     for job in jobs:
