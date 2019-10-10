@@ -1,7 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-from multiprocessing import Process
+import os
+import signal
+from time import sleep, time
 
 
 class Task:
@@ -10,17 +9,19 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self, ...):
+    def __init__(self, function, *args, **kwargs):
         """
         Пофантазируйте, как лучше инициализировать
         """
-        raise NotImplementedError
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        raise NotImplementedError
+        self.function(*self.args, **self.kwargs)
 
 
 class TaskProcessor:
@@ -31,13 +32,13 @@ class TaskProcessor:
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
-        raise NotImplementedError
+        self.task = tasks_queue.get()
 
     def run(self):
         """
         Старт работы воркера
         """
-        raise NotImplementedError
+        self.task.perform()
 
 
 class TaskManager:
@@ -50,11 +51,34 @@ class TaskManager:
         :param n_workers: кол-во воркеров
         :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
         """
-        raise NotImplementedError
+        self.tasks = tasks_queue
+        self.n_workers = n_workers
+        self.timeout = timeout
 
     def run(self):
         """
         Запускайте бычка! (с)
         """
-        raise NotImplementedError
+        processes = []
 
+        while not self.tasks.empty():
+            if self.n_workers < self.tasks.qsize():
+                for _ in range(self.n_workers):
+                    worker = TaskProcessor(self.tasks)
+                    proc = Process(target=worker.run)
+                    processes.append(proc)
+                    proc.start()
+            else:
+                for _ in range(self.tasks.qsize()):
+                    worker = TaskProcessor(self.tasks)
+                    proc = Process(target=worker.run)
+                    processes.append(proc)
+                    proc.start()
+
+        sleep(self.timeout)
+        for proc in processes:
+            if proc.is_alive():
+                proc.terminate()
+                print('proc is terminated')
+            else:
+                proc.join()
