@@ -16,7 +16,7 @@ class Task:
         """
         :param function: функция, которая что-то делает
         :param args, kwargs: аргументы функции
-        :return: результат выполнения данной функции 
+        :return: результат выполнения данной функции
         """
         self._function = function
         self._args = args
