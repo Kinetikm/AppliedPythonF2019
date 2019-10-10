@@ -65,7 +65,7 @@ class CSRMatrix(object):
                 return
         if value != 0:
             self.col_indxs.insert(self.amounts[key[0]], key[1])
-            self.items.insert(self.amounts[key[0]], value)  
+            self.items.insert(self.amounts[key[0]], value)
             for k in range(len(self.amounts) - key[0]-1):
                 self.amounts[-k-1] += 1
         self._nnz = len(self.items)
