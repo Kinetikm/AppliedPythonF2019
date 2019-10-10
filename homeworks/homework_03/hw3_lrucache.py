@@ -1,5 +1,8 @@
-import time
+#!/usr/bin/env python
+# coding: utf-8
 
+
+import time
 
 class LRUCacheDecorator:
     class LRUCacheItem:
