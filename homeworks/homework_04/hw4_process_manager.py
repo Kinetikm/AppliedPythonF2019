@@ -15,7 +15,12 @@ class Task(ABC):
 class TaskProcessor:
 
     def __init__(self, tasks_queue):
-        self.task = tasks_queue.get()
+        task = tasks_queue.get()
+        if issubclass(task.__class__, Task):
+            self.task = task
+        else:
+            print("Expected Task in Queue, but received otherwise")
+            raise TypeError
         self.start_time = None
         self.proc = None
 
