@@ -48,7 +48,7 @@ def word_count_inference(path_to_dir):
     manager = Manager()
     queue = manager.Queue()
     pool = Pool(PROCESSES_COUNT)
-    pool.apply_async(consumer_func, (queue,))
+    asy = pool.apply_async(consumer_func, (queue,))
 
     jobs = []
     for file in file_lst:
@@ -57,7 +57,7 @@ def word_count_inference(path_to_dir):
 
     for job in jobs:
         job.get()
-    result = pool.apply_async(consumer_func, (queue,)).get()
+    result = asy.get()
     queue.put('kill')
     pool.close()
     pool.join()
