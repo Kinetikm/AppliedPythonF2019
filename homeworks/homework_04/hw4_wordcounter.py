@@ -1,15 +1,35 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process, Manager
+from multiprocessing import Queue, Manager, Pool
 import os
 
 
-def num_words(dir, fname, result):
+def num_words(dir, fname, queue):
     words = 0
-    for line in open(dir).readlines():
-        words += len(line.split())
-    result[fname] = words
+    for line in open(dir + '/' + fname):
+        pos = 'out'
+        for letter in line:
+            if letter != ' ' and pos == 'out':
+                words += 1
+                pos = 'in'
+            elif letter == ' ':
+                pos = 'out'
+    queue.put(fname, words)
+
+
+def consumer_func(queue):
+    dict = {}
+    total = 0
+    while True:
+        res = queue.get()
+        if res == 'kill':
+            break
+        dict[res[0]] = res[1]
+    for i in range(len(dict)):
+        total += dict[i]
+    dict['total'] = total
+    return dict
 
 
 def word_count_inference(path_to_dir):
@@ -23,19 +43,22 @@ def word_count_inference(path_to_dir):
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
     '''
-
-    total = 0
+    PROCESSES_COUNT = 5
+    file_lst = os.listdir(path=path_to_dir)
     manager = Manager()
-    result = manager.dict()
-    tasks = []
-    lst_of_f = os.listdir(path=path_to_dir)
-    for i in lst_of_f:
-        task = Process(target=num_words, args=(path_to_dir + '/' + i, i, result))
-        tasks.append(task)
-        task.start()
-    for task in tasks:
-        task.join()
-    for value in result.values():
-        total += value
-    result['total'] = total
+    queue = manager.Queue()
+    pool = Pool(PROCESSES_COUNT)
+    pool.apply_async(consumer_func, (queue,))
+
+    jobs = []
+    for file in file_lst:
+        job = pool.apply_async(num_words, (path_to_dir, file, queue))
+        jobs.append(job)
+
+    for job in jobs:
+        job.get()
+    result = pool.apply_async(consumer_func, (queue,)).get()
+    queue.put('kill')
+    pool.close()
+    pool.join()
     return result
