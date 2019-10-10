@@ -25,14 +25,20 @@ class Task:
         
         '''
         self._func = func
-        self._args = args # may be self._args = args or None???
-        self._kwargs = kwargs or None # same here as above
+        self._args = args or None
+        self._kwargs = kwargs or None
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        return self._func(self._args, self._kwargs) # что если args, kwargs = None???
+        if args is not None:
+            if kwargs is not None:
+                return self._func(self._args, self._kwargs)
+            else:
+                return self._func(self._args)
+        else:
+            return self._func()
 
 
 class TaskProcessor:
@@ -44,8 +50,8 @@ class TaskProcessor:
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
         self._task = tasks_queue.get()
-        self.busy = False # параметр, определяющий, занят ли сейчас воркер или ничего не делает
-        self._in_process = None
+        self.busy = False
+        self._in_process = None  # процесс, который запускает непосредственно воркер
 
     def run(self):
         """
@@ -87,29 +93,24 @@ class TaskManager:
         """
         Запускайте бычка! (с)
         """
-        '''# worker's state dict unit: {worker_id: start_time}
-        workers_states = {}
-        for i in range(self._n_workers):
-            workers_states[i] = [0]
-        # как вариант хранить все процессы в очереди, либо менять их id в зависимости от времени создания, чтобы в
-        # начале дикта лежали самые старые процессы
-        # далее приведу реализацию для списка типа очередь
-        # элемент списка - список [worker_id, start_time]
-        '''
-        workers = [[i, None, None] for i in range(self._n_workers)]
-        while True:
+        # список состояний воркеров [id, worker, start_time]
+        workers = ([i, None, None] for i in range(self._n_workers))
+        while workers:
             for worker in workers:
-                if self._tasks_queue.epmty():
-                    return
-                if worker[1] is None:
-                    worker_id = worker[0]
-                    workers.remove(worker)
-                    new_worker = TaskProcessor(self._tasks_queue)
-                    workers.append([worker_id, new_worker, time.clock()])
-                    new_worker.run()
-                elif not worker[1].busy:
-                    worker[1].wake(tasks_queue)
+                if worker[1] is None:  # если воркер не инициализирован
+                    worker[1] = TaskProcessor(self._tasks_queue)
+                    worker[1].run()
                     worker[2] = time.clock()
-                elif time.clock() - worker[2] > self._timeout:
-                    worker[1].terminate(self._tasks_queue)
-                    worker[2] = time.clock()
+                elif not worker[1].busy:  # если воркер ничем не занят
+                    if not self._tasks_queue.empty():
+                        worker[1].wake(tasks_queue)
+                        worker[2] = time.clock()
+                    else:
+                        workers.remove(worker)
+                elif time.clock() - worker[2] > self._timeout:  # если воркер залип
+                    if self._tasks_queue.empty():
+                        worker[1].terminate()
+                        workers.remove(worker)
+                    else:
+                        worker[1].terminate(self._tasks_queue)
+                        worker[2] = time.clock()
