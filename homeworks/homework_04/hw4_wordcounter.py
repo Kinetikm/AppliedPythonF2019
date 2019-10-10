@@ -4,6 +4,7 @@
 from multiprocessing import Manager, Queue, Pool
 import os
 
+
 def consumer_func(queue):
     d = {}
     total = 0
@@ -17,12 +18,14 @@ def consumer_func(queue):
     d['total'] = total
     return d
 
+
 def producer_func(queue, filename, path_to_dir):
-     with open(path_to_dir+'/'+filename, 'r') as f:
-        count = 0 
+    with open(path_to_dir+'/'+filename, 'r') as f:
+        count = 0
         for line in f:
             count += len(line.split())
         queue.put({filename: count})
+
 
 def word_count_inference(path_to_dir):
     '''
