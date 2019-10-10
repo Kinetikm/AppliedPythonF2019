@@ -1,36 +1,12 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # coding: utf-8
+
+
 import numpy as np
-from copy import deepcopy
+import copy
 
 
 class CSRMatrix:
-    """
-    CSR (2D) matrix.
-    Here you can read how CSR sparse matrix works: https://en.wikipedia.org/wiki/Sparse_matrix
-
-    Must be implemented:
-    1. Getting and setting element by indexes of row and col.
-    a[i, j] = v -- set value in i-th row and j-th column to value
-    b = a[i, j] -- get value from i-th row and j-th column
-    2. Pointwise operations.
-    c = a + b -- sum of two CSR matrix of the same shape
-    c = a - b -- difference --//--
-    c = a * b -- product --//--
-    c = alpha * a -- product of scalar alpha and CSR matrix a
-    c = a / alpha -- divide CSR matrix a by nonzero scalar alpha
-    3. Scalar product
-    c = a.dot(b) -- matrix multiplication if shapes match
-    c = a @ b --//--
-    4. nnz attribute -- number of nonzero elements in matrix
-    """
-    operation = {
-        "+": lambda x, y: x + y,
-        "-": lambda x, y: x - y,
-        "*": lambda x, y: x * y,
-        "/": lambda x, y: x / y,
-        "**": lambda x, y: x ** y
-    }
 
     def __init__(self, init_matrix_representation):
         """
@@ -40,204 +16,221 @@ class CSRMatrix:
             where data, row_ind and col_ind satisfy the relationship:
             a[row_ind[k], col_ind[k]] = data[k]
         """
+        self.A = []
+        self.IA = [0]
+        self.JA = []
+
         if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
-            self.row = deepcopy(init_matrix_representation[0])
-            self.col = deepcopy(init_matrix_representation[1])
-            self.data = deepcopy(init_matrix_representation[2])
-            self.rn = max(self.row) + 1
-            self.cn = max(self.col) + 1
+            n = 0
+            for i in range(max(init_matrix_representation[0]) + 1):
+                n += list(init_matrix_representation[0]).count(i)
+                self.IA.append(n)
+            self.A = list(init_matrix_representation[2])
+            self.JA = list(init_matrix_representation[1])
+            self.max_column = max(init_matrix_representation[1]) + 1
+
         elif isinstance(init_matrix_representation, np.ndarray):
-            self.row = []
-            self.col = []
-            self.data = []
-            for rn, row in enumerate(init_matrix_representation):
-                for cn, val in enumerate(row):
-                    if val != 0:
-                        self.row += [rn]
-                        self.col += [cn]
-                        self.data += [val]
-            self.rn = len(init_matrix_representation)
-            self.cn = len(init_matrix_representation[0])
-        elif isinstance(init_matrix_representation, CSRMatrix):
-            self.row = init_matrix_representation.row
-            self.col = init_matrix_representation.col
-            self.data = init_matrix_representation.data
-            self.rn = init_matrix_representation.rn
-            self.cn = init_matrix_representation.cn
+            n = 0
+            for i, line in enumerate(init_matrix_representation):
+                for j, item in enumerate(line):
+                    if item:
+                        self.A.append(item)
+                        self.JA.append(j)
+                        n += 1
+                self.IA.append(n)
+            self.max_column = len(init_matrix_representation[0])
+
         else:
             raise ValueError
-        self._nnz = len(self.data)
 
-    nnz = property()
+        self._NNZ = self.IA[-1]
 
-    @nnz.setter
-    def nnz(self, value):
-        if value != len(self.data):
-            raise AttributeError
-        self._nnz = value
-
-    @nnz.getter
+    @property
     def nnz(self):
-        return self._nnz
+        return self._NNZ
+
+    def __getitem__(self, ind):
+        try:
+            i = ind[0]
+            j = ind[1]
+            k = self.JA[self.IA[i]:self.IA[i + 1]].index(j) + self.IA[i]
+            return self.A[k]
+        except ValueError:
+            return 0
+
+    def __setitem__(self, ind, value):
+        i = ind[0]
+        j = ind[1]
+        if self[i, j]:
+            k = self.JA[self.IA[i]:self.IA[i + 1]].index(j) + self.IA[i]
+            self.A[k] = value
+        else:
+            if (self.IA[i] - self.IA[i + 1]) != 0:
+                for l, item in enumerate(self.JA[self.IA[i]:self.IA[i + 1]]):
+                    if item > j:
+                        index = l + self.IA[i]
+                        self.JA.insert(index, j)
+                        self.A.insert(index, value)
+                        self.IA[i + 1:] = [k + 1 for k in self.IA[i + 1:]]
+                        break
+            else:
+                self.JA.insert(self.IA[i], j)
+                self.A.insert(self.IA[i], value)
+                self.IA[i + 1:] = [k + 1 for k in self.IA[i + 1:]]
+
+    def __add__(self, other):
+        if (self.max_column != other.max_column) or (len(self.IA) != len(other.IA)):
+            raise ValueError
+        else:
+            row = []
+            column = []
+            data = []
+            for i in range(len(self.IA) - 1):
+                d = {}
+                for k in range(self.IA[i], self.IA[i + 1]):
+                    d[self.JA[k]] = self.A[k]
+                for l in range(other.IA[i], other.IA[i + 1]):
+                    if other.JA[l] in d:
+                        d[other.JA[l]] += other.A[l]
+                    else:
+                        d[other.JA[l]] = other.A[l]
+
+                for j, item in d.items():
+                    if item:
+                        row.append(i)
+                        column.append(j)
+                        data.append(item)
+            return CSRMatrix((row, column, data))
+
+    def __sub__(self, other):
+        if (self.max_column != other.max_column) or (len(self.IA) != len(other.IA)):
+            raise ValueError
+        else:
+            row = []
+            column = []
+            data = []
+            for i in range(len(self.IA) - 1):
+                d = {}
+                for k in range(self.IA[i], self.IA[i + 1]):
+                    d[self.JA[k]] = self.A[k]
+                for l in range(other.IA[i], other.IA[i + 1]):
+                    if other.JA[l] in d:
+                        d[other.JA[l]] -= other.A[l]
+                    else:
+                        d[other.JA[l]] = -other.A[l]
+
+                for j, item in d.items():
+                    if item:
+                        row.append(i)
+                        column.append(j)
+                        data.append(item)
+            return CSRMatrix((row, column, data))
+
+    def __mul__(self, other):
+        row = []
+        column = []
+        data = []
+        if isinstance(other, (float, int)):
+            for i in range(len(self.IA) - 1):
+                for k in range(self.IA[i], self.IA[i + 1]):
+                    row.append(i)
+                    column.append(self.JA[k])
+                    data.append(self.A[k] * 2.5)
+            return CSRMatrix((row, column, data))
+        else:
+            if (self.max_column != other.max_column) or (len(self.IA) != len(other.IA)):
+                raise ValueError
+            else:
+                for i in range(len(self.IA) - 1):
+                    d1 = {}
+                    d2 = {}
+                    for k in range(self.IA[i], self.IA[i + 1]):
+                        d1[self.JA[k]] = self.A[k]
+                    for l in range(other.IA[i], other.IA[i + 1]):
+                        d2[other.JA[l]] = other.A[l]
+                    for j in d1:
+                        if j in d2:
+                            row.append(i)
+                            column.append(j)
+                            data.append(d2[j] * d1[j])
+                return CSRMatrix((row, column, data))
+
+    def __rmul__(self, other):
+        return self * other
+
+    def __truediv__(self, a):
+        if isinstance(a, (float, int)):
+            row = []
+            col = []
+            data = []
+            for i in range(len(self.IA) - 1):
+                for k in range(self.IA[i], self.IA[i + 1]):
+                    row.append(i)
+                    col.append(self.JA[k])
+                    data.append(self.A[k] / a)
+            return CSRMatrix((row, col, data))
+
+    def dot(self, other):
+        other = CSRMatrix(other.to_dense().transpose())
+        if max(other.JA) != max(self.JA):
+            raise ValueError
+        else:
+            row = []
+            col = []
+            data = []
+            for i in range(len(self.IA) - 1):
+                for l in range(len(other.IA) - 1):
+                    dic = {}
+                    dic1 = {}
+                    s = 0
+                    for k in range(self.IA[i], self.IA[i + 1]):
+                        dic[self.JA[k]] = self.A[k]
+                    for k in range(other.IA[l], other.IA[l + 1]):
+                        dic1[other.JA[k]] = other.A[k]
+
+                    for j in dic1:
+                        if j in dic:
+                            s += dic[j] * dic1[j]
+                    if s:
+                        row.append(i)
+                        col.append(l)
+                        data.append(s)
+            return CSRMatrix((row, col, data))
+
+    def __matmul__(self, other):
+
+        other = CSRMatrix(other.to_dense().transpose())
+        if max(other.JA) != max(self.JA):
+            raise ValueError
+        else:
+            row = []
+            col = []
+            data = []
+            for i in range(len(self.IA) - 1):
+                for l in range(len(other.IA) - 1):
+                    d = {}
+                    d1 = {}
+                    s = 0
+                    for k in range(self.IA[i], self.IA[i + 1]):
+                        d[self.JA[k]] = self.A[k]
+                    for k in range(other.IA[l], other.IA[l + 1]):
+                        d1[other.JA[k]] = other.A[k]
+
+                    for j in d1:
+                        if j in d:
+                            s += d[j] * d1[j]
+                    if s:
+                        row.append(i)
+                        col.append(l)
+                        data.append(s)
+            return CSRMatrix((row, col, data))
 
     def to_dense(self):
         """
         Return dense representation of matrix (2D np.array).
         """
-        result = np.zeros((self.rn, self.cn))
-        for i, j, v in zip(self.row, self.col, self.data):
-            result[i, j] = v
-        return result
-
-    def __getitem__(self, index):
-        for ind, val in enumerate(self.row):
-            if val == index[0] and self.col[ind] == index[1]:
-                return self.data[ind]
-        return 0
-
-    def __setitem__(self, index, value):
-        fi = 0
-        if len(
-                self.data) == 0 or self.row[fi] > index[0] and self.col[fi] > index[1]:
-            if value != 0:
-                self.row = [index[0]] + self.row
-                self.col = [index[1]] + self.col
-                self.data = [value] + self.data
-            return
-        while fi < len(self.data) - \
-                1 and self.row[fi] < index[0] and self.col[fi] < index[1]:
-            fi += 1
-        if self.row[fi] == index[0] and self.col[fi] == index[1]:
-            if value == 0:
-                self.row = self.row[:fi] + self.row[fi + 1:]
-                self.col = self.col[:fi] + self.col[fi + 1:]
-                return
-            self.data[fi] = value
-        if value != 0:
-            self.row = self.row[:fi] + [index[0]] + self.row[fi:]
-            self.col = self.col[:fi] + [index[1]] + self.col[fi:]
-            self.data = self.data[:fi] + [value] + self.data[fi:]
-
-    def __add__(self, other):
-        if isinstance(other, CSRMatrix):
-            return self.get_sum(other, "+")
-
-    def get_sum(self, other, sign):
-        if len(other.data) == 0:
-            return CSRMatrix(self)
-        if len(self.data) == 0:
-            return CSRMatrix(other)
-        row = []
-        col = []
-        data = []
-        cur_ind_a, cur_ind_b = 0, 0
-        while cur_ind_a < self.nnz and cur_ind_b < other.nnz:
-            if self.row[cur_ind_a] < other.row[cur_ind_b] or \
-                    self.row[cur_ind_a] == other.row[cur_ind_b] \
-                    and self.col[cur_ind_a] < other.col[cur_ind_b]:
-                row += [self.row[cur_ind_a]]
-                col += [self.col[cur_ind_a]]
-                data += [self.operation[sign](self.data[cur_ind_a], 0)]
-                cur_ind_a += 1
-            elif self.row[cur_ind_a] > other.row[cur_ind_b] or \
-                    self.row[cur_ind_a] == other.row[cur_ind_b] and \
-                    self.col[cur_ind_a] > other.col[cur_ind_b]:
-                row += [other.row[cur_ind_b]]
-                col += [other.col[cur_ind_b]]
-                data += [self.operation[sign](0, other.data[cur_ind_b])]
-                cur_ind_b += 1
-            elif self.row[cur_ind_a] == other.row[cur_ind_b] \
-                    and self.col[cur_ind_a] == other.col[cur_ind_b]:
-                val = self.operation[sign](
-                    self.data[cur_ind_a], other.data[cur_ind_b])
-                if val != 0:
-                    data += [val]
-                    row += [other.row[cur_ind_b]]
-                    col += [other.col[cur_ind_b]]
-                cur_ind_a += 1
-                cur_ind_b += 1
-
-        while cur_ind_a < self.nnz:
-            row += [self.row[cur_ind_a]]
-            col += [self.col[cur_ind_a]]
-            data += [self.operation[sign](self.data[cur_ind_a], 0)]
-            cur_ind_a += 1
-
-        while cur_ind_b < other.nnz:
-            row += [other.row[cur_ind_b]]
-            col += [other.col[cur_ind_b]]
-            data += [self.operation[sign](0, other.data[cur_ind_b])]
-            cur_ind_b += 1
-
-        return CSRMatrix((row, col, data))
-
-    def __sub__(self, other):
-        if isinstance(other, CSRMatrix):
-            return self.get_sum(other, "-")
-
-        return self.alpha_result(other, "-")
-
-    def __mul__(self, other):
-        if isinstance(other, CSRMatrix):
-            return self.get_sum(other, "*")
-        result = CSRMatrix((
-            deepcopy(self.row),
-            deepcopy(self.col),
-            deepcopy(self.data),
-        ))
-        result.alpha_result(other, "*")
-        return result
-
-    __rmul__ = __mul__
-
-    def __truediv__(self, other):
-        if isinstance(other, CSRMatrix):
-            return
-        if other == 0:
-            raise ZeroDivisionError
-        result = CSRMatrix((
-            deepcopy(self.row),
-            deepcopy(self.col),
-            deepcopy(self.data),
-        ))
-        result.alpha_result(other, "/")
-        return result
-
-    def __pow__(self, other):
-        if isinstance(other, CSRMatrix):
-            return
-        return self.alpha_result(other, "*")
-
-    def __matmul__(self, other):
-        data1, data2 = {}, {}
-        if self.cn != other.rn:
-            raise ValueError
-        for ind, val in enumerate(self.row):
-            if val in data1:
-                data1[val][self.col[ind]] = self.data[ind]
-            else:
-                data1[val] = {self.col[ind]: self.data[ind]}
-
-        for ind, val in enumerate(other.col):
-            if val in data2:
-                data2[val][other.row[ind]] = other.data[ind]
-            else:
-                data2[val] = {other.row[ind]: other.data[ind]}
-        row = []
-        col = []
-        data = []
-        for i, val_frs in data1.items():
-            for j, val_sec in data2.items():
-                cell = sum(
-                    {key: val * val_sec[key] for key, val in val_frs.items() if key in val_sec}.values())
-
-                if cell != 0:
-                    row += [i]
-                    col += [j]
-                    data += [cell]
-        res = CSRMatrix((row, col, data))
-        return res
-
-    def alpha_result(self, alpha, sign):
-        for i, val in enumerate(self.data):
-            self.data[i] = self.operation[sign](val, alpha)
+        dense_matrix = np.zeros((len(self.IA) - 1, self.max_column))
+        for i in range(len(self.IA) - 1):
+            for k in range(self.IA[i], self.IA[i + 1]):
+                dense_matrix[i, self.JA[k]] = self.A[k]
+        return dense_matrix
