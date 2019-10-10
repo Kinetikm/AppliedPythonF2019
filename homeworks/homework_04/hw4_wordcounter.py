@@ -57,8 +57,8 @@ def word_count_inference(path_to_dir):
 
     for job in jobs:
         job.get()
-    result = asy.get()
     queue.put('kill')
+    result = asy.get()
     pool.close()
     pool.join()
     return result
