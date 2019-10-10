@@ -4,8 +4,8 @@ from time import time
 class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
         self.maxsize = maxsize
-        self.ttl = ttl            # c
-        self.cache = {}     
+        self.ttl = ttl
+        self.cache = {}
         self.time = {}
 
     def __call__(self, func):
