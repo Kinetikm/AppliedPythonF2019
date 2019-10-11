@@ -38,17 +38,20 @@ class TaskProcessor:
         self.tasks_queue = tasks_queue
         # raise NotImplementedError
 
-    def run(self):
+    def run(self,timeout):
         """
         Старт работы воркера
         """
-        try:
+        while True:
+            if self.tasks_queue.empty():
+                print("end has been reached")
+                break
             task = self.tasks_queue.get()
-        except:
-            print("end has been reached")
-        job = Process(target=task.perform())
-        job.start()
-        return job
+            job = Process(target=task.perform())
+            job.start()
+            job.join(timeout)
+            job.terminate()
+
         # raise NotImplementedError
 
 
@@ -62,9 +65,10 @@ class TaskManager:
         :param n_workers: кол-во воркеров
         :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
         """
-        self.tasks_queue = mp.Manager.Queue()
+        self.tasks_queue = tasks_queue
         self.n_workers = n_workers
         self.timeout = timeout
+        self.alive_processes = []
         # raise NotImplementedError
 
     def run(self):
@@ -72,10 +76,16 @@ class TaskManager:
         Запускайте бычка! (с)
         """
         flag = self.tasks_queue.empty()
+        tasks = [TaskProcessor(self.tasks_queue) for i in xrange(n_workers)]
+        for task in tasks:
+            job = Process(target=task.run(self.timeout))
+            self.alive_processes.append(job)
+            job.start()
         while flag is not True:
-            tasks = []
-            len_of_queue = self.tasks_queue.qsize()
-            tasks = [TaskProcessor(self.tasks_queue).run() for i in xrange(n_workers)]
-            for task in tasks:
-                task.join(timeout)
+            index = 0
+            for task in self.alive_processes:
+                if not self.alive_processes[index].is_alive():
+                    job = Process(target=tasks[index].run(self.timeout))
+                    job.start()
+            flag = self.tasks_queue.empty()
         # raise NotImplementedError
