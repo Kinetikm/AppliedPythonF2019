@@ -7,7 +7,7 @@ import os
 
 def num_words(dir, fname, queue):
     words = 0
-    for line in open(dir + '/' + fname, r):
+    for line in open(dir + '/' + fname):
         pos = 'out'
         for letter in line:
             if letter != ' ' and pos == 'out':
