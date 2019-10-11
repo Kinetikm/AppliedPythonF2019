@@ -21,7 +21,13 @@ def word_count_inference(path_to_dir):
     allProcesses = []
     queue = Queue()
     for filename in listdir(path_to_dir):
-        proc = Process(target=file_word_count, args=(path.join( path_to_dir, filename), queue))
+        proc = Process(
+            target=file_word_count,
+            args=(
+                path.join(
+                    path_to_dir,
+                    filename),
+                queue))
         allProcesses.append(proc)
         proc.start()
     total = 0
@@ -37,7 +43,5 @@ def word_count_inference(path_to_dir):
 
 def file_word_count(filename, queue):
     with open(filename, 'r') as file:
-        text =  file.read().rstrip(' ').split()
+        text = file.read().rstrip(' ').split()
         queue.put([filename.split('/')[-1], len(text)])
-
-        

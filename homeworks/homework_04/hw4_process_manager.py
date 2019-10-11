@@ -4,12 +4,14 @@
 from multiprocessing import Process, Queue
 from threading import Thread
 
+
 class Task:
     """
     Задача, которую надо выполнить.
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
+
     def __init__(self, func, *args, **kwargs):
         """
         Пофантазируйте, как лучше инициализировать
@@ -24,10 +26,12 @@ class Task:
         """
         return self.func(*self.args, **self.kwargs)
 
+
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
+
     def __init__(self, tasks_queue, timeout):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
@@ -46,10 +50,12 @@ class TaskProcessor:
             t.join(timeout=self.timeout)
             t.terminate()
 
+
 class TaskManager:
     """
     Мастер-процесс, который управляет воркерами
     """
+
     def __init__(self, tasks_queue, n_workers, timeout):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
@@ -66,12 +72,19 @@ class TaskManager:
         """
         processes = []
         for i in range(self.n):
-            p = Process(target=TaskProcessor(self.tasks_queue, self.timeout).run, args=())
+            p = Process(
+                target=TaskProcessor(
+                    self.tasks_queue,
+                    self.timeout).run,
+                args=())
             processes.append(p)
             p.start()
         while not self.tasks_queue.empty:
             for i, j in enumerate(processes):
                 if not j.is_alive():
-                    processes[i] = Process(target=TaskProcessor(self.tasks_queue, self.timeout).run, args=())
+                    processes[i] = Process(
+                        target=TaskProcessor(
+                            self.tasks_queue,
+                            self.timeout).run,
+                        args=())
                     processes[i].start()
-
