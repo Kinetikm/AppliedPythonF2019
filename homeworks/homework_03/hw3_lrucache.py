@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from time import time
+from functools import wraps
 
 
 class LRUCacheDecorator:
@@ -13,32 +14,29 @@ class LRUCacheDecorator:
                     должен исчезнуть
         '''
         self.maxsize = maxsize
-        self.ttl = ttl
+        if ttl is not None:
+            self.ttl = ttl/1000
+        else:
+            self.ttl = ttl
         self.cach_args = {}
-        self.cach_time = {}
 
     def __call__(self, func):
-        def cach(*args, **kwargs):
+        @wraps(func)
+        def func_cach(*args, **kwargs):
             temp = ((args, str(kwargs)))
             if temp in self.cach_args:
-                if self.ttl is not None and (time() - self.cach_time[temp])*1000 > self.ttl:
+                if self.ttl is not None and (time() - self.cach_args[temp][1]) > self.ttl:
                     result = func(*args, **kwargs)
-                    self.cach_args[temp] = result
-                    self.cach_time[temp] = time()
+                    self.cach_args.pop(temp)
+                    self.cach_args[temp] = [result, time()]
                 else:
-                    result = self.cach_args[temp]
-                    self.cach_time[temp] = time()
+                    result = self.cach_args[temp][0]
+                    self.cach_args.pop(temp)
+                    self.cach_args[temp] = [result, time()]
             else:
                 result = func(*args, **kwargs)
                 if len(self.cach_args) >= self.maxsize:
-                    min_ = time()
-                    for arg in self.cach_args.keys():
-                        time_ = self.cach_time[arg]
-                        if time_ < min_:
-                            min_ = time_
-                            key = arg
-                    self.cach_args.pop(key)
-                self.cach_args[temp] = result
-                self.cach_time[temp] = time()
+                    self.cach_args.pop(list(self.cach_args.keys())[0])
+                self.cach_args[temp] = [result, time()]
             return result
-        return cach
+        return func_cach
