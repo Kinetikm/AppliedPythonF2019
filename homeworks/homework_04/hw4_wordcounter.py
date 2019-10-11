@@ -26,12 +26,11 @@ def cnt_all(queue, res_dict):
     return res_dict
 
 
-def word_count_inference(path_to_dir):
-    
+def word_count_inference(path_to_dir):    
     manager = Manager()
     res_dict = manager.dict()
     queue = manager.Queue()
-   
+
     file_list = os.listdir(path=path_to_dir)
     pool = Pool(len(file_list) + 1)
     sum_of_all_proc = pool.apply_async(cnt_all, (queue, res_dict))
