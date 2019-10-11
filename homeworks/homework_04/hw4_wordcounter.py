@@ -24,8 +24,7 @@ def consumer_func(queue):
         if res == 'kill':
             break
         result[res[0]] = res[1]
-        result['total'] = total
-
+        result['total'] += res[1]
 
 
 def word_count_inference(path_to_dir):
