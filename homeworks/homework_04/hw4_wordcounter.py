@@ -26,7 +26,7 @@ def cnt_all(queue, res_dict):
     return res_dict
 
 
-def word_count_inference(path_to_dir):    
+def word_count_inference(path_to_dir):
     manager = Manager()
     res_dict = manager.dict()
     queue = manager.Queue()
