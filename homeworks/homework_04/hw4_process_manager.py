@@ -10,17 +10,19 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self, ...):
+    def __init__(self, func, *args, **kwargs):
         """
         Пофантазируйте, как лучше инициализировать
         """
-        raise NotImplementedError
+        self.func = func
+        self.args = args
+        self.kwargs = kwargs
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        raise NotImplementedError
+        return self.func(self.args, self.kwargs)
 
 
 class TaskProcessor:
