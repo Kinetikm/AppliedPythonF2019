@@ -117,20 +117,20 @@ class TaskManager:
             sleep(SLEEP_TIME)
 
 
-if __name__ == '__main__':
+'''if __name__ == '__main__':
     manager = Manager()
     queue = manager.Queue()
     # Можно ручками вводить
-    '''n = int(input("Введите количество тасков"))
+    n = int(input("Введите количество тасков"))
     n = 5
     py_code = 'print("Hello world!!!")'
     for _ in range(n)
-        queue.put(Task(py_code))'''
+        queue.put(Task(py_code))
     # можно с одного файла читать по команде
-    '''path_to_file = 'py_code.py'
+    path_to_file = 'py_code.py'
     with open(path_to_file, 'r', encoding='utf-8') as file:
         for line in file:
-            queue.put(Task(line))'''
+            queue.put(Task(line))
     # самое интересное, как мне кажется
     path_to_dir = 'test_for_hw4'
     files = os.listdir(path_to_dir)
@@ -139,4 +139,4 @@ if __name__ == '__main__':
     TIMEOUT = 20
     WORKER_NUMBER = 5
     task_manager = TaskManager(queue, WORKER_NUMBER, TIMEOUT)
-    task_manager.run()
+    task_manager.run()'''
