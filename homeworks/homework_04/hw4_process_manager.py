@@ -53,16 +53,15 @@ class TaskProcessor(Process):
         Старт работы воркера
         """
         while True:
-            proc = self.queue.get()
-            proces = Process(target=proc.perform, args=())
+            procc = self.queue.get()
+            proces = Process(target=procc.perform, args=())
             proces.start()
             time.sleep(self.timeout)
             if proces.is_alive():
                 proces.terminate()
-                print('terminated ' + str(proc))
+                print('terminated ' + str(procc))
             else:
                 proces.join()
-
 
 
 class TaskManager:
@@ -90,10 +89,6 @@ class TaskManager:
                                        for _ in range(self.__num_workers - len(self.__workers))])
             except Exception:
                 continue
-
-
-def func(a):
-    print(a)
 
 
 def func_sleep(a, b):
