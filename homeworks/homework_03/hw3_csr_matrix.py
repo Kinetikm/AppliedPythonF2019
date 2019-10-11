@@ -235,7 +235,7 @@ class CSRMatrix:
                     s = 0
                     for k in range(self.IA[i], self.IA[i+1]):
                         if other[self.JA[k], j]:
-                            s += self[i, self.JA[k]] * other[self.JA[k], j]
+                            s += self.A[k] * other[self.JA[k], j]
                     if s:
                         row.append(i)
                         col.append(j)
@@ -255,7 +255,7 @@ class CSRMatrix:
                     s = 0
                     for k in range(self.IA[i], self.IA[i+1]):
                         if other[self.JA[k], j]:
-                            s += self[i, self.JA[k]] * other[self.JA[k], j]
+                            s += self.A[k] * other[self.JA[k], j]
                     if s:
                         row.append(i)
                         col.append(j)
