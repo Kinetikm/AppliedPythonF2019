@@ -4,6 +4,7 @@
 from multiprocessing import Process, Manager
 import time
 
+
 class Task:
     """
     Задача, которую надо выполнить.
@@ -59,7 +60,6 @@ class TaskManager:
         self.workers = []
         print("here")
 
-
     def run(self):
         if self.tasks_q.qsize() < self.n_workers:
             self.n_workers = self.tasks_q.qsize()
@@ -86,7 +86,7 @@ class TaskManager:
                     task_proc.run()
             time.sleep(1 / self.n_workers)
 
-# TESTIN'
+# TESTIN'(remove comments to test)
 '''
 def sleep(num):
         print(str(num) + " started")
