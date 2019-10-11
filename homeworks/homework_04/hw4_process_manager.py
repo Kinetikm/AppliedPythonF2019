@@ -16,7 +16,7 @@ class Task:
         Пофантазируйте, как лучше инициализировать
         """
         self.something = something
-        #raise NotImplementedError
+        # raise NotImplementedError
 
     def perform(self):
         """
@@ -24,7 +24,7 @@ class Task:
         """
         print("something happend...")
         return self.something
-        #raise NotImplementedError
+        # raise NotImplementedError
 
 
 class TaskProcessor:
@@ -36,7 +36,7 @@ class TaskProcessor:
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
         self.tasks_queue = tasks_queue
-        #raise NotImplementedError
+        # raise NotImplementedError
 
     def run(self):
         """
@@ -49,7 +49,7 @@ class TaskProcessor:
         job = Process(target=task.perform())
         job.start()
         return job
-        #raise NotImplementedError
+        # raise NotImplementedError
 
 
 class TaskManager:
@@ -65,17 +65,17 @@ class TaskManager:
         self.tasks_queue = mp.Manager.Queue()
         self.n_workers = n_workers
         self.timeout = timeout
-        #raise NotImplementedError
+        # raise NotImplementedError
 
     def run(self):
         """
         Запускайте бычка! (с)
         """
         flag = self.tasks_queue.empty()
-        while flag != True:
+        while flag is not True:
             tasks = []
             len_of_queue = self.tasks_queue.qsize()
             tasks = [TaskProcessor(self.tasks_queue).run() for i in xrange(n_workers)]
             for task in tasks:
                 task.join(timeout)
-        #raise NotImplementedError
+        # raise NotImplementedError
