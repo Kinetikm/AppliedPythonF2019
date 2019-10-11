@@ -67,7 +67,7 @@ class TaskManager:
         """
         Запускайте бычка! (с)
         """
-        global flag
+        flag = False
         jobs = []
         tm = []
         while not self.queue.empty() or jobs:
@@ -77,7 +77,6 @@ class TaskManager:
                 jobs.append(t)
                 tm.append(time.clock_gettime(time.CLOCK_REALTIME))
             print('worker - queue', self.n_workers, self.queue.qsize())
-            flag = False
             if len(jobs) == self.n_workers or self.n_workers > self.queue.qsize():
                 for job in jobs:
                     job.join(timeout=0.0001)
