@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process
+from multiprocessing import Process, Queue
 
 
 class Task:
@@ -10,34 +10,32 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self, ...):
-        """
-        Пофантазируйте, как лучше инициализировать
-        """
-        raise NotImplementedError
+    def __init__(self, function, *args, **kwargs):
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
 
     def perform(self):
-        """
-        Старт выполнения задачи
-        """
-        raise NotImplementedError
+        return self.function(*self.args, **self.kwargs)
 
 
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
-    def __init__(self, tasks_queue):
-        """
-        :param tasks_queue: Manager.Queue с объектами класса Task
-        """
-        raise NotImplementedError
+    def __init__(self, tasks_queue, timeout):
+        self.tasks = tasks_queue
+        self.timeout = timeout
 
     def run(self):
-        """
-        Старт работы воркера
-        """
-        raise NotImplementedError
+        while not self.tasks.empty():
+            task = self.tasks.get()
+            process = Process(target=task.perform, args=())
+            try:
+                process.join(timeout=self.timeout)
+            except TimeoutError:
+                process.terminate()
+                print('Task was terminated')
 
 
 class TaskManager:
@@ -50,11 +48,29 @@ class TaskManager:
         :param n_workers: кол-во воркеров
         :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
         """
-        raise NotImplementedError
+        self.tasks = tasks_queue
+        self.max_number_workers = n_workers
+        self.timeout = timeout
+        self.workers = [] * self.max_number_workers
+        self.work_procs = [] * self.max_number_workers
+        self.alive_workers = 0
+
+    def check_workers(self):
+        for index, worker in enumerate(self.work_procs):
+            if not worker.is_alive():
+                self.work_procs.pop(index)
+                self.workers.pop(index)
+                self.alive_workers -= 1
 
     def run(self):
         """
         Запускайте бычка! (с)
         """
-        raise NotImplementedError
-
+        while True:
+            self.check_workers()
+            while self.alive_workers != self.max_number_workers:
+                worker = TaskProcessor(self.tasks, self.timeout)
+                self.workers.append(worker)
+                process = Process(target=worker.run, args=())
+                process.start()
+                self.work_procs.append(process)
