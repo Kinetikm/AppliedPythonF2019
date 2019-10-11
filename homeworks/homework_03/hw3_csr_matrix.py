@@ -39,12 +39,17 @@ class CSRMatrix:
             row_ind = init_matrix_representation[0]
             col_ind = init_matrix_representation[1]
             data = init_matrix_representation[2]
+
+            row_ind, col_ind, data = self.sort_rcd(row_ind, col_ind, data)
+
             self.A = list(data)
             self.JA = list(col_ind)
             self.IA = [0]
+
             for i in range(max(row_ind) + 1):
                 nnz_i = row_ind.count(i)
                 self.IA.append(nnz_i + self.IA[i])
+
             self.rows = len(self.IA) - 1
             self.cols = max(col_ind) + 1
             self._nnz = len(self.A)
@@ -57,6 +62,20 @@ class CSRMatrix:
             self._nnz = len(self.A)
         else:
             raise ValueError
+
+    def sort_rcd(self, row, col, dat) -> list:
+        zipp = zip(row, col, dat)
+        list_zipp = list(zipp)
+        list_zipp = sorted(list_zipp, key=lambda x: x[0])
+        row_ind = []
+        col_ind = []
+        data = []
+
+        for tup in list_zipp:
+            row_ind.append(tup[0])
+            col_ind.append(tup[1])
+            data.append(tup[2])
+        return row_ind, col_ind, data
 
     @property
     def nnz(self):
@@ -279,6 +298,24 @@ class CSRMatrix:
     def __rmul__(self, other):
         return self * other
 
+    def transpose(self):
+        row_ind = []
+        column_ind = []
+        data = []
+        for i in range(self.rows):
+            row = {}
+            for ind in range(self.IA[i], self.IA[i + 1]):
+                column = self.JA[ind]
+                value = self.A[ind]
+                row[column] = value
+
+            for column in row:
+                column_ind.append(i)
+                row_ind.append(column)
+                data.append(row[column])
+
+        return CSRMatrix((row_ind, column_ind, data))
+
     def __matmul__(self, other):
         # Чтобы осуществить умножение матриц(строка на столбец), транспонируем other
         # Теперь умножаем строка на строку
@@ -286,8 +323,7 @@ class CSRMatrix:
             if self.cols != other.rows:
                 raise ValueError
 
-            densed_other_transposed = other.to_dense().transpose()
-            other = CSRMatrix(densed_other_transposed)
+            other = other.transpose()
 
             row_ind = []
             column_ind = []
