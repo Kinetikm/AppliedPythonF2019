@@ -26,8 +26,8 @@ def consumer_func(queue):
         if res == 'kill':
             break
         dict[res[0]] = res[1]
-    for i in range(len(dict)):
-        total += dict[i]
+    for key in dict.keys:
+        total += dict[key]
     dict['total'] = total
     return dict
 
@@ -56,7 +56,6 @@ def word_count_inference(path_to_dir):
         jobs.append(job)
     for job in jobs:
         job.get()
-    
     queue.put('kill')
     result = p.get()
     pool.close()
