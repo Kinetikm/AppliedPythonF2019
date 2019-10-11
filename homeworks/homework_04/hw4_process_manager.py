@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process
-
+from multiprocessing import Process, Queue
+from threading import Thread
 
 class Task:
     """
@@ -10,35 +10,41 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self, ...):
+    def __init__(self, func, *args, **kwargs):
         """
         Пофантазируйте, как лучше инициализировать
         """
-        raise NotImplementedError
+        self.func = func
+        self.args = args
+        self.kwargs = kwargs
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        raise NotImplementedError
-
+        return self.func(*self.args, **self.kwargs)
 
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
-    def __init__(self, tasks_queue):
+    def __init__(self, tasks_queue, timeout):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
-        raise NotImplementedError
+        self.tasks_queue = tasks_queue
+        self.timeout = timeout
 
     def run(self):
         """
         Старт работы воркера
         """
-        raise NotImplementedError
-
+        while not self.tasks_queue.empty():
+            new_task = self.tasks_queue.get()
+            t = Process(target=new_task.perform, args=())
+            t.start()
+            t.join(timeout=self.timeout)
+            t.terminate()
 
 class TaskManager:
     """
@@ -50,11 +56,23 @@ class TaskManager:
         :param n_workers: кол-во воркеров
         :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
         """
-        raise NotImplementedError
+        self.tasks_queue = tasks_queue
+        self.n = n_workers
+        self.timeout = timeout
 
     def run(self):
         """
         Запускайте бычка! (с)
         """
-        raise NotImplementedError
+        processes = []
+        for i in range(self.n):
+            p = Process(target=self.run_worker, args=())
+            processes.append(p)
+            p.start()
+        for i in processes:
+            i.join()
 
+    def run_worker(self):
+        while not self.tasks_queue.empty():
+            newTP = TaskProcessor(self.tasks_queue, self.timeout)
+            newTP.run()
