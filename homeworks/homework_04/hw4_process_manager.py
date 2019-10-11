@@ -13,17 +13,19 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self, ...):
+    def __init__(self, function, args, kwargs):
         """
         Пофантазируйте, как лучше инициализировать
         """
-        raise NotImplementedError
+        self.func = function
+        self.args = args
+        self.kwargs = kwargs
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        raise NotImplementedError
+        self.func(*self.args, **self.kwargs)
 
 
 class TaskProcessor(Process):
@@ -34,7 +36,7 @@ class TaskProcessor(Process):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
-        self.ta_queue = tasks_queue
+        self.task_queue = tasks_queue
         self.t_dict = time_dict
 
     def run(self):
@@ -42,30 +44,30 @@ class TaskProcessor(Process):
         Старт работы воркера
         """
         while True:
-            task = ta_queue.get()
+            task = task_queue.get()
 
-            task_s_time = time.time()
+            task_start_time = time.time()
             pid = os.getpid()
-            self.t_dict[pid] = task_s_time
+            self.t_dict[pid] = task_start_time
 
             task.perform()
-
-
 
 
 class TaskManager(Process):
     """
     Мастер-процесс, который управляет воркерами
     """
-    def __init__(self, tasks_queue, n_workers, timeout):
+    def __init__(self, tasks_queue, n_workers, timeout, queue_timeout):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         :param n_workers: кол-во воркеров
         :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
+        :param q_timeout: таймаут в секундах, из очереди пытаемся достать элемент q_timeout секунд
         """
         self.t_queue = tasks_queue
         self.n_workers = n_workers
         self.timeout = timeout
+        self.q_timeout = queue_timeout
 
     def run(self):
         """
@@ -78,31 +80,42 @@ class TaskManager(Process):
         # создать queue для отслеживания времени выполнения, в который дочерний процесс будет записывать pid процесса, который
         # работает дольше положенного
         manager = Manager()
-        wid_s_time = manager.dict()
-        workers = {}
+        # pid: task_start_time
+        self.wid_task_start_time = manager.dict()
+        # pid: TaskProcessor
+        self.workers = {}
 
         for _ in range(self.n_workers):
-            worker = TaskProcessor(self.t_queue, wid_s_time)
+            worker = TaskProcessor(self.t_queue, self.wid_task_start_time)
             worker.start()
-            workers[worker.pid] = worker
+            self.workers[worker.pid] = worker
 
         while True:
             # restart
-            for wid, w in workers.items():
-                if not w.is_alive():
-                    # если не пусто в множестве тасков!
-                    new_w = TaskProcessor(self.t_queue, wid_s_time)
-                    new_w.start()
-                    workers[wid] = new_w
+            self.process_restart()
             # kill         
-            wid_s_time_now = copy.deepcopy(wid_s_time)
-            current_time = time.time()
-            for wid, task_start_time in wid_s_time_now.items():
-                if current_time - task_start_time > timeout:
-                    timeouted_worker = workers[wid]
-                    timeouted_worker.close()
-                    timeouted_worker.join()
+            self.kill_after_timeout
 
-    # QUEUE
-    # завершение мастер процесса, когда все таски выполнены!                
+    def process_restart(self):
+        new_workers_dict = {}
+        for wid, w in self.workers.items():
+            if not w.is_alive():
+                new_worker = TaskProcessor(self.t_queue, self.wid_task_start_time)
+                new_worker.start()
+                new_workers_dict[new_worker.pid] = new_worker
+            else:
+                new_workers_dict[wid] = w
 
+        self.workers = new_workers_dict
+
+    def kill_after_timeout(self, timeout):
+        current_time = time.time()
+        # из-за многопроцессорности ФРИЗИМ состояние дикта!
+        wid_task_start_time_curr = copy.deepcopy(self.wid_task_start_time)
+        for wid, task_start_time in wid_task_start_time_curr.items():
+            if current_time - task_start_time > timeout:
+                timeouted_worker = self.workers[wid]
+                # убили процесс
+                timeouted_worker.terminate()
+                # чтобы не было зомби процесса
+                timeouted_worker.join()             
