@@ -26,8 +26,7 @@ def consumer_func(queue):
         if res == 'kill':
             break
         dict[res[0]] = res[1]
-    for key in dict.keys():
-        total += dict[key]
+        total += res[1]
     dict['total'] = total
     return dict
 
