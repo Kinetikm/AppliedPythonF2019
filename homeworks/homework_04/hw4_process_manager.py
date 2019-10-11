@@ -82,7 +82,7 @@ class TaskManager:
             self.active_processes.append(process)
             process.start()
         while not self.tasks_q.empty():
-            self.active_processes[randint(0, len(self.active_processes) - 1)].terminate()
+            self.active_processes[randint(0, len(self.active_processes) - 1)].terminate()  # Для проверки
             for i, process in enumerate(self.active_processes):
                 if not process.is_alive():
                     print('Create new process')
