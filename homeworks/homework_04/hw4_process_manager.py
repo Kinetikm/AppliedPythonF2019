@@ -3,7 +3,6 @@
 
 from multiprocessing import Process, Manager
 import time
-import os
 
 
 class Task:
