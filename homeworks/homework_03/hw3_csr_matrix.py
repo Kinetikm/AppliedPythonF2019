@@ -77,12 +77,11 @@ class CSRMatrix:
         return self._nnz
 
     def __getitem__(self, indexes):
-        try:
             i = indexes[0]
             j = indexes[1]
-            k = self.JA[self.IA[i]:self.IA[i+1]].index(j) + self.IA[i]
-            return self.A[k]
-        except ValueError:
+            for k in range(self.IA[i], self.IA[i+1]):
+                if self.JA[k] == j:
+                    return self.A[k]
             return 0
 
     def __setitem__(self, indexes, value):
@@ -225,58 +224,41 @@ class CSRMatrix:
 
     def __matmul__(self, other):
 
-        other = CSRMatrix(other.to_dense().transpose())
-
-        if self.max_col != other.max_col:
+        if self.max_col != other.max_row:
             raise ValueError
         else:
             row = []
             col = []
             data = []
-            for i in range(len(self.IA)-1):
-                for l in range(len(other.IA)-1):
-                    d = {}
-                    d1 = {}
+            for i in range(self.max_row):
+                for j in range(self.max_col):
                     s = 0
                     for k in range(self.IA[i], self.IA[i+1]):
-                        d[self.JA[k]] = self.A[k]
-                    for k in range(other.IA[l], other.IA[l+1]):
-                        d1[other.JA[k]] = other.A[k]
-
-                    for j in d1:
-                        if j in d:
-                            s += d[j]*d1[j]
+                        if other[self.JA[k], j]:
+                            s += self[i, self.JA[k]] * other[self.JA[k], j]
                     if s:
                         row.append(i)
-                        col.append(l)
+                        col.append(j)
                         data.append(s)
             return CSRMatrix((row, col, data))
 
     def dot(self, other):
 
-        other = CSRMatrix(other.to_dense().transpose())
-        if self.max_col != other.max_col:
+        if self.max_col != other.max_row:
             raise ValueError
         else:
             row = []
             col = []
             data = []
-            for i in range(len(self.IA)-1):
-                for l in range(len(other.IA)-1):
-                    d = {}
-                    d1 = {}
+            for i in range(self.max_row):
+                for j in range(self.max_col):
                     s = 0
                     for k in range(self.IA[i], self.IA[i+1]):
-                        d[self.JA[k]] = self.A[k]
-                    for k in range(other.IA[l], other.IA[l+1]):
-                        d1[other.JA[k]] = other.A[k]
-
-                    for j in d1:
-                        if j in d:
-                            s += d[j]*d1[j]
+                        if other[self.JA[k], j]:
+                            s += self[i, self.JA[k]] * other[self.JA[k], j]
                     if s:
                         row.append(i)
-                        col.append(l)
+                        col.append(j)
                         data.append(s)
             return CSRMatrix((row, col, data))
 
