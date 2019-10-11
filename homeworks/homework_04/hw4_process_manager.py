@@ -10,34 +10,46 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self):
+    def __init__(self, function, *args, **kwargs):
         """
         Пофантазируйте, как лучше инициализировать
         """
-        raise NotImplementedError
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        raise NotImplementedError
+        print("Start {}".format(function))
+        function(*self.args, **self.kwargs)
+        print("Done {}".format(function))
 
 
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
-    def __init__(self, tasks_queue):
+    def __init__(self, tasks_queue, timeout):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
-        raise NotImplementedError
+        self.tasks_queue = tasks_queue
+        self.timeout = timeout
 
     def run(self):
         """
         Старт работы воркера
         """
-        raise NotImplementedError
+        while True:
+            if self.tasks_q.empty():
+                break
+            task = self.tasks_q.get()
+            p = Process(target=task.perform)
+            p.start()
+            p.join(self.timeout)
+            p.terminate()
 
 
 class TaskManager:
@@ -50,10 +62,24 @@ class TaskManager:
         :param n_workers: кол-во воркеров
         :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
         """
-        raise NotImplementedError
+        self.tasks_queue = tasks_queue
+        self.n_workers = n_workers
+        self.timeout = timeout
+        self.a_p = []
 
     def run(self):
         """
         Запускайте бычка! (с)
         """
-        raise NotImplementedError
+        w = [TaskProcessor(self.tasks_queue, self.timeout) for _ in range(self.n_workers)]
+        for worker in w:
+            p = Process(target=worker.run)
+            self.a_p.append(p)
+            p.start()
+        while not self.tasks_queue.empty():
+            for i, p in enumerate(self.a_p):
+                if not p.is_alive():
+                    print('Create new process')
+                    process = Process(target=w[i].run)
+                    process.start()
+            sleep(2)
