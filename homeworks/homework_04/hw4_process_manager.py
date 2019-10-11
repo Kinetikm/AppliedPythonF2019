@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from multiprocessing import Process, Queue
+import time
 
 
 class Task:
@@ -16,26 +17,30 @@ class Task:
         self.kwargs = kwargs
 
     def perform(self):
-        return self.function(*self.args, **self.kwargs)
+        self.function(*self.args, **self.kwargs)
 
 
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
-    def __init__(self, tasks_queue, timeout):
+    def __init__(self, tasks_queue, timeout, num):
         self.tasks = tasks_queue
         self.timeout = timeout
+        self.num = num
 
     def run(self):
         while not self.tasks.empty():
             task = self.tasks.get()
+            print(self.num, task.args, task.kwargs)
             process = Process(target=task.perform, args=())
-            try:
-                process.join(timeout=self.timeout)
-            except TimeoutError:
-                process.terminate()
-                print('Task was terminated')
+            process.start()
+            process.join(timeout=self.timeout)
+            # try:
+            #     process.join(timeout=self.timeout)
+            # except TimeoutError:
+            #     process.terminate()
+            #     print('Task was terminated')
 
 
 class TaskManager:
@@ -56,6 +61,8 @@ class TaskManager:
         self.alive_workers = 0
 
     def check_workers(self):
+        if self.alive_workers == 0:
+            return
         for index, worker in enumerate(self.work_procs):
             if not worker.is_alive():
                 self.work_procs.pop(index)
@@ -66,11 +73,28 @@ class TaskManager:
         """
         Запускайте бычка! (с)
         """
-        while True:
+        n=0
+        while not self.tasks.empty():
             self.check_workers()
             while self.alive_workers != self.max_number_workers:
-                worker = TaskProcessor(self.tasks, self.timeout)
+                worker = TaskProcessor(self.tasks, self.timeout, n)
+                n+=1
                 self.workers.append(worker)
                 process = Process(target=worker.run, args=())
                 process.start()
                 self.work_procs.append(process)
+
+
+def func(timeout=1, text="default"):
+    time.sleep(timeout)
+    print(text)
+
+
+q = Queue()
+
+for i in range(15):
+    task = Task(func, *(i,), **{"text": f"task number {i}"})
+    q.put(task)
+
+manager = TaskManager(q, 5, 7)
+manager.run()
