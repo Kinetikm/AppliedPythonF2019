@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process, Manager, current_process
+from multiprocessing import Process, current_process
 import time
 
 
@@ -117,36 +117,36 @@ class TaskManager:
             raise ValueError
 
 
-"""
-Ниже приведен пример main, очередь состит из 1,2,3 ... 50 
-в например perform прописано sleep(i)
-если  задан timeout, тогда можно будет отслежить заботу алгоритма
-если args[0]>timeout ,тогда не будет напечатана строчка print("конец perform, вермени хватило")
-
-если timeout не задан(по умолчанию None), тогда можно будет увидеть, что результат выводится каждую секунду,
-значит все выполняется с помощью разных процессов
-
-"""
-
-if __name__ == '__main__':
-    tasks = []
-
-    for i in range(20):
-        tasks.append(Task(i))
-
-    manager = Manager()
-    queue1 = manager.Queue(20)
-
-    for task in tasks:
-        queue1.put(task)
-    print(" TaskManager_with_timeout")
-    TaskManager_with_timeout = TaskManager(tasks_queue=queue1, n_workers=4, timeout=5)
-    TaskManager_with_timeout.run()
-
-    queue2 = manager.Queue(20)
-
-    for task in tasks:
-        queue2.put(task)
-    print("TaskManager_without_timeout ")
-    TaskManager_without_timeout = TaskManager(tasks_queue=queue2, n_workers=4)
-    TaskManager_without_timeout.run()
+#
+# Ниже приведен пример main, очередь состит из 1,2,3 ... 50
+# в например perform прописано sleep(i)
+# если  задан timeout, тогда можно будет отслежить заботу алгоритма
+# если args[0]>timeout ,тогда не будет напечатана строчка print("конец perform, вермени хватило")
+#
+# если timeout не задан(по умолчанию None), тогда можно будет увидеть, что результат выводится каждую секунду,
+# значит все выполняется с помощью разных процессов
+#
+#
+#
+# if __name__ == '__main__':
+#     tasks = []
+#
+#     for i in range(20):
+#         tasks.append(Task(i))
+#
+#     manager = Manager()
+#     queue1 = manager.Queue(20)
+#
+#     for task in tasks:
+#         queue1.put(task)
+#     print(" TaskManager_with_timeout")
+#     TaskManager_with_timeout = TaskManager(tasks_queue=queue1, n_workers=4, timeout=5)
+#     TaskManager_with_timeout.run()
+#
+#     queue2 = manager.Queue(20)
+#
+#     for task in tasks:
+#         queue2.put(task)
+#     print("TaskManager_without_timeout ")
+#     TaskManager_without_timeout = TaskManager(tasks_queue=queue2, n_workers=4)
+#     TaskManager_without_timeout.run()
