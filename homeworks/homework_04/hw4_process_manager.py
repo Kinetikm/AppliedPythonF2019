@@ -11,7 +11,7 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self, func, ret, *args, **kwargs):
+    def __init__(self, func, *args, **kwargs):
         """
         Пофантазируйте, как лучше инициализировать
 
@@ -24,8 +24,8 @@ class Task:
         """
         Старт выполнения задачи
         """
-        if args is not None:
-            if kwargs is not None:
+        if self._args is not None:
+            if self._kwargs is not None:
                 return self._func(self._args, self._kwargs)
             else:
                 return self._func(self._args)
