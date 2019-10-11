@@ -7,7 +7,7 @@ import os
 
 def num_words(dir, fname, queue):
     words = 0
-    for line in open(dir + '/' + fname):
+    for line in open(dir + '/' + fname, r):
         pos = 'out'
         for letter in line:
             if letter != ' ' and pos == 'out':
@@ -18,13 +18,13 @@ def num_words(dir, fname, queue):
     queue.put((fname, words))
 
 
-def consumer_func(queue):
+def consumer_func(queue, result_dct):
     while True:
         res = queue.get()
         if res == 'kill':
             break
-        result[res[0]] = res[1]
-        result['total'] += res[1]
+        result_dct[res[0]] = res[1]
+        result_dct['total'] += res[1]
 
 
 def word_count_inference(path_to_dir):
@@ -38,14 +38,14 @@ def word_count_inference(path_to_dir):
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
     '''
-    PROCESSES_COUNT = 3
+    PROCESSES_COUNT = 5
     file_lst = os.listdir(path=path_to_dir)
     manager = Manager()
     queue = manager.Queue()
     pool = Pool(PROCESSES_COUNT)
-    result = manager.dict()
-    result['total'] = 0
-    pool.apply_async(consumer_func, (queue,))
+    result_dct = manager.dict()
+    result_dct['total'] = 0
+    pool.apply_async(consumer_func, (queue, result_dct))
     jobs = []
     for file in file_lst:
         job = pool.apply_async(num_words, (path_to_dir, file, queue))
@@ -55,4 +55,4 @@ def word_count_inference(path_to_dir):
     queue.put('kill')
     pool.close()
     pool.join()
-    return result
+    return result_dct
