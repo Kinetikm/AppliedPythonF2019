@@ -22,11 +22,7 @@ class LRUCacheDecorator:
             self.results = {}
             self.calculated = 0
             return
-        last = (time.time(), None)
-        for key in self.results:
-            if self.results[key][0] < last[0]:
-                last = (self.results[key][0], key)
-        del self.results[last[1]]
+        self.results.pop(list(self.results.keys())[0])
         self.calculated -= 1
 
     def __call__(self, function):
@@ -40,22 +36,18 @@ class LRUCacheDecorator:
             if key in self.results:
                 if self.ttl is None or (call_time - self.results[key][0]) * 1000 < self.ttl:
                     res = self.results[key][1]
-                    self.results[key] = (call_time, res)
-                    return res
+                    self.results.pop(key)
                 else:
                     res = self.function(*args, **kwargs)
                     call_time = time.time()
-                    self.results[key] = (call_time, res)
-                    return res
+                self.results[key] = (call_time, res)
+                return res
             else:
                 res = self.function(*args, **kwargs)
                 call_time = time.time()
-                if self.calculated < self.maxsize:
-                    self.results[key] = (call_time, res)
-                    self.calculated += 1
-                else:
+                if self.calculated == self.maxsize:
                     self.lru_del()
-                    self.results[key] = (call_time, res)
-                    self.calculated += 1
+                self.results[key] = (call_time, res)
+                self.calculated += 1
             return res
         return f
