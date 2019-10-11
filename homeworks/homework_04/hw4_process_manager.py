@@ -38,7 +38,7 @@ class TaskProcessor:
         self.tasks_queue = tasks_queue
         # raise NotImplementedError
 
-    def run(self,timeout):
+    def run(self, timeout):
         """
         Старт работы воркера
         """
