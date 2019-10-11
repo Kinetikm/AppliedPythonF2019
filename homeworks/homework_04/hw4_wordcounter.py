@@ -43,22 +43,22 @@ def word_count_inference(path_to_dir):
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
     '''
-    PROCESSES_COUNT = 5
+    PROCESSES_COUNT = 3
     file_lst = os.listdir(path=path_to_dir)
     manager = Manager()
     queue = manager.Queue()
     pool = Pool(PROCESSES_COUNT)
-    asy = pool.apply_async(consumer_func, (queue,))
+    p = pool.apply_async(consumer_func, (queue,))
 
     jobs = []
     for file in file_lst:
         job = pool.apply_async(num_words, (path_to_dir, file, queue))
         jobs.append(job)
-
     for job in jobs:
         job.get()
+    
     queue.put('kill')
-    result = asy.get()
+    result = p.get()
     pool.close()
     pool.join()
     return result
