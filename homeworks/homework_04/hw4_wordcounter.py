@@ -15,7 +15,7 @@ def num_words(dir, fname, queue):
                 pos = 'in'
             elif letter == ' ':
                 pos = 'out'
-    queue.put(fname, words)
+    queue.put((fname, words))
 
 
 def consumer_func(queue):
