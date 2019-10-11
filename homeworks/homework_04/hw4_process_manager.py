@@ -66,13 +66,12 @@ class TaskManager:
         """
         processes = []
         for i in range(self.n):
-            p = Process(target=self.run_worker, args=())
+            p = Process(target=TaskProcessor(self.tasks_queue, self.timeout).run, args=())
             processes.append(p)
             p.start()
-        for i in processes:
-            i.join()
+        while not self.tasks_queue.empty:
+            for i, j in enumerate(processes):
+                if not j.is_alive():
+                    processes[i] = Process(target=TaskProcessor(self.tasks_queue, self.timeout).run, args=())
+                    processes[i].start()
 
-    def run_worker(self):
-        while not self.tasks_queue.empty():
-            newTP = TaskProcessor(self.tasks_queue, self.timeout)
-            newTP.run()
