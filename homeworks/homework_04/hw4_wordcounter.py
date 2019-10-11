@@ -19,16 +19,13 @@ def num_words(dir, fname, queue):
 
 
 def consumer_func(queue):
-    dict = {}
-    total = 0
     while True:
         res = queue.get()
         if res == 'kill':
             break
-        dict[res[0]] = res[1]
+        result[res[0]] = res[1]
         total += res[1]
     dict['total'] = total
-    return dict
 
 
 def word_count_inference(path_to_dir):
@@ -47,7 +44,8 @@ def word_count_inference(path_to_dir):
     manager = Manager()
     queue = manager.Queue()
     pool = Pool(PROCESSES_COUNT)
-    p = pool.apply_async(consumer_func, (queue,))
+    pool.apply_async(consumer_func, (queue,))
+    result = manager.dict()
 
     jobs = []
     for file in file_lst:
@@ -56,7 +54,6 @@ def word_count_inference(path_to_dir):
     for job in jobs:
         job.get()
     queue.put('kill')
-    result = p.get()
     pool.close()
     pool.join()
     return result
