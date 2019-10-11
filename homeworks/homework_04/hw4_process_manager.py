@@ -6,6 +6,7 @@ import os
 from multiprocessing import Process, Manager
 import time
 
+
 class Task:
     """
     Задача, которую надо выполнить.
@@ -66,7 +67,6 @@ class TaskManager(Process):
         self._result_queue = result_queue
         self._n_workers = n_workers
         self._is_returnable = is_returnable
-        
         self._list_workers = []
 
     def run(self):
