@@ -1,12 +1,14 @@
 import time
+import copy
 
 
 class LRUCacheDecorator:
 
     class FArgs:
-        def __init__(self, args, kwargs):
+        def __init__(self, args, kwargs, access_time):
             self.args = args
             self.kwargs = kwargs
+            self.acc_time = access_time
 
         def __eq__(self, other):
             return self.args == other.args and self.kwargs == other.kwargs
@@ -28,43 +30,38 @@ class LRUCacheDecorator:
         # function args : func(args)
         self._cached = {}
         # access_time: args
-        self._access_time = {}
         self._ttl = ttl
 
     def delete_after_ttl(self, current_time):
-        ttl = self._ttl
-        if ttl:
-            t_delete = [time for time in self._access_time.keys() if current_time - time > ttl]
-            for t in t_delete:
-                fargs = self._access_time.pop(t)
-                self._cached.pop(fargs)
+        cached_copy = copy.deepcopy(self._cached)
+        if self._ttl:
+            fargs = cached_copy.keys()
+            for farg in fargs:
+                if current_time - farg.acc_time > self._ttl:
+                    self._cached.pop(farg)
 
-    def update_access_time(self, fargs, curr_time):
-        for time, args in self._access_time.items():
-            if args == fargs:
-                self._access_time.pop(time)
-                break
-        self._access_time[curr_time] = fargs
-
-    def add_to_cache(self, fargs, value, curr_time):
+    def delete_least_used(self):
         if len(self._cached.keys()) == self._maxsize:
-            least_used = sorted(self._access_time.keys())[0]
-            least_used_fargs = self._access_time.pop(least_used)
+            # сохраняется порядок вставки, least_used на самом первом месте(давно не обновлялся)
+            least_used_fargs = list(self._cached.keys())[0]
             self._cached.pop(least_used_fargs)
 
+    def add_to_cache(self, fargs, value, curr_time):
+        self.delete_least_used()
         self._cached[fargs] = value
-        self.update_access_time(fargs, curr_time)
 
     def __call__(self, func):
         def wrapped(*args, **kwargs):
             current_time = time.time()
-            fargs = self.FArgs(args, kwargs)
+            fargs = self.FArgs(args, kwargs, current_time)
             self.delete_after_ttl(current_time)
             if fargs in self._cached:
-                self.update_access_time(fargs, current_time)
-                return self._cached[fargs]
+                # достанет с старым access_time(в __eq__ and __hash__ время не учитывется)
+                ans = self._cached.pop(fargs)
+                # положит с новым accces_time( в конец self_cached!)
+                self._cached[fargs] = ans
             else:
                 ans = func(*args, **kwargs)
                 self.add_to_cache(fargs, ans, current_time)
-                return ans
+            return ans
         return wrapped
