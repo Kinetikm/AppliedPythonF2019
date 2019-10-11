@@ -38,6 +38,7 @@ class LRUCacheDecorator:
 
     def update_cache(self):
         if len(self.cache) > self.maxsize:
-            oldest_key = list(self.cache_time.keys())[list(self.cache_time.values()).index(min(self.cache_time.values()))]
+            index = min(self.cache_time.values())
+            oldest_key = list(self.cache_time.keys())[list(self.cache_time.values()).index(index)]
             del self.cache[oldest_key]
             del self.cache_time[oldest_key]
