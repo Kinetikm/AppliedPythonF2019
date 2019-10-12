@@ -23,14 +23,11 @@ def test_output_dictionary():
 
 
 class SimpleTask(pm.Task):
-    # qid = "spimple_task"
 
     def __init__(self, *args, **kwargs):
-        # super().__init__(*args, qid=self.qid, **kwargs)
         super().__init__()
 
     def perform(self):
-        print("worker pid:", os.getpid())
         time.sleep(1)
         print(f"worker {os.getpid()} done")
 

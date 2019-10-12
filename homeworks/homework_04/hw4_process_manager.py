@@ -91,8 +91,6 @@ class TaskProcessor:
                 print("cant process task:", task, "because", e)
                 task.state = 'error'
 
-            # как я понял, по заданию подразумевается, что воркер обрабатывает только одно задание
-            # а потом
             if self.need_stop:
                 break
 

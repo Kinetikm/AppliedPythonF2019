@@ -48,7 +48,6 @@ def word_count_inference(path_to_dir):
 
             files_queue = manager.Queue()
             word_count_queue = manager.Queue()
-            # print("running poll")
 
             for i in range(MAX_PROCS):
                 pool.apply_async(count_words_worker, (files_queue, word_count_queue))
@@ -61,11 +60,9 @@ def word_count_inference(path_to_dir):
                     continue
 
                 total_files += 1
-                # print("put in queue", f)
                 files_queue.put((f, full_fname))
 
             for p in range(total_files):
-                # print("getting results")
                 short_fname, wcount = word_count_queue.get()
                 result[short_fname] = wcount
 
@@ -79,5 +76,4 @@ def word_count_inference(path_to_dir):
                 raise Exception("В задании не было такого кейса")
 
     result['total'] = sum(result.values())
-    # print(result)
     return result
