@@ -3,6 +3,7 @@
 
 import time
 from functools import wraps
+from collections import OrderedDict
 
 
 class LRUCacheDecorator:
@@ -17,27 +18,22 @@ class LRUCacheDecorator:
         #  https://www.geeksforgeeks.org/class-as-decorator-in-python/
         self.maxsize = maxsize
         self.ttl = ttl
-        self.cache = dict()
+        self.cache = OrderedDict()
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, func):
         #  вызов функции
-        func = args[0]
-
         def new_func(*args, **kwargs):
             key = self._hash_args(args, kwargs)
             if key in self.cache:
                 ent = self.cache[key]
                 if self.ttl is None or time.time() - ent['time'] < self.ttl:
-                    self.cache[key]['time'] = time.time()
+                    del self.cache[key]
+                    self.cache[key] = {
+                        "result": ent['result'], "time": time.time()}
                     return ent['result']
+                ent = self.cache[key]
             if len(self.cache) == self.maxsize:
-                oldest_time = time.time()
-                oldest_entry_key = None
-                for _key in self.cache:
-                    if self.cache[_key]["time"] < oldest_time:
-                        oldest_time = self.cache[_key]['time']
-                        oldest_entry_key = _key
-                del self.cache[oldest_entry_key]
+                self.cache.popitem(last=False)
             result = func(*args, **kwargs)
             self.cache[key] = {"result": result, "time": time.time()}
             return result
