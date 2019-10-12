@@ -45,7 +45,7 @@ def search_total(queue, words):
         tmp = queue.get()
         if tmp == 'END_QUEUE':
             break
-        total += tmp
+        total += tmp[1]
 
     words['total'] = total
     return dict(words)
