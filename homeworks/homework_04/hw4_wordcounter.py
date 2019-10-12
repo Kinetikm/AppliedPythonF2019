@@ -21,14 +21,13 @@ def word_count_inference(path_to_dir):
              if os.path.isfile(os.path.join(path_to_dir, f))]
     manager = Manager()
     queue = manager.Queue()
-    words = manager.dict()
     pool = Pool(core)
-    result = pool.apply_async(search_total, (queue, words))
+    total = pool.apply_async(search_total, (queue, ))
     for file in files:
         process = pool.apply_async(words_in_file, (path_to_dir, file, queue))
         process.get()
-    queue.put(-1)
-    return result.get()
+    queue.put('END')
+    return total.get()
 
 
 def words_in_file(path_to_dir, filename, queue):
@@ -39,13 +38,14 @@ def words_in_file(path_to_dir, filename, queue):
     queue.put((filename, sum))
 
 
-def search_total(queue, words):
+def search_total(queue):
     total = 0
+    res = {}
     while True:
         tmp = queue.get()
-        if tmp == 'END_QUEUE':
+        if tmp == 'END':
             break
+        res[tmp[0]] = tmp[1]
         total += tmp[1]
 
-    words['total'] = total
-    return dict(words)
+    return res
