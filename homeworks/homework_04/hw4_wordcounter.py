@@ -16,6 +16,7 @@ def count_words_in_file(file_path, queue):
 
 
 def count_total_words(queue):
+    # Можно было бы сделать Manager().Dict() и передавать его вместе с очередью, но мне показалось такое решение лучше
     data_dict = {}
     count = 0
     while True:
@@ -41,8 +42,7 @@ def word_count_inference(path_to_dir):
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
     """
-    manager = Manager()
-    queue = manager.Queue()
+    queue = Manager().Queue()
     files = [os.path.join(path_to_dir, file) for file in os.listdir(path_to_dir)]
 
     pool = Pool(cpu_count())
@@ -61,6 +61,4 @@ def word_count_inference(path_to_dir):
     pool.close()
     pool.join()
 
-    result_dict = prc.get()
-
-    return result_dict
+    return prc.get()

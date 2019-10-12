@@ -56,7 +56,7 @@ class TaskProcessor(Process):
 
         while True:
             signal.signal(signal.SIGALRM, _handle_timeout)  # Указываем какой сигнал хотим подать
-            signal.alarm(self.timeout)  # Указываем через какое время будет подан сигнал
+            signal.setitimer(signal.ITIMER_REAL, self.timeout)  # Указываем через какое время будет подан сигнал
             try:
                 task = self.task_queue.get()
                 if task:
@@ -70,7 +70,7 @@ class TaskProcessor(Process):
                 except UnboundLocalError:
                     print(f"Задач больше нет")
             finally:
-                signal.alarm(0)
+                signal.setitimer(signal.ITIMER_REAL, 0)
 
 
 class TaskManager:
@@ -110,12 +110,9 @@ class TaskManager:
 
 
 def sleeper(sec, seconds=None):
-    # print(f"Сплю {sec} секунд(ы)")
     time.sleep(sec)
     if seconds:
-        # print(f"Сплю ещё {seconds} секунду")
         time.sleep(seconds)
-    # print(f"Задача закончила работу {sec}, {seconds}")
 
 
 def test1():
@@ -123,7 +120,7 @@ def test1():
 
     task1 = Task(sleeper, 2)
     task2 = Task(sleeper, 5, 1)
-    task3 = Task(sleeper, 1, seconds=2)
+    task3 = Task(sleeper, 1, seconds=2.5)  # Добавлена проверка на нецелый таймаут
     task4 = Task(sleeper, sec=0, seconds=1)
     task5 = Task(sleeper, 8, 4)
     task6 = Task(sleeper, 1, 9)
@@ -144,7 +141,7 @@ def test2():  # В принципе проверяет тоже самое, чт
 
     queue = Manager().Queue()
 
-    for i in range(10000):
+    for i in range(1000):
         queue.put(Task(sleeper, random.randint(0, 10), random.randint(0, 10)))
         queue.put(Task(sleeper, sec=random.randint(0, 5), seconds=random.randint(0, 5)))
 
@@ -152,5 +149,5 @@ def test2():  # В принципе проверяет тоже самое, чт
     manager.run()
 
 
-test1()
+# test1()
 # test2()
