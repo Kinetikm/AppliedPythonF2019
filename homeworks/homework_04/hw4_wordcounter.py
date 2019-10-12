@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process, Manager, Queue
+from multiprocessing import Pool, Manager, Queue
 import os
 
 
