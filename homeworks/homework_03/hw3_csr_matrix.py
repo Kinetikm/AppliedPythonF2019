@@ -35,19 +35,16 @@ class CSRMatrix:
             where data, row_ind and col_ind satisfy the relationship:
             a[row_ind[k], col_ind[k]] = data[k]
         """
-        self.size = ()
-        self.A = []
-        self.AI = [0]
-        self.AJ = []
+        self.a = []
+        self.ai = [0]
+        self.aj = []
         self._nnz = 0
         if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
-            x = max(init_matrix_representation[0])
-            y = max(init_matrix_representation[1])
-            self.size = (x + 1, y + 1)
+            self.size = (max(init_matrix_representation[0]) + 1, max(init_matrix_representation[1]) + 1)
             tmp = 0
             flag = False
             for i in range(init_matrix_representation[0][0]):
-                self.AI.append(0)
+                self.ai.append(0)
             for i in init_matrix_representation[0]:
                 if i - tmp == 0:
                     tmp = i
@@ -56,26 +53,26 @@ class CSRMatrix:
                 elif i - tmp == 1:
                     if flag:
                         flag = False
-                        self.AI.append(self._nnz)
+                        self.ai.append(self._nnz)
                         tmp = i
                         self._nnz += 1
                     else:
                         tmp = i
                         self._nnz += 1
-                        self.AI.append(self._nnz)
+                        self.ai.append(self._nnz)
                 else:
                     if flag:
                         flag = False
-                        self.AI.append(self._nnz)
+                        self.ai.append(self._nnz)
                     for _ in range(i - tmp - 1):
-                        self.AI.append(self._nnz)
+                        self.ai.append(self._nnz)
                     tmp = i
                     self._nnz += 1
-                    self.AI.append(self._nnz)
+                    self.ai.append(self._nnz)
 
-            self.AI.append(self._nnz)
-            self.AJ = deepcopy(init_matrix_representation[1])
-            self.A = deepcopy(init_matrix_representation[2])
+            self.ai.append(self._nnz)
+            self.aj = deepcopy(init_matrix_representation[1])
+            self.a = deepcopy(init_matrix_representation[2])
 
         elif isinstance(init_matrix_representation, np.ndarray):
             if len(init_matrix_representation.shape) == 2:
@@ -83,33 +80,24 @@ class CSRMatrix:
                 for i in range(self.size[0]):
                     for j in range(self.size[1]):
                         if init_matrix_representation[i, j] != 0:
-                            self.AJ.append(j)
-                            self.A.append(init_matrix_representation[i, j])
+                            self.aj.append(j)
+                            self.a.append(init_matrix_representation[i, j])
                             self._nnz += 1
-                    self.AI.append(self._nnz)
+                    self.ai.append(self._nnz)
             else:
                 raise ValueError
-        elif len(init_matrix_representation) == 2 and isinstance(init_matrix_representation[0], int) and isinstance(
-                init_matrix_representation[1], int):
-            x = init_matrix_representation[0]
-            y = init_matrix_representation[1]
-            if x > 0 and y > 0:
-                self.size = (x, y)
-                self._nnz = 0
-
         else:
             raise ValueError
 
     def __getitem__(self, ids):
         if ids[0] > self.size[0] and ids[1] > self.size[1]:
             raise IndexError
-        ind = 0
-        if self.AI[ids[0]] == self.AI[ids[0] + 1]:
+        if self.ai[ids[0]] == self.ai[ids[0] + 1]:
             return 0
-        if ids[1] in self.AJ[self.AI[ids[0]]:self.AI[ids[0] + 1]]:
-            ind = self.AJ[self.AI[ids[0]]:self.AI[ids[0] + 1]].index(ids[1])
-            return self.A[self.AI[ids[0]]:self.AI[ids[0] + 1]][ind]
-
+        temp_col = self.aj[self.ai[ids[0]]:self.ai[ids[0] + 1]]
+        if ids[1] in temp_col:
+            ind = temp_col.index(ids[1])
+            return self.a[self.ai[ids[0]]:self.ai[ids[0] + 1]][ind]
         return 0
 
     @property
@@ -125,50 +113,50 @@ class CSRMatrix:
         ind = 0
         flag = False
         if value:
-            if not self.AJ:
-                self.AJ.append(ids[1])
-                self.A.append(value)
+            if not self.aj:
+                self.aj.append(ids[1])
+                self.a.append(value)
                 self._nnz += 1
             else:
-                if not self.AJ[self.AI[ids[0]]:self.AI[ids[0] + 1]]:
-                    self.AJ.insert(self.AI[ids[0]], ids[1])
-                    self.A.insert(self.AI[ids[0]], value)
+                if not self.aj[self.ai[ids[0]]:self.ai[ids[0] + 1]]:
+                    self.aj.insert(self.ai[ids[0]], ids[1])
+                    self.a.insert(self.ai[ids[0]], value)
                     self._nnz += 1
                 else:
-                    try:
-                        tmp = self.AJ[self.AI[ids[0]] + 1]
-                        a = deepcopy(self.AJ[self.AI[ids[0]]:self.AI[ids[0] + 1]])
+                    if self.ai[ids[0]] + 1 in self.aj:
+                        a = deepcopy(self.aj[self.ai[ids[0]]:self.ai[ids[0] + 1]])
                         if ids[1] in a:
-                            ind = self.AI[ids[0] + 1] + a.index(ids[1])
-                            self.A[ind] = value
+                            ind = self.ai[ids[0]] + a.index(ids[1])
+                            self.a[ind] = value
+                            return
                         else:
                             a.append(ids[1])
                             a.sort()
                             ind = a.index(ids[1])
-                            b = deepcopy(self.A[self.AI[ids[0]]:self.AI[ids[0] + 1]])
+                            b = deepcopy(self.a[self.ai[ids[0]]:self.ai[ids[0] + 1]])
                             b.insert(ind, value)
-                            del self.A[self.AI[ids[0]]:self.AI[ids[0] + 1]]
-                            del self.AJ[self.AI[ids[0]]:self.AI[ids[0] + 1]]
-                            for i, j, v in zip(range(self.AI[ids[0]], self.AI[ids[0]] + len(a)), a, b):
-                                self.AJ.insert(i, j)
-                                self.A.insert(i, v)
+                            del self.a[self.ai[ids[0]]:self.ai[ids[0] + 1]]
+                            del self.aj[self.ai[ids[0]]:self.ai[ids[0] + 1]]
+                            for i, j, v in zip(range(self.ai[ids[0]], self.ai[ids[0]] + len(a)), a, b):
+                                self.aj.insert(i, j)
+                                self.a.insert(i, v)
                             self._nnz += 1
-                    except:
-                        tmp = self.AJ[self.AI[ids[0]]]
+                    else:
+                        tmp = self.aj[self.ai[ids[0]]]
                         if ids[1] > tmp:
-                            self.AJ.insert(self.AI[ids[0]] + 1, ids[1])
-                            self.A.insert(self.AI[ids[0]] + 1, value)
+                            self.aj.insert(self.ai[ids[0]] + 1, ids[1])
+                            self.a.insert(self.ai[ids[0]] + 1, value)
                         else:
-                            self.AJ.insert(self.AI[ids[0]], ids[1])
-                            self.A.insert(self.AI[ids[0]], value)
+                            self.aj.insert(self.ai[ids[0]], ids[1])
+                            self.a.insert(self.ai[ids[0]], value)
                         self._nnz += 1
 
-            for i in range(1, len(self.AI)):
+            for i in range(1, len(self.ai)):
                 if flag:
-                    self.AI[i] += 1
+                    self.ai[i] += 1
                 else:
                     if i == ids[0] + 1:
-                        self.AI[i] += 1
+                        self.ai[i] += 1
                         flag = True
                         continue
 
@@ -177,9 +165,9 @@ class CSRMatrix:
     def to_dense(self):
         dense = np.zeros(self.size)
         tmp = 0
-        for i, k in enumerate(self.AI[1:]):
-            for j in self.AJ[self.AI[i]:self.AI[i + 1]]:
-                dense[i, j] = self.A[tmp]
+        for i, k in enumerate(self.ai[1:]):
+            for j in self.aj[self.ai[i]:self.ai[i + 1]]:
+                dense[i, j] = self.a[tmp]
                 tmp += 1
         return dense
 
@@ -188,13 +176,13 @@ class CSRMatrix:
         colomns = []
         values = []
         tmp = 0
-        for i, k in enumerate(other.AI[1:]):
-            for j in other.AJ[other.AI[i]:other.AI[i + 1]]:
+        for i, k in enumerate(other.ai[1:]):
+            for j in other.aj[other.ai[i]:other.ai[i + 1]]:
                 rows.append(i)
                 colomns.append(j)
-                values.append(other.A[tmp])
+                values.append(other.a[tmp])
                 tmp += 1
-        return deepcopy(rows), deepcopy(colomns), deepcopy(values)
+        return rows, colomns, values
 
     def operations(self, other, func):
         if self.size != other.size:
@@ -267,10 +255,8 @@ class CSRMatrix:
             return self.operations(other, lambda x, y: x * y)
 
         elif isinstance(other, int) or isinstance(other, float):
-            res = CSRMatrix(self.size)
-            res.AJ = deepcopy(self.AJ)
-            res.AI = deepcopy(self.AI)
-            res.A = [i * other for i in self.A]
+            res = deepcopy(self)
+            res.a = [i * other for i in self.a]
             return res
         raise TypeError
 
@@ -279,10 +265,8 @@ class CSRMatrix:
     def __truediv__(self, other):
         if isinstance(other, int) or isinstance(other, float):
             if other:
-                res = CSRMatrix(self.size)
-                res.AJ = deepcopy(self.AJ)
-                res.AI = deepcopy(self.AI)
-                res.A = [i / other for i in self.A]
+                res = deepcopy(self)
+                res.a = [i / other for i in self.a]
                 return res
             raise ZeroDivisionError
         raise TypeError
@@ -306,6 +290,7 @@ class CSRMatrix:
 
             except:
                 col[v] = {other_rows[i]: other_values[i]}
+
         row_res = []
         col_res = []
         val_res = []
@@ -316,6 +301,10 @@ class CSRMatrix:
                     row_res.append(i)
                     col_res.append(j)
                     val_res.append(res)
-        return CSRMatrix((row_res, col_res, val_res))
+        temp = zip(row_res, col_res, val_res)
+        xs = sorted(temp, key=lambda i: (i[0], i[1]))
+        return CSRMatrix(([x[0] for x in xs], [x[1] for x in xs], [x[2] for x in xs]))
 
     __rmatmul__ = __matmul__
+
+    dot = __matmul__
