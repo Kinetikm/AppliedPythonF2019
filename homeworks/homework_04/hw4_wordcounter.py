@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 from multiprocessing import Process, Manager, Queue, Pool
 import os
+
 
 def worker(q, ret_d, path_to_dir):
     File = q.get()
@@ -11,6 +9,7 @@ def worker(q, ret_d, path_to_dir):
         for line in fin.readlines():
             count += len(line.split())
         ret_d[File] = count
+
 
 def word_count_inference(path_to_dir):
     '''

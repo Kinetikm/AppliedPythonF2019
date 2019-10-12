@@ -5,16 +5,19 @@ from multiprocessing import Process, Queue, Manager
 from abc import ABC, abstractmethod
 from time import time, sleep
 
+
 class Task(ABC):
 
     @abstractmethod
     def perform(self):
         pass
 
+
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
+
     def __init__(self, tasks_queue):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
@@ -34,15 +37,18 @@ class TaskProcessor:
         self.start_t = time()
         self.pid = self.process.pid
 
+
 class TaskManager:
     """
     Мастер-процесс, который управляет воркерами
     """
+
     def __init__(self, tasks_queue, n_workers, timeout):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         :param n_workers: кол-во воркеров
-        :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
+        :param timeout: таймаут в секундах, воркер не может работать дольше,
+        чем timeout секунд
         """
         self.tasks_queue = tasks_queue
         self.n_workers = n_workers
@@ -58,7 +64,7 @@ class TaskManager:
         work_list = []
         sleeptime = 1
         for _ in range(self.n_workers):
-           self.add_process(work_list)
+            self.add_process(work_list)
         while not self.tasks_queue.empty():
             k = 0
             for i in range(len(work_list)):
