@@ -47,5 +47,6 @@ def search_total(queue):
             break
         res[tmp[0]] = tmp[1]
         total += tmp[1]
+        res['total'] = total
 
     return res
