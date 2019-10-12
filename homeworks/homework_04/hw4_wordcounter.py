@@ -25,9 +25,6 @@ def combiner(queue, dictionary):
         result = queue.get()
         packet = result.split()
 
-        print(result)
-        print(packet)
-
         if result == "kill":
             break
 
@@ -57,5 +54,5 @@ def word_count_inference(path_to_dir):
 
     queue.put("kill")
     collector.join()
-    
+
     return result

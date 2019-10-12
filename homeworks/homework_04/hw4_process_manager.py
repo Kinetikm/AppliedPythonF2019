@@ -56,20 +56,3 @@ class TaskManager:
                     del worker[id]
                     self.workers[id] = TaskProcessor(self.tasks_queue, time())
                     self.workers[id].run()
-
-
-def t_func(a, c):
-    sleep(a)
-    print(f"{c} Done")
-    return c
-
-if __name__ == '__main__':
-     # test
-     manager = Manager()
-     queue = manager.Queue()
-     n_workers_ = 4
-     timeout = 20
-     for i in range(10):
-         queue.put(Task(t_func, i, i))
-     Tman = TaskManager(queue, n_workers_, timeout)
-     Tman.run()
