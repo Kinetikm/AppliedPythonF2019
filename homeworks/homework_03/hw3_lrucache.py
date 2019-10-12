@@ -1,42 +1,40 @@
 #!/usr/bin/env python
 # coding: utf-8
-from time import time
+import time
+from collections import OrderedDict as dct
 
 
 class LRUCacheDecorator:
-    def __init__(self, maxsize, ttl):
+
+    def __init__(self, maxsize, ttl=300):
         '''
         :param maxsize: максимальный размер кеша
         :param ttl: время в млсек, через которое кеш
                     должен исчезнуть
         '''
-        # TODO инициализация декоратора
         self.maxsize = maxsize
         self.ttl = ttl
-        self.time_in_cache = {}
-        self.args_in_cache = {}
+        self.store = dct([])
 
-    def __call__(self, func):
-        # TODO вызов функции
-        def lrucache(*args, **kwargs):
-            index = ((args, str(kwargs)))
-            if index in self.args_in_cache:
-                if self.ttl is not None and (time() - self.time_in_cache[index]) * 1000 > self.ttl:
-                    res = func(*args, **kwargs)
-                    self.time_in_cache[index] = time()
-                    self.args_in_cache[index] = res
+    def __call__(self, function):
+        def wrap(*args, **kwargs):
+            if len(self.store) > self.maxsize:
+                        self.store.popitem(last=False)
+            t = tuple([x for x in args] + [x for x in kwargs.items()] + [None])
+            if self.ttl is None:
+                if t in self.store:
+                    tmp = self.store.pop(t)
+                    self.store[t] = tmp
+                    return tmp
                 else:
-                    res = self.args_in_cache[index]
-            else:
-                res = func(*args, **kwargs)
-                if len(self.args_in_cache) >= self.maxsize:
-                    max_time = -1
-                    for (arg, current_time) in self.time_in_cache.items():
-                        if current_time > max_time:
-                            max_time = current_time
-                            key = arg
-                    self.args_in_cache.pop(key)
-                self.time_in_cache[index] = time()
-                self.args_in_cache[index] = res
-            return res
-        return lrucache
+                    print(self.store)
+                    self.store[t] = (function(*args, **kwargs), 0)
+                    return self.store[t]
+            if t in self.store and \
+                    time.time() - self.store[t][1] <= self.ttl:
+                tmp = self.store.pop(t)
+                self.store[t] = tmp
+                return tmp[0]
+            self.store[t] = (function(*args, **kwargs), time.time(), self.ttl)
+            return self.store[t][0]
+        return wrap
