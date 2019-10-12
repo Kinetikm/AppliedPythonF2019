@@ -5,7 +5,7 @@ from os import listdir
 PROCESSES_COUNT = 2
 
 
-def func(x, path_to_dir="../homeworks/homework_04/test_data"):
+def func(x, path_to_dir="./homeworks/homework_04/test_data"):
     with open(path_to_dir + '/' + x, 'r', encoding='utf-8') as f:
         words = len(f.read().split())
     return words
