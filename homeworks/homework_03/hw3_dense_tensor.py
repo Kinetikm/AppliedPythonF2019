@@ -2,6 +2,7 @@
 # coding: utf-8
 import copy
 import itertools as it
+import numpy as np
 
 
 class Tensor:
@@ -26,6 +27,7 @@ class Tensor:
     """
 
     def __init__(self, init_matrix_representation):
+        raise NotImplementedError
         self.mat = init_matrix_representation
         self._shape = self._calculate_shape()
         """
@@ -60,7 +62,8 @@ class Tensor:
 
     def __setitem__(self, key, value):
         if isinstance(key, int):
-            return self.mat[key]
+            self.mat[key] = value
+            return
         i = 0
         elem = self.mat[key[i]]
         while i < len(key) - 2:
@@ -119,33 +122,35 @@ class Tensor:
         return result
 
     def __matmul__(self, other):
-        if self._shape[0] != other._shape[-1]:
+        if self._shape[-1] != other._shape[0]:
             raise ValueError
 
-        result = Tensor([[0] * other._shape[1]] * self._shape[0])
-        length1 = len(result._shape)
+        length1 = len(self._shape)
         length2 = len(other._shape)
         if length1 == 1 and length2 == 1:
+            result = Tensor([0] * self._shape[0])
             for i in range(result._shape[0]):
                 result.mat[i] = other.mat[i] * self.mat[i]
 
         elif length1 == 2 and length2 == 2:
-            for i in range(result._shape[0]):
+            result = Tensor([[0] * other._shape[1]
+                             for _ in range(self._shape[0])])
+            for i in range(self._shape[0]):
                 for j in range(other._shape[1]):
-                    for r in range(result._shape[0]):
-                        result[i, j] = result[i, r] * other[r, j]
+                    for r in range(self._shape[1]):
+                        result[i, j] += self[i, r] * other[r, j]
 
         elif length1 == 2 and length2 == 1:
-            for i in range(other._shape[0]):
-                for j in range(result._shape[0]):
-                    for r in range(result._shape[0]):
-                        result[i, j] = result[i, r] * other[r]
+            result = Tensor([0 for _ in range(self._shape[0])])
+            for i in range(self._shape[0]):
+                for r in range(self._shape[1]):
+                    result[i] += self[i, r] * other[r]
 
-        elif length1 == 2 and length2 == 1:
-            for i in range(result._shape[0]):
-                for j in range(other._shape[1]):
-                    for r in range(result._shape[0]):
-                        result[i, j] = result[r] * other[r, j]
+        elif length1 == 1 and length2 == 2:
+            result = Tensor([0 for _ in range(other._shape[1])])
+            for i in range(other._shape[1]):
+                for r in range(self._shape[0]):
+                    result[i] += self[r] * other[r, i]
 
         return result
 
@@ -157,3 +162,25 @@ class Tensor:
             s += '\n'
 
         return s
+
+    def sum(self, axis):
+        if axis is None:
+            result = 0
+            for index in it.product(*[range(k) for k in self._shape]):
+                result += self[index]
+            return result
+
+    def mean(self):
+        pass
+
+    def min(self):
+        pass
+
+    def max(self):
+        pass
+
+    def argmax(self):
+        pass
+
+    def argmin(self):
+        pass
