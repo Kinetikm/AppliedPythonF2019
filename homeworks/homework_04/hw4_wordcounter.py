@@ -7,7 +7,7 @@ def words_in_file(path, filename, queue):
     tmp = ()
     with open(path + "/" + filename, 'r') as file:
         sum = len(file.read().strip().split())
-    tmp = (filename: sum)
+    tmp = (filename, sum)
     queue.put(tmp)
     return
 
