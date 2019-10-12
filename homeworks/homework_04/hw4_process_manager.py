@@ -18,29 +18,25 @@ class Task:
 
     def perform(self):
         self.function(*self.args, **self.kwargs)
+        return 0
 
 
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
-    def __init__(self, tasks_queue, timeout, num):
+    def __init__(self, tasks_queue, timeout):
         self.tasks = tasks_queue
         self.timeout = timeout
-        self.num = num
 
     def run(self):
         while not self.tasks.empty():
             task = self.tasks.get()
-            print(self.num, task.args, task.kwargs)
             process = Process(target=task.perform, args=())
             process.start()
             process.join(timeout=self.timeout)
-            # try:
-            #     process.join(timeout=self.timeout)
-            # except TimeoutError:
-            #     process.terminate()
-            #     print('Task was terminated')
+            if process.exitcode is None:
+                process.terminate()
 
 
 class TaskManager:
@@ -56,7 +52,6 @@ class TaskManager:
         self.tasks = tasks_queue
         self.max_number_workers = n_workers
         self.timeout = timeout
-        self.workers = [] * self.max_number_workers
         self.work_procs = [] * self.max_number_workers
         self.alive_workers = 0
 
@@ -66,23 +61,25 @@ class TaskManager:
         for index, worker in enumerate(self.work_procs):
             if not worker.is_alive():
                 self.work_procs.pop(index)
-                self.workers.pop(index)
                 self.alive_workers -= 1
 
     def run(self):
         """
         Запускайте бычка! (с)
         """
-        n=0
-        while not self.tasks.empty():
+        while True:
             self.check_workers()
-            while self.alive_workers != self.max_number_workers:
-                worker = TaskProcessor(self.tasks, self.timeout, n)
-                n+=1
-                self.workers.append(worker)
+            if self.alive_workers != self.max_number_workers:
+                worker = TaskProcessor(self.tasks, timeout=self.timeout)
                 process = Process(target=worker.run, args=())
                 process.start()
                 self.work_procs.append(process)
+                self.alive_workers += 1
+
+
+"""
+Simple test code
+"""
 
 
 def func(timeout=1, text="default"):
@@ -92,9 +89,12 @@ def func(timeout=1, text="default"):
 
 q = Queue()
 
-for i in range(15):
-    task = Task(func, *(i,), **{"text": f"task number {i}"})
+for i in range(12):
+    task = Task(func, *(i, f"task number {i}"))
+    q.put(task)
+for i in range(12, -1, -1):
+    task = Task(func, *(i, f"task number {i}"))
     q.put(task)
 
-manager = TaskManager(q, 5, 7)
+manager = TaskManager(q, 24, 7.01)
 manager.run()
