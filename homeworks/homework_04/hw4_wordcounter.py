@@ -49,17 +49,5 @@ def word_count_inference(path_to_dir):
     for proc in procs:
         proc.get()
     q.put('break')
-    pool.close()
     pool.join()
     return sum_dict(q)
-
-
-
-
-
-
-
-
-
-
-
