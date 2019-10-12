@@ -23,7 +23,7 @@ def word_count_inference(path_to_dir):
     queue = manager.Queue()
     words = manager.dict()
     pool = Pool(core)
-    result = pool.apply_async(searh_total, (queue, words))
+    result = pool.apply_async(search_total, (queue, words))
     for file in files:
         process = pool.apply_async(words_in_file, (path_to_dir, file, queue))
         process.get()
