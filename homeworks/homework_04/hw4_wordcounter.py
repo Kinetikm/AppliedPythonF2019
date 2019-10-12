@@ -57,7 +57,5 @@ def word_count_inference(path_to_dir):
 
     queue.put("kill")
     collector.join()
-
-    print(result)
-
+    
     return result
