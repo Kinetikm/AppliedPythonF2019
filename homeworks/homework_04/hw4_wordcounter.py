@@ -8,15 +8,9 @@ import os
 def num_words(dir, fname, queue):
     words = 0
     with open(dir + '/' + fname, 'r') as file:
-        for line in file.read():
-            pos = 'out'
-            for letter in line:
-                if letter != ' ' and pos == 'out':
-                    words += 1
-                    pos = 'in'
-                elif letter == ' ':
-                    pos = 'out'
-        queue.put((fname, words))
+        for line in file:
+            words += len(line.split())
+    queue.put((fname, words))
 
 
 def consumer_func(queue, result_dct):
