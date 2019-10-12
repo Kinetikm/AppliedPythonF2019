@@ -10,6 +10,8 @@ def counter(file_name, word_dict):
     with open(file_name, 'r') as f:
         for line in f:
             counter_word += len(line.split())
+    tmp = file_name.split('/')
+    file_name = tmp[-1]
     word_dict.update({file_name: counter_word})
 
 
