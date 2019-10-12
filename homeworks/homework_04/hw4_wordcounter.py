@@ -36,4 +36,3 @@ def word_count_inference(path_to_dir):
     tmp_dict.update({"total": summ})
     result = dict(tmp_dict)
     return result
-
