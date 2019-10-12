@@ -32,7 +32,6 @@ class TaskProcessor:
             process.terminate()
 
 
-
 class TaskManager:
 
     def __init__(self, tasks_queue, n_workers, timeout):
