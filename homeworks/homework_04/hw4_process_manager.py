@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from multiprocessing import Process, Manager
-from time import time, sleep
+from time import time
 
 
 class Task:
