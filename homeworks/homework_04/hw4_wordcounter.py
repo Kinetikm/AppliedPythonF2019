@@ -43,4 +43,3 @@ def word_count_inference(path_to_dir):
         elem.get()
     queue.put("The end")
     return cons.get()
-
