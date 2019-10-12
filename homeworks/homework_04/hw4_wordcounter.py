@@ -29,6 +29,7 @@ def sum_dict(q):
     return word_dict
 
 
+@contextmanager
 def word_count_inference(path_to_dir):
     '''
     Метод, считающий количество слов в каждом файле из директории
