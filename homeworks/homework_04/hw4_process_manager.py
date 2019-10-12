@@ -98,9 +98,6 @@ class TaskManager(Process):
         self.Tasks_Processors = []
 
     def run(self):
-        """
-        Запускайте бычка! (с)
-        """
         self.Tasks_Processors = [TaskProcessor(self.queue,
                                                self.timeout,
                                                logger=self.logger) for _ in range(self.n_workers)]
@@ -122,32 +119,3 @@ class TaskManager(Process):
                 proc.terminate()
         if self.is_alive():
             self.terminate()
-
-
-"""
-from random import randint
-from time import time, sleep
-from multiprocessing import Queue
-t = 5
-def func():
-    a = time()
-    _t = randint(1,t)
-    print("_t = ",_t)
-    sleep(_t)
-    print(time() - a)
-
-def main():
-    queue = Queue()
-    a = TaskManager(queue, 3, 2)
-    a.start()
-    n = 0
-    while n < 10:
-        queue.put(Task(func = func))
-        n += 1
-    sleep(10)
-
-
-if __name__ == '__main__':
-    main()
-
-"""
