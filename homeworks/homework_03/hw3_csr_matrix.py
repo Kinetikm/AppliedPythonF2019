@@ -26,6 +26,7 @@ class CSRMatrix:
 
     def __init__(self, init_matrix_representation):
 
+        raise NotImplementedError
         self.A = []
         self.IA = [0]
         self.JA = []
