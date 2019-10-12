@@ -40,4 +40,5 @@ def word_count_inference(path_to_dir):
     queue.put("poison pill")
     dictionary = d.get()
     pool.close()
+    pool.join()
     return dictionary
