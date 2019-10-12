@@ -20,7 +20,7 @@ def count_words_in_file(full_name):
 
 def count_words_worker(files_queue: multiprocessing.Queue, word_count_queue: multiprocessing.Queue):
 
-    print("running worker", os.getpid())
+    # print("running worker", os.getpid())
     for short_fname, full_name in iter(files_queue.get, 'STOP'):
         wcount = count_words_in_file(full_name)
         word_count_queue.put((short_fname, wcount))
@@ -48,9 +48,11 @@ def word_count_inference(path_to_dir):
 
             files_queue = manager.Queue()
             word_count_queue = manager.Queue()
-            print("running poll")
+            # print("running poll")
 
-            res = pool.apply_async(count_words_worker, (files_queue, word_count_queue))
+            for i in range(MAX_PROCS):
+                pool.apply_async(count_words_worker, (files_queue, word_count_queue))
+
             total_files = 0
             for f in os.listdir(path_to_dir):
 
@@ -59,11 +61,11 @@ def word_count_inference(path_to_dir):
                     continue
 
                 total_files += 1
-                print("put in queue", f)
+                # print("put in queue", f)
                 files_queue.put((f, full_fname))
 
             for p in range(total_files):
-                print("getting results")
+                # print("getting results")
                 short_fname, wcount = word_count_queue.get()
                 result[short_fname] = wcount
 
@@ -77,5 +79,5 @@ def word_count_inference(path_to_dir):
                 raise Exception("В задании не было такого кейса")
 
     result['total'] = sum(result.values())
-    print(result)
+    # print(result)
     return result
