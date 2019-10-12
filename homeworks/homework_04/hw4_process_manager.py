@@ -74,5 +74,3 @@ if __name__ == '__main__':
     manager = TaskManager(queue, n_workers_, timeout)
     manager.run()
 # 0,1,3 got result; 4,5,6,7,9 finished cause of timeout
-
-
