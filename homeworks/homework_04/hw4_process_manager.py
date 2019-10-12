@@ -13,37 +13,44 @@ class Task:
     чтобы можно было выполнять "неоднотипные" задачи
     """
     def __init__(self, func, *args, **kwargs):
-        #def wrapped(*args, **kwargs):
         self.func = func
         self.args = args
         self.kwargs = kwargs
+        self.func_res = None
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        print(self.func(*self.args, **self.kwargs))
+        res = self.func(*self.args, **self.kwargs)
+        return res
 
 
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
-    def __init__(self, tasks_queue):
+    def __init__(self, tasks_queue, num):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
         self.tasks_queue = tasks_queue
+        self.num = num
 
-    def run(self):
+    def run(self, start_new_task_time, result_queue):
         """
         Старт работы воркера
         """
         while True:
-            if not self.tasks_queue.empty():
+            if self.tasks_queue.full():
                 task = self.tasks_queue.get()
-                print('my pid is ', os.getpid())
-                task.perform()
+                print(task)
+                try:
+                    start_new_task_time[self.num] = time.time()
+                    res = task.perform()
+                    result_queue.put((task, res))
+                except Exception:
+                    result_queue.put((task, 'Exception happens :('))
             else:
                 break
 
@@ -56,39 +63,49 @@ class TaskManager:
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         :param n_workers: кол-во воркеров
-        :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
+        :param timeout: таймаут в секундах, воркер не может работать
+        дольше, чем timeout секунд
         """
         self.tasks_queue = tasks_queue
         self.n_workers = n_workers
         self.timeout = timeout
 
-
     def run(self):
         """
         Запускайте бычка! (с)
         """
-        workers_lst = []
-        while not self.tasks_queue.empty():
-            if len(workers_lst) < self.n_workers:
-                new_worker = TaskProcessor(self.tasks_queue)
-                new_proc = Process(target=new_worker.run)
-                workers_lst.append((new_proc, time.time()))
-                new_proc.start()
-            for i, val in enumerate(workers_lst):
-                if time.time() - val[1] >= self.timeout:
-                    val[0].terminate()
-                    val[0].join()
-                    del workers_lst[i]
-                else:
-                    break
-                    
-def f():
-    time.sleep(1)
-    return 2 ** 2
+        result_queue = Manager().Queue()
+        worker_and_his_process = {}
+        start_work = Process(target=self.start_work, args=(
+                             worker_and_his_process, result_queue))
+        start_work.start()
+        start_work.join()
+        answ = []
+        while result_queue.full:
+            answ.append(result_queue.get())
+        return answ
 
-queue = Manager().Queue()
-tasks = [Task(f) for i in range(7)]
-for i in tasks:
-    queue.put(i)
-t = TaskManager(queue, 5, 5)
-t.run()
+    def start_work(self, worker_and_his_process, result_queue):
+        start_new_task_time = Manager().dict()
+        for i in range(self.n_workers):
+            worker = TaskProcessor(self.tasks_queue, i)
+            worker_and_his_process[i] = [worker]
+            new_proc = Process(target=worker.run, args=(
+                                    start_new_task_time, result_queue))
+            worker_and_his_process[i].append(new_proc)
+            new_proc.start()
+        while True:
+            for i, val in start_new_task_time.items():
+                if time.time() - val > self.timeout:
+                    worker_and_his_process[i][1].kill()
+                    worker_and_his_process[i][1].join()
+                    result_queue.put('Timeout happens')
+                    worker_and_his_process[i][1] = Process(
+                               target=worker_and_his_process[i][0].run,
+                               args=(start_new_task_time, result_queue))
+                    worker_and_his_process[i][1].start()
+            if all([not val[1].is_alive() for val in
+                    worker_and_his_process.values()]):
+                break
+        for val in worker_and_his_process.values():
+            val[1].join()
