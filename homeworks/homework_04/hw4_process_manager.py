@@ -1,84 +1,77 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process, Manager, Pool
-import os
-import threading
+from multiprocessing import Process, Manager
 import time
+from hw4_wordcounter import word_count_inference
 
 
 class Task:
-    def __init__(self, *args, **kwargs):
-        """
-        Пофантазируйте, как лучше инициализировать
-        """
-        print("task {}".format(args))
+    def __init__(self, target, *args, **kwargs):
+        self.target = target
         self.args = args
         self.kwargs = kwargs
 
-    def perform(self, worker):
-        for arg in self.args:
-            print("perform", self.args, arg, os.getpid(), "worker: ", worker)
-            time.sleep(arg*3)
-        print("end:", os.getpid(), "args:", self.args, "worker: ", worker)
+    def perform(self):
+        self.target(*self.args, **self.kwargs)
 
 
 class TaskProcessor:
-    """
-    Воркер-процесс. Достает из очереди тасок таску и делает ее
-    """
-    def __init__(self, tasks_queue, my_number):
-        """
-        :param tasks_queue: Manager.Queue с объектами класса Task
-        """
+    def __init__(self, tasks_queue):
         self.queue = tasks_queue
-        self.my_number = my_number
-        print(my_number)
-        self.tasks = []
+        self.task = None
 
     def run(self):
         task = self.queue.get()
-        process = Process(target=task.perform, args=(self.my_number, ))
-        self.tasks += [process]
+        process = Process(target=task.perform)
+        self.task = process
         process.start()
 
-    def join(self):
-        for task in self.tasks:
-            task.join()
+    def join(self, timeout):
+        self.task.join(timeout)
+        if self.task.is_alive():
+            self.task.terminate()
+        self.task = None
+
+    def is_alive(self):
+        if self.task is None:
+            return False
+        if self.task.is_alive():
+            return True
+        else:
+            return False
 
 
 class TaskManager:
-    """
-    Мастер-процесс, который управляет воркерами
-    """
     def __init__(self, tasks_queue, n_workers, timeout):
-        """
-        :param tasks_queue: Manager.Queue с объектами класса Task
-        :param n_workers: кол-во воркеров
-        :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
-        """
         self.queue = tasks_queue
         self.n_workers = n_workers
         self.timeout = timeout
 
     def run(self):
-        sem = threading.BoundedSemaphore(self.n_workers)
         processors = []
         for i in range(self.n_workers):
-            processor = TaskProcessor(queue, i)
-            processors += [processor]
+            processor = TaskProcessor(queue)
+            processors.append(processor)
         while not self.queue.empty():
             for processor in processors:
                 processor.run()
                 if self.queue.empty():
                     break
-        for processor in processors:
-            processor.join()
+            for processor in processors:
+                if processor.is_alive():
+                    processor.join(self.timeout)
 
 
+'''
 manager = Manager()
 queue = manager.Queue()
-for i in range(10):
-    queue.put(Task(i, 11-i))
-tm = TaskManager(queue, 5, 10)
+a = (1,2,3,4,5)
+task = Task(print, 1)
+queue.put(task)
+queue.put(Task(print,a))
+queue.put(Task(sum, a))
+queue.put(Task(word_count_inference, "./homeworks/homework_04/test_data"))
+tm = TaskManager(queue, 2, 10)
 tm.run()
+'''
