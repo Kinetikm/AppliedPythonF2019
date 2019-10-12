@@ -28,6 +28,7 @@ def word_count_inference(path_to_dir):
         p = pool.apply_async(counter, (a, tmp_dict))
         p.get()
     tmp_queue.put("Happy end")
+    summ = 0
     for key in tmp_dict:
         summ += tmp_dict[key]
     tmp_dict.update({total: summ})
