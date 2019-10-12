@@ -2,18 +2,29 @@
 # coding: utf-8
 
 import multiprocessing
-from multiprocessing import Process, Manager
+from multiprocessing import Process, Manager, Pool, Queue
 import os
 
 
-def count_words(short_fname="", queue: multiprocessing.Queue=None, full_name=""):
+MAX_PROCS = 10
+
+
+def count_words_in_file(full_name):
     wcount = 0
 
     with open(full_name, "r") as f:
         for line in f:
             wcount += len([None for w in line.strip().split(" ") if len(w) > 0])
+    return wcount
 
-    queue.put((short_fname, wcount))
+
+def count_words_worker(files_queue: multiprocessing.Queue, word_count_queue: multiprocessing.Queue):
+
+    print("running worker", os.getpid())
+    for short_fname, full_name in iter(files_queue.get, 'STOP'):
+        wcount = count_words_in_file(full_name)
+        word_count_queue.put((short_fname, wcount))
+
     return
 
 
@@ -31,26 +42,39 @@ def word_count_inference(path_to_dir):
 
     result = dict()
     proc_list = []
-    manager = Manager()
-    queue = manager.Queue()
-    for f in os.listdir(path_to_dir):
-        full_fname = os.path.join(path_to_dir, f)
-        if not os.path.isfile(full_fname):
-            continue
 
-        proc = Process(target=count_words, kwargs=dict(queue=queue, full_name=full_fname, short_fname=f))
-        proc_list.append(proc)
-        proc.start()
+    with Manager() as manager:
+        with Pool(processes=MAX_PROCS) as pool:
 
-    for p in proc_list:
-        wcount = queue.get()
-        result[wcount[0]] = wcount[1]
+            files_queue = manager.Queue()
+            word_count_queue = manager.Queue()
+            print("running poll")
 
-    for p in proc_list:
-        p.join()
+            res = pool.apply_async(count_words_worker, (files_queue, word_count_queue))
+            total_files = 0
+            for f in os.listdir(path_to_dir):
 
-    if 'total' in result:
-        raise Exception("В задании не было такого кейса")
+                full_fname = os.path.join(path_to_dir, f)
+                if not os.path.isfile(full_fname):
+                    continue
+
+                total_files += 1
+                print("put in queue", f)
+                files_queue.put((f, full_fname))
+
+            for p in range(total_files):
+                print("getting results")
+                short_fname, wcount = word_count_queue.get()
+                result[short_fname] = wcount
+
+            for i in range(MAX_PROCS):
+                files_queue.put('STOP')
+
+            pool.close()
+            pool.join()
+
+            if 'total' in result:
+                raise Exception("В задании не было такого кейса")
 
     result['total'] = sum(result.values())
     print(result)
