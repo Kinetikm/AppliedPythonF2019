@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process
+from multiprocessing import Process, Manager
+import time
 
 
 class Task:
@@ -10,17 +11,19 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self, ...):
+    def __init__(self, target, *args, **kwargs):
         """
         Пофантазируйте, как лучше инициализировать
         """
-        raise NotImplementedError
+        self._target = target
+        self._args = args
+        self._kwargs = kwargs
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        raise NotImplementedError
+        return self._target(*self._args, **self._kwargs)
 
 
 class TaskProcessor:
@@ -31,13 +34,20 @@ class TaskProcessor:
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
-        raise NotImplementedError
+        self._tasks_queue = tasks_queue
+        self._timeout = timeout
+        self._proc = None
 
     def run(self):
         """
         Старт работы воркера
         """
-        raise NotImplementedError
+        while not self._tasks_queue.empty():
+            task = self._tasks_queue.get()
+            self._proc = Process(target=task.perform)
+            self._proc.start()
+            self._proc.join(timeout=self._timeout)
+            self._proc.terminate()
 
 
 class TaskManager:
@@ -50,10 +60,30 @@ class TaskManager:
         :param n_workers: кол-во воркеров
         :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
         """
-        raise NotImplementedError
+        self._tasks_queue = tasks_queue
+        self._n_workers = n_workers
+        self._timeout = timeout
 
     def run(self):
         """
         Запускайте бычка! (с)
         """
-        raise NotImplementedError
+        workers = []
+        for i in range(self._n_workers):
+            workers.append(TaskProcessor(self._tasks_queue, self._timeout, i))
+
+        proc_list = []
+
+        for worker in workers:
+            proc = Process(target=worker.run)
+            proc_list.append(proc)
+            proc.start()
+
+        while not self._tasks_queue.empty():
+            for i in range(self._n_workers):
+                if not proc_list[i].is_alive():
+                    proc_list[i].terminate()
+                    workers[i] = TaskProcessor(self._tasks_queue, self._timeout, i)
+                    proc = Process(target=workers[i].run)
+                    proc_list[i] = proc
+                    proc.start()
