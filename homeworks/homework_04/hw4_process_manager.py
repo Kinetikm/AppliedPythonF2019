@@ -10,34 +10,41 @@ class Task:
     В идеале, должно быть реализовано на достаточном уровне абстракции,
     чтобы можно было выполнять "неоднотипные" задачи
     """
-    def __init__(self, ...):
+    def __init__(self, func, *args, **kwargs):
         """
         Пофантазируйте, как лучше инициализировать
         """
-        raise NotImplementedError
+        self.func = func
+        self.args = args
+        self.kwargs = kwargs
 
     def perform(self):
         """
         Старт выполнения задачи
         """
-        raise NotImplementedError
+        return self.func(*self.args, **self.kwargs)
 
 
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
-    def __init__(self, tasks_queue):
+    def __init__(self, tasks_queue, task_time):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
-        raise NotImplementedError
+        self.tasks_queue = tasks_queue
+        self.task_time = task_time
 
     def run(self):
         """
         Старт работы воркера
         """
-        raise NotImplementedError
+        while not (self.tasks_queue != 0):
+            goal = self.tasks_queue.get()
+            proc = Process(target=goal.Perform)
+            proc.start()
+            proc.join()
 
 
 class TaskManager:
@@ -50,10 +57,29 @@ class TaskManager:
         :param n_workers: кол-во воркеров
         :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
         """
-        raise NotImplementedError
+        self.tasks_queue = tasks_queue
+        self.n_workers = n_workers
+        self.timeout = timeout
+        self.workers = list()
+
+    def workers_proc(self, worker, index):
+        worker.terminate()
+        del worker[index]
+        self.workers[index] = TaskProcessor(self.tasks_queue, self.timeout())
+        self.workers[index].run()
 
     def run(self):
         """
         Запускайте бычка! (с)
         """
-        raise NotImplementedError
+        for index in range(self.n_workers):
+            self.workers.append(TaskProcessor(self.tasks_queue, self.timeout()))
+            self.workers[index].run()
+
+        while not (self.tasks_queue != 0):
+            for index, worker in enumerate(self.workers):
+                if not (worker.is_alive()):
+                    self.workers_proc(worker, index)
+
+                if (self.timeout() - worker.time_create) > self.timeout:
+                    self.workers_proc(worker, index)
