@@ -10,7 +10,10 @@ class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
         self._maxsize = maxsize
         self._ttl = ttl
+        if self._ttl:
+            self._ttl /= 1000
         self._mem = {}
+        self._bl = self._ttl is not None
 
     def __call__(self, *args, **kwargs):
         self._func = args[0]
@@ -20,20 +23,14 @@ class LRUCacheDecorator:
             key = "".join(map(str, (args, sorted(kwargs))))
             if key not in self._mem:
                 if len(self._mem) + 1 > self._maxsize:
-                    del self._mem[self.del_old()]
-                self._mem[key] = (time.time(), self._func(*args, **kwargs))
-            elif self._ttl is not None:
-                if time.time() - self._mem[key][0] > self._ttl:
-                    self._mem[key] = (time.time(), self._func(*args, **kwargs))
-            return self._mem[key][1]
+                    del self._mem[list(self._mem.keys())[0]]
+                self._mem[key] = (self._func(*args, **kwargs), time.time())
+            else:
+                if self._bl and time.time() - self._mem[key][1] > self._ttl:
+                    self._mem[key] = (self._func(*args, **kwargs), time.time())
+                else:
+                    val = self._mem[key][0]
+                    del self._mem[key]
+                    self._mem[key] = (val, time.time())
+            return self._mem[key][0]
         return wrapper
-
-    def del_old(self):
-        self._maxtime = time.time()
-        self._now = time.time()
-        for item in self._mem.items():
-            self._tm = self._now - item[1][0]
-            if self._tm < self._maxtime:
-                self._maxtime = self._tm
-                self._key = item[0]
-        return self._key
