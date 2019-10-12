@@ -1,59 +1,67 @@
 #!/usr/bin/env python
 # coding: utf-8
+from multiprocessing import Process, Manager
+from time import time
 
-from multiprocessing import Process
+
+class Result:
+    def __init__(self, func, args, kwargs, result):
+        self.func = func
+        self.args = args
+        self.kwargs = kwargs
+        self.result = result
 
 
 class Task:
-    """
-    Задача, которую надо выполнить.
-    В идеале, должно быть реализовано на достаточном уровне абстракции,
-    чтобы можно было выполнять "неоднотипные" задачи
-    """
-    def __init__(self, ...):
-        """
-        Пофантазируйте, как лучше инициализировать
-        """
-        raise NotImplementedError
 
-    def perform(self):
-        """
-        Старт выполнения задачи
-        """
-        raise NotImplementedError
+    def __init__(self, func, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+        self.func = func
+
+    def perform(self, result_list):
+        result_list.append(Result(self.func, self.args, self.kwargs,
+                                  self.func(*self.args, **self.kwargs)))
 
 
 class TaskProcessor:
-    """
-    Воркер-процесс. Достает из очереди тасок таску и делает ее
-    """
-    def __init__(self, tasks_queue):
-        """
-        :param tasks_queue: Manager.Queue с объектами класса Task
-        """
-        raise NotImplementedError
+    def _init_(self, tasks_queue):
+        self.task_queue = tasks_queue
 
-    def run(self):
-        """
-        Старт работы воркера
-        """
-        raise NotImplementedError
+    def run(self, result_list):
+        task = self.tasks_queue.get()
+        job = Process(target=task.perform, args=(result_list,))
+        job.start()
+        return (job, time())
 
 
 class TaskManager:
-    """
-    Мастер-процесс, который управляет воркерами
-    """
     def __init__(self, tasks_queue, n_workers, timeout):
-        """
-        :param tasks_queue: Manager.Queue с объектами класса Task
-        :param n_workers: кол-во воркеров
-        :param timeout: таймаут в секундах, воркер не может работать дольше, чем timeout секунд
-        """
-        raise NotImplementedError
+        self.task_processor = TaskProcessor(tasks_queue)
+        self.n_workers = n_workers
+        self.timeout = timeout
 
     def run(self):
-        """
-        Запускайте бычка! (с)
-        """
-        raise NotImplementedError
+        jobs = []
+        result_list = Manager().list()
+        while self.task_processor.tasks_queue.qsize() != 0:
+            if len(jobs) < self.n_workers:
+                jobs.append(self.task_processor.run(result_list))
+            else:
+                while True:
+                    if self.check_jobs(jobs):
+                        break
+        while len(jobs) != 0:
+            self.check_jobs(jobs)
+
+    def check_jobs(self, jobs):
+        for i in range(len(jobs)):
+            job, t = jobs[i]
+            if not job.is_alive():
+                jobs.pop(i)
+                if time() - t > self.timeout:
+                    job.kill()
+                    jobs.pop(i)
+                    return True
+                return True
+        return False
