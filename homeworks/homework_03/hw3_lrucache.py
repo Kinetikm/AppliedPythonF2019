@@ -43,7 +43,7 @@ class LRUCacheDecorator:
                     return self.cached[packet]
             else:
                 if len(self.cached) >= self.maxsize:
-                    del_key = liat(self.results_times)[0]
+                    del_key = list(self.results_times)[0]
                     del self.results_times[del_key]
                     del self.cached[del_key]
 
