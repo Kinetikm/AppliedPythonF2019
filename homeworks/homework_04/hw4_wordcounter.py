@@ -24,11 +24,14 @@ def word_count_inference(path_to_dir):
     files = os.listdir(path=path_to_dir)
     for filename in files:
         files_queue.put(filename)
+    n_proc = 4
 
     processes = deque()
     res_que = manager.Queue()
     while not files_queue.empty() > 0:
-        for _ in range(4):
+        if n_proc > files_queue.qsize():
+            n_proc = files_queue.qsize()
+        for _ in range(n_proc):
             proc = Process(target=read_file, args=(files_queue.get(), path_to_dir, res_que))
             processes.append(proc)
             proc.start()
@@ -54,3 +57,6 @@ def read_file(filename, path_to_dir, res_que):
                 text = line.split(' ')
                 word_num += len(text)
         res_que.put([filename, word_num])
+
+if __name__ == '__main__':
+    word_count_inference("homeworks/homework_04/test_data")
