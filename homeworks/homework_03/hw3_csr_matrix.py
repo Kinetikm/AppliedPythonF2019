@@ -23,7 +23,7 @@ class CSRMatrix:
         self.a = []
         self.ia = [0]
         self.ja = []
-        for i in range(0, m):
+        for i in range(m):
             self.ia.append(self.ia[i])
             for j in range(n):
                 if init_matrix[i][j]:
@@ -39,44 +39,48 @@ class CSRMatrix:
     def nnz(self):
         return self.__nnz
 
+    def __check_coor(self, i, j):
+        if not 0 <= i < len(self.ia)-1 or j < 0:
+            raise ValueError
+
     def __getitem__(self, coor):
         i, j = coor
-        try:
-            k = self.ja.index(j, self.ia[i], self.ia[i+1])
-        except ValueError:
-            return 0
-        return self.a[k]
+        self.__check_coor(i, j)
+        for k in np.arange(self.ia[i], self.ia[i+1]):
+            if self.ja[k] == j:
+                return self.a[k]
+        return 0
 
     def __setitem__(self, coor, value):
         i, j = coor
-        if value and self[coor]:
-            k = self.ja.index(j, self.ia[i], self.ia[i+1])
-            self.a[k] = value
-        elif value and not self[coor]:
-            try:
-                k = self.ja.index(j, self.ia[i], self.ia[i+1])
-            except ValueError:
-                self.a.insert(self.ia[i+1], value)
-                self.ja.insert(self.ia[i+1], j)
+        self.__check_coor(i, j)
+        element = self[coor]
+        index = i + 1
+        for k in np.arange(self.ia[i], self.ia[i+1]):
+            if self.ja[k] == j:
+                index = k
+                break
+        if value:
+            if element:
+                self.a[index] = value
             else:
-                self.a.insert(k, value)
-                self.ja.insert(k, j)
-            for k in range(i+1, len(self.ia)):
-                self.ia[k] += 1
-            self.__nnz += 1
-        elif self[coor]:
-            k = self.ja.index(j, self.ia[i], self.ia[i+1])
-            self.a.pop(k)
-            self.ja.pop(k)
+                self.a.insert(self.ia[index], value)
+                self.ja.insert(self.ia[index], j)
+                for k in range(i+1, len(self.ia)):
+                    self.ia[k] += 1
+                self.__nnz += 1
+        elif element:
+            self.a.pop(index)
+            self.ja.pop(index)
             for k in range(i+1, len(self.ia)):
                 self.ia[k] -= 1
             self.__nnz -= 1
 
-    def __calculator(self, value1, value2, oper):
-        if oper == '+':
-            return value1 + value2
-        elif oper == '-':
-            return value1 - value2
+    def __sum(self, value1, value2):
+        return value1 + value2
+
+    def __dif(self, value1, value2):
+        return value1 - value2
 
     def __calcul_add_or_sub(self, other, oper):
         num_of_rows = len(self.ia) - 1
@@ -86,15 +90,14 @@ class CSRMatrix:
                 result[i-1, j] = self[i-1, j]
         for i in range(1, len(other.ia)):
             for j in other.ja[other.ia[i-1]:other.ia[i]]:
-                result[i-1, j] = self.__calculator(result[i-1, j],
-                                                   other[i-1, j], oper)
+                result[i-1, j] = oper(result[i-1, j], other[i-1, j])
         return result
 
     def __add__(self, other):
-        return self.__calcul_add_or_sub(other, '+')
+        return self.__calcul_add_or_sub(other, self.__sum)
 
     def __sub__(self, other):
-        return self.__calcul_add_or_sub(other, '-')
+        return self.__calcul_add_or_sub(other, self.__dif)
 
     def __mul__(self, other):
         num_of_rows = len(self.ia) - 1
