@@ -29,7 +29,7 @@ class TaskProcessor:
             process.join(timeout)
             process.terminate()
 
-            
+
 class TaskManager:
     def __init__(self, tasks_queue, n_workers, timeout):
         self.tasks_queue = tasks_queue
