@@ -8,9 +8,6 @@ from copy import deepcopy
 
 class CSRMatrix:
     """
-    CSR (2D) matrix.
-    Here you can read how CSR sparse matrix works: https://en.wikipedia.org/wiki/Sparse_matrix
-
     Must be implemented:
     1. Getting and setting element by indexes of row and col.
     a[i, j] = v -- set value in i-th row and j-th column to value
@@ -28,14 +25,6 @@ class CSRMatrix:
     """
 
     def __init__(self, init_matrix_representation):
-        """
-        :param init_matrix_representation: can be usual dense matrix
-        or
-        (row_ind, col, data) tuple with np.arrays,
-            where data, row_ind and col_ind satisfy the relationship:
-            a[row_ind[k], col_ind[k]] = data[k]
-        """
-        raise NotImplementedError
 
         self.A = []
         self.IA = [0]
@@ -44,28 +33,20 @@ class CSRMatrix:
         self.n_col = 0
 
         bl = len(init_matrix_representation) == 3
-        if isinstance(init_matrix_representation, tuple) and bl:  # не работает
+        if isinstance(init_matrix_representation, tuple) and bl:
+            num_of_elem = 0
             rw = 0
             for i in range(len(init_matrix_representation[0])):
-                # возможно придется самому сортировать
                 self.A.append(init_matrix_representation[2][i])
                 self.JA.append(init_matrix_representation[1][i])
-                self.n_col = max(self.n_col, init_matrix_representation[1][i])
-                self.n_row = max(self.n_row, init_matrix_representation[0][i])
-                k = rw
-                rw = init_matrix_representation[0][i] + 1
-                ln = rw - len(self.IA) + 1
-                if len(self.IA) - 1 < rw:
-                    self.IA.extend([0] * ln)
-                self.IA[rw] += 1
-                if k != rw:
-                    self.IA[rw] += self.IA[k]
-            bl = False
-            for i in range(len(self.IA)):
-                if self.IA[i] != 0:
-                    bl = True
-                if self.IA[i] == 0 and bl:
-                    self.IA[i] = self.IA[i - 1]
+                if init_matrix_representation[0][i] != rw:
+                    num_of_row = rw - len(self.IA) + 1
+                    self.IA.extend([num_of_elem - 1] * num_of_row)
+                    if num_of_row >= 0:
+                        self.IA.append(num_of_elem)
+                    rw = init_matrix_representation[0][i]
+                num_of_elem += 1
+            self.IA.append(num_of_elem)
         elif isinstance(init_matrix_representation, np.ndarray):
             self.n_row = len(init_matrix_representation)
             self.n_col = len(init_matrix_representation[0])
@@ -104,6 +85,8 @@ class CSRMatrix:
         return np.array(lst)
 
     def __getitem__(self, tpl):
+        if tpl[0] + 1 >= len(self.IA):
+            return 0
         x = self.IA[tpl[0]]
         y = self.IA[tpl[0] + 1]
         if y - x == 0:
@@ -220,3 +203,42 @@ class CSRMatrix:
             return res
         else:
             raise ValueError
+
+
+def test_csr_matrix_base_operations():
+    np.random.seed(42)
+
+    shape_x, shape_y = 200, 200
+    matrix1 = np.random.randint(-1, 2, (shape_x, shape_y))
+    matrix2 = np.random.randint(-1, 2, (shape_x, shape_y))
+    alpha = 2.5
+    try:
+        a = CSRMatrix(matrix1)
+        b = CSRMatrix(matrix2)
+    except NotImplementedError:
+        return True
+
+    addition = a + b
+    addition_true = matrix1 + matrix2
+    diff = a - b
+    product = a * b
+    scalar = alpha * a
+    division = a / alpha
+
+    diff_true = matrix1 - matrix2
+    product_true = matrix1 * matrix2
+    scalar_true = alpha * matrix1
+    division_true = matrix1 / alpha
+
+    # assert (addition_true != 0).sum() == addition.nnz
+    # assert (diff_true != 0).sum() == diff.nnz
+
+    for i, j in zip(range(shape_x), range(shape_y)):
+        assert np.isclose(addition[i, j], addition_true[i, j])
+        assert np.isclose(diff[i, j], diff_true[i, j])
+        assert np.isclose(product[i, j], product_true[i, j])
+        assert np.isclose(scalar[i, j], scalar_true[i, j])
+        assert np.isclose(division[i, j], division_true[i, j])
+
+
+test_csr_matrix_base_operations()
