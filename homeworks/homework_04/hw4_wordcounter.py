@@ -1,19 +1,45 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-from multiprocessing import Process, Manager
+from multiprocessing import Process, Manager, Pool
 import os
 
 
-def word_count_inference(path_to_dir):
-    '''
-    Метод, считающий количество слов в каждом файле из директории
-    и суммарное количество слов.
-    Слово - все, что угодно через пробел, пустая строка "" словом не считается,
-    пробельный символ " " словом не считается. Все остальное считается.
-    Решение должно быть многопроцессным. Общение через очереди.
-    :param path_to_dir: путь до директории с файлами
-    :return: словарь, где ключ - имя файла, значение - число слов +
-        специальный ключ "total" для суммы слов во всех файлах
-    '''
-    raise NotImplementedError
+def words_in_file(path, filename, queue):
+    sum = 0
+    local_dict = {}
+    with open(path + "/" + filename, 'r') as file:
+        sum = len(file.read().strip().split())
+    local_dict = {filename: sum}
+    queue.put(local_dict)
+    return
+
+
+def switch_queue(queue):
+    total = 0
+    main_dict = {}
+    while True:
+        res = queue.get()
+        if res == 'end':
+            break
+        total += res[1]
+        main_dict[res[0]] = res[1]
+    main_dict['total'] = total
+    return main_dict
+
+
+def word_count_inference(path):
+    count = os.cpu_count()
+    manager = Manager()
+    queue = manager.Queue()
+    pool = Pool(count)
+    tasks = pool.apply_async(switch_queue, (queue, ))
+    jobs = []
+    for filename in os.listdir(path):
+        if os.path.isfile(path + '/' + filename):
+            job = pool.apply_async(words_in_file, (path, filename, queue))
+            jobs.append(job)
+    for job in jobs:
+        job.get()
+    queue.put('end')
+    done_tasks = tasks.get()
+    pool.close()
+    pool.join()
+    return done_tasks
