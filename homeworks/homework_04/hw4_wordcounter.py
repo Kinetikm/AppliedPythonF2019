@@ -17,10 +17,10 @@ def word_count_inference(path_to_dir):
     manager = Manager()
     tmp_queue = manager.Queue()
     tmp_dict = manager.dict()
+    pool = Pool(3)
     for i in os.listdir(path_to_dir):
         tmp_queue.put(i)
     tmp_queue.put("end")
-    pool = Pool(3)
     while True:
         a = tmp_queue.get()
         if a == "end":
