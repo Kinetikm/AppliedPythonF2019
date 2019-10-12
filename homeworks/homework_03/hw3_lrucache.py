@@ -22,6 +22,7 @@ class LRUCacheDecorator:
 
     def __call__(self, func):
         #  вызов функции
+        @wraps(func)
         def new_func(*args, **kwargs):
             key = self._hash_args(args, kwargs)
             if key in self.cache:
