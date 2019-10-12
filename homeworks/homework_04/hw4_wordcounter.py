@@ -29,7 +29,6 @@ def sum_dict(q):
     return word_dict
 
 
-@contextmanager
 def word_count_inference(path_to_dir):
     '''
     Метод, считающий количество слов в каждом файле из директории
@@ -46,6 +45,7 @@ def word_count_inference(path_to_dir):
     for file_name in os.listdir(path_to_dir):
         proc = pool.apply_async(word_counter, (path_to_dir, file_name, q,))
     q.put('break')
+    pool.close()
     pool.join()
     return sum_dict(q)
 
