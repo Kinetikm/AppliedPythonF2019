@@ -42,8 +42,12 @@ def word_count_inference(path_to_dir):
     '''
     q = Manager().Queue()
     pool = Pool(5)
+    procs = []
     for file_name in os.listdir(path_to_dir):
         proc = pool.apply_async(word_counter, (path_to_dir, file_name, q,))
+        procs.append(proc)
+    for proc in procs:
+        proc.get()
     q.put('break')
     pool.close()
     pool.join()
