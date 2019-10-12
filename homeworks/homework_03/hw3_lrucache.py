@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 from time import time
-
+import functools
 
 class LRUCacheDecorator:
 
@@ -20,7 +20,7 @@ class LRUCacheDecorator:
         self.results_times = {}
 
     def __call__(self, func):
-
+        @functools.wraps(func)
         def wrapper(*args, **kwargs):
             cur_time = time()
 
@@ -28,7 +28,7 @@ class LRUCacheDecorator:
 
             if packet in self.cached:
                 if self.ttl is not None:
-                    if (cur_time - self.results_times[packet]) < self.ttl:  # если есть возвратим из кеша
+                    if (cur_time - self.results_times[packet]) < self.ttl:
                         self.results_times[packet] = cur_time
 
                         return self.cached[packet]
@@ -41,9 +41,8 @@ class LRUCacheDecorator:
 
                     return self.cached[packet]
             else:
-                while len(self.cached) >= self.maxsize:
-                    del_key = min(self.results_times, key=lambda pdel_key: self.results_times[pdel_key])
-                    # берем самым малым result_times
+                if len(self.cached) >= self.maxsize:
+                    del_key = self.results_times.keys()[0]
                     del self.results_times[del_key]
                     del self.cached[del_key]
 
