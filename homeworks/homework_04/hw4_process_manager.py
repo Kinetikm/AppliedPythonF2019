@@ -113,7 +113,6 @@ class TaskManager:
                 i += 1
             time.sleep(self.period)
 
-
 '''
 def cat():
     print("я упал")
@@ -136,4 +135,3 @@ queue.put(Task(cat))
 TM = TaskManager(queue, 3, 3)
 TM.run()
 '''
-
