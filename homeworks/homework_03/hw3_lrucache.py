@@ -3,41 +3,36 @@
 
 
 import time
+import functools
 
 
 class LRUCacheDecorator:
 
     def __init__(self, maxsize, ttl):
         self.maxsize = maxsize
-        self.ttl = ttl
+        if ttl is not None:
+            self.ttl = ttl / 1000
+        else:
+            self.ttl = None
         self.cache_dict = {}    # key: args, value: time
 
     def __call__(self, func):
+        @functools.wraps(func)
         def decor(*args, **kwargs):
             if str([args, kwargs]) not in self.cache_dict:
                 if len(self.cache_dict) == self.maxsize:
-                    oldest = time.time()
-                    for value in self.cache_dict.values():
-                        if oldest > value[0]:
-                            oldest = value[0]
-                    for key in self.cache_dict:
-                        if self.cache_dict[key][0] == oldest:
-                            print("must del {}".format(key))
-                            del self.cache_dict[key]
-                            break
+                    self.cache_dict.popitem()
                 result = func(*args, **kwargs)
                 self.cache_dict[str([args, kwargs])] = (time.time(), result)
-                print()
                 return result
             else:
+                key = str([args, kwargs])
                 if self.ttl is not None:
-                    print(self.cache_dict[str([args, kwargs])][0] - time.time())
-                    if (- self.cache_dict[str([args, kwargs])][0] + time.time()) * 1000 > self.ttl:
-                        del self.cache_dict[str([args, kwargs])]
-                        self.cache_dict[str([args, kwargs])] = (time.time(), func(*args, **kwargs))
+                    if time.time() - self.cache_dict[key][0] > self.ttl:
+                        self.cache_dict[key] = (time.time(), func(*args, **kwargs))
                     else:
-                        self.cache_dict[str([args, kwargs])] = (time.time(), self.cache_dict[str([args, kwargs])][1])
+                        self.cache_dict[key] = (time.time(), self.cache_dict[key][1])
                 else:
-                    self.cache_dict[str([args, kwargs])] = (time.time(), self.cache_dict[str([args, kwargs])][1])
-                return self.cache_dict[str([args, kwargs])][1]
+                    self.cache_dict[key] = (time.time(), self.cache_dict[key][1])
+                return self.cache_dict[key][1]
         return decor
