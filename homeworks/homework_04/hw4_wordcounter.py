@@ -18,21 +18,15 @@ def word_counter(path, file, files_and_amounts):
 
 
 def word_count_inference(path_to_dir):
-    '''
-    Метод, считающий количество слов в каждом файле из директории
-    и суммарное количество слов.
-    Слово - все, что угодно через пробел, пустая строка "" словом не считается,
-    пробельный символ " " словом не считается. Все остальное считается.
-    Решение должно быть многопроцессным. Общение через очереди.
-    :param path_to_dir: путь до директории с файлами
-    :return: словарь, где ключ - имя файла, значение - число слов +
-        специальный ключ "total" для суммы слов во всех файлах
-    '''
     file_mas = os.listdir(path=path_to_dir)
     manager = Manager()
     files_and_amounts = manager.dict()
+    queue = manager.Queue()
     files = []
     for file in file_mas:
+        queue.put(file)
+    while not queue.empty():
+        file = queue.get()
         task = Process(target=word_counter, args=(path_to_dir, file, files_and_amounts))
         files.append(task)
         task.start()
