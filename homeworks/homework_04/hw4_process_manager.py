@@ -47,6 +47,7 @@ class TaskProcessor:
             work = Process(target=task.perform())
             work.start()
             work.join(timeout=timeout)
+            work.terminate()
 
 
 class TaskManager:
@@ -80,3 +81,4 @@ class TaskManager:
                 if not self.alive_procs[i].is_alive():
                     work = Process(target=self.alive_procs[i].run(self.timeout))
                     work.start()
+
