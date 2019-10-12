@@ -5,6 +5,7 @@ from multiprocessing import Process, Queue
 import time
 from random import randint
 
+
 class Task:
     def __init__(self, function, *args, **kwargs):
         self.function = function
@@ -20,7 +21,6 @@ class TaskProcessor:
     def __init__(self, tasks_queue):
         self.tasks_queue = tasks_queue
 
-
     def run(self, timeout):
         while not (self.tasks_queue.empty()):
             task = self.tasks_queue.get()
@@ -29,15 +29,13 @@ class TaskProcessor:
             process.join(timeout)
             process.terminate()
 
-
-
+            
 class TaskManager:
     def __init__(self, tasks_queue, n_workers, timeout):
         self.tasks_queue = tasks_queue
         self.n_workers = n_workers
         self.timeout = timeout
         self.workers = []
-
 
     def run(self):
         task_tmp = [TaskProcessor(self.tasks_queue) for _ in range(self.n_workers)]
