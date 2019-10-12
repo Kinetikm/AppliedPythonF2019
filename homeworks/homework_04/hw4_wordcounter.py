@@ -19,7 +19,7 @@ def word_count_inference(path_to_dir):
     tmp_dict = manager.dict()
     pool = Pool(3)
     for i in os.listdir(path_to_dir):
-        tmp_queue.put(i)
+        tmp_queue.put(path_to_dir + "/" + i)
     tmp_queue.put("end")
     while True:
         a = tmp_queue.get()
