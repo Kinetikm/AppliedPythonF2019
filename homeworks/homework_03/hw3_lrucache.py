@@ -16,21 +16,25 @@ class LRUCacheDecorator:
         self.maxsize = maxsize
         self.ttl = ttl / 1000 if ttl else None
         self.cache = {
-            'key_value': OrderedDict(),
-            'time': OrderedDict()
+            'key_value': {},
+            'time': {}
         }
 
     def __call__(self, func):
         @wraps(func)
         def inner(*args, **kwargs):
             key = hash(str(args) + str(kwargs))
-            if key not in self.cache['key_value'] or (
-                    self.ttl and (time() - self.cache['time'][key]) > self.ttl):
+            if key not in self.cache['key_value'] or (self.ttl and (time() - self.cache['time'][key]) > self.ttl):
                 out = func(*args, **kwargs)
+                try:
+                    del self.cache['time'][key]
+                except KeyError:
+                    pass
                 self.cache['key_value'][key] = out
                 self.cache['time'][key] = time()
                 self.check_size()
             else:
+                del self.cache['time'][key]
                 self.cache['time'][key] = time()
                 out = self.cache['key_value'][key]
                 self.check_size()
@@ -40,5 +44,6 @@ class LRUCacheDecorator:
 
     def check_size(self):
         if len(self.cache['key_value']) > self.maxsize:
-            item_del = self.cache['time'].popitem(last=False)
-            del self.cache['key_value'][item_del[0]]
+            key_del = list(self.cache['time'].keys())[0]
+            del self.cache['key_value'][key_del]
+            del self.cache['time'][key_del]
