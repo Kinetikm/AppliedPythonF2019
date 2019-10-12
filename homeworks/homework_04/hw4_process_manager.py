@@ -59,4 +59,3 @@ class TaskManager:
                 if not proc.is_alive():
                     self.processes[temp] = Process(self.workers[temp].run)
                     self.processes[temp].start()
-
