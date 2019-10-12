@@ -2,6 +2,7 @@
 # coding: utf-8
 import time
 from functools import wraps
+from collections import OrderedDict
 
 
 class LRUCacheDecorator:
@@ -16,40 +17,32 @@ class LRUCacheDecorator:
         #  https://www.geeksforgeeks.org/class-as-decorator-in-python/
         self.max = maxsize
         self.time = ttl
-        self.cache = []
-        self.arguments = []
-        self.timeQueue = []
+        self.cache = dict()
+        self.timeQueue = OrderedDict()  # для того, чтобы всё было в нужном порядке не теряя скорости
 
     def __call__(self, func):
         # TODO вызов функции
 
         @wraps(func)
         def wrapped(*args, **kwargs):
-            tm = time.time()
-            temp = [args, kwargs]
-            if (temp in self.arguments) and (
-                    not bool(self.time) or (tm - self.timeQueue[self.arguments.index(temp)] < self.time / 1000)):
-                pos = self.arguments.index(temp)
-                result = self.cache.pop(pos)
-                self.timeQueue.pop(pos)
-                self.arguments.pop(pos)
-                self.arguments.append(temp)
-                self.cache.append(result)
-                self.timeQueue.append(tm)
+            temp = str(args)+str(kwargs)  # чтобы было хэшируемо
+            if (temp in self.cache) and (
+                    not bool(self.time) or (time.time() - self.timeQueue[temp] < self.time / 1000)):
+                result = self.cache[temp]
+                self.timeQueue[temp] = time.time()
+                self.timeQueue.move_to_end(temp, False)
                 return result
-            if temp in self.arguments:
-                pos = self.arguments.index(temp)
-                self.cache.pop(pos)
-                self.timeQueue.pop(pos)
-                self.arguments.pop(pos)
+            if temp in self.cache:
+                self.cache.pop(temp)
+                self.timeQueue.pop(temp)
             result = func(*args, **kwargs)
-            if len(self.arguments) >= self.max:
-                self.cache.pop(0)
-                self.timeQueue.pop(0)
-                self.arguments.pop(0)
-            self.arguments.append(temp)
-            self.cache.append(result)
+            if len(self.cache) >= self.max:
+                key = self.timeQueue.popitem()
+                key = key[0]
+                self.cache.pop(key)
+            self.cache[temp] = result
             tm = time.time()
-            self.timeQueue.append(tm)
+            self.timeQueue[temp] = time.time()
+            self.timeQueue.move_to_end(temp, False)
             return result
         return wrapped
