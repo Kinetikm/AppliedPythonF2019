@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from multiprocessing import Process, Manager
+from multiprocessing import Process, Manager, Pool
 import os
 
 
 def word_count_inference(path_to_dir):
-    '''
+    """
     Метод, считающий количество слов в каждом файле из директории
     и суммарное количество слов.
     Слово - все, что угодно через пробел, пустая строка "" словом не считается,
@@ -15,5 +15,37 @@ def word_count_inference(path_to_dir):
     :param path_to_dir: путь до директории с файлами
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
-    '''
-    raise NotImplementedError
+    """
+    core = os.cpu_count()
+    files = [f for f in os.listdir(path_to_dir)
+             if os.path.isfile(os.path.join(path_to_dir, f))]
+    manager = Manager()
+    queue = manager.Queue()
+    words = manager.dict()
+    pool = Pool(core)
+    result = pool.apply_async(searh_total, (queue, words))
+    for file in files:
+        process = pool.apply_async(words_in_file, (path_to_dir, file, queue))
+        process.get()
+    queue.put(-1)
+    return result.get()
+
+
+def words_in_file(path_to_dir, filename, queue):
+    sum = 0
+    with open(os.path.join(path_to_dir, filename), 'r') as file:
+        for line in file:
+            sum += len(line.strip().split())
+    queue.put((filename, sum))
+
+
+def search_total(queue, words):
+    total = 0
+    while True:
+        tmp = queue.get()
+        if tmp == 'END_QUEUE':
+            break
+        total += tmp
+
+    words['total'] = total
+    return dict(words)
