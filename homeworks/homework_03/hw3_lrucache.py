@@ -3,6 +3,7 @@
 from time import time
 import functools
 
+
 class LRUCacheDecorator:
 
     def __init__(self, maxsize, ttl):
@@ -42,7 +43,7 @@ class LRUCacheDecorator:
                     return self.cached[packet]
             else:
                 if len(self.cached) >= self.maxsize:
-                    del_key = self.results_times.keys()[0]
+                    del_key = liat(self.results_times)[0]
                     del self.results_times[del_key]
                     del self.cached[del_key]
 
