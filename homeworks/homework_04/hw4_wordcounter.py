@@ -4,11 +4,11 @@ import os
 
 def words_in_file(path, filename, queue):
     sum = 0
-    local_dict = {}
+    tmp = ()
     with open(path + "/" + filename, 'r') as file:
         sum = len(file.read().strip().split())
-    local_dict = {filename: sum}
-    queue.put(local_dict)
+    tmp = (filename: sum)
+    queue.put(tmp)
     return
 
 
