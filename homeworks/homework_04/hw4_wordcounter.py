@@ -56,6 +56,3 @@ def calculate_total(q):
         d[val[0]] = val[1]
         d["total"] += val[1]
     return d
-
-
-
