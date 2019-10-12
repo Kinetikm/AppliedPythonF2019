@@ -10,9 +10,6 @@ class Task:
     чтобы можно было выполнять "неоднотипные" задачи
     """
     def __init__(self, function, *args, **kwargs):
-        """
-        Пофантазируйте, как лучше инициализировать
-        """
         self.function = function
         self.args = args
         self.kwargs = kwargs
@@ -56,9 +53,6 @@ class TaskManager:
         self.timeout = timeout
 
     def run(self):
-        """
-        Запускайте бычка! (с)
-        """
         processes = []
 
         while not self.tasks.empty():
