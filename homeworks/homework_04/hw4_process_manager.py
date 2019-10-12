@@ -14,20 +14,36 @@ class Task(ABC):
 
 class TaskProcessor:
 
-    def __init__(self, tasks_queue):
-        task = tasks_queue.get()
-        if issubclass(task.__class__, Task):
-            self.task = task
-        else:
-            print("Expected Task in Queue, but received otherwise")
-            raise TypeError
-        self.start_time = None
+    def __init__(self, tasks_queue, timeout):
+        self.timeout = timeout
+        self.tasks = tasks_queue
         self.proc = None
 
     def run(self):
-        self.proc = multiprocessing.Process(target=self.task.perform)
+        self.proc = multiprocessing.Process(target=self.work)
         self.proc.start()
-        self.start_time = time.time()
+
+    def work(self):
+        while True:
+            if not self.tasks.empty():
+                task = self.tasks.get()
+                if issubclass(task.__class__, Task):
+                    process = multiprocessing.Process(target=task.perform)
+                    process.start()
+                    start_time = time.time()
+                    while process.is_alive():
+                        if time.time() - start_time > self.timeout:
+                            os.system("kill -9 {}".format(process.pid))
+                            print("Time exceeded. Process was killed")
+                            print(time.time() - start_time)
+                        time.sleep(0.5)
+                    process.join()
+                    process.close()
+                else:
+                    print("Expected Task in Queue, but received otherwise")
+                    raise TypeError
+            else:
+                time.sleep(3)
 
 
 class TaskManager:
@@ -40,47 +56,23 @@ class TaskManager:
     def run(self):
         jobs = []
         sleep_time = 1 / self.n_workers
-        if self.tasks_queue.qsize() < self.n_workers:
-            self.n_workers = self.tasks_queue.qsize()
         for _ in range(self.n_workers):
-            task_proc = TaskProcessor(self.tasks_queue)
+            task_proc = TaskProcessor(self.tasks_queue, self.timeout)
             jobs.append(task_proc)
             task_proc.run()
-        while not self.tasks_queue.empty():
-            k = 0
-            for j in range(len(jobs)):
-                if jobs[j - k].proc.is_alive():
-                    if time.time() - jobs[j - k].start_time > self.timeout:
-                        os.system("kill -9 {}".format(jobs[j - k].proc.pid))
-                        print("Time exceeded for Queue[{}]".format(jobs[j - k].task.size), ". Process was killed")
-                        del jobs[j - k]
-                        k += 1
-                        if not self.tasks_queue.empty():
-                            task_proc = TaskProcessor(self.tasks_queue)
-                            jobs.append(task_proc)
-                            task_proc.run()
-                else:
-                    del jobs[j - k]
-                    k += 1
-                    if not self.tasks_queue.empty():
-                        task_proc = TaskProcessor(self.tasks_queue)
-                        jobs.append(task_proc)
-                        task_proc.run()
-            time.sleep(sleep_time)
 
-        while len(jobs) != 0:
+        while True:
             k = 0
             for j in range(len(jobs)):
-                if jobs[j - k].proc.is_alive():
-                    if time.time() - jobs[j - k].start_time > self.timeout:
-                        print("Time exceeded for Queue[{}]".format(jobs[j - k].task.size), ". Process was killed")
-                        os.system("kill -9 {}".format(jobs[j - k].proc.pid))
-                        del jobs[j - k]
-                        k += 1
-                else:
+                if not jobs[j - k].proc.is_alive():
                     del jobs[j - k]
                     k += 1
-                time.sleep(sleep_time)
+                    task_proc = TaskProcessor(self.tasks_queue, self.timeout)
+                    jobs.append(task_proc)
+                    task_proc.run()
+            time.sleep(sleep_time)
+            if self.tasks_queue.empty():
+                time.sleep(3)
 
 
 # Для проверки:
@@ -99,6 +91,6 @@ if __name__ == '__main__':
     queue = manager.Queue()
     for i in range(50):
         queue.put(TaskExample(i))
-    TM = TaskManager(queue, 4, 7)
+    TM = TaskManager(queue, 4, 8)
     TM.run()
 '''
