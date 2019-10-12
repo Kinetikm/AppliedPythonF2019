@@ -87,7 +87,7 @@ class TaskManager:
         """
         # список состояний воркеров [id, worker, start_time]
         workers = ([i, None, None] for i in range(self._n_workers))
-        while workers:
+        while True:
             for worker in workers:
                 if worker[1] is None:  # если воркер не инициализирован
                     worker[1] = TaskProcessor(self._tasks_queue)
@@ -97,12 +97,9 @@ class TaskManager:
                     if not self._tasks_queue.empty():
                         worker[1].wake(tasks_queue)
                         worker[2] = time.clock()
-                    else:
-                        workers.remove(worker)
                 elif time.clock() - worker[2] > self._timeout:  # если воркер залип
                     if self._tasks_queue.empty():
                         worker[1].terminate()
-                        workers.remove(worker)
                     else:
                         worker[1].terminate(self._tasks_queue)
                         worker[2] = time.clock()
