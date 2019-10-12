@@ -57,10 +57,7 @@ def test_table():
                 stdout=subprocess.PIPE,
             ).communicate()
             output = out.decode('utf8').strip()
-            if output:
-                assert test_out.strip() == output
-            else:
-                return True
+            assert test_out.strip() == output
 
         finally:
             os.remove(path)
