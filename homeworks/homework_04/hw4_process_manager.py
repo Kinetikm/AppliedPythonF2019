@@ -34,8 +34,6 @@ class TaskProcessor:
                     while process.is_alive():
                         if time.time() - start_time > self.timeout:
                             os.system("kill -9 {}".format(process.pid))
-                            print("Time exceeded. Process was killed")
-                            print(time.time() - start_time)
                         time.sleep(0.5)
                     process.join()
                     process.close()
