@@ -52,7 +52,7 @@ class TaskProcessor:
                     item.perform()
                 except Exception:
                     item.ret = "Execution Error"
-                self.queue.put(item.ret)
+                self.queue.put((item.ret,dct[self.num]))
 
 
 class TaskManager:
@@ -82,7 +82,7 @@ class TaskManager:
         lst = []
         for i in range(self.queue.qsize()):
             lst.append(self.queue.get())
-        return lst
+        return [i[0] for i in sorted(lst, key=lambda a: a[1])]
 
     def control(self, procs):
         pr = []
@@ -98,7 +98,7 @@ class TaskManager:
                 if time.time() - procs[i] > self.timeout:
                     pr[i].kill()
                     pr[i].join()
-                    self.queue.put('Timeout Error')
+                    self.queue.put(('Timeout Error',procs[i]))
                     pr[i] = Process(target=workers[i].run, args=(procs,))
                     procs[i] = time.time()
                     pr[i].start()
@@ -109,7 +109,7 @@ class TaskManager:
 
 
 def f(n, t):
-    time.sleep(t)
+    time.sleep(6-t)
     return 1/n
 lst = [Task(f, i, i) for i in range(6)]
 q = Manager().Queue()
