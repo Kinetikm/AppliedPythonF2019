@@ -41,7 +41,7 @@ def word_count_inference(path_to_dir):
         специальный ключ "total" для суммы слов во всех файлах
     '''
     q = Manager().Queue()
-    pool = Pool(5)
+    pool = Pool(len(os.listdir(path_to_dir)))
     procs = []
     for file_name in os.listdir(path_to_dir):
         proc = pool.apply_async(word_counter, (path_to_dir, file_name, q,))
