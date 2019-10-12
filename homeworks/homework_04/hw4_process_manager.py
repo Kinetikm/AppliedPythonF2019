@@ -52,7 +52,7 @@ class TaskProcessor:
                     item.perform()
                 except Exception:
                     item.ret = "Execution Error"
-                self.queue.put((item.ret,dct[self.num]))
+                self.queue.put((item.ret, dct[self.num]))
 
 
 class TaskManager:
@@ -98,7 +98,7 @@ class TaskManager:
                 if time.time() - procs[i] > self.timeout:
                     pr[i].kill()
                     pr[i].join()
-                    self.queue.put(('Timeout Error',procs[i]))
+                    self.queue.put(('Timeout Error', procs[i]))
                     pr[i] = Process(target=workers[i].run, args=(procs,))
                     procs[i] = time.time()
                     pr[i].start()
