@@ -28,40 +28,25 @@ class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
     """
-    def __init__(self, tasks_queue, timeout):
+    def __init__(self, tasks_queue):
         """
         :param tasks_queue: Manager.Queue с объектами класса Task
         """
-        if not tasks_queue.empty():
-            self.task = tasks_queue.get()
-            if isinstance(self.task, Task):
-                self.proc = Process(target=self.task.perform)
-                self.start_time = 0
-                self.timeout = timeout
-                self.status_code = 0
-            else:
-                raise ValueError
-        else:
-            raise Exception("Queue End")
+        self.tasks_queue = tasks_queue
+        self.proc = None
+        self.start_time = 0
 
     def run(self):
         """
         Старт работы воркера
         """
+        task = self.tasks_queue.get()
+        self.proc = Process(target=task.perform, args=())
         self.proc.start()
         self.start_time = time.time()
-        delay = self.timeout/10
-        time.sleep(delay)
-        while time.time() - self.start_time < self.timeout:
-            if self.proc.is_alive():
-                time.sleep(delay)
-            else:
-                self.proc.terminate()
-                self.status_code = 1
-                break
-        if self.status_code == 0:
-            self.proc.terminate()
-            self.status_code = -1
+
+    def stop(self):
+        self.proc.terminate()
 
 
 class TaskManager:
@@ -82,20 +67,31 @@ class TaskManager:
         """
         Запускайте бычка! (с)
         """
-        workers = [None]*self.n_workers
-        while not self.queue.empty():
-            try:
-                for i in range(self.n_workers):
-                    if workers[i] is not None:
-                        if workers[i].status_code != 0:
-                            workers[i] = TaskProcessor(self.queue, self.timeout)
-                            workers[i].run()
-                    else:
-                        workers[i] = TaskProcessor(self.queue, self.timeout)
-                        workers[i].run()
-            except Exception as e:
-                if str(e) == "Queue End":
-                    break
-                else:
+        workers = []
+        last_start = time.time()
+        while time.time() - last_start < 4*self.timeout:
+            for worker in workers:
+                if worker.proc.is_alive() and (time.time() - worker.start_time < self.timeout):
                     continue
-        time.sleep(self.timeout)
+                worker.stop()
+                workers.remove(worker)
+            if (len(workers) < self.n_workers) and (self.queue.qsize() > 0):
+                for i in range(min(self.n_workers - len(workers), self.queue.qsize())):
+                    t_proc = TaskProcessor(self.queue)
+                    t_proc.run()
+                    last_start = t_proc.start_time
+                    workers.append(t_proc)
+#
+#
+# def f(x):
+#     time.sleep(x % 5)
+#     print(x)
+#
+#
+# if __name__ == "__main__":
+#     mq = Manager().Queue()
+#     for i in range(20):
+#         mq.put(Task(f, i))
+#     tm = TaskManager(mq, 5, 2)
+#     tm.run()
+#     Вывело 0, 5, 1, 6, 10, 11, 15, 16
