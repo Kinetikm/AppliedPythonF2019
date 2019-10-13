@@ -90,8 +90,37 @@ class CSRMatrix:
     def __repr__(self):
         return f"shape: {self.shape}. a ({len(self._a)}): {self._a}, ja: {self._ja}, ia: {self._ia}"
 
+    def is_zero_row(self, i):
+        return self._ia[i+1] - self._ia[i] == 0
+
+    def is_zero_col(self, j):
+        return j not in self._ja
+
     def __matmul__(self, other):
-        pass
+        if not isinstance(other, CSRMatrix):
+            raise ValueError()
+
+        if self.shape[0] != other.shape[1]:
+            raise ValueError()
+
+        res_shape = (self.shape[0], other.shape[1])
+        res = CSRMatrix(np.zeros(res_shape))
+
+        # print(self)
+        for i in range(res_shape[0]):
+            # ну, в принципе, можно было бы сделать проверки на то, что в данной строчке все значения нулевые,
+            # но много профита это не даст, потмоу что в тестах все равно не такие уж разреженые
+            if self.is_zero_row(i):
+                continue
+            for j in range(res_shape[1]):
+                if other.is_zero_col(j):
+                    continue
+                for k in range(self.shape[1]):
+                    if self[i, k] == 0 or other[k, j] == 0:
+                        continue
+                    res[i, j] += self[i, k] * other[k, j]
+        return res
+
 
     def _base_operation(self, other, operation: callable):
         res = copy.deepcopy(self)
@@ -135,7 +164,6 @@ class CSRMatrix:
             return 0
 
         return self._a[idx]
-
 
     def _get_key_a_idx(self, i, j):
         """
