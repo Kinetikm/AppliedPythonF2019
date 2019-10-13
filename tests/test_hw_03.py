@@ -328,6 +328,7 @@ def test_csr_matrix_nnz():
     np.random.seed(42)
 
     matrix = np.random.randint(0, 2, (200, 200))
+    matrix[0, 0] = 1
     try:
         csr_matrix = CSRMatrix(matrix)
     except NotImplementedError:
@@ -342,6 +343,11 @@ def test_csr_matrix_nnz():
 
     assert (matrix != 0).sum() == csr_matrix.nnz
 
+    # проверим, что при добавлении нулевого элемента при условии, что до этого он был ненулевой, nnz уменьшится
+    matrix[0, 0] = 0
+    csr_matrix[0, 0] = 0
+
+    assert (matrix != 0).sum() == csr_matrix.nnz
 
 def test_csr_matrix_base_operations():
     np.random.seed(42)

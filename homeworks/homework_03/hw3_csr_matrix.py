@@ -68,7 +68,7 @@ class CSRMatrix:
         else:
             raise ValueError
 
-        print(self)
+        self._nnz = len(self._a)
 
         return
 
@@ -77,39 +77,50 @@ class CSRMatrix:
         self._ia = [0] * (self.shape[0] + 1)
         return
 
+    @property
+    def nnz(self):
+        print("setting nnz", len(self._a))
+        return self._nnz
+
+    @nnz.setter
+    def nnz(self, val):
+        if val == len(self._a):
+            self._nnz = val
+
     def __repr__(self):
         return f"shape: {self.shape}. a: {self._a}, ja: {self._ja}, ia: {self._ia}"
 
     def __matmul__(self, other):
         pass
 
+    def _base_operation(self, other, operation: callable(float, float)):
+        res = copy.deepcopy(self)
+        for i in range(self.shape[0]):
+            for j in range(self.shape[1]):
+                res[i, j] = operation(self[i, j], other[i, j])
+        return  res
+
     def __add__(self, other):
-        pass
+        return self._base_operation(other, lambda x, y: x + y)
+
+    def __sub__(self, other):
+        return self._base_operation(other, lambda x, y: x - y)
+
 
     def __mul__(self, other):
-        pass
+        return self._base_operation(other, lambda x, y: x * y)
 
     def __getitem__(self, key):
-        # print("a", self._a)
-        # print("ja", self._ja)
-        # print("ia", self._ia)
-        print("getting:", key)
         idx = self._get_key_a_idx(*key)
-        # print("idx", idx)
         if idx is None:
             return 0
 
-        # print("len a", len(self._a))
-        # print("len ja", len(self._ja))
         return self._a[idx]
 
 
     def _get_key_a_idx(self, i, j):
         """
         Получаем индекс элемента в _a
-        :param i:
-        :param j:
-        :return:
         """
         ja_start_range = self._ia[i]
         ja_stop_range = self._ia[i+1]
@@ -120,8 +131,6 @@ class CSRMatrix:
         return
 
     def __setitem__(self, key, value):
-        print("assigment:", key, value)
-
         i, j = key
 
         if i > self.shape[0] - 1 or j > self.shape[1]:
@@ -130,18 +139,25 @@ class CSRMatrix:
             return
 
         if self[i, j] != 0:
-            idx = self._get_key_a_idx()
-            self._a[idx] = value
-            return
+            idx = self._get_key_a_idx(i, j)
+            if value != 0:
+                self._a[idx] = value
+                return
+            # in case vlue = 0 we should delete it from _a
+            print("len a", len(self._a))
+            self._a.pop(idx)
+            self._ja.pop(idx)
+            for ia_idx in range(i + 1, self.shape[0] + 1):
+                self._ia[ia_idx] -= 1
+            self.nnz = self.nnz - 1
+
+
 
         for ia_idx in range(i+1, self.shape[0]+1):
             self._ia[ia_idx] += 1
 
         ja_start_range = self._ia[i]
         ja_stop_range = self._ia[i + 1]
-
-        # print(f"ja_start_range {ja_start_range}, ja_stop_range {ja_stop_range}")
-        # print(f"{self._ja}")
 
         insert_val_idx = ja_stop_range
         for ja_idx in range(ja_start_range, ja_stop_range):
