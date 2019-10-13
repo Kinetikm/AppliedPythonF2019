@@ -32,10 +32,17 @@ def word_count_inference(path_to_dir):
     queue = Manager().Queue()
     for file in os.listdir(path_to_dir):
         queue.put(file)
+    proc_num = 10
     while not queue.empty():
-        proc = Process(target=count_file_words, args=(queue.get(), path_to_dir, output))
-        procs.append(proc)
-        proc.start()
-    for proc in procs:
-        proc.join()
+        if proc_num > queue.qsize():
+            proc_num = queue.qsize()
+        for i in range(proc_num):
+            proc = Process(target=count_file_words, args=(queue.get(), path_to_dir, output))
+            procs.append(proc)
+            proc.start()
+        for proc in procs:
+            proc.join()
+        for proc in procs:
+            proc.terminate()
+            procs.remove(proc)
     return output
