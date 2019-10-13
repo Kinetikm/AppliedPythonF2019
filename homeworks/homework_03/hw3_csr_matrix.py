@@ -50,6 +50,7 @@ class CSRMatrix:
                         self.ja.append(init_matrix_representation[1][i])
                         for j in range(init_matrix_representation[0][i], self.rows):
                             self.ia[j + 1] += 1
+                self._nnz = self.ia[len(self.ia) - 1]
             else:
                 raise ValueError
         elif isinstance(init_matrix_representation, np.ndarray):
@@ -92,6 +93,14 @@ class CSRMatrix:
         else:
             raise IndexError
 
+    def insertion (self, row, col, value):
+        if value != 0:
+            self.ja.insert(self.ia[row], col)
+            self.a.insert(self.ia[row], value)
+            for i in range(row, self.rows):
+                self.ia[i + 1] += 1
+            self._nnz += 1
+
     def __setitem__(self, key, value):
         row = key[0]
         col = key[1]
@@ -109,13 +118,11 @@ class CSRMatrix:
                                     self.ia[j + 1] -= 1
                                 self._nnz -= 1
                         return
+                    if self.ja[i] < col:
+                        self.insertion(row, col, value)
+                        return
             else:
-                if value != 0:
-                    self.ja.insert(self.ia[row], col)
-                    self.a.insert(self.ia[row], value)
-                    for i in range(row, self.rows):
-                        self.ia[i + 1] += 1
-                    self._nnz += 1
+                self.insertion(row, col, value)
         else:
             raise IndexError
 
@@ -297,3 +304,14 @@ class CSRMatrix:
                 dense[i, self.ja[pointer]] = self.a[pointer]
                 pointer += 1
         return dense
+
+
+def get_next_elem(n, coordinate):
+    if len(coordinate) == n:
+        for i in range(len(coordinate) - 1, -1, -1):
+            coordinate[i] += 1
+            if coordinate[i] < 2:
+                return
+            coordinate[i] = 0
+    else:
+        raise ValueError
