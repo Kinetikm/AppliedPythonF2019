@@ -26,7 +26,7 @@ class CSRMatrix(object):
             for i in range(len(init_matrix_representation[0])):
                 self.items.append(init_matrix_representation[2][i])
                 self.col_indxs.append(init_matrix_representation[1][i])
-            for i in range(max(init_matrix_representation[0])+1):
+            for i in range(max(init_matrix_representation[0]) + 1):
                 self.amounts.append(list(init_matrix_representation[0]).count(i)+self.amounts[-1])
         else:
             raise ValueError
@@ -49,26 +49,26 @@ class CSRMatrix(object):
             if value != 0:
                 self.items.append(value)
                 self.col_indxs.append(key[1])
-                for k in range(len(self.amounts) - key[0]-1):
+                for k in range(len(self.amounts) - key[0] - 1):
                         self.amounts[-k-1] += 1
             return
         if key[0] > len(self.amounts):
             raise ValueError
-        for i in range(self.amounts[key[0]+1] - self.amounts[key[0]]):
+        for i in range(self.amounts[key[0] + 1] - self.amounts[key[0]]):
             if self.col_indxs[self.amounts[key[0]] + i] == key[1]:
                 if value != 0:
                     self.items[self.amounts[key[0]] + i] = value
                 else:
                     self.col_indxs.pop(self.amounts[key[0]] + i)
                     self.items.pop(self.amounts[key[0]] + i)
-                    for k in range(len(self.amounts) - key[0]-1):
-                        self.amounts[-k-1] -= 1
+                    for k in range(len(self.amounts) - key[0] - 1):
+                        self.amounts[-k - 1] -= 1
                 return
         if value != 0:
             self.col_indxs.insert(self.amounts[key[0]], key[1])
             self.items.insert(self.amounts[key[0]], value)
-            for k in range(len(self.amounts) - key[0]-1):
-                self.amounts[-k-1] += 1
+            for k in range(len(self.amounts) - key[0] - 1):
+                self.amounts[-k - 1] += 1
         self._nnz = len(self.items)
 
     def __add__(self, other):
@@ -80,8 +80,8 @@ class CSRMatrix(object):
         # другого
         for i in range(len(self.amounts) - 1):
             out.amounts.append(out.amounts[-1])
-            cur_row_len_s = self.amounts[i+1] - self.amounts[i]
-            cur_row_len_o = other.amounts[i+1] - other.amounts[i]
+            cur_row_len_s = self.amounts[i + 1] - self.amounts[i]
+            cur_row_len_o = other.amounts[i + 1] - other.amounts[i]
             cur_pos_s = self.amounts[i]
             cur_pos_o = other.amounts[i]
 

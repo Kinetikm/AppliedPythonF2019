@@ -10,7 +10,7 @@ class LRUCacheDecorator:
         self.cache = OrderedDict()
 
     def __call__(self, func):
-        @functools.wraps(func) 
+        @functools.wraps(func)
         def wrapper(*args, **kwargs):
             key = (args, str(kwargs), str(kwargs.values()))
             if key in self.cache:
