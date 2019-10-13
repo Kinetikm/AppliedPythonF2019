@@ -87,29 +87,29 @@ class Tensor:
     def __pow__(self, other):
         return self.__calcul_result_of_oper(other, '^')
 
-    def __consider_tensor(self, axis=None):
+    def __consider_tensor(self, oper, axis=None):
         size = self.size()
         if axis is None:
             result = []
             coordinates = [range(max_idx) for max_idx in size]
             for coor in product(*coordinates):
                 result.append(self[coor])
-            max_el, min_el = max(result), min(result)
-            return {'sum': sum(result),
-                    'mean': sum(result)/len(result),
-                    'max': max_el,
-                    'min': min_el,
-                    'argmax': result.index(max_el),
-                    'argmin': result.index(min_el)}
+            if oper == 'sum':
+                return sum(result)
+            if oper == 'mean':
+                return sum(result)/len(result)
+            if oper == 'max':
+                return max(result)
+            if oper == 'min':
+                return min(result)
+            if oper == 'argmax':
+                return result.index(max(result))
+            if oper == 'argmin':
+                return result.index(min(result))
         else:
             max_idx = size.pop(axis)
             coordinates = [range(max_idx) for max_idx in size]
-            result = {'sum': Tensor.create_empty_tensor(size),
-                      'mean': Tensor.create_empty_tensor(size),
-                      'max': Tensor.create_empty_tensor(size),
-                      'min': Tensor.create_empty_tensor(size),
-                      'argmax': Tensor.create_empty_tensor(size),
-                      'argmin': Tensor.create_empty_tensor(size)}
+            result = Tensor.create_empty_tensor(size)
             for coor in product(*coordinates):
                 lst = []
                 coor = list(coor)
@@ -117,31 +117,37 @@ class Tensor:
                     coor.insert(axis, i)
                     lst.append(self[coor])
                     coor.pop(axis)
-                result['sum'][coor] = sum(lst)
-                result['mean'][coor] = sum(lst)/len(lst)
-                result['max'][coor] = max(lst)
-                result['min'][coor] = min(lst)
-                result['argmax'][coor] = lst.index(result['max'][coor])
-                result['argmin'][coor] = lst.index(result['min'][coor])
+                if oper == 'sum':
+                    result[coor] = sum(lst)
+                elif oper == 'mean':
+                    result[coor] = sum(lst)/len(lst)
+                elif oper == 'max':
+                    result[coor] = max(lst)
+                elif oper == 'min':
+                    result[coor] = min(lst)
+                elif oper == 'argmax':
+                    result[coor] = lst.index(max(lst))
+                elif oper == 'argmin':
+                    result[coor] = lst.index(min(lst))
             return result
 
     def sum(self, axis=None):
-        return self.__consider_tensor(axis)['sum']
+        return self.__consider_tensor('sum', axis)
 
     def mean(self, axis=None):
-        return self.__consider_tensor(axis)['mean']
+        return self.__consider_tensor('mean', axis)
 
     def max(self, axis=None):
-        return self.__consider_tensor(axis)['max']
+        return self.__consider_tensor('max', axis)
 
     def min(self, axis=None):
-        return self.__consider_tensor(axis)['min']
+        return self.__consider_tensor('min', axis)
 
     def argmax(self, axis=None):
-        return self.__consider_tensor(axis)['argmax']
+        return self.__consider_tensor('argmax', axis)
 
     def argmin(self, axis=None):
-        return self.__consider_tensor(axis)['argmin']
+        return self.__consider_tensor('argmin', axis)
 
     def transpose(self, *new_dimensions):
         size = self.size()
@@ -160,6 +166,8 @@ class Tensor:
 
     def __matmul__(self, other):
         l1, l2 = len(self.size()), len(other.size())
+        if l1 > 2 or l2 > 2:
+            raise ValueError
         tensor1 = Tensor([self.matrix]) if l1 == 1 else self
         tensor2 = Tensor([[el] for el in other.matrix]) if l2 == 1 else other
         num1_of_rows, num1_of_columns = tensor1.size()
@@ -172,6 +180,8 @@ class Tensor:
         for i, row1 in enumerate(tensor1.matrix):
             for j, row2 in enumerate(tensor2.matrix):
                 result[i, j] = sum([row1[k]*row2[k] for k in range(n)])
-        result = Tensor(result.matrix[0]) if l1 == 1 else result
-        result = Tensor([el[0] for el in result.matrix]) if l2 == 1 else result
+        if l1 == 1:
+            return Tensor(result.matrix[0])
+        if l2 == 1:
+            return Tensor([el[0] for el in result.matrix])
         return result
