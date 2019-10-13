@@ -14,6 +14,7 @@ class CSRMatrix:
             self.__nnz = len(self.a)
         elif isinstance(init_matrix, np.ndarray):
             self.__init_from_np(init_matrix)
+            self.n, self.m = init_matrix.shape
             self.__nnz = len(self.a)
         else:
             raise ValueError
@@ -121,7 +122,16 @@ class CSRMatrix:
         return self * (1/other)
 
     def __matmul__(self, other):
-        return CSRMatrix(self.to_dense() @ other.to_dense())
+        if self.m != other.n:
+            raise ValueError
+        result = CSRMatrix.create_empty_matrix(self.n)
+        for i in range(self.n):
+            for j in range(other.m):
+                element = 0
+                for k in range(self.ia[i], self.ia[i+1]):
+                    element += self[i, self.ja[k]] * other[self.ja[k], j]
+                result[i, j] = element
+        return result
 
     def to_dense(self):
         m, n = len(self.ia)-1, max(self.ja)+1
