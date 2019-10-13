@@ -16,7 +16,10 @@ class LRUCacheDecorator:
         # TODO инициализация декоратора
         #  https://www.geeksforgeeks.org/class-as-decorator-in-python/
         self.max = maxsize
-        self.time = ttl/1000
+        if ttl is None:
+            self.time = ttl
+        else:
+            self.time = ttl / 100
         self.cache = dict()
         self.timeQueue = OrderedDict()  # для того, чтобы всё было в нужном порядке не теряя скорости
 
@@ -25,7 +28,7 @@ class LRUCacheDecorator:
 
         @wraps(func)
         def wrapped(*args, **kwargs):
-            temp = str(args)+str(kwargs)  # чтобы было хэшируемо
+            temp = str(args) + str(kwargs)  # чтобы было хэшируемо
             if (temp in self.cache) and (
                     not bool(self.time) or (time.time() - self.timeQueue[temp] < self.time)):
                 result = self.cache[temp]
@@ -45,4 +48,5 @@ class LRUCacheDecorator:
             self.timeQueue[temp] = time.time()
             self.timeQueue.move_to_end(temp, False)
             return result
+
         return wrapped
