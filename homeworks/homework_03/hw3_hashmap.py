@@ -22,7 +22,7 @@ class HashMap:
 
         def __next__(self):
             while self._cursor < self.limit:
-                print(self._cursor, len(self.buckets))
+                # print(self._cursor, len(self.buckets))
                 entries = self.buckets[self._cursor]
 
                 if len(entries) > 1:
