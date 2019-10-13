@@ -9,7 +9,9 @@ class LRUCacheDecorator:
 
     def __init__(self, maxsize, ttl):
         self.maxsize = maxsize
-        self.ttl = ttl / 1000
+		self.ttl = ttl
+		if self.ttl:
+		    self.ttl = ttl / 1000
         self.cache = OrderedDict()
 
     def __call__(self, func):
