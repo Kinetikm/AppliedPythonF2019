@@ -93,7 +93,7 @@ class CSRMatrix:
         else:
             raise IndexError
 
-    def insertion (self, row, col, value):
+    def insertion(self, row, col, value):
         if value != 0:
             self.ja.insert(self.ia[row], col)
             self.a.insert(self.ia[row], value)
