@@ -28,13 +28,6 @@ class CSRMatrix:
     """
 
     def __init__(self, init_matrix_representation):
-        """
-        :param init_matrix_representation: can be usual dense matrix
-        or
-        (row_ind, col, data) tuple with np.arrays,
-            where data, row_ind and col_ind satisfy the relationship:
-            a[row_ind[k], col_ind[k]] = data[k]
-        """
         if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
             self.a = init_matrix_representation[2]
             self.ja = init_matrix_representation[1]
@@ -71,7 +64,6 @@ class CSRMatrix:
         for i in range(len(self.ia) - 1):
             for j in range(self.ia[i], self.ia[i + 1]):
                 mtrx[i][self.ja[j]] = self.a[j]
-        print(mtrx)
         return mtrx
 
     def __getitem__(self, tup):
@@ -99,7 +91,6 @@ class CSRMatrix:
             temp1, self.ja[self.ia[i + 1]] = self.ja[self.ia[i + 1]], temp1
             self.ja[self.ia[i + 1] + 1:] = temp_ja
             self.ja.pop()
-            #temp_a = self.a[self.ia[i + 1]:]
             for k in range(i + 1, len(self.ia)):
                 self.ia[k] += 1
             for ind in range(self.ia[i], self.ia[i + 1]):
@@ -185,7 +176,6 @@ class CSRMatrix:
                 res._nnz = len(res.a)
                 return res
             else:
-                print('Shapes dont match')
                 return self
 
     def __rmul__(self, a):
@@ -204,7 +194,6 @@ class CSRMatrix:
             res = copy.deepcopy(self)
             res.a = [i / a for i in res.a]
             return res
-        print('Divide CSR matrix a by zero scalar alpha')
         return self
 
     def __matmul__(self, mtrx):
