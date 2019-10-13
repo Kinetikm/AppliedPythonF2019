@@ -119,7 +119,6 @@ class CSRMatrix:
         for i in range(len(mtrx.ia) - 1):
             for j in range(mtrx.ia[i], mtrx.ia[i + 1]):
                 all_nnz_plc.append([i, mtrx.ja[j]])
-        res.to_dense()
         for i, j in all_nnz_plc:
             value = mtrx[i, j]
             added = False
@@ -202,18 +201,39 @@ class CSRMatrix:
         if shape_left != shape_right:
             raise ValueError
         else:
-            res = np.zeros((shape_left[0], shape_left[0]))
-            temp_mtrx = mtrx.to_dense()
-            trans_mtrx = np.zeros((max(mtrx.ja) + 1, len(mtrx.ia) - 1))
-            for i in range(max(mtrx.ja) + 1):
-                for j in range(len(mtrx.ia) - 1):
-                    trans_mtrx[i][j] = temp_mtrx[j, i]
+            last_i = max(mtrx.ja)
+            last_j = len(mtrx.ia) - 2
+            trans_mtrx = ([last_i], [last_j], [1])
             trans_mtrx = CSRMatrix(trans_mtrx)
+
+            all_nnz_plc = {}
+            for i in range(len(mtrx.ia) - 1):
+                for j in range(mtrx.ia[i], mtrx.ia[i + 1]):
+                    all_nnz_plc[(i, mtrx.ja[j])] = mtrx.a[j]
+
+            if (last_j, last_i) not in all_nnz_plc:
+                zeroize = True
+            else:
+                zeroize = False
+
+            for i, j in all_nnz_plc:
+                trans_mtrx[j, i] = all_nnz_plc[(i, j)]
+
+            if zeroize:
+                trans_mtrx[last_i, last_j] = 0
+
+            res_i = last_j
+            res = ([last_j], [last_j], [1])
+            res = CSRMatrix(res)
+
+            nnz_plc = []
             for k in range(shape_left[0]):
                 for i in range(shape_left[0]):
                     r = 0
                     for ind in range(self.ia[k], self.ia[k + 1]):
                         r += self[k, self.ja[ind]] * trans_mtrx[i, self.ja[ind]]
-                    res[k][i] = r
-            res = CSRMatrix(res)
+                    res[k, i] = r
+                    nnz_plc += [[k, i]]
+            if [last_j, last_j] not in nnz_plc:
+                res[last_j, last_j] = 0
             return res
