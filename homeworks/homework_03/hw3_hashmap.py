@@ -45,19 +45,19 @@ class HashMap:
         return default_value
 
     def put(self, key, value):
-        index = self._get_index(self._get_hash(key))
-        new_entry = self.Entry(key, value)
-        if self._bucket[index]:
-            if new_entry in self._bucket[index]:
-                for s in self._bucket[index]:
-                    if s == new_entry:
-                        s._value = new_entry.get_value()
+        if key not in self.keys():
+            index = self._get_index(self._get_hash(key))
+            if self._bucket[index] is None:
+                self._bucket[index] = [self.Entry(key, value)]
             else:
-                self._bucket[index].append(new_entry)
-                self.capacity += 1
+                self._bucket[index].append(self.Entry(key, value))
+            self.capacity += 1
         else:
-            self._bucket[index] = [new_entry]
-            self.length += 1
+            index = self._get_index(self._get_hash(key))
+            if self._bucket[index]:
+                for var in self._bucket[index]:
+                    if var.key == key:
+                        var.value = value
         if self.capacity / self.length > self.threshold:
             self._resize()
 
