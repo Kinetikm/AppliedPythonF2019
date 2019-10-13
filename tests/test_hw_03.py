@@ -352,9 +352,12 @@ def test_csr_matrix_nnz():
 def test_csr_matrix_base_operations():
     np.random.seed(42)
 
-    shape_x, shape_y = 200, 200
+    shape_x, shape_y = 6, 6
+    shape = (shape_x, shape_y)
     matrix1 = np.random.randint(-1, 2, (shape_x, shape_y))
+    # matrix1 = np.zeros(shape)
     matrix2 = np.random.randint(-1, 2, (shape_x, shape_y))
+    # matrix2 = np.zeros(shape)
     alpha = 2.5
     try:
         a = CSRMatrix(matrix1)
@@ -362,6 +365,13 @@ def test_csr_matrix_base_operations():
     except NotImplementedError:
         return True
 
+    # a[0, 1] = 1
+    # a[0, 0] = 1
+    # print(a)
+    # assert a[0, 1] == 1
+    # assert a[0, 0] == 1
+    #
+    # return
     addition = a + b
     diff = a - b
     product = a * b
@@ -373,11 +383,13 @@ def test_csr_matrix_base_operations():
     product_true = matrix1 * matrix2
     scalar_true = alpha * matrix1
     division_true = matrix1 / alpha
-
+    print(addition)
+    print(addition_true     )
     assert (addition_true != 0).sum() == addition.nnz
     assert (diff_true != 0).sum() == diff.nnz
 
     for i, j in zip(range(shape_x), range(shape_y)):
+        print((i,j))
         assert np.isclose(addition[i, j], addition_true[i, j])
         assert np.isclose(diff[i, j], diff_true[i, j])
         assert np.isclose(product[i, j], product_true[i, j])

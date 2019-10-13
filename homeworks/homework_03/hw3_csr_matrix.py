@@ -41,6 +41,8 @@ class CSRMatrix:
         self._ia = []
         self._ja = []
 
+        self._nnz = 0
+
         self.shape = None
 
         # print("init_matrix_representation", init_matrix_representation)
@@ -68,8 +70,6 @@ class CSRMatrix:
         else:
             raise ValueError
 
-        self._nnz = len(self._a)
-
         return
 
     def _set_shape(self, n, m):
@@ -88,7 +88,7 @@ class CSRMatrix:
             self._nnz = val
 
     def __repr__(self):
-        return f"shape: {self.shape}. a: {self._a}, ja: {self._ja}, ia: {self._ia}"
+        return f"shape: {self.shape}. a ({len(self._a)}): {self._a}, ja: {self._ja}, ia: {self._ia}"
 
     def __matmul__(self, other):
         pass
@@ -162,8 +162,8 @@ class CSRMatrix:
             if value != 0:
                 self._a[idx] = value
                 return
-            print((i,j))
-            print(self)
+            # print((i,j))
+            # print(self)
             # print("deleting elemtny in index:", idx)
             self._a.pop(idx)
             self._ja.pop(idx)
@@ -181,12 +181,16 @@ class CSRMatrix:
 
         insert_val_idx = ja_stop_range
         for ja_idx in range(ja_start_range, ja_stop_range):
-            if ja_idx >= len(self._ja) or self._ja[ja_idx] > j:
+            if ja_idx >= len(self._ja):
+                insert_val_idx = ja_idx
+                break
+            if self._ja[ja_idx] < j:
                 insert_val_idx = ja_idx
                 break
 
         self._a.insert(insert_val_idx, value)
         self._ja.insert(insert_val_idx, j)
+        self.nnz = self.nnz + 1
 
         return
 
