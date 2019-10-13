@@ -177,8 +177,8 @@ class CSRMatrix(object):
             out.amounts.append(out.amounts[-1])
             for row_n in range(len(self.amounts) - 1):
                 if col_n in self.col_indxs[self.amounts[row_n]:self.amounts[row_n + 1]]:
-                    inx = self.col_indxs[self.amounts[row_n]:self.amounts[row_n + 1]].index(col_n) + self.amounts[row_n]
-                    out.items.append(self.items[inx])
+                    ix = self.col_indxs[self.amounts[row_n]:self.amounts[row_n + 1]].index(col_n) + self.amounts[row_n]
+                    out.items.append(self.items[ix])
                     out.amounts[-1] += 1
                     out.col_indxs.append(row_n)
         return out
