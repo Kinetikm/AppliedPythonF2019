@@ -94,9 +94,3 @@ class TaskManager:
                         if not self.tasks_queue.empty():
                             i = TaskProcessor(self.tasks_queue)
                             i.run()
-
-
-
-
-
-

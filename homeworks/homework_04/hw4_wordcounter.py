@@ -18,7 +18,7 @@ def word_counter(directory, file, dic):
 
 
 def word_count_inference(path_to_dir):
-    '''
+    """
     Метод, считающий количество слов в каждом файле из директории
     и суммарное количество слов.
     Слово - все, что угодно через пробел, пустая строка "" словом не считается,
@@ -27,7 +27,7 @@ def word_count_inference(path_to_dir):
     :param path_to_dir: путь до директории с файлами
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
-    '''
+    """
     d = {'total': 0}
     all_processes = Queue()
     all_files = os.listdir(path_to_dir)
@@ -38,4 +38,3 @@ def word_count_inference(path_to_dir):
     while not all_processes.empty():
         all_processes.get().join()
     return d
-
