@@ -21,13 +21,14 @@ class TaskProcessor:
     def __init__(self, tasks_queue, time_create):
         self.tasks_queue = tasks_queue
         self.time_create = time_create
+        self.job = None
 
     def run(self):
         while not self.tasks_queue.empty():
             target = self.tasks_queue.get()
-            job = Process(target=target.perform)
-            job.start()
-            job.join()
+            self.job = Process(target=target.perform)
+            self.job.start()
+            self.job.join()
 
 
 class TaskManager:
@@ -45,14 +46,14 @@ class TaskManager:
 
         while not self.tasks_queue.empty():
             for id, worker in enumerate(self.workers):
-                if not worker.is_alive():
-                    worker.terminate()
+                if not worker.job.is_alive():
+                    worker.job.terminate()
                     del worker[id]
                     self.workers[id] = TaskProcessor(self.tasks_queue, time())
                     self.workers[id].run()
 
                 if time() - worker.time_create > self.timeout:
-                    worker.terminate()
+                    worker.job.terminate()
                     del worker[id]
                     self.workers[id] = TaskProcessor(self.tasks_queue, time())
                     self.workers[id].run()
