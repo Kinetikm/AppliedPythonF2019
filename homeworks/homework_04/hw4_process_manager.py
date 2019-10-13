@@ -19,7 +19,7 @@ class Task:
         self.function = function
         self.args = args
         self.kwargs = kwargs
-    
+
     def perform(self):
         """
         Старт выполнения задачи
