@@ -33,12 +33,11 @@ class LRUCacheDecorator:
         self._ttl = ttl
 
     def delete_after_ttl(self, current_time):
-        cached_copy = copy.deepcopy(self._cached)
-        if self._ttl:
-            fargs = cached_copy.keys()
-            for farg in fargs:
-                if current_time - farg.acc_time > self._ttl:
-                    self._cached.pop(farg)
+        # cached_copy = copy.deepcopy(self._cached)
+        if self._ttl and len(self._cached.keys()) == self._maxsize:
+            least_used_farg = list(self._cached.keys())[0]
+            if current_time - least_used_farg.acc_time > self._ttl:
+                self._cached.pop(least_used_farg)
 
     def delete_least_used(self):
         if len(self._cached.keys()) == self._maxsize:
