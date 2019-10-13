@@ -88,13 +88,15 @@ class CSRMatrix(object):
                     out.col_indxs.append(self.col_indxs[self.amounts[i + 1] - row_len_s])
                     row_len_s -= 1
                     out.amounts[-1] += 1
+
                 if self.col_indxs[self.amounts[i + 1] - row_len_s] > other.col_indxs[other.amounts[i + 1] - row_len_o]:
                     out.items.append(other.items[other.amounts[i + 1] - row_len_o])
                     out.col_indxs.append(other.col_indxs[other.amounts[i + 1] - row_len_o])
                     row_len_o -= 1
                     out.amounts[-1] += 1
-                if self.col_indxs[self.amounts[i + 1] - row_len_s] == other.col_indxs[other.amounts[i + 1] - row_len_o]:
-                    if self.items[self.amounts[i + 1] - row_len_s] + other.items[other.amounts[i + 1] - row_len_o] != 0:
+                c = other.amounts[i + 1] - row_len_o
+                if self.col_indxs[self.amounts[i + 1] - row_len_s] == other.col_indxs[c]:
+                    if self.items[self.amounts[i + 1] - row_len_s] + other.items[c] != 0:
                         c = other.amounts[i + 1] - row_len_o
                         out.items.append(self.items[self.amounts[i + 1] - row_len_s] + other.items[c])
                         out.col_indxs.append(self.col_indxs[self.amounts[i + 1] - row_len_s])
@@ -113,7 +115,7 @@ class CSRMatrix(object):
                     row_len_o -= 1
                     out.amounts[-1] += 1
         out._nnz = len(out.items)
-        return out 
+        return out
 
     def __sub__(self, other):
         a = copy.deepcopy(other)
