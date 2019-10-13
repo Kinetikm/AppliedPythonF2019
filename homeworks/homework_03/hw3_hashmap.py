@@ -175,11 +175,11 @@ class HashMap:
         '''
         Увеличивает количество бакетов и перестраивать таблицу
         '''
-        items = [it for it in self.items()]
+        item_iterator = self.items()
         self._bucket_num *= self._COEFF
         num_elements_save = self._num_nodes
         self._table = [[] for _ in range(self._bucket_num)]
-        for key, value in items:
+        for key, value in item_iterator:
             self.put(key, value)
         self._num_nodes = num_elements_save
 
@@ -197,3 +197,4 @@ class HashMap:
         for elem in self._table[idx]:
             if item == elem.get_key():
                 return True
+        return False
