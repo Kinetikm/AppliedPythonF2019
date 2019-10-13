@@ -304,14 +304,3 @@ class CSRMatrix:
                 dense[i, self.ja[pointer]] = self.a[pointer]
                 pointer += 1
         return dense
-
-
-def get_next_elem(n, coordinate):
-    if len(coordinate) == n:
-        for i in range(len(coordinate) - 1, -1, -1):
-            coordinate[i] += 1
-            if coordinate[i] < 2:
-                return
-            coordinate[i] = 0
-    else:
-        raise ValueError
