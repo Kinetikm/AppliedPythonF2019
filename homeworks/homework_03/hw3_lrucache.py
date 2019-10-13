@@ -1,37 +1,34 @@
 from time import time
+from collections import OrderedDict
+import functools
 
 
 class LRUCacheDecorator:
     def __init__(self, maxsize, ttl):
         self.maxsize = maxsize
         self.ttl = ttl
-        self.cache = {}
-        self.time = {}
+        self.cache = OrderedDict()
 
     def __call__(self, func):
-        def func_sur(*args, **kwargs):
+        @functools.wraps(func) 
+        def wrapper(*args, **kwargs):
             key = (args, str(kwargs), str(kwargs.values()))
             if key in self.cache:
                 if self.ttl:
-                    if (time() - self.time[key]) * 1000 > self.ttl:
-                        self.cache.pop(key)
-                        self.time.pop(key)
+                    if (time() - self.cache[key][1]) * 1000 > self.ttl:
                         res = func(*args, **kwargs)
-                        self.cache[key] = res
-                        self.time[key] = time()
+                        self.cache[key] = [res, time()]
                         return res
-                self.time[key] = time()
-                return self.cache[key]
+                self.cache[key][1] = time()
+                return self.cache[key][0]
             else:
                 res = func(*args, **kwargs)
                 if len(self.cache) < self.maxsize:
-                    self.cache[key] = res
-                    self.time[key] = time()
+                    self.cache[key] = [res, time()]
+                    self.cache.move_to_end(key)
                 else:
-                    oldst = max(self.time, key=lambda x: time() - self.time[x])
-                    self.cache.pop(oldst)
-                    self.time.pop(oldst)
-                    self.cache[key] = res
-                    self.time[key] = time()
+                    self.cache.popitem()
+                    self.cache[key] = [res, time()]
+                    self.cache.move_to_end(key)
                 return res
-        return func_sur
+        return wrapper

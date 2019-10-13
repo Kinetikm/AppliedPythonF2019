@@ -36,12 +36,13 @@ class CSRMatrix(object):
         return self._nnz
 
     def __getitem__(self, index):
-        if (index[0] > len(self.amounts)) or (index[1] > max(self.col_indxs) + 1):
-            raise ValueError
-        for i in range(self.amounts[index[0]+1] - self.amounts[index[0]]):
-            if self.col_indxs[self.amounts[index[0]] + i] == index[1]:
-                return self.items[self.amounts[index[0]] + i]
-        return 0
+        try:
+            i = index[0]
+            j = index[1]
+            k = self.col_indxs[self.amounts[i]:self.amounts[i+1]].index(j) + self.amounts[i]
+            return self.items[k]
+        except ValueError:
+            return 0
 
     def __setitem__(self, key, value):
         if len(self.col_indxs) == 0:
