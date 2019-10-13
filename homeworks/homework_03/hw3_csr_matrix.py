@@ -72,7 +72,7 @@ class CSRMatrix(object):
         self._nnz = len(self.items)
 
     def __add__(self, other):
-        if (len(self.amounts) != len(other.amounts)) or (max(self.col_indxs) != max(other.col_indxs)):
+        if len(self.amounts) != len(other.amounts):
             raise ValueError
         ar = np.array([])
         out = CSRMatrix(ar)
@@ -80,52 +80,40 @@ class CSRMatrix(object):
         # другого
         for i in range(len(self.amounts) - 1):
             out.amounts.append(out.amounts[-1])
-            cur_row_len_s = self.amounts[i + 1] - self.amounts[i]
-            cur_row_len_o = other.amounts[i + 1] - other.amounts[i]
-            cur_pos_s = self.amounts[i]
-            cur_pos_o = other.amounts[i]
-
-            while cur_row_len_s + cur_row_len_o > 0:
-                if (cur_row_len_s > 0) and (cur_row_len_o > 0):
-                    if self.col_indxs[cur_pos_s] < other.col_indxs[cur_pos_o]:
-                        out.items.append(self.items[cur_pos_s])
-                        out.col_indxs.append(self.col_indxs[cur_pos_s])
-                        out.amounts[-1] += 1
-                        cur_pos_s += 1
-                        cur_row_len_s -= 1
-
-                    elif self.col_indxs[cur_pos_s] == other.col_indxs[cur_pos_o]:
-                        if self.items[cur_pos_s] + other.items[cur_pos_o] != 0:
-                            out.items.append(self.items[cur_pos_s] + other.items[cur_pos_o])
-                            out.col_indxs.append(self.col_indxs[cur_pos_s])
-                            out.amounts[-1] += 1
-                        cur_pos_s += 1
-                        cur_pos_o += 1
-                        cur_row_len_s -= 1
-                        cur_row_len_o -= 1
-
-                    elif self.col_indxs[cur_pos_s] > other.col_indxs[cur_pos_o]:
-                        out.items.append(other.items[cur_pos_o])
-                        out.col_indxs.append(other.col_indxs[cur_pos_o])
-                        out.amounts[-1] += 1
-                        cur_pos_o += 1
-                        cur_row_len_o -= 1
-
-                elif (cur_row_len_s > 0) and (cur_row_len_o == 0):
-                    out.items.append(self.items[cur_pos_s])
-                    out.col_indxs.append(self.col_indxs[cur_pos_s])
+            row_len_s = self.amounts[i + 1] - self.amounts[i]
+            row_len_o = other.amounts[i + 1] - other.amounts[i]
+            while (row_len_s > 0) and (row_len_o > 0):
+                if self.col_indxs[self.amounts[i + 1] - row_len_s] < other.col_indxs[other.amounts[i + 1] - row_len_o]:
+                    out.items.append(self.items[self.amounts[i + 1] - row_len_s])
+                    out.col_indxs.append(self.col_indxs[self.amounts[i + 1] - row_len_s])
+                    row_len_s -= 1
                     out.amounts[-1] += 1
-                    cur_pos_s += 1
-                    cur_row_len_s -= 1
-
-                elif (cur_row_len_s == 0) and (cur_row_len_o > 0):
-                    out.items.append(other.items[cur_pos_o])
-                    out.col_indxs.append(other.col_indxs[cur_pos_o])
+                if self.col_indxs[self.amounts[i + 1] - row_len_s] > other.col_indxs[other.amounts[i + 1] - row_len_o]:
+                    out.items.append(other.items[other.amounts[i + 1] - row_len_o])
+                    out.col_indxs.append(other.col_indxs[other.amounts[i + 1] - row_len_o])
+                    row_len_o -= 1
                     out.amounts[-1] += 1
-                    cur_pos_o += 1
-                    cur_row_len_o -= 1
+                if self.col_indxs[self.amounts[i + 1] - row_len_s] == other.col_indxs[other.amounts[i + 1] - row_len_o]:
+                    if self.items[self.amounts[i + 1] - row_len_s] + other.items[other.amounts[i + 1] - row_len_o] != 0:
+                        c = other.amounts[i + 1] - row_len_o
+                        out.items.append(self.items[self.amounts[i + 1] - row_len_s] + other.items[c])
+                        out.col_indxs.append(self.col_indxs[self.amounts[i + 1] - row_len_s])
+                        out.amounts[-1] += 1
+                    row_len_s -= 1
+                    row_len_o -= 1
+            while row_len_s > 0:
+                    out.items.append(self.items[self.amounts[i + 1] - row_len_s])
+                    out.col_indxs.append(self.col_indxs[self.amounts[i + 1] - row_len_s])
+                    row_len_s -= 1
+                    out.amounts[-1] += 1
+
+            while row_len_o > 0:
+                    out.items.append(other.items[other.amounts[i + 1] - row_len_o])
+                    out.col_indxs.append(other.col_indxs[other.amounts[i + 1] - row_len_o])
+                    row_len_o -= 1
+                    out.amounts[-1] += 1
         out._nnz = len(out.items)
-        return out
+        return out 
 
     def __sub__(self, other):
         a = copy.deepcopy(other)
