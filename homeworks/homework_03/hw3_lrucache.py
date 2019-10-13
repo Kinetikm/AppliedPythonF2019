@@ -2,6 +2,7 @@
 # coding: utf-8
 from time import time
 import functools
+from collections import OrderedDict 
 
 
 class LRUCacheDecorator:
@@ -17,8 +18,8 @@ class LRUCacheDecorator:
         self.maxsize = maxsize
         self.ttl = ttl
 
-        self.cached = {}
-        self.results_times = {}
+        self.cached = OrderedDict()
+        self.results_times = OrderedDict()
 
     def __call__(self, func):
         @functools.wraps(func)
@@ -43,9 +44,8 @@ class LRUCacheDecorator:
                     return self.cached[packet]
             else:
                 if len(self.cached) >= self.maxsize:
-                    del_key = list(self.results_times)[0]
-                    del self.results_times[del_key]
-                    del self.cached[del_key]
+                    self.results_times.popitem(last=False)
+                    self.cached.popitem(last=False)
 
                 result = func(*args, **kwargs)
                 self.cached[packet] = result
