@@ -19,7 +19,7 @@ class LRUCacheDecorator:
         if ttl is None:
             self.time = ttl
         else:
-            self.time = ttl / 100
+            self.time = ttl / 1000
         self.cache = dict()
         self.timeQueue = OrderedDict()  # для того, чтобы всё было в нужном порядке не теряя скорости
 
