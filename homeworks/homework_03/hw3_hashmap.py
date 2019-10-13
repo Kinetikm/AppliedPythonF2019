@@ -173,16 +173,13 @@ class HashMap:
         return hash_value % self._table_size
 
     def values(self):
-        val_it = self.ValueIterator(self)
-        return val_it
+        return self.ValueIterator(self)
 
     def keys(self):
-        key_it = self.KeyIterator(self)
-        return key_it
+        return self.KeyIterator(self)
 
     def items(self):
-        item_it = self.ItemIterator(self)
-        return item_it
+        return self.ItemIterator(self)
 
     def _resize(self):
         hash_items = self.items()
