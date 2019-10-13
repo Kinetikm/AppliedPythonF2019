@@ -48,6 +48,9 @@ class TaskManager:
         self.work = []
 
     def run(self):
+    """
+    Запускайте бычка! (с)
+    """
         for _ in range(self.n_workers):
             worker = TaskProcessor(self.tasks_queue)
             self.work.append(worker)
