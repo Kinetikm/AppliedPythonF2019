@@ -92,7 +92,7 @@ if __name__ == '__main__':
     q = Queue()
     n_workers_ = 4
     timeout_ = 6
-    tasks = 20
+    tasks = 25
 
     for j in range(tasks):
         q.put(Task(sqr, j))
