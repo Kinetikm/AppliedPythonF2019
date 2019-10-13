@@ -37,17 +37,16 @@ class TaskProcessor:
         """
         self._tasks_queue = tasks_queue
 
-    def run(self, result_queue):
+    def run(self):
         """
         Старт работы воркера
         """
-        while not self._tasks_queue.empty():
+        while True:
             try:
-                task = self._tasks_queue.get(block=False)
-            except Empty:
-                break
-            result = task.perform()
-            result_queue.put((task, result))
+                task = self._tasks_queue.get(block=True)  # ждем пока что нибудь появится в очереди
+            except EOFError:  # ловим terminate на процесс-родитель (task manager)
+                return
+            task.perform()
 
 
 class TaskManager:
@@ -69,13 +68,11 @@ class TaskManager:
         Запускайте бычка! (с)
         """
         active_workers_p = []
-        result_queue = Queue(self._queue.qsize())
-        while not self._queue.empty() or len(active_workers_p) != 0:
-            last = self._queue.qsize()
+        while True:
             available = self._workers_num - len(active_workers_p)
-            for worker in range(min(last, available)):
+            for worker in range(available):
                 processor = TaskProcessor(self._queue)
-                active_worker = Process(target=processor.run, args=(result_queue, ))
+                active_worker = Process(target=processor.run)
                 active_worker.start()
                 active_workers_p.append((active_worker, time()))
             new_active_workers_p = []
@@ -87,11 +84,6 @@ class TaskManager:
                         active_worker.terminate()
             active_workers_p = new_active_workers_p
             sleep(0.1)
-        work_result = {}
-        while not result_queue.empty():
-            key, value = result_queue.get_nowait()
-            work_result[key] = value
-        return work_result
 
 
 if __name__ == "__main__":
@@ -103,35 +95,28 @@ if __name__ == "__main__":
         print(f"Finish: {i}")
         return i, stime
 
-    # отваливаемся по timeout
     manager = Manager()
     queue = manager.Queue()
-    n = 3
+    task_manager = TaskManager(queue, 4, 2)
+    process = Process(target=task_manager.run)
+    process.start()
+    n = 2
     for it in range(n):
-        queue.put(Task(sleeper, i=it, stime=2))  # kwargs
-        queue.put(Task(sleeper, it + n, 2))      # args
+        queue.put(Task(sleeper, i=it, stime=4))  # kwargs
+        queue.put(Task(sleeper, it + n, 4))      # args
+    sleep(2)
+    assert queue.empty()
 
-    task_manager = TaskManager(queue, 4, 1)
-    res = task_manager.run()
-    assert len(res) == 0
-    print(res)
-
-    # не отваливаемся по timeout
     for it in range(n):
-        queue.put(Task(sleeper, i=it, stime=2))  # kwargs
-        queue.put(Task(sleeper, it + n, 2))      # args
-
-    task_manager = TaskManager(queue, 4, 4)
-    res = task_manager.run()
-    assert len(res) == n * 2
-    print(res)
+        queue.put(Task(sleeper, i=it, stime=1))  # kwargs
+        queue.put(Task(sleeper, it + n, 1))      # args
+    sleep(1)
+    assert queue.empty()
 
     # не отваливаемся по timeout но часть воркеров не успеваю дообработать таски
     for it in range(n):
-        queue.put(Task(sleeper, i=it, stime=2))  # kwargs
-        queue.put(Task(sleeper, it + n, 2))  # args
-
-    task_manager = TaskManager(queue, 4, 3)
-    res = task_manager.run()
-    print(res)
-    assert len(res) == 4
+        queue.put(Task(sleeper, i=it, stime=1))  # kwargs
+        queue.put(Task(sleeper, it + n, 2))      # args
+    sleep(2)
+    assert queue.empty()
+    process.terminate()
