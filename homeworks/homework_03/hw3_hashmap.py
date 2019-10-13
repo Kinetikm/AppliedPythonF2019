@@ -22,6 +22,7 @@ class HashMap:
 
         def __next__(self):
             while self._cursor < self.limit:
+                print(self._cursor, len(self.buckets))
                 entries = self.buckets[self._cursor]
 
                 if len(entries) > 1:
@@ -184,13 +185,12 @@ class HashMap:
         return item_it
 
     def _resize(self):
-        new_bucket_num = self._table_size * 2
-        new_hashmap = HashMap(new_bucket_num)
-        for key, value in self.items():
-            new_hashmap.put(key, value)
-        self._table_size = new_hashmap._table_size
-        self._buckets = new_hashmap._buckets
-        self._num_of_elements = new_hashmap._num_of_elements
+        hash_items = self.items()
+        self._table_size *= 2
+        self._buckets = [[] for _ in range(self._table_size)]
+        self._num_of_elements = 0
+        for key, value in hash_items:
+            self.put(key, value)
 
     def __str__(self):
         return 'buckets: {}, items: {}'.format(self._table_size, self._num_of_elements)
