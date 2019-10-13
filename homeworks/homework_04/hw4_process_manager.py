@@ -23,7 +23,7 @@ class Task:
         """
         Старт выполнения задачи
         """
-        raise NotImplementedError
+        self.func(self.args, self.kwargs)
 
 
 class TaskProcessor:
@@ -73,7 +73,7 @@ class TaskManager:
                 val.run()
             for worker, val in self.job:
                 val.join(timeout=self.timeout)
-                if not val.isAlive():
+                if not val.is_alive():
                     if not self.tasks_queue.empty():
                         self.job[worker] = TaskProcessor(self.tasks_queue)
                         self.job[worker].run()
