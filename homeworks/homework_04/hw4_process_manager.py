@@ -73,7 +73,7 @@ class TaskManager:
         """
         Запускайте бычка! (с)
         """
-        for i in range(len(self.n_workers)):
+        for i in range(self.n_workers):
             proc = Process(target=TaskProcessor(self.tasks_queue, self.timeout).run)
             proc.start()
             self.workers.append(proc)
