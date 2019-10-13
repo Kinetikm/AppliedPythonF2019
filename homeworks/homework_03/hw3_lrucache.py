@@ -3,18 +3,19 @@
 
 
 import time
-# from heapq import heappush, heappop
-from typing import Set, Any
-
+import collections
+import functools
 
 class LRUCacheDecorator:
-
+    
     class CacheEntity:
-        def __init__(self, function, arguments=(), ttl=None):
+        def __init__(self, function, arguments=(), kw_arguments=dict(), ttl=None):
             self.last_use_time = time.time()
+            # self.ttl = None if ttl is None else ttl / 1000
             self.ttl = ttl
             self.function = function
             self.arguments = arguments
+            self.kw_arguments = kw_arguments
             self.result = None
             self.recalc_result()
 
@@ -25,19 +26,17 @@ class LRUCacheDecorator:
 
         def get_result(self):
             if self.expired():
-                print("need recalc", self.ttl, self.last_use_time, time.time())
                 self.recalc_result()
             self.last_use_time = time.time()
             return self.result
 
         def recalc_result(self):
-            self.result = self.function(*self.arguments)
+            self.result = self.function(*self.arguments, **self.kw_arguments)
 
         def __eq__(self, other):
             return self.last_use_time == other.last_use_time
 
         def __lt__(self, other):
-            # print("other", other)
             return self.last_use_time < other.last_use_time
 
         def __repr__(self):
@@ -51,28 +50,23 @@ class LRUCacheDecorator:
         '''
         self.maxsize = maxsize
         self.ttl = ttl
-        self.funcs = dict()
+        self.calls = collections.OrderedDict()
 
     def __call__(self, func):
 
-        cached_calls = dict()  # todo use heap
-        self.funcs[func] = cached_calls
-
+        @functools.wraps(func)
         def cached_call(*args, **kwargs):
-            cached_calls = self.funcs[func]
+            cached_calls = self.calls
 
-            print("func call", time.time(), args)
-            print("cached calls:", cached_calls)
+            args_key = (args, frozenset(kwargs.items()))
 
-            if args in cached_calls:
-                print("cached")
-                return cached_calls[args].get_result()
+            if args_key in cached_calls:
+                cached_calls.move_to_end(args_key, last=True)
+                return cached_calls[args_key].get_result()
             else:
-                # print(cached_calls)
                 if len(cached_calls) >= self.maxsize:
-                    oldest_used = sorted(cached_calls.values())[0]
-                    del cached_calls[oldest_used.arguments]
-                ce = LRUCacheDecorator.CacheEntity(func, arguments=args, ttl=self.ttl)
-                cached_calls[args] = ce
+                    cached_calls.popitem(last=False)
+                ce = self.CacheEntity(func, arguments=args, kw_arguments=kwargs, ttl=self.ttl)
+                cached_calls[args_key] = ce
 
         return cached_call
