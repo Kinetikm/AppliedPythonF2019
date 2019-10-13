@@ -36,4 +36,3 @@ class LRUCacheDecorator:
                 self.cache[key][1] = time.time()
                 return self.cache[key][0]
         return wrapper
-
