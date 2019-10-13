@@ -1,41 +1,17 @@
 #!/usr/bin/env python
 # coding: utf-8
-import copy
+from copy import deepcopy
 import itertools as it
 import numpy as np
 
 
 class Tensor:
-    """
-    Your realisation of numpy tensor.
-
-    Must be implemented:
-    1. Getting and setting element by indexes of row and col.
-    a[i, j] = v -- set value in i-th row and j-th column to value.
-    b = a[i, j] -- get value from i-th row and j-th column.
-    2. Pointwise operations.
-    c = a + b -- sum of two Tensors of the same shape or sum with scalar.
-    c = a - b -- difference --//--.
-    c = a * b -- product --//--.
-    c = a / alpha -- divide Tensor a by nonzero scalar alpha.
-    c = a ** b -- raises each element of a to the power b.
-    3. Sum, mean, max, min, argmax, argmin by axis.
-    if axis is None then operation over all elements.
-    4. Transpose by given axes (by default reverse dimensions).
-    5. Swap two axes.
-    6. Matrix multiplication for tensors with dimension <= 2.
-    """
-
     def __init__(self, init_matrix_representation):
-        raise NotImplementedError
         self.mat = init_matrix_representation
         self._shape = self._calculate_shape()
-        """
-        :param init_matrix_representation: list of lists
-        """
 
     def _calculate_shape(self):
-        copy_arr = copy.deepcopy(self.mat)
+        copy_arr = deepcopy(self.mat)
         shape = [len(copy_arr)]
         while isinstance(copy_arr[0], list):
             length = len(copy_arr[0])
@@ -76,7 +52,7 @@ class Tensor:
         if isinstance(other, Tensor) and self._shape != other._shape:
             raise ValueError
 
-        result = copy.deepcopy(self)
+        result = deepcopy(self)
         index = [0] * (len(result._shape))
 
         for index in it.product(*[range(k) for k in self._shape]):
@@ -116,7 +92,7 @@ class Tensor:
         return self._make_operation('/', other)
 
     def __pow__(self, pow):
-        result = copy.deepcopy(self)
+        result = deepcopy(self)
         for _ in range(pow - 1):
             result = result._make_operation('*', self)
         return result
@@ -163,24 +139,185 @@ class Tensor:
 
         return s
 
-    def sum(self, axis):
+    def _begin_staistic(self, axis):
+        if len(self._shape) <= 2:
+            raise ValueError
+
+        arr = 0
+        for i in range(len(self._shape) - 1, -1, -1):
+            if i == axis:
+                continue
+            arr = [deepcopy(arr) for _ in range(self._shape[i])]
+
+        result = Tensor(arr)
+
+        return result
+
+    def sum(self, axis=None):
         if axis is None:
             result = 0
             for index in it.product(*[range(k) for k in self._shape]):
                 result += self[index]
             return result
 
-    def mean(self):
-        pass
+        result = self._begin_staistic(axis)
 
-    def min(self):
-        pass
+        for index in it.product(*[range(k) for k in result._shape]):
+            for i in range(self._shape[axis]):
+                index = list(index)
+                ind = index[0:axis] + [i] + index[axis:]
+                result[index] += self[ind]
 
-    def max(self):
-        pass
+        return result
 
-    def argmax(self):
-        pass
+    def mean(self, axis=None):
+        if axis is None:
+            result = 0
+            n = 0
+            for index in it.product(*[range(k) for k in self._shape]):
+                result += self[index]
+                n += 1
+            return result / n
 
-    def argmin(self):
-        pass
+        result = self._begin_staistic(axis)
+
+        for index in it.product(*[range(k) for k in result._shape]):
+            n = 0
+            for i in range(self._shape[axis]):
+                index = list(index)
+                ind = index[0:axis] + [i] + index[axis:]
+                result[index] += self[ind]
+                n += 1
+            result[index] /= n
+
+        return result
+
+    def min(self, axis=None):
+        if axis is None:
+            result = self[[0 for _ in range(len(self._shape))]]
+            for index in it.product(*[range(k) for k in self._shape]):
+                if result > self[index]:
+                    result = self[index]
+            return result
+
+        result = self._begin_staistic(axis)
+
+        for index in it.product(*[range(k) for k in result._shape]):
+            zero_ind = list(index[0:axis]) + [0] + list(index[axis:])
+            result[index] = self[zero_ind]
+            for i in range(1, self._shape[axis]):
+                index = list(index)
+                ind = index[0:axis] + [i] + index[axis:]
+                if self[ind] < result[index]:
+                    result[index] = self[ind]
+
+        return result
+
+    def max(self, axis=None):
+        if axis is None:
+            result = self[[0 for _ in range(len(self._shape))]]
+            for index in it.product(*[range(k) for k in self._shape]):
+                if result < self[index]:
+                    result = self[index]
+            return result
+
+        result = self._begin_staistic(axis)
+
+        for index in it.product(*[range(k) for k in result._shape]):
+            zero_ind = list(index[0:axis]) + [0] + list(index[axis:])
+            result[index] = self[zero_ind]
+            for i in range(1, self._shape[axis]):
+                index = list(index)
+                ind = index[0:axis] + [i] + index[axis:]
+                if self[ind] > result[index]:
+                    result[index] = self[ind]
+        return result
+
+    def argmax(self, axis=None):
+        if axis is None:
+            maximum = self[[0 for _ in range(len(self._shape))]]
+            n = 0
+            result = n
+            for index in it.product(*[range(k) for k in self._shape]):
+                if self[index] > maximum:
+                    maximum = self[index]
+                    result = n
+                n += 1
+            return result
+
+        result = self._begin_staistic(axis)
+
+        for index in it.product(*[range(k) for k in result._shape]):
+            zero_ind = list(index[0:axis]) + [0] + list(index[axis:])
+            maximum = self[zero_ind]
+            result[index] = 0
+            for i in range(1, self._shape[axis]):
+                index = list(index)
+                ind = index[0:axis] + [i] + index[axis:]
+                if self[ind] > maximum:
+                    result[index] = i
+                    maximum = self[ind]
+
+        return result
+
+    def argmin(self, axis=None):
+        if axis is None:
+            minimum = self[[0 for _ in range(len(self._shape))]]
+            n = 0
+            result = n
+            for index in it.product(*[range(k) for k in self._shape]):
+                if self[index] < minimum:
+                    minimum = self[index]
+                    result = n
+                n += 1
+            return result
+
+        result = self._begin_staistic(axis)
+
+        for index in it.product(*[range(k) for k in result._shape]):
+            zero_ind = list(index[0:axis]) + [0] + list(index[axis:])
+            minimum = self[zero_ind]
+            result[index] = 0
+            for i in range(1, self._shape[axis]):
+                index = list(index)
+                ind = index[0:axis] + [i] + index[axis:]
+                if self[ind] < minimum:
+                    result[index] = i
+                    minimum = self[ind]
+
+        return result
+
+    def transpose(self, *args):
+        if args:
+            axis = args
+        else:
+            axis = None
+
+        arr = 0
+
+        if axis is None:
+            for i in range(len(self._shape)):
+                arr = [deepcopy(arr) for _ in range(self._shape[i])]
+
+            result = Tensor(arr)
+
+            for index in it.product(*[range(k) for k in result._shape]):
+                result[index] = self[index[::-1]]
+
+        else:
+            for i in range(len(axis) - 1, -1, -1):
+                arr = [deepcopy(arr) for _ in range(self._shape[axis[i]])]
+
+            result = Tensor(arr)
+            for index in it.product(*[range(k) for k in self._shape]):
+                new_index = [index[i] for i in axis]
+                result[new_index] = self[index]
+
+        return result
+
+    def swapaxes(self, axis1, axis2):
+        new_shape = [i for i in range(len(self._shape))]
+
+        new_shape[axis1], new_shape[axis2] = new_shape[axis2], new_shape[axis1]
+
+        return self.transpose(*new_shape)
