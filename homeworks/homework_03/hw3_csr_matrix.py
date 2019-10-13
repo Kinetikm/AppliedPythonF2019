@@ -4,6 +4,7 @@
 import numpy as np
 import copy
 
+
 class CSRMatrix:
     """
     CSR (2D) matrix.
@@ -33,19 +34,13 @@ class CSRMatrix:
             where data, row_ind and col_ind satisfy the relationship:
             a[row_ind[k], col_ind[k]] = data[k]
         """
-        self._a: list
-        self._ia: list
-        self._ja: list
 
         self._a = []
         self._ia = []
         self._ja = []
 
         self._nnz = 0
-
         self.shape = None
-
-        # print("init_matrix_representation", init_matrix_representation)
 
         if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
             for i in range(1, 3):
@@ -60,8 +55,6 @@ class CSRMatrix:
                 j = init_matrix_representation[1][idx]
                 self[i, j] = data_el
         elif isinstance(init_matrix_representation, np.ndarray):
-            # print("init:", init_matrix_representation)
-            # print("size:", init_matrix_representation.shape)
             self._set_shape(*init_matrix_representation.shape)
 
             for i in range(init_matrix_representation.shape[0]):
@@ -73,13 +66,12 @@ class CSRMatrix:
         return
 
     def _set_shape(self, n, m):
-        self.shape = (n,m)
+        self.shape = (n, m)
         self._ia = [0] * (self.shape[0] + 1)
         return
 
     @property
     def nnz(self):
-        # print("setting nnz", len(self._a))
         return self._nnz
 
     @nnz.setter
@@ -106,7 +98,6 @@ class CSRMatrix:
         res_shape = (self.shape[0], other.shape[1])
         res = CSRMatrix(np.zeros(res_shape))
 
-        # print(self)
         for i in range(res_shape[0]):
             # ну, в принципе, можно было бы сделать проверки на то, что в данной строчке все значения нулевые,
             # но много профита это не даст, потмоу что в тестах все равно не такие уж разреженые
@@ -120,7 +111,6 @@ class CSRMatrix:
                         continue
                     res[i, j] += self[i, k] * other[k, j]
         return res
-
 
     def _base_operation(self, other, operation: callable):
         res = copy.deepcopy(self)
@@ -137,13 +127,13 @@ class CSRMatrix:
             res._a[i] = operation(self._a[i], other)
         return res
 
-    def _base_operation_with_any_type(self, other, operation:callable):
+    def _base_operation_with_any_type(self, other, operation: callable):
         if isinstance(other, CSRMatrix):
             return self._base_operation(other, operation)
         return self._base_operation_with_a(other, operation)
 
     def __add__(self, other):
-        res =  self._base_operation_with_any_type(other, np.add)
+        res = self._base_operation_with_any_type(other, np.add)
         return res
 
     def __sub__(self, other):
@@ -179,31 +169,22 @@ class CSRMatrix:
 
     def __setitem__(self, key, value):
         i, j = key
-        # print("\nsetting", key, value)
-        # print("current self[i, j]", self[i, j])
-        # print("filan nnz", len(self._a))
         if i > self.shape[0] - 1 or j > self.shape[1] - 1:
             raise KeyError
 
         if value == self[i, j]:
             return
 
-
         if self[i, j] != 0:
             idx = self._get_key_a_idx(i, j)
             if value != 0:
                 self._a[idx] = value
                 return
-            # print((i,j))
-            # print(self)
-            # print("deleting elemtny in index:", idx)
             self._a.pop(idx)
             self._ja.pop(idx)
             for ia_idx in range(i + 1, self.shape[0] + 1):
                 self._ia[ia_idx] -= 1
             self.nnz = self.nnz - 1
-            # print("deleted", self)
-            # print("filan nnz", self.nnz)
             return
 
         for ia_idx in range(i+1, self.shape[0]+1):
@@ -221,14 +202,9 @@ class CSRMatrix:
                 insert_val_idx = ja_idx
                 break
 
-        # print(self)
-        # print(f"insert_val_idx {insert_val_idx}")
         self._a.insert(insert_val_idx, value)
         self._ja.insert(insert_val_idx, j)
         self.nnz = self.nnz + 1
-
-        # print("filan nnz", len(self._a))
-        # print("result:", self[key])
         return
 
     def to_dense(self):
@@ -239,5 +215,4 @@ class CSRMatrix:
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):
                 res[i][j] = self[i, j]
-
         return res
