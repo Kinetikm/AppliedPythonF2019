@@ -28,6 +28,7 @@ class Task:
 
 
 class TaskProcessor:
+
     def __init__(self, tasks_queue):
         self.tasks_queue = tasks_queue
         self.time = 0
