@@ -37,6 +37,7 @@ class HashMap:
         """
         self.bucket_num = bucket_num
         self.vals = [None for i in range(bucket_num)]
+        self.leng = 0
 
     def get(self, key, default_value=None):
         # метод get, возвращающий значение,
@@ -54,21 +55,19 @@ class HashMap:
         index = self._get_index(self._get_hash(key))
         if self.vals[index] is None:
             self.vals[index] = [self.Entry(key, value)]
+            self.leng += 1
             return
 
         for i, entry in enumerate(self.vals[index]):
             if entry.get_key() == key:
                 self.vals[index][i] = self.Entry(key, value)
                 return
-        self.vals[index] = [self.Entry(key, value)] + self.vals[index]
+        self.leng += 1
+        self.vals[index].insert(0, self.Entry(key, value))
 
     def __len__(self):
         #  Возвращает количество Entry в массиве
-        leng = 0
-        for bucket in self.vals:
-            if bucket is not None:
-                leng += len(bucket)
-        return leng
+        return self.leng
 
     def _get_hash(self, key):
         # Вернуть хеш от ключа,
