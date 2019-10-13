@@ -3,6 +3,7 @@
 
 import time
 from functools import wraps
+from collections import OrderedDict
 
 
 class LRUCacheDecorator:
@@ -13,28 +14,37 @@ class LRUCacheDecorator:
         :param ttl: время в млсек, через которое кеш
                     должен исчезнуть
         '''
-        # TODO инициализация декоратора
+        # инициализация декоратора
         #  https://www.geeksforgeeks.org/class-as-decorator-in-python/
         self.maxsize = maxsize
         self.ttl = ttl
-        self.cashe = {}  # {hash: [result fuc(), time of call], ...}
+        self.cashe = OrderedDict()  # {hash: [result fuc(), time of call], ...}
 
     def __call__(self, *args, **kwargs):
-        # TODO вызов функции
+        # вызов функции
         func = args[0]
 
         @wraps(func)
         def inner(*args, **kwargs):
             h = hash(str(args) + str(kwargs))
-            if h in self.cashe:
-                if self.ttl is None or (time.time() - self.cashe[h][1]) * 1000 < self.ttl:
-                    self.cashe[h][1] = time.time()
-                    return self.cashe[h][0]
 
-            if len(self.cashe) == self.maxsize:
-                del[self.cashe[min(self.cashe, key=lambda x: self.cashe[x][1])]]
+            if h not in self.cashe:
+                res = func(*args, **kwargs)
+                if self.maxsize > len(self.cashe):  # если еще есть место
+                    self.cashe[h] = [res, time.time()]
+                else:  # если нет места, то удаляем самое старое значение (самое левое) и пишем новое
+                    self.cashe.popitem(last=False)
+                    self.cashe[h] = [res, time.time()]
 
-            res = func(*args, **kwargs)
-            self.cashe[h] = [res, time.time()]
+            elif self.ttl is not None and (time.time() - self.cashe[h][1]) * 1000 > self.ttl:
+                #  перезапишем значение, если последняя запись была давно
+                res = func(*args, **kwargs)
+                self.cashe[h] = [res, time.time()]
+                self.cashe.move_to_end(h)
+
+            else:
+                self.cashe.move_to_end(h)
+                return self.cashe[h][0]
+
             return res
         return inner
