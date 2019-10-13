@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
 import numpy as np
 
 
@@ -34,25 +33,34 @@ class CSRMatrix:
             where data, row_ind and col_ind satisfy the relationship:
             a[row_ind[k], col_ind[k]] = data[k]
         """
-        self._A = None
-        self._IA = None
-        self._JA = None
+        self._a = None
+        self._ia = None
+        self._ja = None
 
-        raise NotImplementedError
+        self.shape = None
 
-        # if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
-        #     for idx, data_el in enumerate(init_matrix_representation[2]):
-        #         i = init_matrix_representation[idx]
-        #         j = init_matrix_representation[idx]
-        #         self[i, j] = data_el
-        # elif isinstance(init_matrix_representation, np.ndarray):
-        #     # print("init:", init_matrix_representation)
-        #     # print("size:", init_matrix_representation.shape)
-        #     for i in range(init_matrix_representation.shape[0]):
-        #         for j in range(init_matrix_representation.shape[1]):
-        #             self[i, j] = init_matrix_representation[2][i, j]
-        # else:
-        #     raise ValueError
+        print("init_matrix_representation", init_matrix_representation)
+
+        if isinstance(init_matrix_representation, tuple) and len(init_matrix_representation) == 3:
+            for i in range(1, 3):
+                assert len(init_matrix_representation[0]) == len(init_matrix_representation[i])
+
+            self.shape = (max(init_matrix_representation[0])+1, max(init_matrix_representation[1])+1)
+
+            for idx, data_el in enumerate(init_matrix_representation[2]):
+                if data_el == 0:
+                    continue
+                i = init_matrix_representation[0][idx]
+                j = init_matrix_representation[1][idx]
+                self[i, j] = data_el
+        elif isinstance(init_matrix_representation, np.ndarray):
+            print("init:", init_matrix_representation)
+            print("size:", init_matrix_representation.shape)
+            for i in range(init_matrix_representation.shape[0]):
+                for j in range(init_matrix_representation.shape[1]):
+                    self[i, j] = init_matrix_representation[2][i, j]
+        else:
+            raise ValueError
 
         return
 
@@ -71,6 +79,14 @@ class CSRMatrix:
 
     def __setitem__(self, key, value):
         print("assigment:", key, value)
+        if key[0] > self.shape[0] - 1 or key[1] > self.shape[1]:
+            raise KeyError
+        if value == 0 and self[key] == 0:
+            return
+
+        
+
+
         return
 
     def to_dense(self):
