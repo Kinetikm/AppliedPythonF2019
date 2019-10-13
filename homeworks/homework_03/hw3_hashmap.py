@@ -3,17 +3,17 @@
 
 
 class HashMap:
-    """
+    '''
     Давайте сделаем все объектненько,
      поэтому внутри хешмапы у нас будет Entry
-    """
+    '''
     class Entry:
         def __init__(self, key, value):
-            """
+            '''
             Сущность, которая хранит пары ключ-значение
             :param key: ключ
             :param value: значение
-            """
+            '''
             self.key = key
             self.value = value
 
@@ -27,21 +27,21 @@ class HashMap:
             return self.key == other.key
 
     def __init__(self, bucket_num=64):
-        """
+        '''
         Реализуем метод цепочек
         :param bucket_num: число бакетов при инициализации
-        """
+        '''
         self.length = bucket_num
         self._bucket = [None for _ in range(self.length)]
-        self.capacity = 0
         self.threshold = 0.75
+        self.capacity = 0
 
     def get(self, key, default_value=None):
         index = self._get_index(self._get_hash(key))
         if self._bucket[index] is not None:
             for var in self._bucket[index]:
-                if var.get_key() == key:
-                    return var.get_value()
+                if var.key == key:
+                    return var.value
         return default_value
 
     def put(self, key, value):
@@ -71,23 +71,23 @@ class HashMap:
         return hash_value % self.length
 
     def values(self):
-        res = []
+        vls = []
         for item in self.items():
-            res.append(item[1])
-        return res
+            vls.append(item[1])
+        return vls
 
     def keys(self):
-        res = []
+        ks = []
         for item in self.items():
-            res.append(item[1])
-        return res
+            ks.append(item[0])
+        return ks
 
     def items(self):
         res = []
-        for el in self._bucket:
-            if el:
-                for s in el:
-                    res.append((s.get_key(), s.get_value()))
+        for bucket in self._bucket:
+            if bucket:
+                for var in bucket:
+                    res.append((var.key, var.value))
         return res
 
     def _resize(self):
