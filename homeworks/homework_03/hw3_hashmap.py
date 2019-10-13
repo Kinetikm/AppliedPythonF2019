@@ -74,21 +74,20 @@ class HashMap:
         return ((item.get_key(), item.get_value()) for item in chain(*(ch for ch in self.__table)))
 
     def _resize(self):
-        new_bucket_num = self.__bucket_num + 32
+        new_bucket_num = self.__bucket_num * 2
         new_table = [[] for _ in range(new_bucket_num)]
         for item in chain(*(ch for ch in self.__table)):
-            print(item)
             index = hash(item.get_key()) % new_bucket_num
             new_table[index].append(item)
         self.__bucket_num = new_bucket_num
-        del self.__table
         self.__table = new_table
 
     def __str__(self):
         print(f"buckets: {self.__bucket_num}, items: {self.__items}")
 
     def __contains__(self, item):
-        for element in self.keys():
-            if element == item:
+        index = self._get_index(self._get_hash(item))
+        for element in self.__table[index]:
+            if element.get_key() == item:
                 return True
         return False
