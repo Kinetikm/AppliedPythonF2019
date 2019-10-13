@@ -18,8 +18,7 @@ def word_count_inference(path_to_dir):
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
     '''
-    manager = Manager()
-    files_queue = manager.Queue()
+    files_queue = Manager().Queue()
     result = {"total": 0}
     files = os.listdir(path=path_to_dir)
     for filename in files:
@@ -27,8 +26,8 @@ def word_count_inference(path_to_dir):
     n_proc = 4
 
     processes = deque()
-    res_que = manager.Queue()
-    while not files_queue.empty() > 0:
+    res_que = Manager().Queue()
+    while not files_queue.empty():
         if n_proc > files_queue.qsize():
             n_proc = files_queue.qsize()
         for _ in range(n_proc):
@@ -43,7 +42,6 @@ def word_count_inference(path_to_dir):
         couple = res_que.get()
         result[couple[0]] = couple[1]
         result['total'] += couple[1]
-    print(result)
     return result
 
 
@@ -57,6 +55,3 @@ def read_file(filename, path_to_dir, res_que):
                 text = line.split(' ')
                 word_num += len(text)
         res_que.put([filename, word_num])
-
-if __name__ == '__main__':
-    word_count_inference("homeworks/homework_04/test_data")
