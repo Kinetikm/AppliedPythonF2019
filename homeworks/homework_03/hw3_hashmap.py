@@ -63,7 +63,7 @@ class HashMap:
                 self.vals[index][i] = self.Entry(key, value)
                 return
         self.leng += 1
-        self.vals[index].insert(0, self.Entry(key, value))
+        self.vals[index].append(self.Entry(key, value))
 
     def __len__(self):
         #  Возвращает количество Entry в массиве
