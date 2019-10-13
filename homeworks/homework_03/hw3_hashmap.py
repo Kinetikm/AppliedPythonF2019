@@ -127,11 +127,16 @@ class HashMap:
 
     def _resize(self):
         #  Время от времени нужно ресайзить нашу хешмапу
-        new_size = self.size * self.INCREASE
-        new_map = HashMap(new_size)
-        for key, value in self.items():
-            new_map.put(key, value)
-        self.__dict__.update(new_map.__dict__)
+        self.size *= self.INCREASE
+        old_elem_num = self.elem_num
+        self.elem_num = 0
+        self.keys_list = []
+        old_data = self.hash_map
+        self.hash_map = [[] for _ in range(self.size)]
+        for bucket in old_data:
+            for entry in bucket:
+                self.put(entry.get_key(), entry.get_value())
+        self.elem_num = old_elem_num
 
     def __str__(self):
         #  Метод выводит "buckets: {}, items: {}"
