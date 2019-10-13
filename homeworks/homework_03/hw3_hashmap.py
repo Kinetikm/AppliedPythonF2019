@@ -23,6 +23,7 @@ class HashMap:
 
     def __init__(self, bucket_num=64):
         self.bucket_num = bucket_num
+        self.fill_buckets = 0
         self.map = [[] for i in range(self.bucket_num)]
 
     def get(self, key, default_value=None):
@@ -35,13 +36,17 @@ class HashMap:
     def put(self, key, value):
         idx = self._get_index(self._get_hash(key))
         put_entry = self.Entry(key, value)
+        flag = True
         for i, entry in enumerate(self.map[idx]):
             if entry == put_entry:
                 self.map[idx].pop(i)
+                flag = False
                 break
+        if flag:
+            self.fill_buckets += 1
         self.map[idx].append(put_entry)
         control_num = self.bucket_num*self.fill_factor
-        if len([lst for lst in self.map if lst]) > control_num:
+        if self.fill_buckets > control_num:
             self._resize()
 
     def __len__(self):
@@ -73,4 +78,8 @@ class HashMap:
         return 'buckets: {}, items: {}'.format(self.bucket_num, len(self))
 
     def __contains__(self, key):
-        return key in self.keys()
+        idx = self._get_index(self._get_hash(key))
+        for entry in self.map[idx]:
+            if entry.get_key() == key:
+                return True
+        return False
