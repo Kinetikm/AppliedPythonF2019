@@ -69,7 +69,7 @@ class TaskManager:
         """
         while not self.tasks_queue.empty():
             for worker, val in self.job:
-                val.append(TaskProcessor(self.tasks_queue))
+                val = TaskProcessor(self.tasks_queue)
                 val.run()
             for worker, val in self.job:
                 val.join(timeout=self.timeout)
