@@ -5,6 +5,16 @@ from multiprocessing import Process, Manager
 import os
 
 
+def count_file_words(filename, dirname, output):
+    word_counter = 0
+    with open("{}/{}".format(dirname, filename)) as file:
+        for line in file:
+            word_counter += len(line.split())
+        file.close()
+    output[filename] = word_counter
+    output["total"] += word_counter
+
+
 def word_count_inference(path_to_dir):
     '''
     Метод, считающий количество слов в каждом файле из директории
@@ -16,4 +26,16 @@ def word_count_inference(path_to_dir):
     :return: словарь, где ключ - имя файла, значение - число слов +
         специальный ключ "total" для суммы слов во всех файлах
     '''
-    raise NotImplementedError
+    output = Manager().dict()
+    procs = []
+    output["total"] = 0
+    queue = Manager().Queue()
+    for file in os.listdir(path_to_dir):
+        queue.put(file)
+    while not queue.empty():
+        proc = Process(target=count_file_words, args=(queue.get(), path_to_dir, output))
+        procs.append(proc)
+        proc.start()
+    for proc in procs:
+        proc.join()
+    return output
