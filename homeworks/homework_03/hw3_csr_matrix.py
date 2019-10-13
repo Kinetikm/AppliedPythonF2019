@@ -151,11 +151,15 @@ class CSRMatrix:
 
     def __setitem__(self, key, value):
         i, j = key
-        # print("setting", value)
+        # print("\nsetting", key, value)
+        # print("current self[i, j]", self[i, j])
+        # print("filan nnz", len(self._a))
         if i > self.shape[0] - 1 or j > self.shape[1] - 1:
             raise KeyError
-        if value == 0 and self[i, j] == 0:
+
+        if value == self[i, j]:
             return
+
 
         if self[i, j] != 0:
             idx = self._get_key_a_idx(i, j)
@@ -171,6 +175,7 @@ class CSRMatrix:
                 self._ia[ia_idx] -= 1
             self.nnz = self.nnz - 1
             # print("deleted", self)
+            # print("filan nnz", self.nnz)
             return
 
         for ia_idx in range(i+1, self.shape[0]+1):
@@ -179,19 +184,23 @@ class CSRMatrix:
         ja_start_range = self._ia[i]
         ja_stop_range = self._ia[i + 1]
 
-        insert_val_idx = ja_stop_range
+        insert_val_idx = ja_start_range
         for ja_idx in range(ja_start_range, ja_stop_range):
             if ja_idx >= len(self._ja):
                 insert_val_idx = ja_idx
                 break
-            if self._ja[ja_idx] < j:
+            if self._ja[ja_idx] > j:
                 insert_val_idx = ja_idx
                 break
 
+        # print(self)
+        # print(f"insert_val_idx {insert_val_idx}")
         self._a.insert(insert_val_idx, value)
         self._ja.insert(insert_val_idx, j)
         self.nnz = self.nnz + 1
 
+        # print("filan nnz", len(self._a))
+        # print("result:", self[key])
         return
 
     def to_dense(self):
