@@ -79,7 +79,7 @@ class CSRMatrix:
 
     @property
     def nnz(self):
-        print("setting nnz", len(self._a))
+        # print("setting nnz", len(self._a))
         return self._nnz
 
     @nnz.setter
@@ -93,22 +93,41 @@ class CSRMatrix:
     def __matmul__(self, other):
         pass
 
-    def _base_operation(self, other, operation: callable(float, float)):
+    def _base_operation(self, other, operation: callable):
         res = copy.deepcopy(self)
+        if self.shape != other.shape:
+            raise ValueError()
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):
                 res[i, j] = operation(self[i, j], other[i, j])
-        return  res
+        return res
+
+    def _base_operation_with_a(self, other, operation: callable):
+        res = copy.deepcopy(self)
+        for i in range(len(self._a)):
+            res._a[i] = operation(self._a[i], other)
+        return res
+
+    def _base_operation_with_any_type(self, other, operation:callable):
+        if isinstance(other, CSRMatrix):
+            return self._base_operation(other, operation)
+        return self._base_operation_with_a(other, operation)
 
     def __add__(self, other):
-        return self._base_operation(other, lambda x, y: x + y)
+        res =  self._base_operation_with_any_type(other, np.add)
+        return res
 
     def __sub__(self, other):
-        return self._base_operation(other, lambda x, y: x - y)
-
+        return self._base_operation_with_any_type(other, np.subtract)
 
     def __mul__(self, other):
-        return self._base_operation(other, lambda x, y: x * y)
+        return self._base_operation_with_any_type(other, np.multiply)
+
+    def __rmul__(self, other):
+        return self * other
+
+    def __truediv__(self, other):
+        return self._base_operation_with_any_type(other, np.divide)
 
     def __getitem__(self, key):
         idx = self._get_key_a_idx(*key)
@@ -132,8 +151,8 @@ class CSRMatrix:
 
     def __setitem__(self, key, value):
         i, j = key
-
-        if i > self.shape[0] - 1 or j > self.shape[1]:
+        # print("setting", value)
+        if i > self.shape[0] - 1 or j > self.shape[1] - 1:
             raise KeyError
         if value == 0 and self[i, j] == 0:
             return
@@ -143,15 +162,16 @@ class CSRMatrix:
             if value != 0:
                 self._a[idx] = value
                 return
-            # in case vlue = 0 we should delete it from _a
-            print("len a", len(self._a))
+            print((i,j))
+            print(self)
+            # print("deleting elemtny in index:", idx)
             self._a.pop(idx)
             self._ja.pop(idx)
             for ia_idx in range(i + 1, self.shape[0] + 1):
                 self._ia[ia_idx] -= 1
             self.nnz = self.nnz - 1
-
-
+            # print("deleted", self)
+            return
 
         for ia_idx in range(i+1, self.shape[0]+1):
             self._ia[ia_idx] += 1
@@ -165,7 +185,6 @@ class CSRMatrix:
                 insert_val_idx = ja_idx
                 break
 
-        # print(f"insert_val_idx {insert_val_idx}")
         self._a.insert(insert_val_idx, value)
         self._ja.insert(insert_val_idx, j)
 
