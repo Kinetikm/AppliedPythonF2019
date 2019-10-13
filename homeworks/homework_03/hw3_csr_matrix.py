@@ -93,11 +93,10 @@ class CSRMatrix:
 
     def __setitem__(self, key, value):
         rn, cn = key
-        rn += 1
 
         if value != 0:
             num_items = self.IA[rn]
-            for i in range(rn, len(self.IA)):
+            for i in range(rn+1, len(self.IA)):
                 self.IA[i] += 1
 
             self.A = self.A[:num_items] + [value] + self.A[num_items:]

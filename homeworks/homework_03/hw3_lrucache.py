@@ -25,11 +25,13 @@ class LRUCacheDecorator:
             if cache_key not in self.cache or self.ttl and time() - self.cache_time[cache_key] > self.ttl:
                 res = func(*args, **kwargs)
                 self.cache[cache_key] = res
-                self.cache_time[cache_key] = time()
             else:
-                self.cache_time[cache_key] = time()
                 res = self.cache[cache_key]
 
+            if cache_key in self.cache_time:
+                del self.cache_time[cache_key]  # Хотим, чтобы обновлённый объект был в конце dict-a
+
+            self.cache_time[cache_key] = time()
             self._update_cache_if_maxsize()
 
             return res
@@ -44,7 +46,7 @@ class LRUCacheDecorator:
 
     @staticmethod
     def _get_oldest_key(dict_with_time_in_value: dict):
-        return min(dict_with_time_in_value, key=dict_with_time_in_value.get)
+        return iter(dict_with_time_in_value.keys()).__next__()
 
     @staticmethod
     def _get_hash(args, kwargs):
