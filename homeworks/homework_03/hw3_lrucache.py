@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 from time import time
+from functools import wraps
 
 
 class LRUCacheDecorator:
@@ -15,7 +16,7 @@ class LRUCacheDecorator:
         self.record_time = dict()
 
     def __call__(self, func):
-
+        @wraps(func)
         def wrapper(*args, **kwargs):
             cur_time = time()
 
@@ -37,7 +38,7 @@ class LRUCacheDecorator:
 
                     return self.cache[packet]
             else:
-                while len(self.cache) >= self.maxsize:
+                if len(self.cache) == self.maxsize:
                     key_packet = min(self.record_time, key=lambda unit: self.record_time[unit])
 
                     del self.record_time[key_packet]
