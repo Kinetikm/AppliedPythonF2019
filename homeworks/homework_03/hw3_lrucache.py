@@ -2,7 +2,7 @@
 # coding: utf-8
 from time import time
 import functools
-from collections import OrderedDict 
+from collections import OrderedDict
 
 
 class LRUCacheDecorator:
