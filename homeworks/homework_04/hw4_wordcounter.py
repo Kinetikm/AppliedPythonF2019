@@ -43,6 +43,8 @@ def word_count_inference(path_to_dir):
         proc.get()
 
     queue.put('kill')
-
+    pool.close()
+    pool.join()
     res = dict(sum_of_all_proc.get())
+
     return res

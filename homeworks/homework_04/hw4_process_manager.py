@@ -6,12 +6,13 @@ from time import time, sleep
 
 
 class Task:
-    def __init__(self, func, *args):
+    def __init__(self, func, *args, **kwargs):
         self.func = func
         self.args = args
+        self.kwargs = kwargs
 
     def perform(self):
-        self.func(*self.args)
+        self.func(*self.args, **self.kwargs)
 
 
 class TaskProcessor:
@@ -73,4 +74,5 @@ if __name__ == '__main__':
         queue.put(Task(t_func, i, i))
     manager = TaskManager(queue, n_workers_, timeout)
     manager.run()
+    queue.close()
 # 0,1,3 got result; 4,5,6,7,9 finished cause of timeout
