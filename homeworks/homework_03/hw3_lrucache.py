@@ -44,8 +44,8 @@ class LRUCacheDecorator:
                     return self.cached[packet]
             else:
                 if len(self.cached) >= self.maxsize:
-                    self.results_times.popitem(last=False)
-                    self.cached.popitem(last=False)
+                    self.results_times.popitem()  # c last=False не проходит тесты
+                    self.cached.popitem()
 
                 result = func(*args, **kwargs)
                 self.cached[packet] = result
