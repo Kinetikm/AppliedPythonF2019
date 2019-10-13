@@ -27,6 +27,7 @@ class Task:
         self.func(*self.args, **self.kwargs)
         print("Finished with task")
 
+
 class TaskProcessor:
     """
     Воркер-процесс. Достает из очереди тасок таску и делает ее
@@ -52,6 +53,7 @@ class TaskProcessor:
             self.process.join(timeout=self.timeout)
             self.process.terminate()
 
+
 class TaskManager:
     """
     Мастер-процесс, который управляет воркерами
@@ -76,7 +78,7 @@ class TaskManager:
             proc.start()
             self.workers.append(proc)
 
-        while True not self.tasks_queue.empty():
+        while True:
             if self.tasks_queue.empty():
                 break
             for i in range(len(self.workers)):
