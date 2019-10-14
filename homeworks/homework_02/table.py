@@ -1,7 +1,7 @@
 import sys
-import homeworks.homework_02.table_modules.text_reformer as text_reformer
-import homeworks.homework_02.table_modules.opener as opener
-import homeworks.homework_02.table_modules.printer as printer
+import text_reformer as text_reformer
+import opener as opener
+import printer as printer
 
 
 if __name__ == '__main__':

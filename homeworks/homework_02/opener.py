@@ -1,6 +1,6 @@
 import json
 
-import homeworks.homework_02.table_modules.format_check as format_check
+import format_check as format_check
 
 
 def opener(filename):
