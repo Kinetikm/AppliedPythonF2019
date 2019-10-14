@@ -9,7 +9,7 @@ def checker(filename):
 
     for enc in encoding:
         try:
-            open(filename, encoding=enc).read()
+            file = open(filename, 'r', encoding=enc)
         except (UnicodeDecodeError, LookupError, UnicodeError):
             pass
         except FileNotFoundError:
@@ -18,5 +18,7 @@ def checker(filename):
         else:
             correct_encoding = enc
             break
+        finally:
+            file.close()
 
     return correct_encoding
