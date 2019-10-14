@@ -3,7 +3,6 @@ import homeworks.homework_02.table_modules.text_reformer as text_reformer
 import homeworks.homework_02.table_modules.opener as opener
 import homeworks.homework_02.table_modules.printer as printer
 
-# Ваши импорты
 
 if __name__ == '__main__':
     filename = sys.argv[1]
