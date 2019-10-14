@@ -11,7 +11,7 @@ def checker(filename):
         try:
             open(filename, encoding=enc).read()
         except (UnicodeDecodeError, LookupError, UnicodeError):
-            return None
+            pass
         except FileNotFoundError:
             assert "Файл не валиден"
             return None

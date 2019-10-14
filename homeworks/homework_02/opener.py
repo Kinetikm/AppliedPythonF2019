@@ -13,6 +13,9 @@ def opener(filename):
         try:
             # применяю такой странный подход, так как при нормальном открывании через load почему-то ломается.
             data_file = json.loads(my_file.read())
+            """            #Видимо нужно проверять на то, чтобы были все заголовки в табличке
+            if "Оценка" in data_file[0]:
+                return data_file, "json" """
             return data_file, "json"
 
         except json.decoder.JSONDecodeError:
