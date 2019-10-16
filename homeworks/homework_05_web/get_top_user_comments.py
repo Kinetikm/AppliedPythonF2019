@@ -32,6 +32,7 @@ def pars_comments(data):
             users_comments[user_login] = 1
     return users_comments
 
+
 def process_link(link):
     page = get_data(link)
     data = pars_comments(page)
@@ -40,11 +41,11 @@ def process_link(link):
 
 def write_csv(file_name, rows):
     """sort and write rows in csv file in format link,username,number_of_comments"""
-    rows.sort(key=lambda x: x[2], reverse=True) # Сортируем по количеству коментариев
-    rows.sort(key=lambda x: x[0]) # и по ссылкам (у ссылок приоретет выше). Сортировка стабильна, поэтому это работет
+    rows.sort(key=lambda x: x[2], reverse=True)  # Сортируем по количеству коментариев
+    rows.sort(key=lambda x: x[0])  # и по ссылкам (у ссылок приоретет выше). Сортировка стабильна, поэтому это работет
     with open(file_name, 'w') as file:
         writer = csv.writer(file)
-        writer.writerow(('link','username','count_comment'))
+        writer.writerow(('link', 'username', 'count_comment'))
         for row in rows:
             writer.writerow(row)
 
