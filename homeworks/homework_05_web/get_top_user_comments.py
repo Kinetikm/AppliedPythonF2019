@@ -10,8 +10,11 @@ def get_data(link):
     :param link: url
     :return: html text
     """
-    resp = requests.get(link)
-    return resp.text
+    try:
+        resp = requests.get(link)
+        return resp.text
+    except requests.exceptions.ConnectionError:
+        print("Cannot open link {link}".format(link=link))
 
 
 def pars_comments(data):
@@ -35,8 +38,11 @@ def pars_comments(data):
 
 def process_link(link):
     page = get_data(link)
-    data = pars_comments(page)
-    return [(link, key, value) for key, value in data.items()]
+    if page:
+        data = pars_comments(page)
+        return [(link, key, value) for key, value in data.items()]
+    else:
+        return None
 
 
 def write_csv(file_name, rows):
@@ -53,7 +59,9 @@ def write_csv(file_name, rows):
 def main(file_name, urls):
     data = []
     for link in urls:
-        data += process_link(link)
+        comments = process_link(link)
+        if comments is not None:
+            data += comments
     write_csv(file_name, data)
 
 
