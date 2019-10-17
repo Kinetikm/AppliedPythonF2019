@@ -9,7 +9,7 @@ def request(link):
         req = requests.get(link)
         return req.text
     except requests.exceptions.RequestException:
-        print(f'Невозможно получить данные из {link}')
+        return
 
 
 def parse(text):
@@ -54,7 +54,8 @@ def main(filename, links):
     all_rows = []
     for link in links:
         rows = make_rows(link)
-        all_rows.extend(rows)
+        if rows:
+            all_rows.extend(rows)
     write_csv(filename, sort_rows(all_rows))
 
 
