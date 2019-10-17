@@ -12,6 +12,7 @@ def request(link):
         return
 
 
+# =)
 def parse(text):
     users_comms = {}
     soup = BeautifulSoup(text, 'html.parser')
