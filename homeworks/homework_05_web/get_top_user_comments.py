@@ -2,18 +2,22 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 import csv
+import aiohttp
+import asyncio
 
 
-def get_data(link):
+async def get_data(link):
     """
     send get request to get data
     :param link: url
     :return: html text
     """
     try:
-        resp = requests.get(link)
-        return resp.text
-    except requests.exceptions.ConnectionError:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(link) as resp:
+                result = await resp.text()
+                return link, result
+    except aiohttp.client_exceptions.ClientConnectorError:
         print("Cannot open link {link}".format(link=link))
 
 
@@ -36,13 +40,9 @@ def pars_comments(data):
     return users_comments
 
 
-def process_link(link):
-    page = get_data(link)
-    if page:
-        data = pars_comments(page)
-        return [(link, key, value) for key, value in data.items()]
-    else:
-        return None
+def process_page(page, link):
+    data = pars_comments(page)
+    return [(link, key, value) for key, value in data.items()]
 
 
 def write_csv(file_name, rows):
@@ -57,11 +57,13 @@ def write_csv(file_name, rows):
 
 
 def main(file_name, urls):
+    loop = asyncio.get_event_loop()
+    pages = loop.run_until_complete(asyncio.gather(*(get_data(link) for link in urls)))
+    loop.close()
+    pages = [i for i in pages if i is not None]
     data = []
-    for link in urls:
-        comments = process_link(link)
-        if comments is not None:
-            data += comments
+    for link, page in pages:
+        data += process_page(page, link)
     write_csv(file_name, data)
 
 
