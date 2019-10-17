@@ -14,7 +14,8 @@ async def fetch(session, url):
         async with session.get(url) as response:
             return (await response.text(), url)
     except aiohttp.client_exceptions.ClientConnectorError:
-        pass #но можно и грязно поругаться
+        pass
+        # но можно и грязно поругаться
 
 async def fetch_all(urls):
     tasks = []
