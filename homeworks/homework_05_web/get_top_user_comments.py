@@ -37,8 +37,9 @@ if __name__ == '__main__':
         )
     )
 
-    with open(filename, mode='a') as file:
+    with open(filename, mode='w') as file:
         file_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        file_writer.writerow(['link', 'username', 'count_comment'])
         for link, commentator in sorted(statistic.items(), key=lambda x: x[0], reverse=True):
             for username, count_comment in commentator:
                 file_writer.writerow([link, username, count_comment])
