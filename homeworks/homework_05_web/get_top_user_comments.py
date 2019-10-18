@@ -15,7 +15,8 @@ async def request(session, link):
 
 async def fetch_all(links):
     tasks = []
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False)) as session:  # Коннектор чтобы
+        # отключить проверку SSL-сертификата, т.к. https запросы
         for link in links:
             tasks.append(asyncio.ensure_future(request(session, link)))
         return await asyncio.gather(*tasks)
