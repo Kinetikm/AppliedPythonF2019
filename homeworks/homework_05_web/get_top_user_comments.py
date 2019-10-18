@@ -37,11 +37,11 @@ def parse(text):
     return users_comms
 
 
-async def write_csv(filename, rows):
+def write_csv(filename, rows):
     with open(filename, 'w') as f:
         writer = csv.writer(f, delimiter=',')
         writer.writerow(['link', 'username', 'count_comment'])
-        writer.writerows(rows)
+        writer.writerows(sort_rows(rows))
 
 
 def make_rows(link, html):
@@ -58,18 +58,18 @@ def sort_rows(rows):
 
 
 def main(filename, links):
-    all_rows = []
     loop = asyncio.get_event_loop()
     pages = asyncio.ensure_future(fetch_all(links))
     loop.run_until_complete(pages)
     loop.close()
+    all_rows = []
     for inx in range(len(pages.result())):
         if pages.result()[inx] is not None:
             link = pages.result()[inx][0]
             html = pages.result()[inx][1]
             if html:
                 all_rows.extend(make_rows(link, html))
-    write_csv(filename, sort_rows(all_rows))
+    write_csv(filename, all_rows)
 
 
 if __name__ == '__main__':
