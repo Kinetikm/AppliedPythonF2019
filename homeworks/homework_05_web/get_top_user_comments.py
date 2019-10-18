@@ -26,7 +26,7 @@ async def main(stat, link):
             stat[link] = sorted(local_stat.items(), key=lambda x: x[1], reverse=True)
 
 if __name__ == '__main__':
-    filename = 'top_user_comments.csv'
+    filename = '/tmp/test_top_user_comments.csv'
     links = sys.argv[1:4]
     statistic = {}
 
