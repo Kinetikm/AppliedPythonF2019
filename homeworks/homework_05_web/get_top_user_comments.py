@@ -15,7 +15,7 @@ async def get_url(urls, url, session):
 
 async def fetch_all(urls):
     async with aiohttp.ClientSession() as session:
-        results = await asyncio.gather(*[asyncio.create_task(get_url(urls, url, session)) for url in urls])
+        results = await asyncio.gather(*[asyncio.ensure_future(get_url(urls, url, session)) for url in urls])
     return results
 
 
