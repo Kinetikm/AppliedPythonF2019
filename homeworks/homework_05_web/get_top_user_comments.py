@@ -28,15 +28,16 @@ def pars_comments(data):
     :return: {user: number_of_comments}
     """
     soup = BeautifulSoup(data, 'lxml')
-    comments_heads = soup.find_all('div', class_="comment__head ")
+    comments = soup.find_all('div', class_="comment")
     users_comments = {}
-    for comment in comments_heads:
+    for comment in comments:
         user_info = comment.find('a', class_="user-info user-info_inline")
-        user_login = user_info['data-user-login']
-        if user_login in users_comments:
-            users_comments[user_login] += 1
-        else:
-            users_comments[user_login] = 1
+        if user_info is not None:
+            user_login = user_info['data-user-login']
+            if user_login in users_comments:
+                users_comments[user_login] += 1
+            else:
+                users_comments[user_login] = 1
     return users_comments
 
 
