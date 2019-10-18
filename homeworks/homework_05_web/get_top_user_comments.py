@@ -1,18 +1,26 @@
 import sys
-import requests
 import csv
 from bs4 import BeautifulSoup
+import aiohttp
+import asyncio
 
 
-def request(link):
+async def request(session, link):
     try:
-        req = requests.get(link)
-        return req.text
-    except requests.exceptions.RequestException:
-        return
+        async with session.get(link) as response:
+            return link, await response.text()
+    except aiohttp.ClientConnectionError:
+        print(f'Conn error {link}')
 
 
-# =)
+async def fetch_all(links):
+    tasks = []
+    async with aiohttp.ClientSession() as session:
+        for link in links:
+            tasks.append(asyncio.ensure_future(request(session, link)))
+        return await asyncio.gather(*tasks)
+
+
 def parse(text):
     users_comms = {}
     soup = BeautifulSoup(text, 'html.parser')
@@ -29,21 +37,19 @@ def parse(text):
     return users_comms
 
 
-def write_csv(filename, rows):
+async def write_csv(filename, rows):
     with open(filename, 'w') as f:
         writer = csv.writer(f, delimiter=',')
         writer.writerow(['link', 'username', 'count_comment'])
         writer.writerows(rows)
 
 
-def make_rows(link):
+def make_rows(link, html):
     rows = []
-    html = request(link)
-    if html:
-        users_comms = parse(html)
-        for key, value in users_comms.items():
-            rows.append((link, key, value))
-        return rows
+    users_comms = parse(html)
+    for key, value in users_comms.items():
+        rows.append((link, key, value))
+    return rows
 
 
 def sort_rows(rows):
@@ -53,10 +59,16 @@ def sort_rows(rows):
 
 def main(filename, links):
     all_rows = []
-    for link in links:
-        rows = make_rows(link)
-        if rows:
-            all_rows.extend(rows)
+    loop = asyncio.get_event_loop()
+    pages = asyncio.ensure_future(fetch_all(links))
+    loop.run_until_complete(pages)
+    loop.close()
+    for inx in range(len(pages.result())):
+        if pages.result()[inx] is not None:
+            link = pages.result()[inx][0]
+            html = pages.result()[inx][1]
+            if html:
+                all_rows.extend(make_rows(link, html))
     write_csv(filename, sort_rows(all_rows))
 
 
