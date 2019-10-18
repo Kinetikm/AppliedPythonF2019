@@ -8,7 +8,10 @@ from multiprocessing import Process, Manager
 
 def count_comments(link, users_dict):
     users = {}
-    response = requests.get(link)
+    try:
+        response = requests.get(link)
+    except requests.exceptions.ConnectionError:
+        return
     soup = BeautifulSoup(response.text, "html.parser")
 
     comments = soup.find_all("div", attrs={"class": ["comment"]})
@@ -35,10 +38,11 @@ def main(filename, links):
     for proc in procs:
         proc.join()
     with open(filename, 'w') as f:
+        f.write('link,username,count_comment\n')
         while len(users_dict) != 0:
             first = min(users_dict.keys())
-            for item in reversed(sorted(users_dict[first].items(), key = lambda x: x[1])):
-                f.write(str(first) + ', ' + str(item[0]) + ', ' + str(item[1])+ '\n')
+            for item in sorted(users_dict[first].items(), key=lambda x: x[1], reverse=True):
+                f.write(str(first) + ',' + str(item[0]) + ',' + str(item[1]) + '\n')
             del users_dict[first]
 
 if __name__ == '__main__':
