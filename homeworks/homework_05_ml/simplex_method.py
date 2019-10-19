@@ -34,9 +34,9 @@ def simplex_method(a, b, c):
             if i ==j:
                 sim_tab[i][n+j] = 1
     for i in range(m+1):
-        a[i][n+m+1] = b[i][0]
+        a[i][n+m+1] = b[i]
     for j in range(n):
-        a[m][j] = (-1)*c[0][j]
+        a[m][j] = (-1)*c[j]
     lst = ['0' for i in range(m)]
     while is_negative(sim_tab, n):
         #  Найдем индекс столбца, в последней строке которого хранится
