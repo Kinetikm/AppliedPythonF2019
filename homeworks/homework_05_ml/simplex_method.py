@@ -37,7 +37,8 @@ def simplex_method(a, b, c):
         sim_tab[i][-1] = b[i]
     for j in range(m):
         sim_tab[-1][j] = c[j]*(-1)
-    lst = ['0' for i in range(n)]
+    #  lst = ['0' for i in range(n)]
+    dct = {}
     while is_negative(sim_tab, m):
         #  Найдем индекс столбца, в последней строке которого хранится
         #  наибольший отрицательный элемент
@@ -47,16 +48,19 @@ def simplex_method(a, b, c):
         piv_row = smallest_quotient(sim_tab, piv_col)
         row = [sim_tab[i][:] for i in range(n+1)]
         row[piv_row] = row[piv_row] / row[piv_row][piv_col]
-        lst[piv_row] = piv_col
+        #  lst[piv_row] = piv_col
+        dct[piv_row] = piv_col
         for i in range(n+1):
             if i != piv_row:
                 row[i] = row[i] - row[piv_row]*row[i][piv_col]
         for i in range(n+1):
             sim_tab[i][:] = row[i]
-    for ind in range(n):
-        if lst[ind] != '0':
-            k = lst[ind]
-            result[k] = sim_tab[ind][-1]
+    for key, value in dct.items():
+        result[value] = sim_tab[key][value]
+    #  for ind in range(n):
+        #  if lst[ind] != '0':
+        #    k = lst[ind]
+        #   result[k] = sim_tab[ind][-1]
     return result
 
 
