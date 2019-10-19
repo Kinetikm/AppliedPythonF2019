@@ -55,7 +55,7 @@ def simplex_method(a, b, c):
             sim_tab[i][:] = row[i]
     for ind in range(len(lst)):
         if lst[ind] != '0':
-            result[ind] = sim_tab[ind][-1]
+            result[lst[ind]] = sim_tab[ind][-1]
     return result
 
 
