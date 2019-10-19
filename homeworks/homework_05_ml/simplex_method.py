@@ -25,8 +25,7 @@ def simplex_method(a, b, c):
     #  где кол-во строк это кол-во неравенств n + строка c взятая с противоположным знаком,
     #  а кол-во столбцов это кол-во переменных m + кол-во строк n + 2 столбца
     sim_tab = np.zeros((n+1, m+n+2))
-    result = [0 for i in range(m)]  # небольшой костыль в виде преобразования это листа в np.array в конце
-    # т.к. иначе постоянно вылетал IndexError
+    result = [0 for i in range(m)]
     for i in range(n):
         for j in range(m):
             sim_tab[i][j] = a[i][j]
@@ -38,33 +37,21 @@ def simplex_method(a, b, c):
         sim_tab[i][-1] = b[i]
     for j in range(m):
         sim_tab[-1][j] = c[j]*(-1)
-    #  lst = ['0' for i in range(n)]
     dct = {}
     while is_negative(sim_tab, m):
         #  Найдем индекс столбца, в последней строке которого хранится
         #  наибольший отрицательный элемент
-        print(sim_tab)
         piv_col = most_negative(sim_tab, m)
         #  Найдем индекс строки, где результат деления последнего столбца на
         #  элемент с индексом piv_col минимален
         piv_row = smallest_quotient(sim_tab, piv_col)
-        #  lst[piv_row] = piv_col
         dct[piv_row] = piv_col
         sim_tab[piv_row][:] = sim_tab[piv_row] / sim_tab[piv_row][piv_col]
         for i in range(n+1):
             if i != piv_row:
                 sim_tab[i][:] = sim_tab[i][:] - sim_tab[piv_row][:]*sim_tab[i][piv_col]
-    print(sim_tab)
-    print(dct)
-    try:
-        for key, value in dct.items():  # key это индекс строки последний элемент которой я вляется решением
-            result[value] = sim_tab[key][-1]
-    except IndexError:
-        print('Что-то пошло не так, произошел выход за пределы матрицы')
-    #  for ind in range(n):
-        #  if lst[ind] != '0':
-        #    k = lst[ind]
-        #   result[k] = sim_tab[ind][-1]
+    for key, value in dct.items():
+        result[value] = sim_tab[key][-1]
     return np.array(result)
 
 
