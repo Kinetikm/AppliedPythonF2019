@@ -34,9 +34,9 @@ def simplex_method(a, b, c):
             if i == j:
                 sim_tab[i][m+j] = 1
     for i in range(n):
-        sim_tab[i][n+m+1] = b[i]
+        sim_tab[i][-1] = b[i]
     for j in range(m):
-        sim_tab[n][j] = c[j]*(-1)
+        sim_tab[-1][j] = c[j]*(-1)
     lst = ['0' for i in range(m)]
     while is_negative(sim_tab, m):
         #  Найдем индекс столбца, в последней строке которого хранится
@@ -67,13 +67,13 @@ def is_negative(sim_tab, n):
         return False
 
 
-def most_negative(sim_tab, n):
+def most_negative(sim_tab, m):
     p = 1
     ind = -1
-    for i in range(n):
-        if sim_tab[n][i] < p:
+    for i in range(m):
+        if sim_tab[-1][i] < p:
             ind = i
-            p = sim_tab[n][i]
+            p = sim_tab[-1][i]
     return ind
 
 
