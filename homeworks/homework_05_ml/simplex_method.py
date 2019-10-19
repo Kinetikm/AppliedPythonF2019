@@ -45,9 +45,9 @@ def simplex_method(a, b, c):
         #  Найдем индекс строки, где результат деления последнего столбца на
         #  элемент с индексом piv_col минимален
         piv_row = smallest_quotient(sim_tab, piv_col)
-        row = [sim_tab[i][:] for i in range(m+1)]
+        row = [sim_tab[i][:] for i in range(n+1)]
         row[piv_row] = row / row[piv_row][piv_col]
-        lst[piv_row] = pivet_col
+        lst[piv_row] = piv_col
         for i in range(m+1):
             if i != piv_row:
                 row[i] -= row[piv_row]*row[i][piv_col]
