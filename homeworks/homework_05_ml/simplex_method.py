@@ -20,23 +20,23 @@ def simplex_method(a, b, c):
     :param c: np.array, shape=(1, n)
     :return x: np.array, shape=(1, n)
     """
-    m, n = a.shape
+    n, m = a.shape
     #  Создадим симплекс-таблицу,
     #  где кол-во строк это кол-во неравенств m + строка c взятая с противоположным знаком,
     #  а кол-во столбцов это кол-во переменных n + кол-во строк m + 2 столбца
     sim_tab = np.zeros((m+1, m+n+2))
     result = np.zeros((1, n))
-    for i in range(a.shape[0]):
-        for j in range(a.shape[1]):
+    for i in range(n):
+        for j in range(m):
             sim_tab[i][j] = a[i][j]
     for i in range(m+1):
         for j in range(m+1):
             if i == j:
                 sim_tab[i][n+j] = 1
     for i in range(m):
-        a[i][n+m+1] = b[i]
+        sim_tab[i][n+m+1] = b[i]
     for j in range(n):
-        a[m][j] = (-1)*c[j]
+        sim_tab[m][j] = (-1)*c[j]
     lst = ['0' for i in range(m)]
     while is_negative(sim_tab, n):
         #  Найдем индекс столбца, в последней строке которого хранится
