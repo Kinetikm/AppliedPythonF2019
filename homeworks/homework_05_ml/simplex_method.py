@@ -53,9 +53,10 @@ def simplex_method(a, b, c):
                 row[i] = row[i] - row[piv_row]*row[i][piv_col]
         for i in range(n+1):
             sim_tab[i][:] = row[i]
-    for ind in range(len(lst)):
+    for ind in range(n):
         if lst[ind] != '0':
-            result[lst[ind]] = sim_tab[ind][-1]
+            k = lst[ind]
+            result[k] = sim_tab[ind][-1]
     return result
 
 
