@@ -15,12 +15,12 @@ def simplex_method(a, b, c):
 
     a * x.T <= b
     c * x.T -> max
-    :param a: np.array, shape=(m, n)
-    :param b: np.array, shape=(m, 1)
-    :param c: np.array, shape=(1, n)
-    :return x: np.array, shape=(1, n)
+    :param a: np.array, shape=(n, m)
+    :param b: np.array, shape=(n, 1)
+    :param c: np.array, shape=(1, m)
+    :return x: np.array, shape=(1, m)
     """
-    n, m = a.shape
+    m, n = a.shape
     #  Создадим симплекс-таблицу,
     #  где кол-во строк это кол-во неравенств m + строка c взятая с противоположным знаком,
     #  а кол-во столбцов это кол-во переменных n + кол-во строк m + 2 столбца
@@ -61,7 +61,7 @@ def simplex_method(a, b, c):
 
 def is_negative(sim_tab, n):
     for i in range(n):
-        if sim_tab.shape[0][i] < 0:
+        if sim_tab[-1][i] < 0:
             return True
     else:
         return False
