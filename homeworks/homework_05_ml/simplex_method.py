@@ -24,24 +24,24 @@ def simplex_method(a, b, c):
     #  Создадим симплекс-таблицу,
     #  где кол-во строк это кол-во неравенств n + строка c взятая с противоположным знаком,
     #  а кол-во столбцов это кол-во переменных m + кол-во строк n + 2 столбца
-    sim_tab = np.zeros((m+1, m+n+2))
-    result = np.zeros((1, n))
+    sim_tab = np.zeros((n+1, m+n+2))
+    result = np.zeros((1, m))
     for i in range(n):
         for j in range(m):
             sim_tab[i][j] = a[i][j]
-    for i in range(m+1):
-        for j in range(m+1):
+    for i in range(n+1):
+        for j in range(n+1):
             if i == j:
-                sim_tab[i][n+j] = 1
-    for i in range(m):
+                sim_tab[i][m+j] = 1
+    for i in range(n):
         sim_tab[i][n+m+1] = b[i]
-    for j in range(n):
-        sim_tab[m][j] = (-1)*c[j]
+    for j in range(m):
+        sim_tab[n][j] = c[j]*(-1)
     lst = ['0' for i in range(m)]
-    while is_negative(sim_tab, n):
+    while is_negative(sim_tab, m):
         #  Найдем индекс столбца, в последней строке которого хранится
         #  наибольший отрицательный элемент
-        piv_col = most_negative(sim_tab, n)
+        piv_col = most_negative(sim_tab, m)
         #  Найдем индекс строки, где результат деления последнего столбца на
         #  элемент с индексом piv_col минимален
         piv_row = smallest_quotient(sim_tab, piv_col)
