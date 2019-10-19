@@ -24,8 +24,8 @@ def simplex_method(a, b, c):
     #  Создадим симплекс-таблицу,
     #  где кол-во строк это кол-во неравенств m + строка c взятая с противоположным знаком,
     #  а кол-во столбцов это кол-во переменных n + кол-во строк m + 2 столбца
-    sim_tab = np.zeroes(m+1, m+n+2)
-    result = np.zeroes(1, n)
+    sim_tab = np.zeros((m+1, m+n+2))
+    result = np.zeros((1, n))
     for i in range(a.shape[0]):
         for j in range(a.shape[1]):
             sim_tab[i][j] = a[i][j]
