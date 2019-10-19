@@ -30,8 +30,9 @@ def simplex_method(a, b, c):
         for j in range(a.shape[1]):
             sim_tab[i][j] = a[i][j]
     for i in range(m+1):
-        for j in range(n, n+m+1):
-            sim_tab[i][n+j] = 1
+        for j in range(m+1):
+            if i ==j:
+                sim_tab[i][n+j] = 1
     for i in range(m+1):
         a[i][n+m+1] = b[i][0]
     for j in range(n):
