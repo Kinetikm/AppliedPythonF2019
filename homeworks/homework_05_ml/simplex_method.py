@@ -51,7 +51,7 @@ def simplex_method(a, b, c):
         for i in range(n+1):
             if i != piv_row:
                 row[i] = row[i] - row[piv_row]*row[i][piv_col]
-        for i in range(m+1):
+        for i in range(n+1):
             sim_tab[i][:] = row[i]
     for i in lst:
         if lst[i] != '0':
@@ -59,8 +59,8 @@ def simplex_method(a, b, c):
     return result
 
 
-def is_negative(sim_tab, n):
-    for i in range(n):
+def is_negative(sim_tab, m):
+    for i in range(m):
         if sim_tab[-1][i] < 0:
             return True
     else:
