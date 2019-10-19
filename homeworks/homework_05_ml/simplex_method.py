@@ -81,7 +81,7 @@ def smallest_quotient(sim_tab, piv_col):
     p = np.sum(sim_tab[:-1][-1])*100
     ind = -1
     for i in range(sim_tab.shape[0]-1):
-        k = sim_tab[i][sim_tab.shape[1]]/sim_tab[i][piv_col]
+        k = sim_tab[i][sim_tab.shape[1]-1]/sim_tab[i][piv_col]
         if k < p:
             ind = i
             p = k
