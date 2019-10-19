@@ -31,9 +31,9 @@ def simplex_method(a, b, c):
             sim_tab[i][j] = a[i][j]
     for i in range(m+1):
         for j in range(m+1):
-            if i ==j:
+            if i == j:
                 sim_tab[i][n+j] = 1
-    for i in range(m+1):
+    for i in range(m):
         a[i][n+m+1] = b[i]
     for j in range(n):
         a[m][j] = (-1)*c[j]
