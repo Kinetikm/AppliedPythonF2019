@@ -38,8 +38,9 @@ def write_csv(data, filename):
 def main(links, filename):
     lines = [['link', 'username', 'count_comment']]
     loop = asyncio.get_event_loop()
+    future = asyncio.ensure_future(main_coro(links))
     for link in links:
-        for text in loop.run_until_complete(main_coro(links)):
+        for text in loop.run_until_complete(future):
             for username, count_comment in parse_html(text):
                 lines.append([link, username, count_comment])
     write_csv(lines)
