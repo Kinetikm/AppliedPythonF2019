@@ -14,7 +14,7 @@ async def fetch(session, url):
 
 
 async def fetch_all(urls):
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
         return await asyncio.gather(*[asyncio.ensure_future(fetch(session, url)) for url in urls])
 
 
