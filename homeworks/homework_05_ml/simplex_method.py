@@ -23,7 +23,6 @@ def smplx_iteration(matrix, pivot_col, var_list):
         if (dr > 0) and (dr < min_div):
             min_div = dr
             pivot_row = i
-    print(pivot_row, pivot_col)
     var_list[pivot_row] = pivot_col
     matrix[pivot_row, ] = matrix[pivot_row, ] / matrix[pivot_row, pivot_col]
     for i in range(matrix.shape[0]):
@@ -33,9 +32,9 @@ def smplx_iteration(matrix, pivot_col, var_list):
 
 
 def simplex_method(a, b, c):
-    nb = np.zeros((len(b),1))
+    nb = np.zeros((len(b), 1))
     for i in range(len(b)):
-        nb[i,0] = b[i]
+        nb[i, 0] = b[i]
 #  create simplex matrix
     smplx_matr = np.array(a)
     smplx_matr = np.concatenate((smplx_matr, np.eye(a.shape[0])), axis=1)
@@ -56,8 +55,6 @@ def simplex_method(a, b, c):
         smplx_matr = cur_res[0]
         var_list = cur_res[1]
         minimum = min_search(smplx_matr[smplx_matr.shape[0] - 1])
-        print(smplx_matr)
-        print(var_list)
     res = [0] * a.shape[1]
     for i in range(len(var_list)):
         if var_list[i] < a.shape[1]:
