@@ -31,14 +31,17 @@ def main(filename, links):
     tasks = loop.run_until_complete(asyncio.gather(*(get_text(link) for link in links)))
     loop.close()
     for i in range(len(tasks)):
-        soup = BeautifulSoup(tasks[i][0], "html.parser")
-        comments = soup.find_all("div", class_="comment")
-        usernames = []
-        for item in comments:
-            user = item.find("a", class_="user-info user-info_inline")
-            if user is not None:
-                usernames.append(user["data-user-login"])
-        write_to_file(filename, tasks[i][1], Counter(usernames))
+        try:
+            soup = BeautifulSoup(tasks[i][0], "html.parser")
+            comments = soup.find_all("div", class_="comment")
+            usernames = []
+            for item in comments:
+                user = item.find("a", class_="user-info user-info_inline")
+                if user is not None:
+                    usernames.append(user["data-user-login"])
+            write_to_file(filename, tasks[i][1], Counter(usernames))
+        except TypeError:
+            pass
 
 
 if __name__ == '__main__':
