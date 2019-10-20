@@ -33,7 +33,7 @@ async def get_count_comment(link, lines):
     async with aiohttp.ClientSession() as session:
         async with session.get(link) as resp:
             count = await parse_http(await resp.text())
-            lines += [ (link, row[0], row[1]) for row in count.items()]
+            lines += [(link, row[0], row[1]) for row in count.items()]
 
 
 def main(filename, links):
@@ -41,7 +41,7 @@ def main(filename, links):
     lines_for_writing, tasks = [], []
 
     for link in links:
-        tasks.append(ioloop.create_task(get_count_comment(link ,lines_for_writing)))
+        tasks.append(ioloop.create_task(get_count_comment(link, lines_for_writing)))
 
     ioloop.run_until_complete(asyncio.wait(tasks))
     ioloop.close()
