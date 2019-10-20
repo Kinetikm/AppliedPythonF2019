@@ -1,8 +1,8 @@
+import asyncio
+import csv
 import sys
 from bs4 import BeautifulSoup
-import asyncio
 import aiohttp
-import csv
 
 
 async def fetch(session, url):
