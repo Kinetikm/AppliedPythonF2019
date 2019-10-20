@@ -13,7 +13,6 @@ async def fetch(session, url):
         print('Connection error {}'.format(url))
 
 
-
 async def fetch_all(urls):
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
         return await asyncio.gather(*[asyncio.ensure_future(fetch(session, url)) for url in urls])
