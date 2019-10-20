@@ -8,6 +8,20 @@ from collections import Counter
 from bs4 import BeautifulSoup
 
 
+def r_run(aw):
+    if sys.version_info >= (3, 7):
+        return asyncio.run(aw)
+
+    # Emulate asyncio.run() on older versions
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        return loop.run_until_complete(aw)
+    finally:
+        loop.close()
+        asyncio.set_event_loop(None)
+
+
 async def get_html(link):
     async with aiohttp.ClientSession() as session:
         async with session.get(link) as response:
@@ -36,12 +50,10 @@ def write_csv(data, filename):
 
 def main(links, filename):
     lines = [['link', 'username', 'count_comment']]
-    loop = asyncio.get_event_loop()
-    for link, text in loop.run_until_complete(main_coro(links)):
+    for link, text in r_run(main_coro(links)):
         for username, count_comment in parse_html(text):
             lines.append([link, username, count_comment])
     write_csv(lines)
-    loop.close()
 
 
 if __name__ == '__main__':
