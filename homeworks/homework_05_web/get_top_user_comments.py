@@ -9,8 +9,8 @@ async def fetch(session, url):
     try:
         async with session.get(url) as response:
             return await response.text()
-    except aiohttp.ClientConnectionError:
-        return
+    except aiohttp.client_exceptions.ClientConnectorError:
+        pass
 
 
 async def fetch_all(urls):
