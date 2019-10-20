@@ -7,12 +7,7 @@ import asyncio
 
 # Ваши импорты
 
-async def get_html(link):
-    """
-    send get request to get data
-    :param link: url
-    :return: html text
-    """
+async def get_data(link):
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get(link) as resp:
@@ -39,7 +34,7 @@ def write_csv(data, filename):
 def main(urls, filename):
     lines = [['link', 'username', 'count_comment']]
     loop = asyncio.get_event_loop()
-    pages = loop.run_until_complete(asyncio.gather(*(get_html(link) for link in urls)))
+    pages = loop.run_until_complete(asyncio.gather(*(get_data(link) for link in urls)))
     loop.close()
     p = [i for i in p if i is not None]
     for link in urls:
