@@ -4,25 +4,30 @@ from bs4 import BeautifulSoup
 from multiprocessing import Manager, Pool
 import csv
 
+
 def get_resp(link):
     try:
         resp = requests.get(link)
         return resp
     except requests.exceptions.ConnectionError:
-         print("Cant open link {}".format(link))
+        print("Cant open link {}".format(link))
+
 
 def user_comments(link, link_dict):
     users_dict = {}
     resp = get_resp(link)
+    if resp == None:
+    	return
     soup = BeautifulSoup(resp.text, "html.parser")
-    comments = soup.find_all("a",class_="user-info user-info_inline")
+    comments = soup.find_all("a", class_="user-info user-info_inline")
     for comment in comments:
         user = comment.attrs["data-user-login"]
         if user in users_dict:
             users_dict[user] += 1
         else:
             users_dict[user] = 1
-    link_dict[link] = sorted(users_dict.items(), key=lambda k: k[1], reverse=True)        
+    link_dict[link] = sorted(users_dict.items(), key=lambda k: k[1], reverse=True)
+
 
 def main(filename, links):
     proc_num = 3
@@ -31,7 +36,7 @@ def main(filename, links):
     link_dict = Manager().dict()
 
     for link in links:
-        proc = pool.apply_async(user_comments, (link,link_dict,))
+        proc = pool.apply_async(user_comments, (link, link_dict,))
         procs.append(proc)
     for proc in procs:
         proc.get()
