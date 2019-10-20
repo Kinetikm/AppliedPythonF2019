@@ -53,6 +53,6 @@ def main(filename, links):
 
 
 if __name__ == '__main__':
-    links = ['/']
+    links = sys.argv[1:4]
     filename = 'top_user_comments.csv'
     main(filename, links)
