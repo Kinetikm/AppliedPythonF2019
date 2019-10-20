@@ -7,7 +7,7 @@ import asyncio
 
 # Ваши импорты
 
-async def get_data(link):
+async def get_html(link):
     """
     send get request to get data
     :param link: url
@@ -21,59 +21,35 @@ async def get_data(link):
     except aiohttp.client_exceptions.ClientConnectorError:
         print("Cannot open link {link}".format(link=link))
 
-def main(filename, links):
-    # Ваш код
-    raise NotImplementedError
 
-def pars_comments(data):
-    """
-    html page parsing
-    :param data: html text
-    :return: {user: number_of_comments}
-    """
-    soup = BeautifulSoup(data, 'lxml')
-    comments = soup.find_all('div', class_="comment")
-    users_comments = {}
-    for comment in comments:
-        user_info = comment.find('a', class_="user-info user-info_inline")
-        if user_info is not None:
-            user_login = user_info['data-user-login']
-            if user_login in users_comments:
-                users_comments[user_login] += 1
-            else:
-                users_comments[user_login] = 1
-    return users_comments
+def parse_html(text):
+    html = BeautifulSoup(text, 'html.parser')
+    return Counter((
+        span.getText()
+        for span in html.findAll('span', attrs={'class': 'user-info__nickname_comment'})
+    )).most_common()
 
 
-def process_page(page, link):
-    data = pars_comments(page)
-    return [(link, key, value) for key, value in data.items()]
+def write_csv(data, filename):
+    with open(filename, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerows(data)
 
 
-def write_csv(file_name, rows):
-    """sort and write rows in csv file in format link,username,number_of_comments"""
-    rows.sort(key=lambda x: x[2], reverse=True)  # Сортируем по количеству коментариев
-    rows.sort(key=lambda x: x[0])  # и по ссылкам (у ссылок приоретет выше). Сортировка стабильна, поэтому это работет
-    with open(file_name, 'w') as file:
-        writer = csv.writer(file)
-        writer.writerow(('link', 'username', 'count_comment'))
-        for row in rows:
-            writer.writerow(row)
-
-
-def main(file_name, urls):
+def main(links, filename):
+    lines = [['link', 'username', 'count_comment']]
     loop = asyncio.get_event_loop()
-    pages = loop.run_until_complete(asyncio.gather(*(get_data(link) for link in urls)))
+    p = loop.run_until_complete(asyncio.gather(*(get_html(link) for link in links)))
     loop.close()
-    pages = [i for i in pages if i is not None]
-    data = []
-    for link, page in pages:
-        data += process_page(page, link)
-    write_csv(file_name, data)
+    for link in links:
+        for text in p:
+            for username, count_comment in parse_html(text):
+                lines.append([link, username, count_comment])
+    write_csv(lines, filename)
 
 
 
 if __name__ == '__main__':
     filename = 'top_user_comments.csv'
     links = sys.argv[1:4]
-    main(filename, links)
+    main(links, filename)
