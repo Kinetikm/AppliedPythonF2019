@@ -1,11 +1,39 @@
 import sys
 
-# Ваши импорты
+import requests
+from bs4 import BeautifulSoup
+
+
+def opener(link):
+    response = requests.get(link)
+    if response is not None:
+        html = BeautifulSoup(response.text, 'html.parser')
+        names = {}
+
+        comments = html.find_all("span", attrs={"class": [
+            "user-info__nickname user-info__nickname_small "
+            "user-info__nickname_comment"]})
+
+        for comment in comments:
+            if comment.text in names:
+                names[comment.text] = names[comment.text] + 1
+            else:
+                names[comment.text] = 1
+
+        return sorted(names.items(), key=lambda kv: kv[1])
 
 
 def main(filename, links):
-    # Ваш код
-    raise NotImplementedError
+    for ind, link in enumerate(links):
+
+        if ind == 0:
+            with open(filename, 'w') as file:
+                for keys in opener(link):
+                    file.write("{},{},{}\n".format(link, keys, opener(link)[keys]))
+        else:
+            with open(filename, 'a') as file:
+                for keys in opener(link):
+                    file.write("{},{},{}\n".format(link, keys, opener(link)[keys]))
 
 
 if __name__ == '__main__':
