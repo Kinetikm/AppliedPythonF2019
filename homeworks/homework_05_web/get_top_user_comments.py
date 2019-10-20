@@ -41,6 +41,7 @@ def main(links, filename):
     loop = asyncio.get_event_loop()
     p = loop.run_until_complete(asyncio.gather(*(get_html(link) for link in links)))
     loop.close()
+    p = [i for i in p if i is not None]
     for link in links:
         for text in p:
             for username, count_comment in parse_html(text):
