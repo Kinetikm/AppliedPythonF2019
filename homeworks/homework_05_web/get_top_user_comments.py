@@ -9,8 +9,9 @@ async def fetch(session, url):
     try:
         async with session.get(url) as response:
             return await response.text()
-    except aiohttp.client_exceptions.ClientConnectorError:
-        return
+    except aiohttp.ClientConnectionError:
+        print('Connection error {}'.format(url))
+
 
 
 async def fetch_all(urls):
@@ -38,21 +39,21 @@ def writeCSV(data, filename):
             writer.writerow(line)
 
 
-def main(urls, filename):
+def main(filename, links):
     loop = asyncio.get_event_loop()
-    future = asyncio.ensure_future(fetch_all(urls))
+    future = asyncio.ensure_future(fetch_all(links))
     loop.run_until_complete(future)
     loop.close()
     data = []
     for i in range(len(future.result())):
         if future.result()[i] is not None:
             for key, val in parser(future.result()[i]).items():
-                data.append((urls[i], key, val))
+                data.append((links[i], key, val))
     data.sort(key=lambda x: (x[0], -x[2]))
     writeCSV(data, filename)
 
 
 if __name__ == '__main__':
-    urls = sys.argv[1:4]
+    links = ['/']
     filename = 'top_user_comments.csv'
-    main(urls, filename)
+    main(filename, links)
