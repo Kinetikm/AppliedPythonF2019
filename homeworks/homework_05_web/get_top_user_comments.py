@@ -39,7 +39,7 @@ def write_csv(data, filename):
 def main(links, filename):
     lines = [['link', 'username', 'count_comment']]
     loop = asyncio.get_event_loop()
-    pages = loop.run_until_complete(asyncio.gather(*(get_html(link) for link in urls)))
+    pages = loop.run_until_complete(asyncio.gather(*(get_html(link) for link in links)))
     loop.close()
     p = [i for i in p if i is not None]
     for link in links:
