@@ -1,7 +1,9 @@
+import sys
+
 import asyncio
 import aiohttp
 import csv
-import sys
+
 from collections import Counter
 from bs4 import BeautifulSoup
 
