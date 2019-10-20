@@ -1,8 +1,8 @@
-import sys
-
 import asyncio
 import aiohttp
 import csv
+import sys
+
 
 from collections import Counter
 from bs4 import BeautifulSoup
@@ -45,5 +45,4 @@ def main(links, filename):
 if __name__ == '__main__':
     filename = 'top_user_comments.csv'
     links = sys.argv[1:4]
-
     main(links, filename)
