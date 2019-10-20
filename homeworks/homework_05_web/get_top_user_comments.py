@@ -38,6 +38,7 @@ async def get_count_comment(link, lines):
     except:
         return
 
+
 def main(filename, links):
     ioloop = asyncio.get_event_loop()
     lines_for_writing, tasks = [], []
