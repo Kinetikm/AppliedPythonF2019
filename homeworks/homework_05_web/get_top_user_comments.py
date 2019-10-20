@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 async def get_html(link):
     async with aiohttp.ClientSession() as session:
         async with session.get(link) as response:
-            result = await resp.text()
+            result = await response.text()
             return link, result
 
 
