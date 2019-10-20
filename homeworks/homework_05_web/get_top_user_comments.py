@@ -16,8 +16,8 @@ def get_resp(link):
 def user_comments(link, link_dict):
     users_dict = {}
     resp = get_resp(link)
-    if resp == None:
-    	return
+    if resp is None:
+        return
     soup = BeautifulSoup(resp.text, "html.parser")
     comments = soup.find_all("a", class_="user-info user-info_inline")
     for comment in comments:
