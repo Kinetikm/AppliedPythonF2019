@@ -15,10 +15,6 @@ async def get_html(link):
             return link, result
 
 
-async def main_coro(links):
-    result = await asyncio.gather(*[get_html(link) for link in links])
-    return result
-
 def parse_html(text):
     html = BeautifulSoup(text, 'html.parser')
     return Counter((
@@ -36,8 +32,7 @@ def write_csv(data, filename):
 def main(links, filename):
     lines = [['link', 'username', 'count_comment']]
     loop = asyncio.get_event_loop()
-    future = asyncio.ensure_future(main_coro(links))
-    p = loop.run_until_complete(future)
+    p = loop.run_until_complete(asyncio.gather(*(get_html(link) for link in links)))
     loop.close()
     for link in links:
         for text in p:
