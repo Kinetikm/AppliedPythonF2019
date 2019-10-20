@@ -16,9 +16,10 @@ async def get_html(link):
                 return link, result
     except aiohttp.client_exceptions.ClientConnectorError:
         print("Cannot open link {link}".format(link=link))
+    except aiohttp.client_exceptions.InvalidURL:
+        print("Invalid link {link}".format(link=link))
 
     
-
 def parse_html(text):
     html = BeautifulSoup(text, 'html.parser')
     return Counter((
