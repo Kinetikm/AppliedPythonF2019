@@ -36,13 +36,13 @@ def write_csv(data, filename):
         writer.writerows(data)
 
 
-def main(links, filename):
+def main(urls, filename):
     lines = [['link', 'username', 'count_comment']]
     loop = asyncio.get_event_loop()
-    pages = loop.run_until_complete(asyncio.gather(*(get_html(link) for link in links)))
+    pages = loop.run_until_complete(asyncio.gather(*(get_html(link) for link in urls)))
     loop.close()
     p = [i for i in p if i is not None]
-    for link in links:
+    for link in urls:
         for text in p:
             for username, count_comment in parse_html(text):
                 lines.append([link, username, count_comment])
