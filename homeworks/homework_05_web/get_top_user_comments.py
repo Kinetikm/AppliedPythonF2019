@@ -9,11 +9,15 @@ from bs4 import BeautifulSoup
 
 
 async def get_html(link):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(link) as response:
-            result = await response.text()
-            return link, result
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(link) as response:
+                result = await response.text()
+                return link, result
+    except aiohttp.client_exceptions.ClientConnectorError:
+        print("Cannot open link {link}".format(link=link))
 
+    
 
 def parse_html(text):
     html = BeautifulSoup(text, 'html.parser')
