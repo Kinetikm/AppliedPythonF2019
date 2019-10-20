@@ -1,9 +1,5 @@
 language: python
 python:
     - "3.6"
-<<<<<<< HEAD
-install: pip install -r requirements_web.txt
-=======
 install: pip install -r requirements.txt
->>>>>>> afdb4068c4e5f1cb08873ffe881fbcccd6df414e
 script: py.test --pep8 && pytest
