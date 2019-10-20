@@ -10,7 +10,7 @@ async def fetch(session, url):
         async with session.get(url) as response:
             return await response.text()
     except aiohttp.ClientConnectionError:
-        print('Connection error {}'.format(url))
+        print('Connection err {}'.format(url))
 
 
 async def fetch_all(urls):
