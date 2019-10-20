@@ -1,29 +1,28 @@
 import sys
 from bs4 import BeautifulSoup
-import requests
-import csv
-import aiohttp
-import asyncio
+from csv import writer
+from aiohttp import ClientSession, client_exceptions
+from asyncio import gather, ensure_future, get_event_loop
 
 async def get_url(urls, url, session):
     try:
         async with session.get(url[1]) as resp:
             return await resp.text()
-    except aiohttp.client_exceptions.ClientConnectorError:
+    except client_exceptions.ClientConnectorError:
         urls.remove(url)
 
 
 async def fetch_all(urls):
-    async with aiohttp.ClientSession() as session:
-        results = await asyncio.gather(*[asyncio.ensure_future(get_url(urls, url, session)) for url in urls])
+    async with ClientSession() as session:
+        results = await gather(*[ensure_future(get_url(urls, url, session)) for url in urls])
     return results
 
 
 def main(filename, links):
     with open(filename, 'w') as f:
-        writer = csv.writer(f, lineterminator='\n')
-        writer.writerows([['link', 'username', 'count_comment']])
-    loop = asyncio.get_event_loop()
+        write = writer(f, lineterminator='\n')
+        write.writerows([['link', 'username', 'count_comment']])
+    loop = get_event_loop()
     urls = [[i, links[i]] for i in range(len(links))]
     files = loop.run_until_complete(fetch_all(urls))
     urls.sort(key=lambda x: x[1], reverse=True)
@@ -40,8 +39,8 @@ user-info__nickname_small user-info__nickname_comment'})
         csv_data = [[fil[1], i, comments[i]] for i in comments]
         csv_data = sorted(csv_data, key=lambda x: x[2], reverse=True)
         with open(filename, 'a') as f:
-            writer = csv.writer(f, lineterminator='\n')
-            writer.writerows(csv_data)
+            write = writer(f, lineterminator='\n')
+            write.writerows(csv_data)
 
 
 if __name__ == '__main__':
