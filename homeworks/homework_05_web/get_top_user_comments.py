@@ -1,48 +1,31 @@
 import sys
 import requests
 from bs4 import BeautifulSoup
-import csv
-import aiohttp
-import asyncio
-
-# Ваши импорты
-
-async def get_data(link):
-    try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(link) as resp:
-                result = await resp.text()
-                return link, result
-    except aiohttp.client_exceptions.ClientConnectorError:
-        print("Cannot open link {link}".format(link=link))
+from concurrent.futures import ProcessPoolExecutor
+from functools import partial
+import pandas as pd
 
 
-def parse_html(text):
-    html = BeautifulSoup(text, 'html.parser')
-    return Counter((
-        span.getText()
-        for span in html.findAll('span', attrs={'class': 'user-info__nickname_comment'})
-    )).most_common()
+def link_parser(our_dict, link):
+    r = requests.get(link)
+    soup = BeautifulSoup(r.text, "html.parser")
+    for i in soup.findAll("a", attrs={"class": ["user-info user-info_inline"]}):
+        if our_dict.get((i['data-user-login'], link)) is None:
+            our_dict[(i['data-user-login'], link)] = 1
+        else:
+            our_dict[(i['data-user-login'], link)] += 1
+    return our_dict
 
 
-def write_csv(data, filename):
-    with open(filename, 'w') as f:
-        writer = csv.writer(f)
-        writer.writerows(data)
-
-
-def main(urls, filename):
-    lines = [['link', 'username', 'count_comment']]
-    loop = asyncio.get_event_loop()
-    pages = loop.run_until_complete(asyncio.gather(*(get_data(link) for link in urls)))
-    loop.close()
-    p = [i for i in p if i is not None]
-    for link in urls:
-        for text in p:
-            for username, count_comment in parse_html(text):
-                lines.append([link, username, count_comment])
-    write_csv(lines, filename)
-
+def main(links, filename):
+    our_dict = {}
+    func = partial(link_parser, our_dict)
+    with ProcessPoolExecutor(max_workers=len(links)) as executor:
+        for i in executor.map(func, links):
+            our_dict = {**our_dict, **i}
+    df = pd.DataFrame([[i[1], i[0], our_dict[i]] for i in our_dict])
+    df.sort_values(by=[df.columns[0], df.columns[2], df.columns[1]], ascending=False, inplace=True)
+    df.to_csv('top_user_comments.csv', index=False, header=False)
 
 
 if __name__ == '__main__':
