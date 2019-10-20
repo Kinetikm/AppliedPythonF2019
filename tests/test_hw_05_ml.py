@@ -84,4 +84,3 @@ def test_simplex_method_05():
 
     assert len(true_x) == len(x)
     assert all(np.isclose(x[i], true_x[i]) for i in range(len(x)))
-
