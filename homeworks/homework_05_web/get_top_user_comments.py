@@ -76,4 +76,4 @@ def main(file_name, urls):
 if __name__ == '__main__':
     filename = 'top_user_comments.csv'
     links = sys.argv[1:4]
-    main(links, filename)
+    main(filename, links)
