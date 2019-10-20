@@ -30,11 +30,13 @@ async def parse_http(text):
 
 
 async def get_count_comment(link, lines):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(link) as resp:
-            count = await parse_http(await resp.text())
-            lines += [(link, row[0], row[1]) for row in count.items()]
-
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(link) as resp:
+                count = await parse_http(await resp.text())
+                lines += [(link, row[0], row[1]) for row in count.items()]
+    except:
+        return
 
 def main(filename, links):
     ioloop = asyncio.get_event_loop()
