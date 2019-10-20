@@ -8,18 +8,16 @@ from collections import Counter
 from bs4 import BeautifulSoup
 
 
-
 async def get_html(link):
     async with aiohttp.ClientSession() as session:
         async with session.get(link) as response:
-            return link, await response.text()
+            result = await resp.text()
+            return link, result
 
 
 async def main_coro(links):
-    return await asyncio.gather(*[
-        get_html(link) for link in links
-    ])
-
+    result = await asyncio.gather(*[get_html(link) for link in links])
+    return result
 
 def parse_html(text):
     html = BeautifulSoup(text, 'html.parser')
@@ -39,12 +37,13 @@ def main(links, filename):
     lines = [['link', 'username', 'count_comment']]
     loop = asyncio.get_event_loop()
     future = asyncio.ensure_future(main_coro(links))
+    p = loop.run_until_complete(future)
+    loop.close()
     for link in links:
-        for text in loop.run_until_complete(future):
+        for text in p:
             for username, count_comment in parse_html(text):
                 lines.append([link, username, count_comment])
-    write_csv(lines)
-    loop.close()
+    write_csv(lines, filename)
 
 
 if __name__ == '__main__':
