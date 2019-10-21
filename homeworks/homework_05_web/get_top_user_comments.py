@@ -43,16 +43,16 @@ def main(filename, links):
             with open(filename, 'w') as file:
                 for keys in result:
                     file.write("link, username, count_comment\n")
-                    file.write("{}, {}, {}\n".format(link, keys[0], keys[1]))
+                    file.write("{},{},{}\n".format(link, keys[0], keys[1]))
                 file.close()
         elif result is not None:
             with open(filename, 'a') as file:
                 for keys in result:
-                    file.write("{}, {}, {}\n".format(link, keys[0], keys[1]))
+                    file.write("{},{},{}\n".format(link, keys[0], keys[1]))
                 file.close()
         else:
             with open(filename, 'w') as file:
-                file.write("link, username, count_comment\n")
+                file.write("link,username,count_comment\n")
 
 
 if __name__ == '__main__':
