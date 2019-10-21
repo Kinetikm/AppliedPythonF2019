@@ -6,14 +6,18 @@ from bs4 import BeautifulSoup
 
 
 def opener(link):
-    response = ""
+    response = None
     try:
         response = requests.get(link)
     except ConnectionRefusedError:
         print('Connection err {}'.format(link))
+        return None
     except urllib3.exceptions.NewConnectionError:
         print('Connection err {}'.format(link))
-
+        return None
+    except requests.exceptions.ConnectionError:
+        print('Connection err {}'.format(link))
+        return None
 
     if response is not None:
         html = BeautifulSoup(response.text, 'html.parser')
