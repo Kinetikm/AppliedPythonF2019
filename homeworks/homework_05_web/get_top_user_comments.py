@@ -54,6 +54,7 @@ async def body(filename, links):
     with open(filename, "a") as file:
         print(list_users)
         csv_writer = csv.writer(file, delimiter=',')
+        csv_writer.writerow(('link', 'username', 'count_comment'))
         [csv_writer.writerow(t) for t in list_users]
         file.close()
 
