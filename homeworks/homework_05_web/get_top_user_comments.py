@@ -51,7 +51,7 @@ async def body(filename, links):
     list_users = sorted(list_users, key=lambda lst: (lst[0], lst[2]),
                         reverse=True)
 
-    with open(filename, "a") as file:
+    with open(filename, "w") as file:
         print(list_users)
         csv_writer = csv.writer(file, delimiter=',')
         csv_writer.writerow(('link', 'username', 'count_comment'))
