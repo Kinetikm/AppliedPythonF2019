@@ -50,6 +50,9 @@ def main(filename, links):
                 for keys in result:
                     file.write("{}, {}, {}\n".format(link, keys[0], keys[1]))
                 file.close()
+        else:
+            with open(filename, 'w') as file:
+                file.write("link, username, count_comment\n")
 
 
 if __name__ == '__main__':
