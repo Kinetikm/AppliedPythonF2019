@@ -32,10 +32,12 @@ def main(filename, links):
                 for keys in result:
                     file.write("link, username, count_comment\n")
                     file.write("{}, {}, {}\n".format(link, keys[0], keys[1]))
+                file.close()
         else:
             with open(filename, 'a') as file:
                 for keys in result:
                     file.write("{}, {}, {}\n".format(link, keys[0], keys[1]))
+                file.close()
 
 
 if __name__ == '__main__':
