@@ -1,12 +1,20 @@
 import sys
-import urllib
 
 import requests
+import urllib3
 from bs4 import BeautifulSoup
 
 
 def opener(link):
-    response = requests.get(link)
+    response = ""
+    try:
+        response = requests.get(link)
+    except ConnectionRefusedError:
+        print('Connection err {}'.format(link))
+    except urllib3.exceptions.NewConnectionError:
+        print('Connection err {}'.format(link))
+
+
     if response is not None:
         html = BeautifulSoup(response.text, 'html.parser')
         names = {}
