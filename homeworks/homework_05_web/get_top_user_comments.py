@@ -30,6 +30,7 @@ def main(filename, links):
         if ind == 0:
             with open(filename, 'w') as file:
                 for keys in result:
+                    file.write("link, username, count_comment\n")
                     file.write("{}, {}, {}\n".format(link, keys[0], keys[1]))
         else:
             with open(filename, 'a') as file:
