@@ -42,6 +42,8 @@ async def body(filename, links):
     list_users = await asyncio.gather(*tasks)
     asyncio.gather(*tasks)
     new_list = []
+    if list_users is None:
+        return
     for item in list_users:
         new_list += item
     list_users = new_list
