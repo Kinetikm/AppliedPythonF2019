@@ -1,4 +1,5 @@
 import sys
+import urllib
 
 import requests
 from bs4 import BeautifulSoup
@@ -25,15 +26,15 @@ def opener(link):
 
 def main(filename, links):
     for ind, link in enumerate(links):
-
+        result = opener(link)
         if ind == 0:
             with open(filename, 'w') as file:
-                for keys in opener(link):
-                    file.write("{},{},{}\n".format(link, keys, opener(link)[keys]))
+                for keys in result:
+                    file.write("{}, {}, {}\n".format(link, keys[0], keys[1]))
         else:
             with open(filename, 'a') as file:
-                for keys in opener(link):
-                    file.write("{},{},{}\n".format(link, keys, opener(link)[keys]))
+                for keys in result:
+                    file.write("{}, {}, {}\n".format(link, keys[0], keys[1]))
 
 
 if __name__ == '__main__':
