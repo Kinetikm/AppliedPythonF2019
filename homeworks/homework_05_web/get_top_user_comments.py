@@ -45,7 +45,8 @@ async def body(filename, links):
     if list_users is None:
         return
     for item in list_users:
-        new_list += item
+        if item is not None:
+            new_list += item
     list_users = new_list
     list_users = sorted(list_users, key=lambda lst: (lst[0], lst[2]),
                         reverse=True)
