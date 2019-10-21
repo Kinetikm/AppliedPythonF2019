@@ -28,6 +28,6 @@ def simplex_method(a, b, c):
         basis[row_num] = col_num - 1
     res = np.zeros(len(c))
     for i in range(len(basis)):
-        if basis[i] < len(basis):
+        if basis[i] < len(res):
             res[basis[i]] = simplex_table[i, 0]
     return res
