@@ -12,21 +12,24 @@ import aiohttp
 
 
 async def parser(link):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(link) as resp:
-            r = await resp.text()
-            resp.text()
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(link) as resp:
+                r = await resp.text()
+                resp.text()
+    except aiohttp.client_exceptions.ClientConnectorError:
+        print("Connection error")
     soup = BeautifulSoup(r, "html.parser")
     dct = {}
     for t in soup.find_all('div', attrs={"class": ["comment"]}):
         usr = t.find('a')
-        if usr == None:
+        if usr is None:
             continue
         else:
             usr = usr.text.replace('\n', '')
-        if dct.get(usr) == None and usr != None:
+        if dct.get(usr) is None and usr is not None:
             dct[usr] = 1
-        elif usr != None:
+        elif usr is not None:
             dct[usr] += 1
     tmp_lst = []
     for x in map(lambda x: [link] + list(x), zip(dct.keys(), dct.values())):
