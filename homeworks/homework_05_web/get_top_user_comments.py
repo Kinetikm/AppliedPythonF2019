@@ -36,7 +36,7 @@ async def parser(link):
 
 async def body(filename, links):
     tasks = [asyncio.ensure_future(parser(link)) for link in links]
-    list_users = await
+    list_users = await asyncio.gather(*tasks)
     asyncio.gather(*tasks)
     new_list = []
     for item in list_users:
