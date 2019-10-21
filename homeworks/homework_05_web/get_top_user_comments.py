@@ -4,11 +4,17 @@ import csv
 import asyncio
 import aiohttp
 
+import sys
+from bs4 import BeautifulSoup
+import csv
+import asyncio
+import aiohttp
+
 
 async def parser(link):
     async with aiohttp.ClientSession() as session:
         async with session.get(link) as resp:
-            r = await
+            r = await resp.text()
             resp.text()
     soup = BeautifulSoup(r, "html.parser")
     dct = {}
