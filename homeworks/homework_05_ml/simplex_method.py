@@ -1,23 +1,33 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 import numpy as np
 
 
 def simplex_method(a, b, c):
-    """
-    Почитать про симплекс метод простым языком:
-    * https://  https://ru.wikibooks.org/wiki/Симплекс-метод._Простое_объяснение
-    Реализацию алгоритма взять тут:
-    * https://youtu.be/gRgsT9BB5-8 (это ссылка на 1-ое из 5 видео).
-
-    Используем numpy и, в целом, векторные операции.
-
-    a * x.T <= b
-    c * x.T -> max
-    :param a: np.array, shape=(n, m)
-    :param b: np.array, shape=(n, 1)
-    :param c: np.array, shape=(1, m)
-    :return x: np.array, shape=(1, m)
-    """
-    raise NotImplementedError
+    simplex_table = np.hstack((np.hstack((b.reshape(b.shape[0], 1), a)), np.eye(len(b))))
+    simplex_dif = np.hstack((np.hstack((np.array([0]), np.array(c))), np.array([0] * len(b))))
+    simplex_table = np.vstack((simplex_table, simplex_dif))
+    print(simplex_table)
+    basis = np.array([i for i in range(len(a[0]), len(a[0])+len(a))])
+    while np.max(simplex_table[-1, :]) > 0:
+        col_num = np.argmax(simplex_table[-1])
+        if max(simplex_table[:, col_num]) <= 0:
+            return None      # Нет решения
+        row_num = np.argmax(simplex_table[:-1, col_num] / simplex_table[:-1, 0])
+        new_matrix = np.copy(simplex_table)
+        func_1 = lambda x: x / simplex_table[row_num, col_num]
+        vec_1 = np.vectorize(func_1)
+        for i in range(len(simplex_table)):
+            if i == row_num:
+                new_matrix[i] = vec_1(simplex_table[i])
+            else:
+                for j in range(len(new_matrix[i])):
+                    new_matrix[i, j] -= simplex_table[row_num, j] * \
+                                        simplex_table[i, col_num] / simplex_table[row_num, col_num]
+        simplex_table = new_matrix
+        print(simplex_table)
+        basis[row_num] = col_num - 1
+    res = np.zeros(len(basis))
+    print(basis)
+    for i in range(len(basis)):
+        if basis[i] < len(basis):
+            res[basis[i]] = simplex_table[i, 0]
+    return res
