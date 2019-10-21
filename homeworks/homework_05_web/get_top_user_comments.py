@@ -16,9 +16,9 @@ async def parser(link):
         async with aiohttp.ClientSession() as session:
             async with session.get(link) as resp:
                 r = await resp.text()
-                resp.text()
     except aiohttp.client_exceptions.ClientConnectorError:
         print("Connection error")
+        return None
     soup = BeautifulSoup(r, "html.parser")
     dct = {}
     for t in soup.find_all('div', attrs={"class": ["comment"]}):
@@ -47,7 +47,7 @@ async def body(filename, links):
     list_users = new_list
     list_users = sorted(list_users, key=lambda lst: (lst[0], lst[2]),
                         reverse=True)
-    
+
     with open(filename, "a") as file:
         print(list_users)
         csv_writer = csv.writer(file, delimiter=',')
@@ -64,5 +64,5 @@ def main(filename, links):
 if __name__ == '__main__':
     filename = 'top_user_comments.csv'
     links = sys.argv[1:4]
-    
+
     main(filename, links)
