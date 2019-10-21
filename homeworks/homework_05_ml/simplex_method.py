@@ -26,7 +26,7 @@ def simplex_method(a, b, c):
                                         simplex_table[i, col_num] / simplex_table[row_num, col_num]
         simplex_table = new_matrix
         basis[row_num] = col_num - 1
-    res = np.zeros(len(basis))
+    res = np.zeros(len(c))
     for i in range(len(basis)):
         if basis[i] < len(basis):
             res[basis[i]] = simplex_table[i, 0]
