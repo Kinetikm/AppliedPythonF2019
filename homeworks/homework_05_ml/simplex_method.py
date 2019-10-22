@@ -34,7 +34,6 @@ def simplex_method(a, b, c):
 
     simplex_matrix = construct_matrix(a, b, c)
     m = simplex_matrix.shape[0] - 1
-    n = simplex_matrix.shape[1] - 1
     tmp = [-1 for _ in range(m)]
     tmp_b = b.copy()
     x = np.zeros(c.shape)
