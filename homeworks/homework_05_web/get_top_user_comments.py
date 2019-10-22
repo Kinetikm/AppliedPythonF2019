@@ -9,7 +9,7 @@ def write_csv_if_file(lines, filename):
     with open(filename, 'w') as f:
         comment_writer = csv.writer(f, delimiter=',')
         comment_writer.writerow(['link', 'username', 'count_comment'])
-        lines = sorted(lines, key=lambda row: (row[0], row[2]))
+        lines = sorted(lines, key=lambda row: (row[0], -row[2]))
         for line in lines:
             comment_writer.writerow([*line])
 
