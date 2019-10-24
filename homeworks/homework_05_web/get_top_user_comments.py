@@ -14,7 +14,7 @@ def write_csv_if_file(lines, filename):
             comment_writer.writerow([*line])
 
 
-async def parse_http(text):
+def parse_http(text):
     count = {}
     soup = BeautifulSoup(text, "html.parser")
     users = soup.findAll('a', attrs={'class': ["user-info user-info_inline"]})
@@ -29,27 +29,29 @@ async def parse_http(text):
     return count
 
 
-async def get_count_comment(link, lines):
+async def get_count_comment(link, pages):
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get(link) as resp:
-                count = await parse_http(await resp.text())
-                lines += [(link, row[0], row[1]) for row in count.items()]
+                pages.append((link, await resp.text()))
     except:
         return
 
 
 def main(filename, links):
     ioloop = asyncio.get_event_loop()
-    lines_for_writing, tasks = [], []
+    lines, pages, tasks = [], [], []
 
     for link in links:
-        tasks.append(ioloop.create_task(get_count_comment(link, lines_for_writing)))
+        tasks.append(ioloop.create_task(get_count_comment(link, pages)))
 
     ioloop.run_until_complete(asyncio.wait(tasks))
     ioloop.close()
 
-    write_csv_if_file(lines_for_writing, filename)
+    for page in pages:
+        count = parse_http(page[1])
+        lines += [(page[0], row[0], row[1]) for row in count.items()]
+    write_csv_if_file(lines, filename)
 
 
 if __name__ == '__main__':
