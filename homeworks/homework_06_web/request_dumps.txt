@@ -13,7 +13,7 @@
 > Content-Type: application/json
 > Content-Length: 144
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Thu, 24 Oct 2019 18:41:44 GMT
+> Date: Thu, 24 Oct 2019 20:34:46 GMT
 > 
 {
     "departure": "21:31",
@@ -36,7 +36,7 @@
 > Content-Type: application/json
 > Content-Length: 739
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Thu, 24 Oct 2019 18:41:44 GMT
+> Date: Thu, 24 Oct 2019 20:34:46 GMT
 > 
 {
     "0": {
@@ -69,7 +69,7 @@
     }
 }
 
-2 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'aircraft_type': 'Snoop-Dog Airbus A320 V2'}, data=None) 200 True
+2 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'aircraft_type': 'Snoop-Dog Airbus A320 V2'}, data=None) 202 True
 < PUT /flights/2 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -80,11 +80,11 @@
 < Content-Type: application/json
 < 
 < {"aircraft_type": "Snoop-Dog Airbus A320 V2"}
-> HTTP/1.0 200 OK
+> HTTP/1.0 202 ACCEPTED
 > Content-Type: application/json
 > Content-Length: 146
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Thu, 24 Oct 2019 18:41:44 GMT
+> Date: Thu, 24 Oct 2019 20:34:46 GMT
 > 
 {
     "departure": null,
@@ -94,7 +94,7 @@
     "aircraft_type": "Snoop-Dog Airbus A320 V2"
 }
 
-3 Urls(method='delete', url='http://localhost:5000/flights/0', headers=None, json=None, data=None) 200 True
+3 Urls(method='delete', url='http://localhost:5000/flights/0', headers=None, json=None, data=None) 202 True
 < DELETE /flights/0 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -104,11 +104,11 @@
 < Content-Length: 0
 < 
 
-> HTTP/1.0 200 OK
+> HTTP/1.0 202 ACCEPTED
 > Content-Type: application/json
 > Content-Length: 16
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Thu, 24 Oct 2019 18:41:44 GMT
+> Date: Thu, 24 Oct 2019 20:34:46 GMT
 > 
 "0 is deleted."
 
