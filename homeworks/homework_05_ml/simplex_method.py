@@ -24,8 +24,8 @@ def simplex_method(a, b, c):
         for i in range(n+1):
             if i == pivot_row:
                 continue
-            simplex_matrix[i] -= simplex_matrix[pivot_row] * (simplex_matrix[i, pivot_column] / 
-							      simplex_matrix[pivot_row, pivot_column])
+            simplex_matrix[i] -= simplex_matrix[pivot_row] * (simplex_matrix[i, pivot_column] /
+                                                              simplex_matrix[pivot_row, pivot_column])
     for i in range(n):
         if basis[i] != -1:
             result[basis[i]] = simplex_matrix[i, -1]
