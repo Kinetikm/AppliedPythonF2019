@@ -1,4 +1,4 @@
-0 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 404 False
+0 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
 < GET /flights HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.21.0
@@ -7,18 +7,15 @@
 < Connection: keep-alive
 < 
 
-> HTTP/1.0 404 NOT FOUND
-> Content-Type: text/html
-> Content-Length: 232
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 765
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Thu, 24 Oct 2019 11:26:48 GMT
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
 > 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>404 Not Found</title>
-<h1>Not Found</h1>
-<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+[{"airplane":"A319","arr_time":"Tue, 09 Jan 2018 06:33:18 GMT","dep_time":"Tue, 09 Jan 2018 05:33:18 GMT","dest_airport":"Berlin","flight_time":"1:0"},{"airplane":"B737","arr_time":"Mon, 26 Mar 2018 05:58:03 GMT","dep_time":"Mon, 26 Mar 2018 04:58:03 GMT","dest_airport":"London","flight_time":"1:0"},{"airplane":"A320","arr_time":"Fri, 13 Apr 2018 20:21:08 GMT","dep_time":"Fri, 13 Apr 2018 15:21:08 GMT","dest_airport":"Ekaterinburg","flight_time":"5:0"},{"airplane":"A380","arr_time":"Wed, 28 Feb 2018 01:47:21 GMT","dep_time":"Tue, 27 Feb 2018 15:47:21 GMT","dest_airport":"Moscow","flight_time":"10:0"},{"airplane":"A320","arr_time":"Mon, 26 Feb 2018 21:43:44 GMT","dep_time":"Mon, 26 Feb 2018 17:43:44 GMT","dest_airport":"Ekaterinburg","flight_time":"4:0"}]
 
-1 Urls(method='get', url='http://localhost:5000/flights/2', headers=None, json=None, data=None) 404 False
+1 Urls(method='get', url='http://localhost:5000/flights/2', headers=None, json=None, data=None) 200 True
 < GET /flights/2 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.21.0
@@ -27,16 +24,31 @@
 < Connection: keep-alive
 < 
 
-> HTTP/1.0 404 NOT FOUND
-> Content-Type: text/html
-> Content-Length: 232
+> HTTP/1.0 308 PERMANENT REDIRECT
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 271
+> Location: http://localhost:5000/flights/2/
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Thu, 24 Oct 2019 11:26:48 GMT
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
 > 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>404 Not Found</title>
-<h1>Not Found</h1>
-<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to target URL: <a href="http://localhost:5000/flights/2/">http://localhost:5000/flights/2/</a>.  If not click the link.< GET /flights/2/ HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 156
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
+> 
+{"airplane":"A320","arr_time":"Fri, 13 Apr 2018 20:21:08 GMT","dep_time":"Fri, 13 Apr 2018 15:21:08 GMT","dest_airport":"Ekaterinburg","flight_time":"5:0"}
 
 2 Urls(method='get', url='http://localhost:5000/flights/100', headers=None, json=None, data=None) 404 False
 < GET /flights/100 HTTP/1.1
@@ -47,18 +59,36 @@
 < Connection: keep-alive
 < 
 
+> HTTP/1.0 308 PERMANENT REDIRECT
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 275
+> Location: http://localhost:5000/flights/100/
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to target URL: <a href="http://localhost:5000/flights/100/">http://localhost:5000/flights/100/</a>.  If not click the link.< GET /flights/100/ HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
 > HTTP/1.0 404 NOT FOUND
 > Content-Type: text/html
 > Content-Length: 232
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Thu, 24 Oct 2019 11:26:48 GMT
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
 > 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <title>404 Not Found</title>
 <h1>Not Found</h1>
 <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
 
-3 Urls(method='delete', url='http://localhost:5000/flights/2', headers=None, json=None, data=None) 404 False
+3 Urls(method='delete', url='http://localhost:5000/flights/2', headers=None, json=None, data=None) 200 True
 < DELETE /flights/2 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.21.0
@@ -68,18 +98,33 @@
 < Content-Length: 0
 < 
 
-> HTTP/1.0 404 NOT FOUND
-> Content-Type: text/html
-> Content-Length: 232
+> HTTP/1.0 308 PERMANENT REDIRECT
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 271
+> Location: http://localhost:5000/flights/2/
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Thu, 24 Oct 2019 11:26:48 GMT
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
 > 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>404 Not Found</title>
-<h1>Not Found</h1>
-<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to target URL: <a href="http://localhost:5000/flights/2/">http://localhost:5000/flights/2/</a>.  If not click the link.< DELETE /flights/2/ HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
 
-4 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT', 'dest_airport': 'Moscow'}, data=None) 404 False
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
+> 
+OK
+4 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT', 'dest_airport': 'Moscow'}, data=None) 200 True
 < POST /flights HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.21.0
@@ -90,18 +135,14 @@
 < Content-Type: application/json
 < 
 < {"airplane": "A380", "arr_time": "Thu, 15 Nov 2018 03:12:52 GMT", "dep_time": "Thu, 15 Nov 2018 02:12:52 GMT", "dest_airport": "Moscow"}
-> HTTP/1.0 404 NOT FOUND
-> Content-Type: text/html
-> Content-Length: 232
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Thu, 24 Oct 2019 11:26:48 GMT
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
 > 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>404 Not Found</title>
-<h1>Not Found</h1>
-<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
-
-5 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT'}, data=None) 404 False
+OK
+5 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT'}, data=None) 400 False
 < POST /flights HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.21.0
@@ -112,18 +153,18 @@
 < Content-Type: application/json
 < 
 < {"airplane": "A380", "arr_time": "Thu, 15 Nov 2018 03:12:52 GMT", "dep_time": "Thu, 15 Nov 2018 02:12:52 GMT"}
-> HTTP/1.0 404 NOT FOUND
+> HTTP/1.0 400 BAD REQUEST
 > Content-Type: text/html
-> Content-Length: 232
+> Content-Length: 170
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Thu, 24 Oct 2019 11:26:48 GMT
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
 > 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>404 Not Found</title>
-<h1>Not Found</h1>
-<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>{'dest_airport': ['Missing data for required field.']}</p>
 
-6 Urls(method='put', url='http://localhost:5000/flights/1', headers=None, json={'airplane': 'A320', 'arr_time': 'Thu, 27 Sep 2018 23:21:43 GMT', 'dep_time': 'Thu, 27 Sep 2018 22:21:43 GMT', 'dest_airport': 'Chelyabinsk'}, data=None) 404 False
+6 Urls(method='put', url='http://localhost:5000/flights/1', headers=None, json={'airplane': 'A320', 'arr_time': 'Thu, 27 Sep 2018 23:21:43 GMT', 'dep_time': 'Thu, 27 Sep 2018 22:21:43 GMT', 'dest_airport': 'Chelyabinsk'}, data=None) 200 True
 < PUT /flights/1 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.21.0
@@ -134,14 +175,30 @@
 < Content-Type: application/json
 < 
 < {"airplane": "A320", "arr_time": "Thu, 27 Sep 2018 23:21:43 GMT", "dep_time": "Thu, 27 Sep 2018 22:21:43 GMT", "dest_airport": "Chelyabinsk"}
-> HTTP/1.0 404 NOT FOUND
-> Content-Type: text/html
-> Content-Length: 232
+> HTTP/1.0 308 PERMANENT REDIRECT
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 271
+> Location: http://localhost:5000/flights/1/
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Thu, 24 Oct 2019 11:26:48 GMT
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
 > 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>404 Not Found</title>
-<h1>Not Found</h1>
-<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
-
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to target URL: <a href="http://localhost:5000/flights/1/">http://localhost:5000/flights/1/</a>.  If not click the link.< PUT /flights/1/ HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 141
+< Content-Type: application/json
+< 
+< {"airplane": "A320", "arr_time": "Thu, 27 Sep 2018 23:21:43 GMT", "dep_time": "Thu, 27 Sep 2018 22:21:43 GMT", "dest_airport": "Chelyabinsk"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Thu, 24 Oct 2019 12:21:53 GMT
+> 
+OK

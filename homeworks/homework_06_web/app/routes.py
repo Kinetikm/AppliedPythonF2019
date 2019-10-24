@@ -1,7 +1,11 @@
 from app import app
-from app import data_storage, flight_schema
 from flask import jsonify, abort, request
 from marshmallow.exceptions import ValidationError
+import flight_data
+import validation
+
+data_storage = flight_data.FlightsStorage()
+flight_schema = validation.FlightSchema()
 
 
 @app.route('/flights', methods=['GET', 'POST'])
@@ -12,7 +16,8 @@ def flights():
     elif request.method == 'POST':
         try:
             data = flight_schema.load(request.get_json())
-            data_storage.add_flight(dep_time=data['dep_time'], arr_time=data['arr_time'], dest_airp=data['dest_airport'],
+            data_storage.add_flight(dep_time=data['dep_time'], arr_time=data['arr_time'],
+                                    dest_airp=data['dest_airport'],
                                     airplane=data['airplane'])
             return 'OK'
         except ValidationError as e:
@@ -34,8 +39,8 @@ def flight(flight_id):
     elif request.method == 'PUT':
         try:
             data = flight_schema.load(request.get_json())
-            result = data_storage.change_flight(flight_id, dep_time=data['dep_time'], arr_time=data['arr_time'], dest_airp=data['dest_airport'],
-                                    airplane=data['airplane'])
+            result = data_storage.change_flight(flight_id, dep_time=data['dep_time'], arr_time=data['arr_time'],
+                                                dest_airp=data['dest_airport'], airplane=data['airplane'])
             if result is None:
                 abort(400, 'Try to change unexciting element')
             return 'OK'
