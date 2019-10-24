@@ -42,6 +42,5 @@ def simplex_method(a, b, c):
                 simp_table[iter] -= simp_table[iter, j] * simp_table[i]
     for i in range(len(x_i)):
         if x_i[i] < len_x:
-            print(x_i[i])
             ans[x_i[i]] = simp_table[i, m]
     return ans
