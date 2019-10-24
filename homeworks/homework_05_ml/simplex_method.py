@@ -41,4 +41,3 @@ def simplex_method(a, b, c):
             x[lst[i]] = simplex_m[i, -1]
     print(x)
     return x
-    
