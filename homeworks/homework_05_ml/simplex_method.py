@@ -4,54 +4,40 @@
 import numpy as np
 
 
-def s_matrixethod(a, b, c):
-    """
-    Почитать про симплекс метод простым языком:
-    * https://  https://ru.wikibooks.org/wiki/Симплекс-метод._Простое_объяснение
-    Реализацию алгоритма взять тут:
-    * https://youtu.be/gRgsT9BB5-8 (это ссылка на 1-ое из 5 видео).
+def create_matr(a, b, c):
+    a_copy = a.copy()
+    b_copy = b.copy()
+    c_copy = c.copy() * (-1)
+    right = np.hstack((b_copy, np.array([0])))[np.newaxis].T
+    left = np.vstack((a_copy, c_copy))
+    left = np.hstack((left, np.eye(b.shape[0] + 1)))
+    matrix = np.hstack((left, right))
+    return matrix
 
-    Используем numpy и, в целом, векторные операции.
 
-    a * x.T <= b
-    c * x.T -> max
-    :param a: np.array, shape=(n, m)
-    :param b: np.array, shape=(n, 1)
-    :param c: np.array, shape=(1, m)
-    :return x: np.array, shape=(1, m)
-    """
-    n, m = a.shape
-    x = np.zeros(m)
-    s = np.zeros(n)
-    s.fill(-1)
-
-    simplex_m = np.hstack((a, np.eye(n), np.zeros((n, 1)), b.reshape((n, 1))))
-    last_row = np.hstack((c * (-1), np.zeros(n), np.array([1, 0])))
-    simplex_m = np.vstack((simplex_m, last_row))
-
+def simplex_method(a, b, c):
+    simplex_m = create_matr(a, b, c)
+    m = simplex_m.shape[0] - 1
+    lst = [-1 for _ in range(m)]
+    b_copy = b.copy()
+    x = np.zeros(c.shape)
     while simplex_m[-1].min() < 0:
-        pivot_col = simplex_m[-1].argmin()
-        min_in_pivot = None
-        pivot_row = None
-
-        for i in range(len(b)):
-            if simplex_m[i][pivot_col] == 0:
-                continue
-            value = simplex_m[i][-1] / simplex_m[i][pivot_col]
-            if min_in_pivot is None or min_in_pivot > value:
-                min_in_pivot = value
-                pivot_row = i
-
-        simplex_m[pivot_row] = simplex_m[pivot_row] / simplex_m[pivot_row][pivot_col]
-
-        for row in simplex_m:
-            if np.array_equal(row, simplex_m[pivot_row]):
-                continue
-            row -= simplex_m[pivot_row] * row[pivot_col]
-        s[pivot_row] = pivot_col
-
-    for i in range(n):
-        col = s[i]
-        if col != -1:
-            x[int(col)] = simplex_m[i][-1]
+        col = np.argmin(simplex_m[-1])
+        for j in range(m):
+            if simplex_m[j, col] > 0:
+                b_copy[j] = simplex_m[j, -1] / simplex_m[j, col]
+            else:
+                b_copy[j] = simplex_m[j, -1]
+        row = np.argmin(b_copy)
+        pivot = simplex_m[row, col]
+        simplex_m[row] /= pivot
+        lst[row] = col
+        for i in range(m + 1):
+            if i != row:
+                simplex_m[i] += simplex_m[row] * (-1) * simplex_m[i][col]
+    for i in range(m):
+        index = lst[i]
+        if index > -1:
+            x[lst[i]] = simplex_m[i, -1]
+    print(x)
     return x
