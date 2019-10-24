@@ -11,6 +11,7 @@ open('logger.log', 'w').close()
 log.basicConfig(filename='logger.log', level=log.INFO, format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 logger = log.getLogger()
 
+
 class FlightsWI(Resource):
     def get(self):
         logger.info("GET request for all flights completed")
@@ -42,7 +43,7 @@ class FlightsWI(Resource):
 
 
 class FlightsI(Resource):
-    def put(self,id_):
+    def put(self, id_):
         t = time.time()
         parser = reqparse.RequestParser()
         parser.add_argument("departure", required=False)
@@ -64,8 +65,7 @@ class FlightsI(Resource):
         logger.info("PUT request failed | id = %d not exist" % id_)
         return "id {} not exists".format(id_), 404
 
-
-    def delete(self,id_):
+    def delete(self, id_):
         global flights
         try:
             del flights[id_]
@@ -74,10 +74,7 @@ class FlightsI(Resource):
         except KeyError:
             logger.info("DELETE request failed | id = %d not exist" % id_)
             return "{} not found.".format(id_), 404
-        
-        
 
 api.add_resource(FlightsWI, "/flights")
 api.add_resource(FlightsI, "/flights/<int:id_>")
-
 app.run(debug=True)

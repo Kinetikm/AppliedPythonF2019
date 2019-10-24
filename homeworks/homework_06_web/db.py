@@ -1,5 +1,5 @@
 flights = {
-    0: { 
+    0: {
         "departure": "22:31",
         "arrival": "6:44",
         "travel_time": "8:13",
