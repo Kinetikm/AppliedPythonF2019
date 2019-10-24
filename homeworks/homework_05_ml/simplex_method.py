@@ -22,7 +22,7 @@ def s_matrixethod(a, b, c):
     """
     n, m = a.shape
     res = np.zeros(m)
-    neg = np.array(n)
+    neg = np.zeros(n)
     neg.fill(-1)
 
     s_matrix = np.hstack((a, np.eye(n), np.zeros((n, 1)), b.reshape((n, 1))))
