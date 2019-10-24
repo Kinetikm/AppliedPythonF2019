@@ -22,11 +22,11 @@ def simplex_method(a, b, c):
     """
 
     # Блок первоначальной подгтовки симплекс матрицы
-    simplex_mat = np.vstack((a, c))
+    simplex_mat = np.vstack((a, c * (-1)))
     simplex_mat = np.hstack((simplex_mat, np.eye(b.shape[0] + 1)))
-    adding_b_mat = np.array
-    temp_mat = np.concatenate((b, np.zeros((1,1))), axis=0)
+    temp_mat = np.hstack((b, np.array([0])))[np.newaxis].transpose()
     simplex_mat = np.hstack((simplex_mat, temp_mat))
+    print(simplex_mat)
 
     # Блок основных вычисления
     accessory_b_mat = b.copy()
@@ -57,7 +57,10 @@ def simplex_method(a, b, c):
     return x
 
 
-a = np.array([[1, 2], [3, 4], [5, 6], [7, 8]])
-b = np.array([[1], [0], [2], [5]])
-c = np.array([5, 7])*(-1)
+a = np.array([[2, 3, 2], [1, 1, 2]])
+print(a.shape)
+b = np.array([1000,  800])
+print(b.shape)
+c = np.array([ 7,  8, 10])
+print(c.shape)
 simplex_method(a, b, c)
