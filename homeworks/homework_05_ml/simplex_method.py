@@ -5,19 +5,33 @@ import numpy as np
 
 
 def simplex_method(a, b, c):
-    """
-    Почитать про симплекс метод простым языком:
-    * https://  https://ru.wikibooks.org/wiki/Симплекс-метод._Простое_объяснение
-    Реализацию алгоритма взять тут:
-    * https://youtu.be/gRgsT9BB5-8 (это ссылка на 1-ое из 5 видео).
+    n, m = a.shape[0], a.shape[1]
+    b = b.reshape(n, 1)
+    c = c.reshape(1, m)
+    c *= -1
+    c = np.hstack((c, np.zeros((1, n))))
+    b = np.vstack((b, [[0]]))
+    simplex_matrix = np.hstack((np.vstack((np.hstack((a, np.eye(n))), c)), b))
+    basis = -1 * np.ones(n, dtype=np.int16)
+    result = np.zeros(m)
+    while True:
+        if min(simplex_matrix[-1, :-1]) >= 0:
+            break
+        pivot_column = np.argmin(simplex_matrix[-1, :-1])
+        pivot_row = np.argmin(simplex_matrix[:-1, -1] / simplex_matrix[:-1, pivot_column])
+        basis[pivot_row] = pivot_column
+        np.divide(simplex_matrix[pivot_row], simplex_matrix[pivot_row, pivot_column], out=simplex_matrix[pivot_row])
+        for i in range(n+1):
+            if i == pivot_row:
+                continue
+            simplex_matrix[i] -= simplex_matrix[pivot_row] * (simplex_matrix[i, pivot_column] / simplex_matrix[pivot_row, pivot_column])
+    for i in range(n):
+        if basis[i] != -1:
+            result[basis[i]] = simplex_matrix[i, -1]
+    return result
 
-    Используем numpy и, в целом, векторные операции.
 
-    a * x.T <= b
-    c * x.T -> max
-    :param a: np.array, shape=(n, m)
-    :param b: np.array, shape=(n, 1)
-    :param c: np.array, shape=(1, m)
-    :return x: np.array, shape=(1, m)
-    """
-    raise NotImplementedError
+a = np.array([[2, 3, 2], [1, 1, 2]])
+b = np.array([1000, 800])
+c = np.array([7, 8, 10])
+print(simplex_method(a, b, c))
