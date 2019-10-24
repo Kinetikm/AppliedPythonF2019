@@ -3,9 +3,9 @@
 
 import numpy as np
 
-# maximize/ minimize?
+
 def init_array(a, b, c):
-    """ p_array = 
+    """ p_array =
     [[a11, .., a1m, s1(m+1), .., s1(m + n + 1), b1]
      [...                                         ]
      [an1, .., anm, sn(m+1), .., sn(m + n + 1), bn]]
@@ -16,12 +16,12 @@ def init_array(a, b, c):
 
     p_array[0:n, 0:m] = a
     p_array[n, 0:m] = -c
-    p_array[0:, m: m + n + 1] = np.eye(n + 1)
+    p_array[0:, m:m + n + 1] = np.eye(n + 1)
     p_array[0:n, -1] = b[:]
     return p_array
 
 
-def get_min_column_element(column):
+def get_min_bottom_element(column):
     j_min = column.argmin()
     min_el = column[j_min]
     return j_min, min_el
@@ -29,12 +29,15 @@ def get_min_column_element(column):
 
 def get_x(p_array, m):
     x = np.array(p_array[-1, 0:m])
-    # идем вдоль последней строки иксов, если встретили не 0, значит x[j] = 0, иначе - брать значения из самой последней колонки.
+    # идем вдоль последней строки иксов, если встретили не 0,
+    # значит x[j] = 0, иначе - брать значения из самой последней колонки.
     for j in range(m):
         if p_array[-1, j] != 0:
             x[j] = 0
         else:
-            x[j] = p_array[:,-1].dot(p_array[:,j].T)
+            # у нас гарантировано в колонке одна 1 и все остальные 0,
+            # скалярное произведение даст нужный элемент.
+            x[j] = p_array[:, -1].dot(p_array[:, j].T)
     return x
 
 
@@ -49,8 +52,9 @@ def get_pivot_ij(p_array, j_min):
     b_div = b / pivot_column
     i_pivot = b_div.argmin()
     j_pivot = j_min
-    
+
     return i_pivot, j_pivot
+
 
 def array_transform(p_array, i_pivot, j_pivot):
     """
@@ -59,19 +63,21 @@ def array_transform(p_array, i_pivot, j_pivot):
     :return p_array
     """
     pivot = p_array[i_pivot, j_pivot]
-    # делим всю опорную строку на опорный элемент 
+    # делим всю опорную строку на опорный элемент
     p_array[i_pivot, :] /= pivot
     # меняем местами опорную строку и самую первую, чтобы слайсом можно было идти слайсом, исключая опорную строку.
     tmp = np.array(p_array[i_pivot, :])
     p_array[i_pivot, :] = p_array[0, :]
     p_array[0, :] = tmp
 
-    # массив коэффициентов для соответствующей строки, домножив опорную на которые, можно будет сложить с соответс. строками
+    # массив коэффициентов для соответствующей строки, домножив опорную на которые,
+    # можно будет сложить с соответс. строками
     # чтобы обнулить значения в опорной колонке (шаг алгоритма)
     coeff = np.array([-p_array[1:, j_pivot]]).T
     p_array[1:, :] = coeff * p_array[0, :] + p_array[1:, :]
 
     return p_array
+
 
 def simplex_method(a, b, c):
     """
@@ -92,17 +98,11 @@ def simplex_method(a, b, c):
     np.set_printoptions(suppress=True)
     n, m = a.shape
     p_array = init_array(a, b, c)
-    j_min, min_el = get_min_column_element(p_array[-1])
+    j_min, min_el = get_min_bottom_element(p_array[-1])
 
     while(min_el < 0):
         i_pivot, j_pivot = get_pivot_ij(p_array, j_min)
         p_array = array_transform(p_array, i_pivot, j_pivot)
-        j_min, min_el = get_min_column_element(p_array[-1])
+        j_min, min_el = get_min_bottom_element(p_array[-1])
 
     return get_x(p_array, m)
-
-# a = np.array([[2, 3, 2], [1, 1, 2]])
-# b = np.array([1000, 800])
-# c = np.array([7, 8, 10])
-
-# print(simplex_method(a, b, c))
