@@ -30,8 +30,3 @@ def simplex_method(a, b, c):
             result[basis[i]] = simplex_matrix[i, -1]
     return result
 
-
-a = np.array([[2, 3, 2], [1, 1, 2]])
-b = np.array([1000, 800])
-c = np.array([7, 8, 10])
-print(simplex_method(a, b, c))
