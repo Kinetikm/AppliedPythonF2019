@@ -4,7 +4,7 @@
 import numpy as np
 
 
-def simplex_method(a:np.array, b:np.array, c:np.array):
+def simplex_method(a, b, c):
 
     n = a.shape[0]
     m = a.shape[1]
@@ -22,7 +22,7 @@ def simplex_method(a:np.array, b:np.array, c:np.array):
         for k in range(n + 1):
             if k == i:
                 continue
-            matrix[k, :] -= matrix[i, :] * (matrix[k ,j] / matrix[i, j])
+            matrix[k, :] -= matrix[i, :] * (matrix[k, j] / matrix[i, j])
         column[i] = row[j]
     x = np.array([0] * m)
     for i in range(len(column)):
