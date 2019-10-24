@@ -24,7 +24,7 @@ def simplex_method(a, b, c):
     a = a.astype(dtype=float)
     b = b.astype(dtype=float)
     c = -c.astype(dtype=float)
-    
+
     n, m = a.shape
 
     simplex_table = np.append(a, [c], axis=0)
@@ -51,5 +51,3 @@ def simplex_method(a, b, c):
                 result = np.append(result, [0])
 
     return result
-
-        
