@@ -30,4 +30,4 @@ def simplex_method(a, b, c):
     for i in range(n):
         if s[i] != -1:
             x[s[i]] = matrix[i][-1]
-    return x
+    return np.array(x)
