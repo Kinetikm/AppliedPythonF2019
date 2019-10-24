@@ -7,4 +7,3 @@ from app import validation
 
 data_storage = flight_data.FlightsStorage()
 flight_schema = validation.FlightSchema()
-from app import routes

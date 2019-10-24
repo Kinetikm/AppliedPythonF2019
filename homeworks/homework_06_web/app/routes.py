@@ -19,7 +19,7 @@ def flights():
             abort(400, str(e))
 
 
-@app.route('/flights/<int:flight_id>/', methods=['GET', 'POST', 'DELETE'])
+@app.route('/flights/<int:flight_id>/', methods=['GET', 'PUT', 'DELETE'])
 def flight(flight_id):
     if request.method == 'GET':
         data = data_storage.get_flight(flight_id)
@@ -29,7 +29,15 @@ def flight(flight_id):
     elif request.method == 'DELETE':
         result = data_storage.delete_flight(flight_id)
         if result is None:
-            abort(400)
+            abort(400, 'Try to delete unexciting element')
         return 'OK'
-
-
+    elif request.method == 'PUT':
+        try:
+            data = flight_schema.load(request.get_json())
+            result = data_storage.change_flight(flight_id, dep_time=data['dep_time'], arr_time=data['arr_time'], dest_airp=data['dest_airport'],
+                                    airplane=data['airplane'])
+            if result is None:
+                abort(400, 'Try to change unexciting element')
+            return 'OK'
+        except ValidationError as e:
+            abort(400, str(e))
