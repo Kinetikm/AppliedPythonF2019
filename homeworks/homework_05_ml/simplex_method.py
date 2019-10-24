@@ -25,7 +25,7 @@ def simplex_method(a, b, c):
     simplex_mat = np.vstack((a, c))
     simplex_mat = np.hstack((simplex_mat, np.eye(b.shape[0] + 1)))
     adding_b_mat = np.array
-    temp_mat = np.vstack((b, np.zeros(1)))
+    temp_mat = np.concatenate((b, np.zeros((1,1))), axis=0)
     simplex_mat = np.hstack((simplex_mat, temp_mat))
 
     # Блок основных вычисления
