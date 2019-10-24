@@ -21,37 +21,37 @@ def s_matrixethod(a, b, c):
     :return x: np.array, shape=(1, m)
     """
     n, m = a.shape
-    res = np.zeros(m)
-    neg = np.zeros(n)
-    neg.fill(-1)
+    x = np.zeros(m)
+    s = np.zeros(n)
+    s.fill(-1)
 
-    s_matrix = np.hstack((a, np.eye(n), np.zeros((n, 1)), b.reshape((n, 1))))
+    simplex_m = np.hstack((a, np.eye(n), np.zeros((n, 1)), b.reshape((n, 1))))
     last_row = np.hstack((c * (-1), np.zeros(n), np.array([1, 0])))
-    s_matrix = np.vstack((s_matrix, last_row))
+    simplex_m = np.vstack((simplex_m, last_row))
 
-    while s_matrix[-1].min() < 0:
-        col = s_matrix[-1].argmin()
+    while simplex_m[-1].min() < 0:
+        pivot_col = simplex_m[-1].argmin()
         min_in_pivot = None
-        row = None
+        pivot_row = None
 
         for i in range(len(b)):
-            if s_matrix[i][col] == 0:
+            if simplex_m[i][pivot_col] == 0:
                 continue
-            value = s_matrix[i][-1] / s_matrix[i][col]
+            value = simplex_m[i][-1] / simplex_m[i][pivot_col]
             if min_in_pivot is None or min_in_pivot > value:
                 min_in_pivot = value
-                row = i
+                pivot_row = i
 
-        s_matrix[row] = s_matrix[row] / s_matrix[row][col]
+        simplex_m[pivot_row] = simplex_m[pivot_row] / simplex_m[pivot_row][pivot_col]
 
-        for r in s_matrix:
-            if np.array_equal(r, s_matrix[row]):
+        for row in simplex_m:
+            if np.array_equal(row, simplex_m[pivot_row]):
                 continue
-            r -= s_matrix[row] * r[col]
-        neg[row] = col
+            row -= simplex_m[pivot_row] * row[pivot_col]
+        s[pivot_row] = pivot_col
 
     for i in range(n):
-        t = neg[i]
-        if t != -1:
-            res[int(t)] = s_matrix[i][-1]
-    return res
+        col = s[i]
+        if col != -1:
+            x[int(col)] = simplex_m[i][-1]
+    return x
