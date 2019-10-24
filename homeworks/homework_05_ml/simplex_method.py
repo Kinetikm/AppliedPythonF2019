@@ -44,10 +44,10 @@ def s_matrixethod(a, b, c):
 
         s_matrix[row] = s_matrix[row] / s_matrix[row][col]
 
-        for row in s_matrix:
-            if np.array_equal(row, s_matrix[row]):
+        for r in s_matrix:
+            if np.array_equal(r, s_matrix[row]):
                 continue
-            row -= s_matrix[row] * row[col]
+            r -= s_matrix[row] * r[col]
         neg[row] = col
 
     for i in range(n):
