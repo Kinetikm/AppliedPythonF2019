@@ -15,12 +15,6 @@ def simplex_table(a, b, c):
 
     return table
 
-
-def min_idx(ar):
-    imin = np.argmin(ar)
-    return ar[imin], imin
-
-
 def pivot_num(table):
     b = np.copy(table[:-1, -1])
 
@@ -59,7 +53,7 @@ def simplex_method(a, b, c):
     :param c: np.array, shape=(1, m)
     :return x: np.array, shape=(1, m)
     """
-    np.set_printoptions(suppress=True)
+
     table = simplex_table(a, b, c)
     _, m = a.shape
     pnumbers = {}  # запоминаем, какой строке соответствует какой Х
