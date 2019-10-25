@@ -20,4 +20,21 @@ def simplex_method(a, b, c):
     :param c: np.array, shape=(1, m)
     :return x: np.array, shape=(1, m)
     """
-    raise NotImplementedError
+    matrix_ = np.vstack((a, -c))
+    matrix_ = np.hstack((matrix_, np.eye(matrix_.shape[0])))
+    b = b.reshape(-1, 1)
+    x = np.zeros(c.shape)
+    matrix_ = np.hstack((matrix_, np.vstack((b, np.zeros((1, 1))))))
+    res = [-1 for _ in range(matrix_.shape[0])]
+    while min(matrix_[-1, :]) < 0:
+        col = np.argmin(matrix_[-1, :])
+        row = np.argmin(matrix_[:-1, -1] / matrix_[:-1, col])
+        matrix_[row, :] /= matrix_[row, col]
+        for i in range(matrix_.shape[0]):
+            if i != row:
+                matrix_[i] += matrix_[row] * (-matrix_[i, col])
+        res[row] = col
+    for i in range(len(res)):
+        if res[i] != -1:
+            x[res[i]] = matrix_[i, -1]
+    return x
