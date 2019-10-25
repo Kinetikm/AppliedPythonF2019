@@ -1,0 +1,10 @@
+2019-10-25 17:50:01,077 [INFO] RequestLogger: App running
+2019-10-25 17:50:06,170 [INFO] RequestLogger: 127.0.0.1 GET http /flights? 200 OK 0.1823902130126953
+2019-10-25 17:50:06,173 [INFO] RequestLogger: 127.0.0.1 GET http /flights/2/? 200 OK 0.1201629638671875
+2019-10-25 17:50:06,176 [INFO] RequestLogger: 127.0.0.1 GET http /flights/100/? None 404 NOT FOUND b'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">\n<title>404 Not Found</title>\n<h1>Not Found</h1>\n<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>\n' 0.21338462829589844
+2019-10-25 17:50:06,176 [INFO] RequestLogger: 127.0.0.1 GET http /flights/100/? 404 NOT FOUND 0.21338462829589844
+2019-10-25 17:50:06,179 [INFO] RequestLogger: 127.0.0.1 DELETE http /flights/2/? 200 OK 0.05817413330078125
+2019-10-25 17:50:06,182 [INFO] RequestLogger: 127.0.0.1 POST http /flights? 200 OK 0.2665519714355469
+2019-10-25 17:50:06,185 [INFO] RequestLogger: 127.0.0.1 POST http /flights? {'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT'} 400 BAD REQUEST b'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">\n<title>400 Bad Request</title>\n<h1>Bad Request</h1>\n<p>{\'dest_airport\': [\'Missing data for required field.\']}</p>\n' 0.3254413604736328
+2019-10-25 17:50:06,185 [INFO] RequestLogger: 127.0.0.1 POST http /flights? 400 BAD REQUEST 0.3254413604736328
+2019-10-25 17:50:06,188 [INFO] RequestLogger: 127.0.0.1 PUT http /flights/1/? 200 OK 0.2338886260986328

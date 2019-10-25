@@ -1,11 +1,17 @@
 from app import app
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, g
 from marshmallow.exceptions import ValidationError
 import flight_data
 import validation
+import time
+from logger_config import LOGGING_CONFIG
+import logging.config
 
 data_storage = flight_data.FlightsStorage()
 flight_schema = validation.FlightSchema()
+logging.config.dictConfig(LOGGING_CONFIG)
+logger = logging.getLogger('RequestLogger')
+logger.info('App running')
 
 
 @app.route('/flights', methods=['GET', 'POST'])
@@ -27,6 +33,7 @@ def flights():
 @app.route('/flights/<int:flight_id>/', methods=['GET', 'PUT', 'DELETE'])
 def flight(flight_id):
     if request.method == 'GET':
+
         data = data_storage.get_flight(flight_id)
         if data is None:
             abort(404)
@@ -46,3 +53,19 @@ def flight(flight_id):
             return 'OK'
         except ValidationError as e:
             abort(400, str(e))
+
+
+@app.before_request
+def before_requst():
+    g.start = time.time()
+
+
+@app.after_request
+def after_request(response):
+    resp_time = (time.time() - g.start) * 1000  # время ответа сервера в миллисекндах
+    if 400 <= response.status_code < 500:
+        logger.info('%s %s %s %s %s %s %s %s', request.remote_addr, request.method, request.scheme, request.full_path,
+                    request.json, response.status, response.data,  resp_time)
+    logger.info('%s %s %s %s %s %s', request.remote_addr, request.method, request.scheme, request.full_path,
+                response.status, resp_time)
+    return response
