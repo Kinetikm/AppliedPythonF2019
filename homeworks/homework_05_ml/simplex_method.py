@@ -41,5 +41,5 @@ def simplex_method(a, b, c):
     for i in range(c.shape):
         if matrix[-1, i] == 0:
             x[i] = simplex_m[i, -1]
-    print x
+    print(x)
     return x
