@@ -1,0 +1,13 @@
+2019-10-26 02:28:45,276 - app - INFO - Program started
+2019-10-26 02:29:07,009 - app.controllers - INFO - Have done the http://localhost:5000/flights with POST method for 0.00533
+2019-10-26 02:29:07,015 - app.controllers - INFO - Have done the http://localhost:5000/flights with POST method for 0.00115
+2019-10-26 02:29:07,021 - app.controllers - INFO - Have done the http://localhost:5000/flights with POST method for 0.00112
+2019-10-26 02:29:07,027 - app.controllers - INFO - Have done the http://localhost:5000/flights with GET method for 0.00019
+2019-10-26 02:29:07,032 - app.controllers - INFO - Have done the http://localhost:5000/flights/0 with PUT method for 0.00136
+2019-10-26 02:29:07,052 - app.controllers - INFO - Have done the http://localhost:5000/flights/0 with GET method for 0.00021
+2019-10-26 02:29:07,056 - app.controllers - INFO - Have done the http://localhost:5000/flights/1 with DELETE method for 0.00015
+2019-10-26 02:29:07,063 - app.controllers - INFO - Have done the http://localhost:5000/flights with GET method for 0.00018
+2019-10-26 02:29:07,074 - app.controllers - INFO - Have done the http://localhost:5000/flights with POST method for 0.00216
+2019-10-26 02:29:07,084 - app.controllers - INFO - Have done the http://localhost:5000/flights with GET method for 0.00024
+2019-10-26 02:29:07,091 - app.controllers - INFO - Have done the http://localhost:5000/flights/dmd with GET method for 0.00020
+2019-10-26 02:29:07,096 - app.controllers - INFO - Have done the http://localhost:5000/flights/duration_sorted with GET method for 0.00019
