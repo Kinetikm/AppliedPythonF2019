@@ -1,0 +1,123 @@
+0 Urls(method='post', url='http://localhost:5000/flights', headers=None, data=None) 200 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 129
+< Content-Type: application/json
+< 
+< {"id": 2, "name": "RE340", "dept_time": "10:00", "arr_time": "15:00", "travel_time": "5:00", "airport": "moscow", "type": "pass"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 10
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 25 Oct 2019 13:42:03 GMT
+> 
+Post added
+1 Urls(method='get', url='http://localhost:5000/flights/2', headers=None, data=None) 200 True
+< GET /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 153
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 25 Oct 2019 13:42:03 GMT
+> 
+{"Arrival time":"15:00","Departure time":"10:00","Destination airport":"moscow","Flight time":"05:00","Id":2,"Number":"RE340","Type of aircraft":"pass"}
+
+2 Urls(method='get', url='http://localhost:5000/flights/3', headers=None, data=None) 404 False
+< GET /flights/3 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: text/html
+> Content-Length: 232
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 25 Oct 2019 13:42:03 GMT
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+3 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, data=None) 200 True
+< PUT /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 120
+< Content-Type: application/json
+< 
+< {"name": "RE340", "dept_time": "11:00", "arr_time": "15:00", "travel_time": "4:00", "airport": "moscow", "type": "pass"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 14
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 25 Oct 2019 13:42:03 GMT
+> 
+Record changed
+4 Urls(method='get', url='http://localhost:5000/flights/2', headers=None, data=None) 200 True
+< GET /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 153
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 25 Oct 2019 13:42:03 GMT
+> 
+{"Arrival time":"15:00","Departure time":"11:00","Destination airport":"moscow","Flight time":"04:00","Id":2,"Number":"RE340","Type of aircraft":"pass"}
+
+5 Urls(method='delete', url='http://localhost:5000/flights/2', headers=None, data=None) 200 True
+< DELETE /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 13
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 25 Oct 2019 13:42:03 GMT
+> 
+Record delete
+6 Urls(method='get', url='http://localhost:5000/flights', headers=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 334
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 25 Oct 2019 13:42:03 GMT
+> 
+[{"Id": 0, "Number": "PD180", "Departure time": "18:00", "Arrival time": "20:00", "Flight time": "02:00", "Destination airport": "moscow", "Type of aircraft": "pass"}, {"Id": 1, "Number": "DR124", "Departure time": "10:00", "Arrival time": "14:00", "Flight time": "04:00", "Destination airport": "berlin", "Type of aircraft": "pass"}]
