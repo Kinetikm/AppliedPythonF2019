@@ -1,4 +1,7 @@
 #!flask/bin/python
+import os
+import logging
+from logging.handlers import RotatingFileHandler
 from flask import jsonify, request, abort, Flask
 from model import flights
 from validation import isvalid
@@ -14,17 +17,18 @@ def get_flights():
 
 @app.route('/todo/api/flights/<int:flight_id>', methods=['PUT'])
 def change_flight(flight_id):
-    flight = list(filter(lambda f: f['id'] == flight_id, flights))[0]
-    if not flight:
-        abort(404)
-    if not request.json:
-        abort(400)
-    for field in fields:
-        if field in request.json and isvalid(field, request.json[field]):
-            flight[field] = request.json[field]
-        else:
+    try:
+        flight = list(filter(lambda f: f['id'] == flight_id, flights))[0]
+        if not request.json:
             abort(400)
-    return jsonify(flight), 200
+        for field in fields:
+            if field in request.json and isvalid(field, request.json[field]):
+                flight[field] = request.json[field]
+            else:
+                abort(400)
+        return jsonify(flight), 200
+    except IndexError:
+        abort(404)
 
 
 @app.route('/todo/api/flights', methods=['POST'])
@@ -52,5 +56,17 @@ def del_flight(flight_id):
 
 
 if __name__ == '__main__':
+    if not app.debug:
+        if not os.path.exists('logs'):
+            os.mkdir('logs')
+        file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240,
+                                           backupCount=10)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+        file_handler.setLevel(logging.INFO)  # Маленький логгер, который фиксирует старт сервера =)
+        app.logger.addHandler(file_handler)
+
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('Microblog startup')
     app.debug = True
     app.run(host='0.0.0.0')
