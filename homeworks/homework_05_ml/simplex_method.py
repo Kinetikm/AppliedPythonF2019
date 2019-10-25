@@ -31,7 +31,7 @@ def simplex_method(a, b, c):
                 b[j] = matrix[j, -1] / matrix[j, pivot_col]
             else:
                 b[j] = matrix[j, -1]
-        pivot_row = np.b.argmin()
+        pivot_row = b.argmin()
         pivot_elem = matrix[pivot_row, pivot_col]
         matrix[pivot_row] /= pivot_elem
         for i in range(matrix.shape[0]):
