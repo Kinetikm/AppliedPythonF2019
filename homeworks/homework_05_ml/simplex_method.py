@@ -38,7 +38,7 @@ def simplex_method(a, b, c):
             if i == pivot_row:
                 continue
             matrix[i] += matrix[pivot_row] * (-1) * matrix[i][pivot_col]
-    for i in range(c.shape):
+    for i in range(c.shape[0]):
         if matrix[-1, i] == 0:
             x[i] = matrix[i, -1]
     print(x)
