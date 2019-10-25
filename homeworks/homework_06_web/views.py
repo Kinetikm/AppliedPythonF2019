@@ -1,9 +1,9 @@
 import json
-from flask import request, abort
-from app import app
-from app.database import *
+from flask import Flask, request, abort
+from database import *
 from marshmallow import Schema, fields, validates_schema, ValidationError
 
+app = Flask(__name__)
 
 @app.route('/flights', methods=['GET'])
 def get_flights():
