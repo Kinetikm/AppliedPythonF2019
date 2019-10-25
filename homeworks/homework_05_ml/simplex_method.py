@@ -15,6 +15,7 @@ def simplex_table(a, b, c):
 
     return table
 
+
 def pivot_num(table):
     b = np.copy(table[:-1, -1])
 
