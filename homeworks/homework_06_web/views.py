@@ -5,6 +5,7 @@ from marshmallow import Schema, fields, validates_schema, ValidationError
 
 app = Flask(__name__)
 
+
 @app.route('/flights', methods=['GET'])
 def get_flights():
     records = get_all_flight()
