@@ -35,11 +35,11 @@ def simplex_method(a, b, c):
         pivot_elem = matrix[pivot_row, pivot_col]
         matrix[pivot_row] /= pivot_elem
         for i in range(matrix.shape[0]):
-            if i != pivot_row:
+            if i == pivot_row:
                 continue
             matrix[i] += matrix[pivot_row] * (-1) * matrix[i][pivot_col]
     for i in range(c.shape):
         if matrix[-1, i] == 0:
-            x[i] = simplex_m[i, -1]
+            x[i] = matrix[i, -1]
     print(x)
     return x
