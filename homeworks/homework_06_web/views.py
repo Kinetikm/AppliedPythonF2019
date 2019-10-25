@@ -32,7 +32,7 @@ def index():
     data = request.json
     try:
         format_data = schema.load(data)
-        if not 'id' in format_data:
+        if 'id' not in format_data:
             raise ValidationError("{'id': ['Missing data for required field.']}")
         return add_flight(format_data)
 
