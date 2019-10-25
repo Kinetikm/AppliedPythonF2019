@@ -22,7 +22,7 @@ def simplex_method(a, b, c):
     """
     matrix = np.hstack((np.hstack((np.vstack((a, c*(-1))), np.eye(b.shape[0] + 1))),
                         np.hstack((b, np.array([0])))[np.newaxis].T))
-    x = np.full(c.shape[0, 1], 0)
+    x = np.full(c.shape, 0)
     size_m = matrix.shape[0] - 1
     while not all(matrix[-1] >= 0):
         pivot_col = matrix[-1].argmin()
