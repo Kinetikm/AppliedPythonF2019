@@ -49,7 +49,7 @@ with open('request_dumps.txt', 'w') as f:
              {
                 'departure_time': str(datetime.datetime(2017, 3, 5, 5, 0)),
                 'arrival_time': str(datetime.datetime(2017, 3, 5, 10, 23)),
-                'duration': '05:23',
+                'duration': '5:23',
                 'arrive_location': 'dmd',
                 'aircraft_type': 'passenger_plane'
               }, None),
