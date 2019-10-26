@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_restful import Api, Resource
-from db import *
-from validator import *
+from app.db import *
+from app.validator import *
 import logging as log
 import time
 
@@ -10,6 +10,7 @@ api = Api(app)
 open('logger.log', 'w').close()
 log.basicConfig(filename='logger.log', level=log.INFO, format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 logger = log.getLogger()
+
 
 def makeFlight(data):
     flight = {
@@ -77,4 +78,3 @@ class FlightsI(Resource):
 
 api.add_resource(FlightsWI, "/flights")
 api.add_resource(FlightsI, "/flights/<int:id_>")
-app.run(debug=True)

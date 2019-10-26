@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields, ValidationError
 
+
 class FlightSchema(Schema):
     departure = fields.Str(required=True)
     arrival = fields.Str(required=True)
