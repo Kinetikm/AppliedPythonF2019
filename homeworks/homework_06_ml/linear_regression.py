@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class LinearRegression:
@@ -56,9 +55,6 @@ class LinearRegression:
             s = np.sqrt(sum((X[i, :] - m)**2) / n)
             X[i, :] = (X[i, :] - m)/s
         return X
-
-    def plot_loss(self):
-        plt.plot(self.loss)
 
     def _grad(self, x, y, w):
         gr = np.empty_like(w)
