@@ -56,14 +56,14 @@ class FlightsI(Resource):
             logger.error("PUT request failed: WRONG INPUT")
             return "Error: wrong input", 400
 
-        for fid, flight in flights.items():
-            if(id_ == fid):
-                for key in data:
-                    flight[key] = data[key]
-                logger.info(f"PUT request comleted | id = {id_} | Timing: {(time.time()-t)}")
-                return flight, 202
+        flight = flights.get(id_)
+        if flight != None:
+            for key in data:
+                flight[key] = data[key]
+            logger.info(f"PUT request comleted | id = {id_} | Timing: {(time.time()-t)}")
+            return flight, 202
 
-        logger.info(f"PUT request failed | id = {id_} not exist")
+        logger.error(f"PUT request failed | id = {id_} not exist")
         return "id {} not exists".format(id_), 404
 
     def delete(self, id_):
