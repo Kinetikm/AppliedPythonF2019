@@ -1,15 +1,25 @@
-from flask import Flask
-from flask_restful import Api, Resource, reqparse
+from flask import Flask, request
+from flask_restful import Api, Resource
 from db import *
+from validator import *
 import logging as log
 import time
-
 
 app = Flask(__name__)
 api = Api(app)
 open('logger.log', 'w').close()
 log.basicConfig(filename='logger.log', level=log.INFO, format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 logger = log.getLogger()
+
+def makeFlight(data):
+    flight = {
+            "departure": data["departure"],
+            "arrival": data["arrival"],
+            "travel_time": data["travel_time"],
+            "destination": data["destination"],
+            "aircraft_type": data["aircraft_type"],
+        }
+    return flight
 
 
 class FlightsWI(Resource):
@@ -19,60 +29,50 @@ class FlightsWI(Resource):
 
     def post(self):
         t = time.time()
-        parser = reqparse.RequestParser()
-        parser.add_argument("departure")
-        parser.add_argument("arrival")
-        parser.add_argument("travel_time")
-        parser.add_argument("destination")
-        parser.add_argument("aircraft_type")
-        args = parser.parse_args()
+        try:
+            schema = FlightSchema()
+            data = schema.load(request.get_json())
+        except ValidationError:
+            logger.error("POST request failed: WRONG INPUT or EMPTY FIELDS")
+            return "Error: wrong input", 400
 
         global last_id
         last_id += 1
         id_ = last_id
-        flight = {
-            "departure": args["departure"],
-            "arrival": args["arrival"],
-            "travel_time": args["travel_time"],
-            "destination": args["destination"],
-            "aircraft_type": args["aircraft_type"],
-        }
+        flight = makeFlight(data)
         flights[id_] = flight
-        logger.info("POST request comleted | id = %d | Timing: %f" % (id_, (time.time()-t)))
+        logger.info(f"POST request comleted | id = {id_} | Timing: {(time.time()-t)}")
         return flight, 201
 
 
 class FlightsI(Resource):
     def put(self, id_):
         t = time.time()
-        parser = reqparse.RequestParser()
-        parser.add_argument("departure", required=False)
-        parser.add_argument("arrival", required=False)
-        parser.add_argument("travel_time", required=False)
-        parser.add_argument("destination", required=False)
-        parser.add_argument("aircraft_type", required=False)
-        args = parser.parse_args()
+        try:
+            schema = FlightSchema()
+            data = schema.load(request.get_json(), partial=True)
+        except ValidationError:
+            logger.error("PUT request failed: WRONG INPUT")
+            return "Error: wrong input", 400
 
         for fid, flight in flights.items():
             if(id_ == fid):
-                flight["departure"] = args["departure"]
-                flight["arrival"] = args["arrival"]
-                flight["travel_time"] = args["travel_time"]
-                flight["destination"] = args["destination"]
-                flight["aircraft_type"] = args["aircraft_type"]
-                logger.info("PUT request comleted | id = %d | Timing: %f" % (id_, (time.time()-t)))
+                for key in data:
+                    flight[key] = data[key]
+                logger.info(f"PUT request comleted | id = {id_} | Timing: {(time.time()-t)}")
                 return flight, 202
-        logger.info("PUT request failed | id = %d not exist" % id_)
+
+        logger.info(f"PUT request failed | id = {id_} not exist")
         return "id {} not exists".format(id_), 404
 
     def delete(self, id_):
         global flights
         try:
             del flights[id_]
-            logger.info("DELETE request completed | id = %d" % id_)
+            logger.info(f"DELETE request completed | id = {id_}")
             return "{} is deleted.".format(id_), 202
         except KeyError:
-            logger.info("DELETE request failed | id = %d not exist" % id_)
+            logger.info(f"DELETE request failed | id = {id_} not exist")
             return "{} not found.".format(id_), 404
 
 api.add_resource(FlightsWI, "/flights")
