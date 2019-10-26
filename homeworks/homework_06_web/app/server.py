@@ -57,7 +57,7 @@ class FlightsI(Resource):
             return "Error: wrong input", 400
 
         flight = flights.get(id_)
-        if flight != None:
+        if flight is not None:
             for key in data:
                 flight[key] = data[key]
             logger.info(f"PUT request comleted | id = {id_} | Timing: {(time.time()-t)}")
