@@ -1,0 +1,324 @@
+0 Urls(method='post', url='http://localhost:5000/api/flights', headers=None, json={'dep_time': '2018-04-01 04:30:00', 'arr_time': '2018-04-01 09:20:00', 'dur_time': '4:50', 'arr_locate': 'luna', 'aircraft_type': 'mars'}, data=None) 201 True
+< POST /api/flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 137
+< Content-Type: application/json
+< 
+< {"dep_time": "2018-04-01 04:30:00", "arr_time": "2018-04-01 09:20:00", "dur_time": "4:50", "arr_locate": "luna", "aircraft_type": "mars"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 182
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "flight": {
+    "aircraft_type": "mars", 
+    "arr_locate": "luna", 
+    "arr_time": "2018-04-01 09:20:00", 
+    "dep_time": "2018-04-01 04:30:00", 
+    "dur_time": "4:50"
+  }
+}
+
+1 Urls(method='post', url='http://localhost:5000/api/flights', headers=None, json={'dep_time': '2018-04-02 18:20:00', 'arr_time': '2018-04-02 19:35:00', 'dur_time': '1:15', 'arr_locate': 'hzotkudo', 'aircraft_type': 'hzkuda'}, data=None) 201 True
+< POST /api/flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 143
+< Content-Type: application/json
+< 
+< {"dep_time": "2018-04-02 18:20:00", "arr_time": "2018-04-02 19:35:00", "dur_time": "1:15", "arr_locate": "hzotkudo", "aircraft_type": "hzkuda"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 188
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "flight": {
+    "aircraft_type": "hzkuda", 
+    "arr_locate": "hzotkudo", 
+    "arr_time": "2018-04-02 19:35:00", 
+    "dep_time": "2018-04-02 18:20:00", 
+    "dur_time": "1:15"
+  }
+}
+
+2 Urls(method='post', url='http://localhost:5000/api/flights', headers=None, json={'dep_time': '2018-04-02 07:30:00', 'arr_time': '2018-04-02 18:35:00', 'dur_time': '11:05', 'arr_locate': 'kachkanar', 'aircraft_type': 'indionapolis'}, data=None) 201 True
+< POST /api/flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 151
+< Content-Type: application/json
+< 
+< {"dep_time": "2018-04-02 07:30:00", "arr_time": "2018-04-02 18:35:00", "dur_time": "11:05", "arr_locate": "kachkanar", "aircraft_type": "indionapolis"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 196
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "flight": {
+    "aircraft_type": "indionapolis", 
+    "arr_locate": "kachkanar", 
+    "arr_time": "2018-04-02 18:35:00", 
+    "dep_time": "2018-04-02 07:30:00", 
+    "dur_time": "11:05"
+  }
+}
+
+3 Urls(method='get', url='http://localhost:5000/api/flights', headers=None, json=None, data=None) 200 True
+< GET /api/flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 641
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "flights": [
+    {
+      "aircraft_type": "mars", 
+      "arr_locate": "luna", 
+      "arr_time": "2018-04-01 09:20:00", 
+      "dep_time": "2018-04-01 04:30:00", 
+      "dur_time": "4:50", 
+      "id": 0
+    }, 
+    {
+      "aircraft_type": "hzkuda", 
+      "arr_locate": "hzotkudo", 
+      "arr_time": "2018-04-02 19:35:00", 
+      "dep_time": "2018-04-02 18:20:00", 
+      "dur_time": "1:15", 
+      "id": 1
+    }, 
+    {
+      "aircraft_type": "indionapolis", 
+      "arr_locate": "kachkanar", 
+      "arr_time": "2018-04-02 18:35:00", 
+      "dep_time": "2018-04-02 07:30:00", 
+      "dur_time": "11:05", 
+      "id": 2
+    }
+  ]
+}
+
+4 Urls(method='put', url='http://localhost:5000/api/flights/0', headers=None, json={'dep_time': '2018-04-06 17:30:00', 'arr_time': '2018-04-06 18:50:00', 'dur_time': '1:20', 'arr_locate': 'rick', 'aircraft_type': 'morty'}, data=None) 200 True
+< PUT /api/flights/0 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 138
+< Content-Type: application/json
+< 
+< {"dep_time": "2018-04-06 17:30:00", "arr_time": "2018-04-06 18:50:00", "dur_time": "1:20", "arr_locate": "rick", "aircraft_type": "morty"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 198
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "flights": {
+    "aircraft_type": "morty", 
+    "arr_locate": "rick", 
+    "arr_time": "2018-04-06 18:50:00", 
+    "dep_time": "2018-04-06 17:30:00", 
+    "dur_time": "1:20", 
+    "id": 0
+  }
+}
+
+5 Urls(method='delete', url='http://localhost:5000/api/flights/1', headers=None, json=None, data=None) 200 True
+< DELETE /api/flights/1 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 37
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "result": "Successfull delete"
+}
+
+6 Urls(method='get', url='http://localhost:5000/api/flights', headers=None, json=None, data=None) 200 True
+< GET /api/flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 436
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "flights": [
+    {
+      "aircraft_type": "morty", 
+      "arr_locate": "rick", 
+      "arr_time": "2018-04-06 18:50:00", 
+      "dep_time": "2018-04-06 17:30:00", 
+      "dur_time": "1:20", 
+      "id": 0
+    }, 
+    {
+      "aircraft_type": "indionapolis", 
+      "arr_locate": "kachkanar", 
+      "arr_time": "2018-04-02 18:35:00", 
+      "dep_time": "2018-04-02 07:30:00", 
+      "dur_time": "11:05", 
+      "id": 2
+    }
+  ]
+}
+
+7 Urls(method='post', url='http://localhost:5000/api/flights', headers=None, json={'dep_time': '2018-04-02 14:20:00', 'arr_time': '2018-04-02 17:20:00', 'dur_time': '03:00', 'arr_locate': 'darth', 'aircraft_type': 'vader'}, data=None) 201 True
+< POST /api/flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 140
+< Content-Type: application/json
+< 
+< {"dep_time": "2018-04-02 14:20:00", "arr_time": "2018-04-02 17:20:00", "dur_time": "03:00", "arr_locate": "darth", "aircraft_type": "vader"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 185
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "flight": {
+    "aircraft_type": "vader", 
+    "arr_locate": "darth", 
+    "arr_time": "2018-04-02 17:20:00", 
+    "dep_time": "2018-04-02 14:20:00", 
+    "dur_time": "03:00"
+  }
+}
+
+8 Urls(method='get', url='http://localhost:5000/api/flights', headers=None, json=None, data=None) 200 True
+< GET /api/flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 639
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "flights": [
+    {
+      "aircraft_type": "morty", 
+      "arr_locate": "rick", 
+      "arr_time": "2018-04-06 18:50:00", 
+      "dep_time": "2018-04-06 17:30:00", 
+      "dur_time": "1:20", 
+      "id": 0
+    }, 
+    {
+      "aircraft_type": "indionapolis", 
+      "arr_locate": "kachkanar", 
+      "arr_time": "2018-04-02 18:35:00", 
+      "dep_time": "2018-04-02 07:30:00", 
+      "dur_time": "11:05", 
+      "id": 2
+    }, 
+    {
+      "aircraft_type": "vader", 
+      "arr_locate": "darth", 
+      "arr_time": "2018-04-02 17:20:00", 
+      "dep_time": "2018-04-02 14:20:00", 
+      "dur_time": "03:00", 
+      "id": 3
+    }
+  ]
+}
+
+9 Urls(method='get', url='http://localhost:5000/api/flights/dep_time_sort', headers=None, json=None, data=None) 200 True
+< GET /api/flights/dep_time_sort HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 639
+> Server: Werkzeug/0.14.1 Python/3.6.8
+> Date: Sun, 27 Oct 2019 22:09:46 GMT
+> 
+{
+  "flights": [
+    {
+      "aircraft_type": "indionapolis", 
+      "arr_locate": "kachkanar", 
+      "arr_time": "2018-04-02 18:35:00", 
+      "dep_time": "2018-04-02 07:30:00", 
+      "dur_time": "11:05", 
+      "id": 2
+    }, 
+    {
+      "aircraft_type": "vader", 
+      "arr_locate": "darth", 
+      "arr_time": "2018-04-02 17:20:00", 
+      "dep_time": "2018-04-02 14:20:00", 
+      "dur_time": "03:00", 
+      "id": 3
+    }, 
+    {
+      "aircraft_type": "morty", 
+      "arr_locate": "rick", 
+      "arr_time": "2018-04-06 18:50:00", 
+      "dep_time": "2018-04-06 17:30:00", 
+      "dur_time": "1:20", 
+      "id": 0
+    }
+  ]
+}
+

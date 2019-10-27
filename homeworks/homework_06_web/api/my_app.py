@@ -1,11 +1,11 @@
 from flask import Flask, request, abort, jsonify, g
-import api.FlightScheme as scheme
-import api.FlightRecords as records
+import api.model.FlightScheme as scheme
+import api.model.FlightRecords as records
 import time
 import logging
 
 app = Flask(__name__)
-app_log = logging.getLogger("api")
+app_log = logging.getLogger("api.my_app")
 
 
 @app.before_request
@@ -39,8 +39,8 @@ def sort_by_dep_time():
 @app.route('/api/flights', methods=['POST'])
 def create_record():
     try:
-        scheme.FlightPlan.load(request.json)
-        scheme.validates_schema(request.json)
+        scheme.FlightPlan().load(request.json)
+        scheme.validates_time(request.json)
     except scheme.ValidationError:
         abort(400)
     new_record = {
@@ -56,14 +56,15 @@ def create_record():
 
 @app.route('/api/flights/<int:flight_id>', methods=['PUT'])
 def change_flight(flight_id):
-    flight = list(filter(lambda f: f['id'] == flight_id, records.all_flights))[0]
+    flight = list(filter(lambda f: f.id == flight_id, records.all_flights))
     if not flight:
         abort(404)
     try:
-        scheme.FlightPlan.load(request.json)
-        scheme.validates_schema(request.json)
+        scheme.FlightPlan().load(request.json)
+        scheme.validates_time(request.json)
     except scheme.ValidationError:
         abort(404)
+    flight = flight[0]
     flight.dep_time = request.json['dep_time']
     flight.arr_time = request.json['arr_time']
     flight.dur_time = request.json['dur_time']
@@ -74,19 +75,19 @@ def change_flight(flight_id):
 
 @app.route('/api/flights/<int:flight_id>', methods=['DELETE'])
 def delete_flight(flight_id):
-    flight = list(filter(lambda f: f['id'] == flight_id, records.all_flights))[0]
+    flight = list(filter(lambda f: f.id == flight_id, records.all_flights))
     if not flight:
         abort(404)
+    flight = flight[0]
     records.all_flights.remove(flight)
-    return 'Deleted', 204
+    return jsonify({'result': 'Successfull delete'})
 
 
 if __name__ == '__main__':
-    logger = logging.getLogger("fly")
+    logger = logging.getLogger("api")
     logger.setLevel(logging.INFO)
-    handler = logging.FileHandler('fly.log')
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    handler = logging.FileHandler('api.log')
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    logger.info("API start")
     app.run(debug=True, host="127.0.0.1", port=5000)
