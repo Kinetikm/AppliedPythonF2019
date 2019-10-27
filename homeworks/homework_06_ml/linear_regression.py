@@ -35,7 +35,7 @@ class LinearRegression:  # Реализация для варианта 1
         self.init_cost()
         self.n_samples, self.n_features = X_train.shape
         self.theta = np.random.normal(size=(self.n_features + 1), scale=0.5)
-        X_train = self._add_intercept(X_train)
+        self.X_train = self._add_intercept(X_train)
         self.theta, self.errors = self._gradient_descent()
         logging.info(" Theta: %s" % self.theta.flatten())
 
@@ -47,7 +47,7 @@ class LinearRegression:  # Реализация для варианта 1
     def _gradient_descent(self):  # Adadelta
         eps = 1
         theta = self.theta
-        errors = [self._cost(self.X, self.y, theta)]
+        errors = [self._cost(self.X_train, self.y, theta)]
         # берем производную от функции потерь
         cost_d = grad(self._loss)
         E_g = [0]
@@ -63,7 +63,7 @@ class LinearRegression:  # Реализация для варианта 1
             E_t.append(self.coef * E_t[i-1] + (1 - self.coef) * (np.linalg.norm(delta)))
             rms_t = math.sqrt(E_t[i] + eps)
             theta -= delta
-            errors.append(self._cost(self.X, self.y, theta))
+            errors.append(self._cost(self.X_train, self.y, theta))
         return theta, errors
 
     def _cost(self, X, y, theta):
