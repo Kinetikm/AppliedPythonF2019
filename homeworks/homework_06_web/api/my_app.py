@@ -8,6 +8,7 @@ app = Flask(__name__)
 app_log = logging.getLogger("api.my_app")
 
 
+# fix
 @app.before_request
 def before_req():
     g.start_req = time.time()
