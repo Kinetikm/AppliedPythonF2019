@@ -8,7 +8,6 @@ app = Flask(__name__)
 app_log = logging.getLogger("api.my_app")
 
 
-# fix
 @app.before_request
 def before_req():
     g.start_req = time.time()
@@ -91,4 +90,5 @@ if __name__ == '__main__':
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    app.run(debug=True, host="127.0.0.1", port=5000)
+    logger.info("Start Program")
+    app.run()
