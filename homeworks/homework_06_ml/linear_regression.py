@@ -55,7 +55,7 @@ class LinearRegression:  # Реализация для варианта 1
         # ( но это не точно)
         for i in range(1, self.max_iter + 1):
             # Считаем градиент и обновляем тетту
-            E_g = self.gamma * E_g[i - 1] + (1 - self.gamma) * (np.linalg.norm(cost_d(theta)))
+            E_g = self.gamma * E_g + (1 - self.gamma) * (np.linalg.norm(cost_d(theta)))
             rms_g = math.sqrt(E_g + eps)
             delta = rms_t * cost_d(theta) / rms_g
             E_t = self.gamma * E_t + (1 - self.gamma) * (np.linalg.norm(delta))
