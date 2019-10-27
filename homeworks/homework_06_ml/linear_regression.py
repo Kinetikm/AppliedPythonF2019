@@ -7,7 +7,7 @@ import math
 
 
 class LinearRegression:  # Реализация для варианта 1
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=0.9, regulatization='l1', alpha=0.5, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -15,8 +15,7 @@ class LinearRegression:  # Реализация для варианта 1
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
-        regulatization = 'l1'
-        self.coef = lambda_coef
+        self.gamma = lambda_coef
         self.reg = regulatization
         self.alpha = alpha
         self.bath = batch_size
@@ -49,19 +48,17 @@ class LinearRegression:  # Реализация для варианта 1
         eps = 1
         theta = self.theta
         errors = [self._cost(self.X_train, self.y, theta)]
-        # берем производную от функции потерь
-        cost_d = grad(self._loss)
-        E_g = [0]
-        E_t = [0]  # Немного не понял как нужно высчитывать E[del(theta)]t для нулевого шага
-        rms_t = 1  # поэтому просто определил RMS[del(theta)]t как единицу,
+        E_g = 0
+        E_t = 0  # Немного не понял как нужно высчитывать E[del(theta)]t для нулевого шага
+        rms_t = math.sqrt(E_g + eps)  # поэтому просто определил RMS[del(theta)]t как единицу,
         # а нулевой элемент E[del(theta)]t определил как ноль. По идее, в дальнейшем все должно нормально работать
         # ( но это не точно)
         for i in range(1, self.max_iter + 1):
             # Считаем градиент и обновляем тетту
-            E_g.append(self.coef * E_g[i - 1] + (1 - self.coef) * (np.linalg.norm(cost_d(theta))))
-            rms_g = math.sqrt(E_g[i] + eps)
+            E_g = self.gamma * E_g[i - 1] + (1 - self.gamma) * (np.linalg.norm(cost_d(theta)))
+            rms_g = math.sqrt(E_g + eps)
             delta = rms_t * cost_d(theta) / rms_g
-            E_t.append(self.coef * E_t[i-1] + (1 - self.coef) * (np.linalg.norm(delta)))
+            E_t = self.gamma * E_t + (1 - self.gamma) * (np.linalg.norm(delta))
             rms_t = math.sqrt(E_t[i] + eps)
             theta -= delta
             errors.append(self._cost(self.X_train, self.y, theta))
@@ -78,8 +75,7 @@ class LinearRegression:  # Реализация для варианта 1
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        X_test = self._add_intercept(X_test)
-        return X_test.dot(self.theta)
+        return X_test.T * self.get_weights()[1:] + self.get_weights()[0]
 
     @staticmethod
     def _add_intercept(X):
@@ -105,8 +101,8 @@ class LinearRegression:  # Реализация для варианта 1
             return np.mean(squared_error(actual, predicted))
         self.cost_func = mean_squared_error
 
-    def grad(self, x, y, w):
-        gr = np.zeros(w.shape)
-        for i in range(w.shape[1]):
-            gr[0, i] = sum(x[:, j].reshape(-1, 1)*np.sign(x.dot(w.T) - y)) + self.coef*(np.sign(w[0, j]))
-        return gr
+    def grad_mse(self, X, y):
+        grad = np.zeros(len(self.weights))
+        grad[0] = np.mean((self.predict(X) - y)**2)
+        grad[1:] = np.mean(X*sign[:, None], axis=0)
+        return grad
