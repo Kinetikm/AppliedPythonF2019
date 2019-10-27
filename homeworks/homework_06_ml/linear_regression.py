@@ -18,8 +18,9 @@ class LinearRegression:
         self.reg_coef = alpha
         self.batch_size = batch_size
         self.max_iter = max_iter
-    @staticmethod
-    def grad(a, x, y):
+        self.weights = None
+
+    def grad(self, a, x, y):
         def mae_i_j_grad(a_j, x_i_j, y_i):
             if a_j * x_i_j - y_i > 0:
                 return x_i_j
@@ -39,17 +40,15 @@ class LinearRegression:
         def l2_j_grad(a_j):
             return 2 * a_j
 
+        l1_coef = 0.9
+        l2_coef = 0.1
         mae_i_grad = np.vectorize(mae_i_j_grad)
         l1_grad = np.vectorize(l1_j_grad)
         l2_grad = np.vectorize(l2_j_grad)
-        x = np.hstack((np.ones((x.shape[0], 1)), x))
-        a = a.reshape(1, a.shape[0])
-        y = y.reshape(y.shape[0], 1)
         mae_matrix_grad = mae_i_grad(a, x, y)
         mae_grad_vec = np.mean(mae_matrix_grad, axis=0)
-        l1_grad_vec = l1_grad(a)
-        l2_grad_vec = l2_grad(a)
-        print(l2_grad_vec)
+        l1_grad_vec = l1_grad(a) * self.reg_coef * l1_coef
+        l2_grad_vec = l2_grad(a) * self.reg_coef * l2_coef
         return mae_grad_vec + l1_grad_vec + l2_grad_vec
 
     def fit(self, X_train, y_train):
@@ -59,18 +58,32 @@ class LinearRegression:
         :param y_train: target values for training data
         :return: None
         """
-        dim = X_train.shape[1]
+        X = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
+        dim = X.shape[1]
         gamma = 0.9
-        l1_coef = 0.9
-        l2_coef = 0.1
-        E_g_2 = np.zeros(dim)
         eps = 0.00000001
+        E_g_2 = np.zeros(dim)
+        E_a_2 = np.zeros(dim)
+        RMS_a = np.sqrt(E_a_2 + eps)
+        RMS_g = np.sqrt(E_g_2 + eps)
         a = np.zeros(dim)
-        X = np.array_split(X_train, self.batch_size)
-        for batch in cycle(X):
-            g_t = LinearRegression.grad(a, batch, y_train)
-            E_g_2 = gamma * E_g_2 + (1 - gamma)
-
+        X = np.array_split(X, self.batch_size)
+        Y = np.array_split(y_train, self.batch_size)
+        a = a.reshape(1, a.shape[0])
+        i = 0
+        for batch, res in zip(cycle(X), cycle(Y)):
+            g_t = self.grad(a, batch, res.reshape(res.shape[0], 1))
+            E_g_2 = gamma * E_g_2 + (1 - gamma) * (g_t ** 2)
+            RMS_g = np.sqrt(E_g_2 + eps)
+            delta_a = - (RMS_a / RMS_g) * g_t
+            a = a + delta_a
+            E_a_2 = gamma * E_a_2 + (1 - gamma) * (delta_a ** 2)
+            RMS_a = np.sqrt(E_a_2 + eps)
+            i += 1
+            if i == self.max_iter:
+                break
+        self.weights = a
+        print(self.weights.shape)
 
     def predict(self, X_test):
         """
@@ -78,15 +91,12 @@ class LinearRegression:
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        pass
+        X = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
+        return X @ self.weights.T
 
     def get_weights(self):
         """
         Get weights from fitted linear model
         :return: weights array
         """
-        pass
-
-a = LinearRegression()
-xx = np.array([[1, 3], [6, 9]])
-a.grad(np.array([1, 2, -5]), xx, np.array([8, 9]))
+        return self.weights
