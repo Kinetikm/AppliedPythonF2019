@@ -32,6 +32,7 @@ class LinearRegression:  # Реализация для варианта 1
         :param y_train: target values for training data
         :return: None
         """
+        self.y = y_train
         self.init_cost()
         self.n_samples, self.n_features = X_train.shape
         self.theta = np.random.normal(size=(self.n_features + 1), scale=0.5)
