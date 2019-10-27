@@ -35,7 +35,7 @@ class LinearRegression:  # Реализация для варианта 1
         self.init_cost()
         self.n_samples, self.n_features = X_train.shape
         self.theta = np.random.normal(size=(self.n_features + 1), scale=0.5)
-        self.X_train = self._add_intercept(self.X_train)
+        X_train = self._add_intercept(X_train)
         self.theta, self.errors = self._gradient_descent()
         logging.info(" Theta: %s" % self.theta.flatten())
 
