@@ -3,7 +3,6 @@
 
 
 import numpy as np
-from autograd import grad
 import math
 
 
@@ -37,7 +36,6 @@ class LinearRegression:  # Реализация для варианта 1
         self.n_samples, self.n_features = X_train.shape
         self.theta = np.random.normal(size=(self.n_features + 1), scale=0.5)
         self.X_train = self._add_intercept(self.X_train)
-
         self.theta, self.errors = self._gradient_descent()
         logging.info(" Theta: %s" % self.theta.flatten())
 
@@ -66,7 +64,6 @@ class LinearRegression:  # Реализация для варианта 1
             rms_t = math.sqrt(E_t[i] + eps)
             theta -= delta
             errors.append(self._cost(self.X, self.y, theta))
-            logging.info("Iteration %s, error %s" % (i, errors[i]))
         return theta, errors
 
     def predict(self, X_test):
@@ -88,6 +85,7 @@ class LinearRegression:  # Реализация для варианта 1
         Get weights from fitted linear model
         :return: weights array
         """
+        return self.theta
 
     def _loss(self, w):
         loss = self.cost_func(self.y, np.dot(self.X, w))
@@ -100,3 +98,9 @@ class LinearRegression:  # Реализация для варианта 1
         def mean_squared_error(actual, predicted):
             return np.mean(squared_error(actual, predicted))
         self.cost_func = mean_squared_error
+
+    def grad(self, x, y, w):
+        gr = np.zeros(w.shape)
+        for i in range(w.shape[1]):
+            gr[0, i] = sum(x[:, j].reshape(-1, 1)*np.sign(x.dot(w.T) - y)) + self.coef*(np.sign(w[0, j]))
+        return gr
