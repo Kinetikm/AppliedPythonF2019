@@ -1,19 +1,27 @@
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 
 class LinearRegression:
-    def __init__(self, batch_size=50, max_iter=1000, regr=False):
+    def __init__(self, batch_size=50, lambda_coef=None,
+                 max_iter=1000, regr=False):
         self.batch_size = batch_size
         self.max_iter = max_iter
+        self.scaler = StandardScaler()
         # in depends on regression choose loss function and it's gradient
         if regr:
             self.lambda_coef = 10**-3
+            self.epsilon = 0.1
             self.loss = self.__elastic_func
             self.grad_loss = self.__grad_elastic_func
         else:
             self.lambda_coef = 10**-1
+            self.epsilon = 0.01
             self.loss = self.__mae_func
             self.grad_loss = self.__grad_mae_func
+        # check user coefficient
+        if lambda_coef is not None:
+            self.lambda_coef = lambda_coef
 
     def __mae_func(self, X, y):
         return np.mean(np.abs(self.predict(X) - y))
@@ -48,6 +56,9 @@ class LinearRegression:
         return np.sqrt(ma + epsilon)
 
     def fit(self, X_train, y_train):
+        # normalize input data
+        self.scaler.fit(X_train)
+        # determine number of attributes and size of test sample
         if len(X_train.shape) == 1:
             X_train = np.reshape(X_train, (-1, 1))
         n, m = X_train.shape
@@ -72,9 +83,12 @@ class LinearRegression:
                 # update RMS[grad(weights)]
                 ma_dw = self.moving_averange(delta_weights, ma_dw)
                 rms_dw = self.root_mean_square(ma_dw)
+                # additional condition for stopping iteration process
+                if self.loss(X_train, y_train) < self.epsilon:
+                    return
 
     def predict(self, X):
-        return X @ self.weights[1:] + self.weights[0]
+        return self.scaler.transform(X) @ self.weights[1:] + self.weights[0]
 
     def get_weights(self):
         return self.weights
