@@ -1,5 +1,5 @@
-0 Urls(method='put', url='http://localhost:5000/flight', headers=None, json={'departure_time': 4535435, 'arrival_time': 543534, 'flight_time': 456465, 'destination_airport': 'dmd'}, data=None) 201 True
-< PUT /flight HTTP/1.1
+0 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': 4535435, 'arrival_time': 543534, 'flight_time': 456465, 'destination_airport': 'dmd'}, data=None) 201 True
+< POST /flights HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.20.1
 < Accept-Encoding: gzip, deflate
@@ -13,7 +13,7 @@
 > Content-Type: application/json
 > Content-Length: 105
 > Server: Werkzeug/0.16.0 Python/3.6.5
-> Date: Wed, 23 Oct 2019 21:11:29 GMT
+> Date: Sun, 27 Oct 2019 19:29:49 GMT
 > 
 {"arrival_time":543534,"departure_time":4535435,"destination_airport":"dmd","flight_time":456465,"id":1}
 
@@ -30,12 +30,12 @@
 > Content-Type: application/json
 > Content-Length: 107
 > Server: Werkzeug/0.16.0 Python/3.6.5
-> Date: Wed, 23 Oct 2019 21:11:29 GMT
+> Date: Sun, 27 Oct 2019 19:29:49 GMT
 > 
 [{"arrival_time":543534,"departure_time":4535435,"destination_airport":"dmd","flight_time":456465,"id":1}]
 
-2 Urls(method='post', url='http://localhost:5000/flight/1', headers=None, json={'destination_airport': 'svo', 'arrival_time': 1}, data=None) 200 True
-< POST /flight/1 HTTP/1.1
+2 Urls(method='put', url='http://localhost:5000/flights/1', headers=None, json={'destination_airport': 'svo', 'arrival_time': 1}, data=None) 200 True
+< PUT /flights/1 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.20.1
 < Accept-Encoding: gzip, deflate
@@ -49,12 +49,12 @@
 > Content-Type: application/json
 > Content-Length: 100
 > Server: Werkzeug/0.16.0 Python/3.6.5
-> Date: Wed, 23 Oct 2019 21:11:29 GMT
+> Date: Sun, 27 Oct 2019 19:29:49 GMT
 > 
 {"arrival_time":1,"departure_time":4535435,"destination_airport":"svo","flight_time":456465,"id":1}
 
-3 Urls(method='delete', url='http://localhost:5000/flight/1', headers=None, json=None, data=None) 204 True
-< DELETE /flight/1 HTTP/1.1
+3 Urls(method='delete', url='http://localhost:5000/flights/1', headers=None, json=None, data=None) 204 True
+< DELETE /flights/1 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.20.1
 < Accept-Encoding: gzip, deflate
@@ -66,6 +66,6 @@
 > HTTP/1.0 204 NO CONTENT
 > Content-Type: text/html; charset=utf-8
 > Server: Werkzeug/0.16.0 Python/3.6.5
-> Date: Wed, 23 Oct 2019 21:11:29 GMT
+> Date: Sun, 27 Oct 2019 19:29:49 GMT
 > 
 

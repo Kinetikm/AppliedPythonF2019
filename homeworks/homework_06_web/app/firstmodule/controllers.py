@@ -1,22 +1,38 @@
-from flask import Flask, request
+from flask import Flask, request, Blueprint, g
 from flask import jsonify
-from my_model import Flights
-from my_forms import NewFlight, EditFlight
+import app.firstmodule.forms as forms
+import app.firstmodule.models as models
+from time import time
+import logging
 
-app = Flask(__name__)
+module = Blueprint('', __name__)
+logger = logging.getLogger('app.controllers')
 
 
-@app.route('/flights/', methods=['GET'])
+@module.before_request
+def before_request():
+    g.start = time()
+
+
+@module.after_request
+def after_request(response):
+    processing_time = time() - g.start
+    if int(response.status_code / 100) == 2:
+        logger.info(f'{request.method} {request.url}.Time: {processing_time}')
+    return response
+
+
+@module.route('/flights/', methods=['GET'])
 def get_all_flights():
-    return jsonify(Flights.select_all_flights()), 200
+    return jsonify(models.Flights.select_all_flights()), 200
 
 
-@app.route('/flight', methods=['PUT'])
+@module.route('/flights', methods=['POST'])
 def create_new_flight():
-    form = NewFlight()
+    form = forms.NewFlight()
     if not form.validate():
         return form.errors, 400
-    flight = Flights({
+    flight = models.Flights({
         'departure_time': form.departure_time.data,
         'arrival_time': form.arrival_time.data,
         'flight_time': form.flight_time.data,
@@ -27,21 +43,21 @@ def create_new_flight():
     return jsonify(flight.convert_to_dict()), 201
 
 
-@app.route('/flight/<int:flight_id>', methods=['DELETE'])
+@module.route('/flights/<int:flight_id>', methods=['DELETE'])
 def delete_flight(flight_id):
-    flight = Flights.select_by_id(flight_id)
+    flight = models.Flights.select_by_id(flight_id)
     if not flight:
         return jsonify({'error': f'Fligh with id: {flight_id} not found'}), 404
     flight.delete()
     return ('Deleted', 204)
 
 
-@app.route('/flight/<int:flight_id>', methods=['POST'])
+@module.route('/flights/<int:flight_id>', methods=['PUT'])
 def edit_flight(flight_id):
-    flight = Flights.select_by_id(flight_id)
+    flight = models.Flights.select_by_id(flight_id)
     if not flight:
         return jsonify({'error': f'Fligh with id: {flight_id} not found'}), 404
-    form = EditFlight()
+    form = forms.EditFlight()
     if (not form.validate()):
         return form.errors, 400
     if form.departure_time.data:
@@ -52,6 +68,6 @@ def edit_flight(flight_id):
         flight.flight_time(form.flight_time.data)
     if form.destination_airport.data:
         flight.destination_airport(form.destination_airport.data)
+    if (not flight.update()):
+        return jsonify({'error': f'Server error, try later'}), 500
     return jsonify(flight.convert_to_dict()), 200
-
-app.run(host='0.0.0.0')

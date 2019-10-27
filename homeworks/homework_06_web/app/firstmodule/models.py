@@ -25,6 +25,13 @@ class Flights:
         else:
             return None
 
+    def update(self):
+        # В БД пока не ходим, поэтому так
+        if (self._id):
+            return self._id
+        else:
+            return None
+
     def delete(self):
         del FLIGHTS[self._id]
 

@@ -1,0 +1,4 @@
+2019-10-27 22:29:49,793 - app.controllers - INFO - POST http://localhost:5000/flights.Time: 0.000986337661743164
+2019-10-27 22:29:49,800 - app.controllers - INFO - GET http://localhost:5000/flights/.Time: 0.00022077560424804688
+2019-10-27 22:29:49,807 - app.controllers - INFO - PUT http://localhost:5000/flights/1.Time: 0.0009350776672363281
+2019-10-27 22:29:49,813 - app.controllers - INFO - DELETE http://localhost:5000/flights/1.Time: 7.891654968261719e-05
