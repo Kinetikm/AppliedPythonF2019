@@ -2,7 +2,8 @@ import datetime
 import random
 
 
-def generate_data(n=5, start_date=datetime.datetime(2018, 1, 1), end_date=datetime.datetime(2019, 1, 1),
+def generate_data(n=5, start_date=datetime.datetime(2018, 1, 1, tzinfo=datetime.timezone.utc),
+                  end_date=datetime.datetime(2019, 1, 1, tzinfo=datetime.timezone.utc),
                   max_flight_time=10):
     data = []
     airports = ['Moscow', 'Chelyabinsk', 'Ekaterinburg', 'London', 'Berlin', 'Minsk']
@@ -33,8 +34,17 @@ class FlightsStorage:
         result = self._data[pos]
         return result
 
-    def get_flights(self):
-        return self._data
+    def get_flights(self, sort_by, filter_by_airport, filter_by_time, filter_by_plane):
+        result = self._data
+        if sort_by is not None:
+            result = sorted(self._data, key=lambda x: x[sort_by])
+        if filter_by_airport is not None:
+            result = [i for i in result if i['dest_airport'] == filter_by_airport]
+        if filter_by_time is not None:
+            result = [i for i in result if i['dep_time'] == filter_by_time]
+        if filter_by_plane is not None:
+            result = [i for i in result if i['airlane'] == filter_by_plane]
+        return result
 
     def add_flight(self, dep_time: datetime.datetime, arr_time: datetime.datetime,
                    dest_airp, airplane):

@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validates_schema, ValidationError
+from marshmallow import Schema, fields, validates, validates_schema, ValidationError
 
 
 class FlightSchema(Schema):
@@ -12,3 +12,17 @@ class FlightSchema(Schema):
     def arr_is_later_dep(self, data, **kwargs):
         if data['dep_time'] >= data['arr_time']:
             raise ValidationError("arr_time must be later then dep_time")
+
+
+class ArgsSchema(Schema):
+
+    PERMISSIBLE_VALUE = ['airplane', 'dest_airport', 'dep_time', 'arr_time']
+    sort_by = fields.Str(missing=None)
+    filter_by_plane = fields.Str(missing=None)
+    filter_by_airport = fields.Str(missing=None)
+    filter_by_time = fields.DateTime(missing=None, format='rfc')
+
+    @validates('sort_by')
+    def validate_sort_by(self, value):
+        if (value is not None) and (value not in self.PERMISSIBLE_VALUE):
+            raise ValidationError('Incorrect value of sort_by parameter')

@@ -9,6 +9,7 @@ import logging.config
 
 data_storage = flight_data.FlightsStorage()
 flight_schema = validation.FlightSchema()
+args_schema = validation.ArgsSchema()
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger('RequestLogger')
 logger.info('App running')
@@ -17,7 +18,9 @@ logger.info('App running')
 @app.route('/flights', methods=['GET', 'POST'])
 def flights():
     if request.method == 'GET':
-        data = data_storage.get_flights()
+        args = args_schema.load(request.args)
+        data = data_storage.get_flights(sort_by=args['sort_by'], filter_by_airport=args['filter_by_airport'],
+                                        filter_by_plane=args['filter_by_plane'], filter_by_time=args['filter_by_time'])
         return jsonify(data)
     elif request.method == 'POST':
         try:
