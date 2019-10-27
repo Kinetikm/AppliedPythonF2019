@@ -1,0 +1,95 @@
+0 Urls(method='post', url='http://localhost:5000/rows', headers=None, json={'dep_time': '20:40', 'arr_time': '22:40', 'travel_time': '2H00M', 'airport': 'ABS', 'aircraft': 'BUS'}, data=None) 200 True
+< POST /rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 103
+< Content-Type: application/json
+< 
+< {"dep_time": "20:40", "arr_time": "22:40", "travel_time": "2H00M", "airport": "ABS", "aircraft": "BUS"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 421
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 27 Oct 2019 17:40:32 GMT
+> 
+[{"aircraft":"Airbus","airport":"QQQ","arr_time":"15:30","dep_time":"12:30","id":1,"travel_time":"2H00M"},{"aircraft":"Boeing","airport":"AWE","arr_time":"15:30","dep_time":"10:30","id":2,"travel_time":"8H46M"},{"aircraft":"Superjet","airport":"ZAS","arr_time":"18:30","dep_time":"12:30","id":3,"travel_time":"1H51M"},{"aircraft":"BUS","airport":"ABS","arr_time":"22:40","dep_time":"20:40","id":4,"travel_time":"2H00M"}]
+
+1 Urls(method='post', url='http://localhost:5000/rows', headers=None, json={'dep_time': '20:40', 'arr_time': '08:40', 'travel_time': '12H00M', 'airport': 'DSA', 'aircraft': 'Airbus'}, data=None) 200 True
+< POST /rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 107
+< Content-Type: application/json
+< 
+< {"dep_time": "20:40", "arr_time": "08:40", "travel_time": "12H00M", "airport": "DSA", "aircraft": "Airbus"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 527
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 27 Oct 2019 17:40:32 GMT
+> 
+[{"aircraft":"Airbus","airport":"QQQ","arr_time":"15:30","dep_time":"12:30","id":1,"travel_time":"2H00M"},{"aircraft":"Boeing","airport":"AWE","arr_time":"15:30","dep_time":"10:30","id":2,"travel_time":"8H46M"},{"aircraft":"Superjet","airport":"ZAS","arr_time":"18:30","dep_time":"12:30","id":3,"travel_time":"1H51M"},{"aircraft":"BUS","airport":"ABS","arr_time":"22:40","dep_time":"20:40","id":4,"travel_time":"2H00M"},{"aircraft":"Airbus","airport":"DSA","arr_time":"08:40","dep_time":"20:40","id":5,"travel_time":"12H00M"}]
+
+2 Urls(method='put', url='http://localhost:5000/rows/3', headers=None, json={'dep_time': '20:40', 'arr_time': '21:40', 'travel_time': '1H00M', 'airport': 'NEW', 'aircraft': 'Airbus'}, data=None) 200 True
+< PUT /rows/3 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 106
+< Content-Type: application/json
+< 
+< {"dep_time": "20:40", "arr_time": "21:40", "travel_time": "1H00M", "airport": "NEW", "aircraft": "Airbus"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 525
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 27 Oct 2019 17:40:32 GMT
+> 
+[{"aircraft":"Airbus","airport":"QQQ","arr_time":"15:30","dep_time":"12:30","id":1,"travel_time":"2H00M"},{"aircraft":"Boeing","airport":"AWE","arr_time":"15:30","dep_time":"10:30","id":2,"travel_time":"8H46M"},{"aircraft":"Airbus","airport":"NEW","arr_time":"21:40","dep_time":"20:40","id":3,"travel_time":"1H00M"},{"aircraft":"BUS","airport":"ABS","arr_time":"22:40","dep_time":"20:40","id":4,"travel_time":"2H00M"},{"aircraft":"Airbus","airport":"DSA","arr_time":"08:40","dep_time":"20:40","id":5,"travel_time":"12H00M"}]
+
+3 Urls(method='delete', url='http://localhost:5000/rows/1', headers=None, json={}, data=None) 200 True
+< DELETE /rows/1 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 420
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 27 Oct 2019 17:40:32 GMT
+> 
+[{"aircraft":"Boeing","airport":"AWE","arr_time":"15:30","dep_time":"10:30","id":2,"travel_time":"8H46M"},{"aircraft":"Airbus","airport":"NEW","arr_time":"21:40","dep_time":"20:40","id":3,"travel_time":"1H00M"},{"aircraft":"BUS","airport":"ABS","arr_time":"22:40","dep_time":"20:40","id":4,"travel_time":"2H00M"},{"aircraft":"Airbus","airport":"DSA","arr_time":"08:40","dep_time":"20:40","id":5,"travel_time":"12H00M"}]
+
+4 Urls(method='delete', url='http://localhost:5000/rows/2', headers=None, json={}, data=None) 200 True
+< DELETE /rows/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 315
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 27 Oct 2019 17:40:32 GMT
+> 
+[{"aircraft":"Airbus","airport":"NEW","arr_time":"21:40","dep_time":"20:40","id":3,"travel_time":"1H00M"},{"aircraft":"BUS","airport":"ABS","arr_time":"22:40","dep_time":"20:40","id":4,"travel_time":"2H00M"},{"aircraft":"Airbus","airport":"DSA","arr_time":"08:40","dep_time":"20:40","id":5,"travel_time":"12H00M"}]
+
