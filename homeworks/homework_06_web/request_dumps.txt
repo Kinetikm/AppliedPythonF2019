@@ -1,0 +1,307 @@
+0 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 3
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[]
+
+1 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '1571814000', 'arrival': '1571821200', 'time_in_flight': '7200', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 121
+< Content-Type: application/json
+< 
+< {"departure": "1571814000", "arrival": "1571821200", "time_in_flight": "7200", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 137
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"SVO","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"}]
+
+2 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '1571814000', 'arrival': '1571821200', 'time_in_flight': '3600', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 121
+< Content-Type: application/json
+< 
+< {"departure": "1571814000", "arrival": "1571821200", "time_in_flight": "3600", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html
+> Content-Length: 192
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>The browser (or proxy) sent a request that this server could not understand.</p>
+
+3 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '1571821200', 'arrival': '1571814000', 'time_in_flight': '7200', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 121
+< Content-Type: application/json
+< 
+< {"departure": "1571821200", "arrival": "1571814000", "time_in_flight": "7200", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html
+> Content-Length: 192
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>The browser (or proxy) sent a request that this server could not understand.</p>
+
+4 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '1571814000', 'arrival': '1571821200', 'time_in_flight': '7200', 'airport': 'SV', 'aircraft_type': 'AN28'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 120
+< Content-Type: application/json
+< 
+< {"departure": "1571814000", "arrival": "1571821200", "time_in_flight": "7200", "airport": "SV", "aircraft_type": "AN28"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html
+> Content-Length: 192
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>The browser (or proxy) sent a request that this server could not understand.</p>
+
+5 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '1571900400', 'arrival': '1571916300', 'time_in_flight': '15900', 'airport': 'DMD', 'aircraft_type': 'SU100'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 123
+< Content-Type: application/json
+< 
+< {"departure": "1571900400", "arrival": "1571916300", "time_in_flight": "15900", "airport": "DMD", "aircraft_type": "SU100"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 273
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"SVO","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"},{"aircraft_type":"SU100","airport":"DMD","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","time_in_flight":"04:25:00"}]
+
+6 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 273
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"SVO","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"},{"aircraft_type":"SU100","airport":"DMD","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","time_in_flight":"04:25:00"}]
+
+7 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'departure': '1571814000', 'arrival': '1571821200', 'time_in_flight': '7200', 'airport': 'DMD', 'aircraft_type': 'AN28'}, data=None) 404 False
+< PUT /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 121
+< Content-Type: application/json
+< 
+< {"departure": "1571814000", "arrival": "1571821200", "time_in_flight": "7200", "airport": "DMD", "aircraft_type": "AN28"}
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: text/html
+> Content-Length: 232
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+8 Urls(method='put', url='http://localhost:5000/flights/0', headers=None, json={'departure': '1571814000', 'arrival': '1571821200', 'time_in_flight': '7200', 'airport': 'DMD', 'aircraft_type': 'AN28'}, data=None) 200 True
+< PUT /flights/0 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 121
+< Content-Type: application/json
+< 
+< {"departure": "1571814000", "arrival": "1571821200", "time_in_flight": "7200", "airport": "DMD", "aircraft_type": "AN28"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 273
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"DMD","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"},{"aircraft_type":"SU100","airport":"DMD","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","time_in_flight":"04:25:00"}]
+
+9 Urls(method='put', url='http://localhost:5000/flights/1', headers=None, json={'departure': '1571900400', 'arrival': '1571916300', 'time_in_flight': '15900', 'airport': 'SVO', 'aircraft_type': 'SU104'}, data=None) 200 True
+< PUT /flights/1 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 123
+< Content-Type: application/json
+< 
+< {"departure": "1571900400", "arrival": "1571916300", "time_in_flight": "15900", "airport": "SVO", "aircraft_type": "SU104"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 273
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"DMD","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"},{"aircraft_type":"SU104","airport":"SVO","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","time_in_flight":"04:25:00"}]
+
+10 Urls(method='delete', url='http://localhost:5000/flights/2', headers=None, json=None, data=None) 404 False
+< DELETE /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: text/html
+> Content-Length: 232
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+11 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '1571986800', 'arrival': '1571997600', 'time_in_flight': '10800', 'airport': 'DIA', 'aircraft_type': 'A320'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 122
+< Content-Type: application/json
+< 
+< {"departure": "1571986800", "arrival": "1571997600", "time_in_flight": "10800", "airport": "DIA", "aircraft_type": "A320"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 408
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"DMD","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"},{"aircraft_type":"SU104","airport":"SVO","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","time_in_flight":"04:25:00"},{"aircraft_type":"A320","airport":"DIA","arrival":"2019-10-25 10:00:00","departure":"2019-10-25 07:00:00","time_in_flight":"03:00:00"}]
+
+12 Urls(method='get', url='http://localhost:5000/flights/DMD', headers=None, json=None, data=None) 200 True
+< GET /flights/DMD HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 137
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"DMD","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"}]
+
+13 Urls(method='get', url='http://localhost:5000/flights/sort', headers=None, json=None, data=None) 200 True
+< GET /flights/sort HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 408
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"DMD","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"},{"aircraft_type":"SU104","airport":"SVO","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","time_in_flight":"04:25:00"},{"aircraft_type":"A320","airport":"DIA","arrival":"2019-10-25 10:00:00","departure":"2019-10-25 07:00:00","time_in_flight":"03:00:00"}]
+
+14 Urls(method='delete', url='http://localhost:5000/flights/2', headers=None, json=None, data=None) 200 True
+< DELETE /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 273
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"DMD","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"},{"aircraft_type":"SU104","airport":"SVO","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","time_in_flight":"04:25:00"}]
+
+15 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 273
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sun, 27 Oct 2019 09:33:32 GMT
+> 
+[{"aircraft_type":"AN28","airport":"DMD","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","time_in_flight":"02:00:00"},{"aircraft_type":"SU104","airport":"SVO","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","time_in_flight":"04:25:00"}]
+
