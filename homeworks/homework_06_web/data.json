@@ -1,0 +1,9 @@
+{
+    "2": {
+        "departure_time": "16:00",
+        "arrival_time": "17:00",
+        "travel_time": "01:00",
+        "destination_airport": "Vnukovo",
+        "type_aircraft": "TU"
+    }
+}

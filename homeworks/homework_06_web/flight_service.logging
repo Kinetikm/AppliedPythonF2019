@@ -1,0 +1,23 @@
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:root:show_flights, output all flights
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flights HTTP/1.1" 200 -
+INFO:root:new_flight: new id_flight = 1
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "POST /new_flight HTTP/1.1" 200 -
+INFO:root:new_flight: new id_flight = 2
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "POST /new_flight HTTP/1.1" 200 -
+INFO:root:new_flight: new id_flight = None
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "POST /new_flight HTTP/1.1" 400 -
+INFO:root:show_flights, output all flights
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flights HTTP/1.1" 200 -
+INFO:root:show_flight, id_flight = 1: exists = False
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flight/1 HTTP/1.1" 400 -
+INFO:root:show_flight, id_flight = 33: exists = False
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flight/33 HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "PUT /update_flight HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "PUT /update_flight HTTP/1.1" 400 -
+INFO:root:delete_flight, id_flight = 1: result = True
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "DELETE /delete_flight HTTP/1.1" 200 -
+INFO:root:delete_flight, id_flight = 4: result = False
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "DELETE /delete_flight HTTP/1.1" 400 -
+INFO:root:show_flights, output all flights
+INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flights HTTP/1.1" 200 -

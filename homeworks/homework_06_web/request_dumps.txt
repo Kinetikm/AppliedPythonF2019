@@ -1,0 +1,238 @@
+0 Urls(method='get', url='http://localhost:5000/show_flights', headers=None, json=None) 200 True
+< GET /show_flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{}
+1 Urls(method='post', url='http://localhost:5000/new_flight', headers=None, json={'departure_time': '10:00', 'arrival_time': '13:00', 'travel_time': '03:00', 'destination_airport': 'Vnukovo', 'type_aircraft': 'TU'}) 200 True
+< POST /new_flight HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 133
+< Content-Type: application/json
+< 
+< {"departure_time": "10:00", "arrival_time": "13:00", "travel_time": "03:00", "destination_airport": "Vnukovo", "type_aircraft": "TU"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 16
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{"success":"1"}
+
+2 Urls(method='post', url='http://localhost:5000/new_flight', headers=None, json={'departure_time': '11:00', 'arrival_time': '12:00', 'travel_time': '01:00', 'destination_airport': 'Sheremetievo', 'type_aircraft': 'TU'}) 200 True
+< POST /new_flight HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 138
+< Content-Type: application/json
+< 
+< {"departure_time": "11:00", "arrival_time": "12:00", "travel_time": "01:00", "destination_airport": "Sheremetievo", "type_aircraft": "TU"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 16
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{"success":"2"}
+
+3 Urls(method='post', url='http://localhost:5000/new_flight', headers=None, json={'departure_time': '12:00', 'arrival_time': '25:00', 'travel_time': '02:00', 'destination_airport': 'Vnukovo', 'type_aircraft': 'TU'}) 400 False
+< POST /new_flight HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 133
+< Content-Type: application/json
+< 
+< {"departure_time": "12:00", "arrival_time": "25:00", "travel_time": "02:00", "destination_airport": "Vnukovo", "type_aircraft": "TU"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 18
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{"success":false}
+
+4 Urls(method='get', url='http://localhost:5000/show_flights', headers=None, json=None) 200 True
+< GET /show_flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 387
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{
+    "1": {
+        "departure_time": "10:00",
+        "arrival_time": "13:00",
+        "travel_time": "03:00",
+        "destination_airport": "Vnukovo",
+        "type_aircraft": "TU"
+    },
+    "2": {
+        "departure_time": "11:00",
+        "arrival_time": "12:00",
+        "travel_time": "01:00",
+        "destination_airport": "Sheremetievo",
+        "type_aircraft": "TU"
+    }
+}
+5 Urls(method='get', url='http://localhost:5000/show_flight/1', headers=None, json=None) 400 False
+< GET /show_flight/1 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 18
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{"success":false}
+
+6 Urls(method='get', url='http://localhost:5000/show_flight/33', headers=None, json=None) 400 False
+< GET /show_flight/33 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 18
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{"success":false}
+
+7 Urls(method='put', url='http://localhost:5000/update_flight', headers=None, json={'id_flight': '2', 'flight': {'departure_time': '16:00', 'arrival_time': '17:00', 'travel_time': '01:00', 'destination_airport': 'Vnukovo', 'type_aircraft': 'TU'}}) 200 True
+< PUT /update_flight HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 163
+< Content-Type: application/json
+< 
+< {"id_flight": "2", "flight": {"departure_time": "16:00", "arrival_time": "17:00", "travel_time": "01:00", "destination_airport": "Vnukovo", "type_aircraft": "TU"}}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 17
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{"success":true}
+
+8 Urls(method='put', url='http://localhost:5000/update_flight', headers=None, json={'id_flight': '3', 'flight': {'departure_time': 1600, 'arrival_time': '17:00', 'travel_time': '01:00', 'destination_airport': 'Vnukovo', 'type_aircraft': 'TU'}}) 400 False
+< PUT /update_flight HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 160
+< Content-Type: application/json
+< 
+< {"id_flight": "3", "flight": {"departure_time": 1600, "arrival_time": "17:00", "travel_time": "01:00", "destination_airport": "Vnukovo", "type_aircraft": "TU"}}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 18
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{"success":false}
+
+9 Urls(method='delete', url='http://localhost:5000/delete_flight', headers=None, json={'id_flight': '1'}) 200 True
+< DELETE /delete_flight HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 18
+< Content-Type: application/json
+< 
+< {"id_flight": "1"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 17
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{"success":true}
+
+10 Urls(method='delete', url='http://localhost:5000/delete_flight', headers=None, json={'id_flight': '4'}) 400 False
+< DELETE /delete_flight HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 18
+< Content-Type: application/json
+< 
+< {"id_flight": "4"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 18
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{"success":false}
+
+11 Urls(method='get', url='http://localhost:5000/show_flights', headers=None, json=None) 200 True
+< GET /show_flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 192
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 27 Oct 2019 18:05:03 GMT
+> 
+{
+    "2": {
+        "departure_time": "16:00",
+        "arrival_time": "17:00",
+        "travel_time": "01:00",
+        "destination_airport": "Vnukovo",
+        "type_aircraft": "TU"
+    }
+}
