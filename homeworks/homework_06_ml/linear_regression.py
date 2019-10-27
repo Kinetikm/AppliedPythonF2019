@@ -66,6 +66,11 @@ class LinearRegression:  # Реализация для варианта 1
             errors.append(self._cost(self.X, self.y, theta))
         return theta, errors
 
+    def _cost(self, X, y, theta):
+        pred = X.dot(theta)
+        error = self.cost_func(y, pred)
+        return error
+
     def predict(self, X_test):
         """
         Predict using model.
