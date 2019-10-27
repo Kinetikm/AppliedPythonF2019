@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 from flask import abort
 
 
@@ -25,7 +26,14 @@ class Flight():
             'time_in_flight': self.check_flight_time,
             'airport': self.check_airport,
             'aircraft_type': self.check_aircraft}
+        self.transfer = ['arrival', 'departure']
         self.value = dict()
+        for val in self.transfer:
+            if val in input_value:
+                try:
+                    input_value[val] = str(int(datetime.strptime(input_value[val], '%Y-%m-%d %H:%M:%S').timestamp()))
+                except ValueError:
+                    abort(400)
         for val in self.params:
             if val in input_value and self.params[val](input_value[val]):
                 self.value[val] = input_value[val]
@@ -39,6 +47,12 @@ class Flight():
         return self.value[key]
 
     def edit_flight(self, input_value):
+        for val in self.transfer:
+            if val in input_value:
+                try:
+                    input_value[val] = str(int(datetime.strptime(input_value[val], '%Y-%m-%d %H:%M:%S').timestamp()))
+                except ValueError:
+                    abort(400)
         for val in self.params:
             if val in input_value and self.params[val](input_value[val]):
                 self.value[val] = input_value[val]
