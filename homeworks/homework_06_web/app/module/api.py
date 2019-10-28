@@ -18,7 +18,8 @@ def before_request():
 def after_request(response):
     diff = time.time() - g.start
     if str(response.status_code)[0] == '2':
-        controllers_logger.info(f'Have done the {request.url} with ' + f'{request.method} method for ' + f'{"%.5f" % diff}')
+        controllers_logger.info(f'Have done the {request.url} with ' + f'{request.method} method for ' +
+                                f'{"%.5f" % diff}')
     return response
 
 

@@ -19,7 +19,7 @@ if __name__ == '__main__':
         file_handler.setFormatter(logging.Formatter(
             '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
         logger.setLevel(logging.INFO)
-        file_handler.setLevel(logging.INFO)  # Маленький логгер, который фиксирует старт сервера =)
+        file_handler.setLevel(logging.INFO)
         logger.addHandler(file_handler)
         logger.info('App startup')
     app_manager.debug = True
