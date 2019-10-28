@@ -1,21 +1,33 @@
-#!flask/bin/python
-import os
 import logging
-from logging.handlers import RotatingFileHandler
-from flask import jsonify, request, abort, Flask
-from model import flights
-from validation import isvalid
+import time
+from flask import jsonify, request, abort, Blueprint, g
+from app.module.model import flights
+from app.module.validation import isvalid
 
-app = Flask(__name__)
+module = Blueprint('', __name__)
+controllers_logger = logging.getLogger('app.api')
 fields = ['Departure(GMT)', 'Arrival(GMT)', 'Travel time', 'Destination', 'Aircraft type']
 
 
-@app.route('/todo/api/flights', methods=['GET'])
+@module.before_request
+def before_request():
+    g.start = time.time()
+
+
+@module.after_request
+def after_request(response):
+    diff = time.time() - g.start
+    if str(response.status_code)[0] == '2':
+        controllers_logger.info(f'Have done the {request.url} with ' + f'{request.method} method for ' + f'{"%.5f" % diff}')
+    return response
+
+
+@module.route('/todo/api/flights', methods=['GET'])
 def get_flights():
     return jsonify(flights), 200
 
 
-@app.route('/todo/api/flights/<int:flight_id>', methods=['PUT'])
+@module.route('/todo/api/flights/<int:flight_id>', methods=['PUT'])
 def change_flight(flight_id):
     try:
         flight = list(filter(lambda f: f['id'] == flight_id, flights))[0]
@@ -31,7 +43,7 @@ def change_flight(flight_id):
         abort(404)
 
 
-@app.route('/todo/api/flights', methods=['POST'])
+@module.route('/todo/api/flights', methods=['POST'])
 def create_flight():
     if not request.json:
         abort(400)
@@ -45,7 +57,7 @@ def create_flight():
     return jsonify(flight), 201
 
 
-@app.route('/todo/api/flights/<int:flight_id>', methods=['DELETE'])
+@module.route('/todo/api/flights/<int:flight_id>', methods=['DELETE'])
 def del_flight(flight_id):
     try:
         flight = list(filter(lambda f: f['id'] == flight_id, flights))[0]
@@ -53,20 +65,3 @@ def del_flight(flight_id):
         return 'Deleted', 204
     except IndexError:
         abort(404)
-
-
-if __name__ == '__main__':
-    if not app.debug:
-        if not os.path.exists('logs'):
-            os.mkdir('logs')
-        file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240,
-                                           backupCount=10)
-        file_handler.setFormatter(logging.Formatter(
-            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-        file_handler.setLevel(logging.INFO)  # Маленький логгер, который фиксирует старт сервера =)
-        app.logger.addHandler(file_handler)
-
-        app.logger.setLevel(logging.INFO)
-        app.logger.info('Microblog startup')
-    app.debug = True
-    app.run(host='0.0.0.0')

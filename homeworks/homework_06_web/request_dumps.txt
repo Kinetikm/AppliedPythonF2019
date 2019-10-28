@@ -11,18 +11,11 @@
 < {"Departure(GMT)": 2130, "Arrival(GMT)": 600, "Travel time": 830, "Destination": "VNU", "Aircraft type": "IL-56"}
 > HTTP/1.0 201 CREATED
 > Content-Type: application/json
-> Content-Length: 142
+> Content-Length: 112
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Fri, 25 Oct 2019 11:27:32 GMT
+> Date: Mon, 28 Oct 2019 12:44:12 GMT
 > 
-{
-  "Aircraft type": "IL-56", 
-  "Arrival(GMT)": 600, 
-  "Departure(GMT)": 2130, 
-  "Destination": "VNU", 
-  "Travel time": 830, 
-  "id": 3
-}
+{"Aircraft type":"IL-56","Arrival(GMT)":600,"Departure(GMT)":2130,"Destination":"VNU","Travel time":830,"id":3}
 
 1 Urls(method='get', url='http://localhost:5000/todo/api/flights', headers=None, json=None, data=None) 200 True
 < GET /todo/api/flights HTTP/1.1
@@ -35,36 +28,11 @@
 
 > HTTP/1.0 200 OK
 > Content-Type: application/json
-> Content-Length: 502
+> Content-Length: 358
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Fri, 25 Oct 2019 11:27:32 GMT
+> Date: Mon, 28 Oct 2019 12:44:12 GMT
 > 
-[
-  {
-    "Aircraft type": "Sukhoi superjet 100", 
-    "Arrival(GMT)": 1000, 
-    "Departure(GMT)": 200, 
-    "Destination": "SVO", 
-    "Travel time": 800, 
-    "id": 1
-  }, 
-  {
-    "Aircraft type": "Airbus 738", 
-    "Arrival(GMT)": 1500, 
-    "Departure(GMT)": 1000, 
-    "Destination": "DME", 
-    "Travel time": 500, 
-    "id": 2
-  }, 
-  {
-    "Aircraft type": "IL-56", 
-    "Arrival(GMT)": 600, 
-    "Departure(GMT)": 2130, 
-    "Destination": "VNU", 
-    "Travel time": 830, 
-    "id": 3
-  }
-]
+[{"Aircraft type":"Sukhoi superjet 100","Arrival(GMT)":1000,"Departure(GMT)":200,"Destination":"SVO","Travel time":800,"id":1},{"Aircraft type":"Airbus 738","Arrival(GMT)":1500,"Departure(GMT)":1000,"Destination":"DME","Travel time":500,"id":2},{"Aircraft type":"IL-56","Arrival(GMT)":600,"Departure(GMT)":2130,"Destination":"VNU","Travel time":830,"id":3}]
 
 2 Urls(method='put', url='http://localhost:5000/todo/api/flights/1', headers=None, json={'Departure(GMT)': 2031, 'Arrival(GMT)': 1000, 'Travel time': 1031, 'Destination': 'Bashni blizneci', 'Aircraft type': 'airbus'}, data=None) 200 True
 < PUT /todo/api/flights/1 HTTP/1.1
@@ -79,18 +47,11 @@
 < {"Departure(GMT)": 2031, "Arrival(GMT)": 1000, "Travel time": 1031, "Destination": "Bashni blizneci", "Aircraft type": "airbus"}
 > HTTP/1.0 200 OK
 > Content-Type: application/json
-> Content-Length: 157
+> Content-Length: 127
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Fri, 25 Oct 2019 11:27:32 GMT
+> Date: Mon, 28 Oct 2019 12:44:12 GMT
 > 
-{
-  "Aircraft type": "airbus", 
-  "Arrival(GMT)": 1000, 
-  "Departure(GMT)": 2031, 
-  "Destination": "Bashni blizneci", 
-  "Travel time": 1031, 
-  "id": 1
-}
+{"Aircraft type":"airbus","Arrival(GMT)":1000,"Departure(GMT)":2031,"Destination":"Bashni blizneci","Travel time":1031,"id":1}
 
 3 Urls(method='delete', url='http://localhost:5000/todo/api/flights/2', headers=None, json=None, data=None) 204 True
 < DELETE /todo/api/flights/2 HTTP/1.1
@@ -105,6 +66,6 @@
 > HTTP/1.0 204 NO CONTENT
 > Content-Type: text/html; charset=utf-8
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Fri, 25 Oct 2019 11:27:32 GMT
+> Date: Mon, 28 Oct 2019 12:44:12 GMT
 > 
 
