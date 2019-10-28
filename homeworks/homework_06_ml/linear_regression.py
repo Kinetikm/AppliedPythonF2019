@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 import numpy as np
-from itertools import cycle
+from matplotlib import pyplot as plt
 
 
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
+    def __init__(self, l1_reg_coef=0.01, l2_reg_coef=0.9, gamma=0.9, alpha=0.5,
+                 batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -13,12 +14,14 @@ class LinearRegression:
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
-        self.lambda_coef = lambda_coef
-        self.regularization = regulatization
+        self.l1_reg_coef = l1_reg_coef
+        self.l2_reg_coef = l2_reg_coef
         self.reg_coef = alpha
+        self.gamma = gamma
         self.batch_size = batch_size
         self.max_iter = max_iter
         self.weights = None
+        self.loss_res = None
 
     def grad(self, a, x, y):
         def mae_i_j_grad(a_j, x_i_j, y_i):
@@ -40,16 +43,33 @@ class LinearRegression:
         def l2_j_grad(a_j):
             return 2 * a_j
 
-        l1_coef = 0.9
-        l2_coef = 0.1
         mae_i_grad = np.vectorize(mae_i_j_grad)
         l1_grad = np.vectorize(l1_j_grad)
         l2_grad = np.vectorize(l2_j_grad)
         mae_matrix_grad = mae_i_grad(a, x, y)
         mae_grad_vec = np.mean(mae_matrix_grad, axis=0)
-        l1_grad_vec = l1_grad(a) * self.reg_coef * l1_coef
-        l2_grad_vec = l2_grad(a) * self.reg_coef * l2_coef
+        l1_grad_vec = l1_grad(a) * self.reg_coef * self.l1_reg_coef
+        l2_grad_vec = l2_grad(a) * self.reg_coef * self.l2_reg_coef
         return mae_grad_vec + l1_grad_vec + l2_grad_vec
+
+    def print_plot(self):
+        fig_size = plt.rcParams["figure.figsize"]
+        fig_size[0] = 100
+        fig_size[1] = 20
+        plt.rcParams["figure.figsize"] = fig_size
+        plt.plot([x for x in range(len(self.loss_res))], self.loss_res)
+        plt.savefig("/home/nemo/loss.png")
+
+    @staticmethod
+    def shuffle(a, b):
+        rnd_state = np.random.get_state()
+        np.random.shuffle(a)
+        np.random.set_state(rnd_state)
+        np.random.shuffle(b)
+
+    def loss(self, a, X, Y):
+        return np.mean(np.abs(X @ a.T - Y)) + self.l1_reg_coef * self.reg_coef * np.sum(np.abs(a)) + \
+                                              self.l2_reg_coef * self.reg_coef * np.sum(a ** 2)
 
     def fit(self, X_train, y_train):
         """
@@ -58,32 +78,37 @@ class LinearRegression:
         :param y_train: target values for training data
         :return: None
         """
-        X = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
+        np.random.seed(1234)
+        X = (X_train - np.mean(X_train))/np.std(X_train)
+        X = np.hstack((np.ones((X.shape[0], 1)), X))
         dim = X.shape[1]
-        gamma = 0.9
         eps = 0.00000001
         E_g_2 = np.zeros(dim)
         E_a_2 = np.zeros(dim)
         RMS_a = np.sqrt(E_a_2 + eps)
         RMS_g = np.sqrt(E_g_2 + eps)
-        a = np.zeros(dim)
+        a = np.array([np.random.randint(-2, 3) * dim])
         X = np.array_split(X, self.batch_size)
         Y = np.array_split(y_train, self.batch_size)
         a = a.reshape(1, a.shape[0])
         i = 0
-        for batch, res in zip(cycle(X), cycle(Y)):
-            g_t = self.grad(a, batch, res.reshape(res.shape[0], 1))
-            E_g_2 = gamma * E_g_2 + (1 - gamma) * (g_t ** 2)
-            RMS_g = np.sqrt(E_g_2 + eps)
-            delta_a = - (RMS_a / RMS_g) * g_t
-            a = a + delta_a
-            E_a_2 = gamma * E_a_2 + (1 - gamma) * (delta_a ** 2)
-            RMS_a = np.sqrt(E_a_2 + eps)
-            i += 1
-            if i == self.max_iter:
-                break
+        self.loss_res = np.array([])
+        while i < self.max_iter:
+            LinearRegression.shuffle(X, Y)
+            for batch, res in zip(X, Y):
+                g_t = self.grad(a, batch, res.reshape(res.shape[0], 1))
+                E_g_2 = self.gamma * E_g_2 + (1 - self.gamma) * (g_t ** 2)
+                RMS_g = np.sqrt(E_g_2 + eps)
+                delta_a = - (RMS_a / RMS_g) * g_t
+                a = a + delta_a
+                E_a_2 = self.gamma * E_a_2 + (1 - self.gamma) * (delta_a ** 2)
+                RMS_a = np.sqrt(E_a_2 + eps)
+                i += 1
+                self.loss_res = np.concatenate((self.loss_res, [self.loss(a, batch, res)]))
+                if i == self.max_iter:
+                    break
         self.weights = a
-        print(self.weights.shape)
+        self.print_plot()
 
     def predict(self, X_test):
         """
@@ -91,6 +116,7 @@ class LinearRegression:
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
+        X = (X_test - np.mean(X_test)) / np.std(X_test)
         X = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
         return X @ self.weights.T
 
