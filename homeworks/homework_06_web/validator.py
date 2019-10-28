@@ -48,8 +48,8 @@ def validator(method, data):
                     Supported type for airport is str in IATA format"""
                 if arp[0] == 'A':
                     req = requests.request(
-                        method="GET", url=arp_st
-                                          + "kody-vsekh-aeroportov-mira-iata")
+                        method="GET",
+                        url=arp_st + "kody-vsekh-aeroportov-mira-iata")
                     s = bs4.BeautifulSoup(req.text, 'html.parser')
                     lst = [y.text[1:4] for y in s.findAll('tr')]
                     if arp not in lst:
