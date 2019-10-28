@@ -1,0 +1,18 @@
+2019-10-27 22:25:40 - Program started
+2019-10-27 22:25:44 - Request by URL http://localhost:5000/flights using method GET executed with return code 200 in 0.0004971027374267578 seconds
+2019-10-27 22:25:44 - Request by URL http://localhost:5000/flights using method POST executed with return code 201 in 0.026651382446289062 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights using method POST executed with return code 400 in 0.04352545738220215 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights using method POST executed with return code 400 in 0.0008535385131835938 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights using method POST executed with return code 400 in 0.005036830902099609 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights using method POST executed with return code 201 in 0.0009663105010986328 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights using method GET executed with return code 200 in 0.0005514621734619141 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights/2 using method PUT executed with return code 404 in 0.0004849433898925781 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights/0 using method PUT executed with return code 200 in 0.0010204315185546875 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights/1 using method PUT executed with return code 200 in 0.001707315444946289 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights/2 using method DELETE executed with return code 404 in 0.0003616809844970703 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights using method POST executed with return code 201 in 0.0009329319000244141 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights/DMD using method GET executed with return code 200 in 0.0005705356597900391 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights/sort using method GET executed with return code 200 in 0.0004971027374267578 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights/2 using method DELETE executed with return code 200 in 0.0005869865417480469 seconds
+2019-10-27 22:25:45 - Request by URL http://localhost:5000/flights using method GET executed with return code 200 in 0.0004546642303466797 seconds
+2019-10-27 22:25:48 - Program terminated
