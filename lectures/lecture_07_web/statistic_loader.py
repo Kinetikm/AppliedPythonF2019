@@ -7,6 +7,7 @@ import requests
 import random
 import string
 
+
 class ProcessManager(Process):
 
     def __init__(self, tasks_queue, task_num, logger):
@@ -70,14 +71,16 @@ class ProcessProcessor(Process):
             for c in range(10000):
                 if prev and random.random() < 0.1:
                     res = requests.get("http://{}/stat")
-                    if res.response_code != 200 or res.json().get('user') != prev['user'] or res.json().get('action') != prev['action'] or res.json().get('ts'):
+                    if res.response_code != 200 or res.json().get('user') != prev['user'] or \
+                            res.json().get('action') != prev['action'] or res.json().get('ts'):
                         self._logger.error("Bad result of get stat response for {}".format(query))
                         errors = True
                         break
                 else:
                     action = random.choice(self._actions)
                     user = random.choice(self._users_ids)
-                    res = requests.post("http://{}/stat", headers={"Content-Type": "application/json"}, json={"user": user, "action": action})
+                    res = requests.post("http://{}/stat", headers={"Content-Type": "application/json"},
+                                        json={"user": user, "action": action})
                     if res.response_code != 200:
                         self._logger.error("Bad response for post stat {}".format(query))
                         errors = True
@@ -86,4 +89,3 @@ class ProcessProcessor(Process):
                 self._logger.info("End processing for {} with errors".format(query))
             else:
                 self._logger.info("Processing ended successfully {}".format(query))
-            

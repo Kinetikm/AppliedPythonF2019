@@ -40,7 +40,9 @@ def callme():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename='simple_flask.log', format='%(asctime)s.%(msecs)05d %(levelname)s [%(process)d] %(module)s.%(funcName)s:%(lineno)d %(message)s', level=logging.DEBUG)
+    logging.basicConfig(filename='simple_flask.log', format='%(asctime)s.%(msecs)05d %(levelname)s [%(process)d] '
+                                                            '%(module)s.%(funcName)s:%(lineno)d %(message)s',
+                        level=logging.DEBUG)
     process_manager = ProcessManager(checked_queue, 7, app.logger)
     process_manager.start()
     app.run(host="0.0.0.0", port="8070", debug=True)
