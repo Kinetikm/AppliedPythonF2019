@@ -4,6 +4,7 @@ import bs4
 arp_st = "https://ucsol.ru/tamozhennoe-oformlenie/v-" + \
          "aeroportakh-uslugi-tamozhennogo-brokera/"
 
+
 def validator(method, data):
     if method == 'POST':
         if len(data) == 0:
@@ -47,15 +48,15 @@ def validator(method, data):
                     Supported type for airport is str in IATA format"""
                 if arp[0] == 'A':
                     req = requests.request(
-                        method="GET", url = arp_st +
-                                            "kody-vsekh-aeroportov-mira-iata")
+                        method="GET", url=arp_st
+                                          + "kody-vsekh-aeroportov-mira-iata")
                     s = bs4.BeautifulSoup(req.text, 'html.parser')
                     lst = [y.text[1:4] for y in s.findAll('tr')]
                     if arp not in lst:
                         return 400, "Incorrect data. Current airport not found"
                 else:
                     req = requests.request(method="GET",
-                        url = arp_st + f"""/airport-codes
+                                           url=arp_st + f"""/airport-codes
                         -{arp[0].lower()}a-{arp[0].lower()}z""")
                     s = bs4.BeautifulSoup(req.text, 'html.parser')
                     lst = [y.text[1:4] for y in s.findAll('tr')]

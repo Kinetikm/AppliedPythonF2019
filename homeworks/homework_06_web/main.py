@@ -18,8 +18,8 @@ def get_flights():
     if len(arg_dct) == 0:
         answ = flights.get()
         if len(answ) == 0:
-            print("Method: GET, Time: ", datetime.datetime.now(), file
-                  =log_file)
+            print("Method: GET, Time: ", datetime.datetime.now(),
+                  file=log_file)
             print("Status: ", 400, ", Reason: ",
                   "Empty list of flights. Append something"
                   " before using get-method.",
@@ -62,18 +62,18 @@ def post_flight():
     print(f"Args: {arg_dct}", datetime.datetime.now(), file=log_file)
     if len(arg_dct) == 0:
         print("Method: POST, Time: ", datetime.datetime.now(), file=log_file)
-        print("Status: ", 400, ", Reason: ", f"Bad args {arg_dct}", file
-              =log_file)
+        print("Status: ", 400, ", Reason: ", f"Bad args {arg_dct}",
+              file=log_file)
         log_file.close()
         abort(400, f"Bad args {arg_dct}")
     res = validator('POST', arg_dct)
     if res[0] == 200:
         ans = flights.append(arg_dct)
         if ans == 1:
-            print("Method: POST, Time: ", datetime.datetime.now(), file
-                  =log_file)
-            print("Status: ", 400, ", Reason: ", "Item already added", file
-                  =log_file)
+            print("Method: POST, Time: ", datetime.datetime.now(),
+                  file=log_file)
+            print("Status: ", 400, ", Reason: ", "Item already added",
+                  file=log_file)
             log_file.close()
             abort(400, "Item already added")
     else:
@@ -96,24 +96,24 @@ def put_flight(flight_id):
     print(f"Args: {arg_dct}", datetime.datetime.now(), file=log_file)
     if len(arg_dct) == 0:
         print("Method: PUT, Time: ", datetime.datetime.now(), file=log_file)
-        print("Status: ", 400, ", Reason: ", f"Bad args {arg_dct}", file
-              =log_file)
+        print("Status: ", 400, ", Reason: ", f"Bad args {arg_dct}",
+              file=log_file)
         log_file.close()
         abort(400, f"Bad args {arg_dct}")
     res = validator('PUT', arg_dct)
     if res[0] == 200:
         if arg_dct['id'] != flight_id:
-            print("Method: PUT, Time: ", datetime.datetime.now(), file
-                  =log_file)
+            print("Method: PUT, Time: ", datetime.datetime.now(),
+                  file=log_file)
             print("Status: ", 400, ", Reason: ", "Incorrect id", file=log_file)
             log_file.close()
             abort(400, "Incorrect id")
         ans = flights.update(arg_dct)
         if ans == 1:
-            print("Method: PUT, Time: ", datetime.datetime.now(), file
-                  =log_file)
-            print("Status: ", 400, ", Reason: ", "Item already added", file
-                  =log_file)
+            print("Method: PUT, Time: ", datetime.datetime.now(),
+                  file=log_file)
+            print("Status: ", 400, ", Reason: ", "Item already added",
+                  file=log_file)
             log_file.close()
             abort(400, "Item already added")
     else:
@@ -131,8 +131,8 @@ def put_flight(flight_id):
 def delete_flight(flight_id):
     log_file = open('logs.txt', 'a')
     print("--------------------------------------", file=log_file)
-    print(f"Request: DELETE, id: {flight_id}, Time: ", datetime.datetime.now(),
-        file=log_file)
+    print(f"Request: DELETE, id: {flight_id}, Time: ",
+          datetime.datetime.now(), file=log_file)
     ans = flights.pop(flight_id)
     if ans == 1:
         print(
