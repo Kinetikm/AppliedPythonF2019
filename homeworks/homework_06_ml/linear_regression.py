@@ -3,7 +3,7 @@
 import numpy as np
 
 # Для подбора моделей перебором гиперпараметров можно использовать GridSearchCV, RandomizedSearchCV
-
+# MSE L2 REGULARIZATION WITH ADAGRAD OPTIMIZATION
 
 class LinearRegression:
     def __init__(self, lambda_coef=10, eps=0.1, alpha=0.1, batch_size=50, max_iter=1000):
