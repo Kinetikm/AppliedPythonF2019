@@ -55,15 +55,15 @@ class LinearRegression:
         minibatches = list(self.batch_generator(X_train, y_train))
         indexes = np.arange(len(minibatches))
         np.random.shuffle(indexes)
-        for iteration in range(1, self.max_iter+1):
+        for iteration in range(1, self.max_iter + 1):
             for idx in indexes:
                 x, y = minibatches[idx][0], minibatches[idx][1]
                 grad = self.gradient(x, y)
-                m = self.beta1 * m + (1-self.beta1)*grad
-                r = self.beta2 * r +(1-self.beta2)*grad**2
+                m = self.beta1 * m + (1 - self.beta1) * grad
+                r = self.beta2 * r + (1 - self.beta2) * grad ** 2
                 m_hat = m / (1 - self.beta1 ** iteration)
                 r_hat = r / (1 - self.beta1 ** iteration)
-                self.w -= self.lambda_coef*m_hat/(np.sqrt(r_hat)+self.eps)
+                self.w -= self.lambda_coef * m_hat/(np.sqrt(r_hat) + self.eps)
 
     def predict(self, X_test):
         """
