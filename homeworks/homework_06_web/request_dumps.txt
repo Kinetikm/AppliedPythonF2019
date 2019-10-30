@@ -1,0 +1,286 @@
+0 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2017-03-05 12:30:00', 'arrival_time': '2017-03-05 13:40:00', 'duration': '1:10', 'arrive_location': 'dmd', 'aircraft_type': 'plane'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 152
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 12:30:00", "arrival_time": "2017-03-05 13:40:00", "duration": "1:10", "arrive_location": "dmd", "aircraft_type": "plane"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 155
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flight":{"aircraft_type":"plane","arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"1:10"}}
+
+1 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2017-03-05 14:15:00', 'arrival_time': '2017-03-05 18:30:00', 'duration': '4:15', 'arrive_location': 'vko', 'aircraft_type': 'jedi_starflight'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 162
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 14:15:00", "arrival_time": "2017-03-05 18:30:00", "duration": "4:15", "arrive_location": "vko", "aircraft_type": "jedi_starflight"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 165
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flight":{"aircraft_type":"jedi_starflight","arrival_time":"2017-03-05 18:30:00","arrive_location":"vko","departure_time":"2017-03-05 14:15:00","duration":"4:15"}}
+
+2 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2017-03-05 09:40:00', 'arrival_time': '2017-03-05 19:30:00', 'duration': '9:50', 'arrive_location': 'vko', 'aircraft_type': 'broom'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 152
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 09:40:00", "arrival_time": "2017-03-05 19:30:00", "duration": "9:50", "arrive_location": "vko", "aircraft_type": "broom"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 155
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flight":{"aircraft_type":"broom","arrival_time":"2017-03-05 19:30:00","arrive_location":"vko","departure_time":"2017-03-05 09:40:00","duration":"9:50"}}
+
+3 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 477
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flights":[{"aircraft_type":"plane","arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"1:10","id":0},{"aircraft_type":"jedi_starflight","arrival_time":"2017-03-05 18:30:00","arrive_location":"vko","departure_time":"2017-03-05 14:15:00","duration":"4:15","id":1},{"aircraft_type":"broom","arrival_time":"2017-03-05 19:30:00","arrive_location":"vko","departure_time":"2017-03-05 09:40:00","duration":"9:50","id":2}]}
+
+4 Urls(method='put', url='http://localhost:5000/flights/0', headers=None, json={'departure_time': '2017-03-05 12:30:00', 'arrival_time': '2017-03-05 13:40:00', 'duration': '1:10', 'arrive_location': 'dmd', 'aircraft_type': 'passenger_plane'}, data=None) 200 True
+< PUT /flights/0 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 162
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 12:30:00", "arrival_time": "2017-03-05 13:40:00", "duration": "1:10", "arrive_location": "dmd", "aircraft_type": "passenger_plane"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 172
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flight":{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"1:10","id":0}}
+
+5 Urls(method='put', url='http://localhost:5000/flights/5', headers=None, json=None, data=None) 404 False
+< PUT /flights/5 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: application/json
+> Content-Length: 22
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"error":"Not found"}
+
+6 Urls(method='get', url='http://localhost:5000/flights/5', headers=None, json=None, data=None) 404 False
+< GET /flights/5 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: application/json
+> Content-Length: 22
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"error":"Not found"}
+
+7 Urls(method='get', url='http://localhost:5000/flights/0', headers=None, json=None, data=None) 200 True
+< GET /flights/0 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 172
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flight":{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"1:10","id":0}}
+
+8 Urls(method='delete', url='http://localhost:5000/flights/1', headers=None, json=None, data=None) 200 True
+< DELETE /flights/1 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 33
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"result":"Successfully delete"}
+
+9 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 326
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flights":[{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"1:10","id":0},{"aircraft_type":"broom","arrival_time":"2017-03-05 19:30:00","arrive_location":"vko","departure_time":"2017-03-05 09:40:00","duration":"9:50","id":2}]}
+
+10 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2017-03-05 05:00:00', 'arrival_time': '2017-03-05 10:23:00', 'duration': '5:23', 'arrive_location': 'dmd', 'aircraft_type': 'passenger_plane'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 162
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 05:00:00", "arrival_time": "2017-03-05 10:23:00", "duration": "5:23", "arrive_location": "dmd", "aircraft_type": "passenger_plane"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 165
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flight":{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 10:23:00","arrive_location":"dmd","departure_time":"2017-03-05 05:00:00","duration":"5:23"}}
+
+11 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2', 'arrival_time': '3', 'duration': 323, 'arrive_location': 'dmd', 'aircraft_type': 'passenger_plane'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 123
+< Content-Type: application/json
+< 
+< {"departure_time": "2", "arrival_time": "3", "duration": 323, "arrive_location": "dmd", "aircraft_type": "passenger_plane"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 24
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"error":"Bad request"}
+
+12 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 487
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flights":[{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"1:10","id":0},{"aircraft_type":"broom","arrival_time":"2017-03-05 19:30:00","arrive_location":"vko","departure_time":"2017-03-05 09:40:00","duration":"9:50","id":2},{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 10:23:00","arrive_location":"dmd","departure_time":"2017-03-05 05:00:00","duration":"5:23","id":3}]}
+
+13 Urls(method='get', url='http://localhost:5000/flights/dmd', headers=None, json=None, data=None) 200 True
+< GET /flights/dmd HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 336
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flights":[{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"1:10","id":0},{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 10:23:00","arrive_location":"dmd","departure_time":"2017-03-05 05:00:00","duration":"5:23","id":3}]}
+
+14 Urls(method='get', url='http://localhost:5000/flights/duration_sorted', headers=None, json=None, data=None) 200 True
+< GET /flights/duration_sorted HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 487
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"flights":[{"aircraft_type":"broom","arrival_time":"2017-03-05 19:30:00","arrive_location":"vko","departure_time":"2017-03-05 09:40:00","duration":"9:50","id":2},{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 10:23:00","arrive_location":"dmd","departure_time":"2017-03-05 05:00:00","duration":"5:23","id":3},{"aircraft_type":"passenger_plane","arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"1:10","id":0}]}
+
+15 Urls(method='get', url='http://localhost:5000/flights/v', headers=None, json=None, data=None) 400 False
+< GET /flights/v HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 24
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 26 Oct 2019 13:56:47 GMT
+> 
+{"error":"Bad request"}
+
