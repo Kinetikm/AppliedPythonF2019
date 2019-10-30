@@ -3,17 +3,11 @@
 
 
 import numpy as np
+from sklearn.linear_model import ElasticNet
 
 
 class LinearRegression:
     def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
-        """
-        :param lambda_coef: constant coef for gradient descent step
-        :param regulatization: regularizarion type ("L1" or "L2") or None
-        :param alpha: regularizarion coefficent
-        :param batch_size: num sample per one model parameters update
-        :param max_iter: maximum number of parameters updates
-        """
         self.lambda_coef = lambda_coef
         self.regularization = regulatization
         self.alpha = alpha
@@ -21,26 +15,36 @@ class LinearRegression:
         self.max_iter = max_iter
         self.w = None
 
+    def count_mse(self, y, x, w, n_samples):
+        mse = (y - x @ w.T) ** 2
+        return np.mean(mse) + self.alpha * (0.5 * np.linalg.norm(w) + 0.25 * np.linalg.norm(w, ord=1))
+
+    def count_gradient(self, x, w, y, l1_ratio=0.5):
+        d_mse_dw = 2 * (x @ w.T - y) / x.shape[0]
+        gradient = d_mse_dw @ x + self.alpha * l1_ratio * np.sign(w) + self.alpha * (1 - l1_ratio) * w
+        return gradient
+
     def fit(self, X_train, y_train):
+        X_train = np.append(np.ones((X_train.shape[0], 1)), X_train, axis=1)
+        w = np.zeros(X_train.shape[1])
+        n_samples = min(self.batch_size, X_train.shape[0])
         for i in range(self.max_iter):
-            
-        if self.regularization is None:
-            w = (np.linalg.inv((X_train.T @ X_train)) @ X_train.T) @ y_train.reshape((y_train.shape[0], -1))
-            self.w = w.flatten()
-        elif self.regularization == "Elastic":
+            if n_samples != X_train.shape[0]:
+                idx = np.random.randint(X_train.shape[0], size=n_samples)
+                batch = X_train[idx, :]
+            else:
+                batch = X_train
+            d_mse_d_w = self.count_gradient(X_train, w, y_train)
+            rms = np.sqrt(sum(d_mse_d_w ** 2) / n_samples)
+            w = w - (self.lambda_coef / rms) * d_mse_d_w
+        self.w = w.T
 
     def predict(self, X_test):
-        """
-        Predict using model.
-        :param X_test: test data for predict in
-        :return: y_test: predicted values
-        """
-        pass
+        if self.w is not None:
+            X_test = np.append(np.ones((X_test.shape[0], 1)), X_test, axis=1)
+            y_test = X_test @ self.w
+            return y_test
 
     def get_weights(self):
-        """
-        Get weights from fitted linear model
-        :return: weights array
-        """
         if self.w is not None:
             return self.w
