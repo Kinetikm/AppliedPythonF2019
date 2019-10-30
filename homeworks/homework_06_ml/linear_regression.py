@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 
 
 class LinearRegression:
-    def __init__(self, l1_reg_coef=0.01, l2_reg_coef=0.9, gamma=0.9, alpha=0.5,
+    def __init__(self, l1_reg_coef=0.1, l2_reg_coef=0.9, gamma=0.7, alpha=0.5,
                  batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
@@ -87,7 +87,7 @@ class LinearRegression:
         E_a_2 = np.zeros(dim)
         RMS_a = np.sqrt(E_a_2 + eps)
         RMS_g = np.sqrt(E_g_2 + eps)
-        a = np.array([np.random.randint(-2, 3) * dim])
+        a = np.array([np.random.normal(0, 10) * dim])
         X = np.array_split(X, self.batch_size)
         Y = np.array_split(y_train, self.batch_size)
         a = a.reshape(1, a.shape[0])
@@ -103,10 +103,8 @@ class LinearRegression:
                 a = a + delta_a
                 E_a_2 = self.gamma * E_a_2 + (1 - self.gamma) * (delta_a ** 2)
                 RMS_a = np.sqrt(E_a_2 + eps)
-                i += 1
                 self.loss_res = np.concatenate((self.loss_res, [self.loss(a, batch, res)]))
-                if i == self.max_iter:
-                    break
+            i += 1
         self.weights = a
         self.print_plot()
 
