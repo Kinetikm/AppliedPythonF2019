@@ -49,13 +49,11 @@ class LinearRegression:  # Реализация для варианта 1
         theta = self.theta
         errors = [self._cost(self.X_train, self.y, theta)]
         E_g = 0
-        E_t = 0  # Немного не понял как нужно высчитывать E[del(theta)]t для нулевого шага
-        rms_t = math.sqrt(E_g + eps)  # поэтому просто определил RMS[del(theta)]t как единицу,
-        # а нулевой элемент E[del(theta)]t определил как ноль. По идее, в дальнейшем все должно нормально работать
-        # ( но это не точно)
+        E_t = 0
+        rms_t = math.sqrt(E_g + eps)
         for i in range(1, self.max_iter + 1):
             # Считаем градиент и обновляем тетту
-            E_g = self.gamma * E_g + (1 - self.gamma) * (np.linalg.norm(cost_d(theta)))
+            E_g = self.gamma * E_g + (1 - self.gamma) * (np.linalg.norm(self.cost_func(theta)))
             rms_g = math.sqrt(E_g + eps)
             delta = rms_t * cost_d(theta) / rms_g
             E_t = self.gamma * E_t + (1 - self.gamma) * (np.linalg.norm(delta))
@@ -106,3 +104,24 @@ class LinearRegression:  # Реализация для варианта 1
         grad[0] = np.mean((self.predict(X) - y)**2)
         grad[1:] = np.mean(X*sign[:, None], axis=0)
         return grad
+
+    def stochastic_descent(A, Y, speed=0.1):
+        theta = np.array(INITIAL_THETA.copy(), dtype=np.float32)
+        previous_cost = 10 ** 6
+        current_cost = cost_function(A, Y, theta)
+        while np.abs(previous_cost - current_cost) > EPS:
+            previous_cost = current_cost
+            # --------------------------------------
+            # for i in range(len(Y)):
+            i = np.random.randint(0, len(Y))
+            derivatives = [0] * len(theta)
+            for j in range(len(theta)):
+                derivatives[j] = (Y[i] - A[i] @ theta) * A[i][j]
+            theta[0] += speed * derivatives[0]
+            theta[1] += speed * derivatives[1]
+            current_cost = cost_function(A, Y, theta)
+            print("Stochastic cost:", current_cost)
+            plt.plot(theta[0], theta[1], 'ro')
+            # --------------------------------------
+            current_cost = cost_function(A, Y, theta)
+        return theta
