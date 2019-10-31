@@ -27,6 +27,5 @@ def test_simplex_method_01():
     mse2 = mean_squared_error(y_test, lr2.predict(x_test))
     mae1 = mean_absolute_error(y_test, lr1.predict(x_test))
     mae2 = mean_absolute_error(y_test, lr2.predict(x_test))
-    print(mse1, mse2)
-    print(mae1, mae2)
+    
     assert mse2 < mse1 * 10 or mae2 < mae1 * 10
