@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 import numpy as np
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 
 
 class LinearRegression:
@@ -53,13 +53,13 @@ class LinearRegression:
         l2_grad_vec = l2_grad(a) * self.reg_coef * self.l2_reg_coef
         return mae_grad_vec + l1_grad_vec + l2_grad_vec
 
-    def print_plot(self):
-        fig_size = plt.rcParams["figure.figsize"]
-        fig_size[0] = 100
-        fig_size[1] = 20
-        plt.rcParams["figure.figsize"] = fig_size
-        plt.plot([x for x in range(len(self.loss_res))], self.loss_res)
-        plt.savefig("/home/nemo/loss.png")
+    # def print_plot(self):
+    #     fig_size = plt.rcParams["figure.figsize"]
+    #     fig_size[0] = 100
+    #     fig_size[1] = 20
+    #     plt.rcParams["figure.figsize"] = fig_size
+    #     plt.plot([x for x in range(len(self.loss_res))], self.loss_res)
+    #     plt.savefig("/home/nemo/loss.png")
 
     @staticmethod
     def shuffle(a, b):
@@ -68,9 +68,9 @@ class LinearRegression:
         np.random.set_state(rnd_state)
         np.random.shuffle(b)
 
-    def loss(self, a, X, Y):
-        return np.mean(np.abs(X @ a.T - Y)) + self.l1_reg_coef * self.reg_coef * np.sum(np.abs(a)) + \
-                                              self.l2_reg_coef * self.reg_coef * np.sum(a ** 2)
+    # def loss(self, a, X, Y):
+    #     return np.mean(np.abs(X @ a.T - Y)) + self.l1_reg_coef * self.reg_coef * np.sum(np.abs(a)) + \
+    #                                           self.l2_reg_coef * self.reg_coef * np.sum(a ** 2)
 
     def fit(self, X_train, y_train):
         """
@@ -104,10 +104,10 @@ class LinearRegression:
                 a = a + delta_a
                 E_a_2 = self.gamma * E_a_2 + (1 - self.gamma) * (delta_a ** 2)
                 RMS_a = np.sqrt(E_a_2 + eps)
-                self.loss_res = np.concatenate((self.loss_res, [self.loss(a, batch, res)]))
+                # self.loss_res = np.concatenate((self.loss_res, [self.loss(a, batch, res)]))
             i += 1
         self.weights = a
-        self.print_plot()
+        # self.print_plot()
 
     def predict(self, X_test):
         """
