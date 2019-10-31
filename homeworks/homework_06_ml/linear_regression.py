@@ -31,9 +31,9 @@ class LinearRegression:
         X_train = self.normalization(X_train)
         y_train = y_train.reshape((-1, 1))
         data = np.hstack((np.ones((X_train.shape[0], 1)), X_train, y_train))
-        grad_new = np.zeros_like(self.weights)
         self.weights = np.random.normal(scale=1e-8, size=(1, X_train.shape[1]))
         eps = 1e-8
+        grad_new = np.zeros_like(self.weights)
         for _ in range(self.max_iter):
             validated_mat = np.random.permutation(data)[:self.batch_size]
             x = validated_mat[:, :-1]
