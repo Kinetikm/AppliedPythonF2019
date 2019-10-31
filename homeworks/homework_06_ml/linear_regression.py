@@ -68,7 +68,6 @@ class LinearRegression:
             if np.sqrt(np.dot(dtheta, dtheta.T))[0][0] < conv:
                 break
 
-            # print(self.theta)
             self.theta = self.theta - dtheta
 
     def predict(self, X_test):
