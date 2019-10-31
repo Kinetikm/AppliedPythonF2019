@@ -27,7 +27,7 @@ class LinearRegression:
         :param y_train: target values for training data
         :return: None
         """
-        X_train = self.normalize(X_train)
+        X_train = self.normalization(X_train)
         y_train = y_train.reshape((-1, 1))
         data = np.hstack(X_train, y_train)
         grad_new = np.zeros_like(self.weights)
