@@ -3,6 +3,7 @@
 import numpy as np
 from random import randint
 
+
 class LinearRegression:
     def __init__(self, lambda_coef=1.0, regulatization=None, alpha=1, batch_size=50, max_iter=100):
         self.lambda_coef = lambda_coef
@@ -16,7 +17,7 @@ class LinearRegression:
         w = np.transpose(self.weights)
         grad = np.zeros((1, x_n.shape[1]))
         for i in range(x_n.shape[1]):
-            for j in range (x_n.shape[0]):
+            for j in range(x_n.shape[0]):
                 grad[0, i] -= np.sign(y[j] - (x_n[j, ::] @ w)) * x_n[j, i] / self.batch_size
             grad[0, i] -= np.sign(w[i, 0]) * self.alpha
         return grad
