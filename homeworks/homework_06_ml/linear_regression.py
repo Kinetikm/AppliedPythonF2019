@@ -4,12 +4,12 @@
 import numpy as np
 from sklearn.utils import shuffle
 
+
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, regulation=None, alpha=1, batch_size=50, max_iter=100):
-        self.l_coef = lambda_coef
-        self.reg = regulation
+    def __init__(self, lambda_coef=1.0, alpha=1, batch_size=50, max_iter=100):
+        self.L = lambda_coef
         self.alpha = alpha
-        self.batch = batch_size
+        self.b = batch_size
         self.max_iter = max_iter
         self.weights = None
 
@@ -22,13 +22,13 @@ class LinearRegression:
         eps = 1e-3
         for _ in range(self.max_iter):
             table = shuffle(table)
-            for i in range(0, X_train.shape[0], self.batch):
-                sample = table[i : i + self.batch]
+            for i in range(0, X_train.shape[0], self.b):
+                sample = table[i: i + self.b]
                 x = sample[:, : -1]
                 y = sample[:, -1].reshape(-1, 1)
                 for i in range(x.shape[0]):
                     old_w = np.copy(self.weights)
-                    self.weights -= self.l_coef * self.grad_step(x, y, i) / self.batch
+                    self.weights -= self.L * self.grad_step(x, y, i) / self.b
                 ex = True
                 for i in range(len(self.weights)):
                     if ex:
@@ -37,12 +37,12 @@ class LinearRegression:
                         break
                 if ex:
                     break
-                
+
     def normalization(self, X):
         means, stds = np.mean(X, axis=0), np.std(X, axis=0)
         for num in range(len(X)):
             for i in range(X.shape[1]):
-                X[num, i]=(X[num, i] - means[i])/stds[i]
+                X[num, i] = (X[num, i] - means[i])/stds[i]
 
     def grad_step(self, x, y, i):
         L1 = self.alpha*(np.sign(self.weights))
