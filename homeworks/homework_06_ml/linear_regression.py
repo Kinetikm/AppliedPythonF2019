@@ -5,7 +5,7 @@ from sklearn import preprocessing
 
 
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, regularization=None, alpha=0.5, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=50.0, regularization=None, alpha=0.5, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -30,11 +30,11 @@ class LinearRegression:
         """
         X_train = self.normalization(X_train)
         y_train = y_train.reshape((-1, 1))
-        data = np.hstack(X_train, y_train)
+        data = np.hstack(np.ones((X_train.shape[0], 1)), X_train, y_train)
         grad_new = np.zeros_like(self.weights)
         self.weights = np.random.normal(scale=1e-8, size=(1, X_train.shape[1]))
         eps = 1e-8
-        for iter_ in range(self.max_iter):
+        for _ in range(self.max_iter):
             validated_mat = np.random.permutation(data)[:self.batch_size]
             x = validated_mat[:, :-1]
             y = validated_mat[:, -1].reshape(-1, 1)
@@ -63,10 +63,9 @@ class LinearRegression:
         """
         return self.weights
 
-# Нормализация матрицы и добавление к ней слева единичного столбца для резервирования w0
+# Нормализация матрицы
     def normalization(self, mat_of_features):
         mat_scaled = preprocessing.scale(mat_of_features)
-        mat_scaled = np.hstack(np.ones(mat_scaled.shape[0], 1), mat_scaled)
         return mat_scaled
 
     def MAE(self, x, y):
