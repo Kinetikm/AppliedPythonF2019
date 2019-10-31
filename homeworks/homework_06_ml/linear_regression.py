@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+import numpy as np
+from sklearn import preprocessing
 
 class LinearRegression:
     def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
@@ -11,7 +12,13 @@ class LinearRegression:
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
-        raise NotImplementedError
+        self.lambda_coef = lambda_coef
+        self.regularization = regularization
+        self.alpha = alpha
+        self.batch_size = batch_size
+        self.max_iter = max_iter
+        self.weights = np.array([0])
+        self.costs = []
 
     def fit(self, X_train, y_train):
         """
@@ -20,7 +27,21 @@ class LinearRegression:
         :param y_train: target values for training data
         :return: None
         """
-        pass
+        X_train = self.normalize(X_train)
+        y_train = y_train.reshape((-1, 1))
+        data = np.hstack(X_train, y_train)
+        grad_new = np.zeros_like(self.weights)
+        self.weights = np.random.normal(scale=1e-8, size=(1, X_train.shape[1]))
+        eps = 1e-8
+        for iter_ in range(self.max_iter):
+            validated_mat = np.random.permutation(data)[:self.batch_size]
+            x = validated_mat[:, :-1]
+            y = validated_mat[:, -1].reshape(-1, 1)
+            grad = self.gradient(x, y)
+            grad_new += grad ** 2
+            self.weights -= self.lambda_coef * grad / np.sqrt(grad_new + eps) / self.batch_size
+            flaw = self.MAE(x, y)
+            self.costs.append(flaw)
 
     def predict(self, X_test):
         """
@@ -28,11 +49,35 @@ class LinearRegression:
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        pass
+        if X_test.shape[0] == 1:
+            X_test = np.reshape(X_test, (-1, 1))
+        X_test =  np.hstack((np.ones((X_test.shape[0], 1)), X_test))
+        y_test = np.dot(X_test, self.weights.T)
+        return y_test
 
     def get_weights(self):
         """
         Get weights from fitted linear model
         :return: weights array
         """
-        pass
+        return self.weights
+
+# Нормализация матрицы и добавление к ней слева единичного столбца для резервирования w0
+    def normalization(self, mat_of_features):
+        mat_scaled = preprocessing.scale(mat_of_features)
+        mat_scaled = np.insert(mat_scaled, 0, np.ones((mat_scaled.shape[0]), 1), axis=1)
+        return mat_scaled
+
+    def MAE(self, x, y):
+        if x.shape[0] == 1:
+            x = np.reshape(x, (-1, 1))
+        a_x = np.dot(x, self.weights.T)
+        difference = abs(y - a_x) / self.batch_size
+        return difference.sum()
+
+    def gradient(self, x, y):
+        grad = np.zeros_like(self.weights)
+        for i in range(self.weights.shape[1]):
+            l1 = self.alpha*(np.sign(self.weights[0][i]))
+            grad[0, i] = sum(x[:, i].reshape(-1, 1)*np.sign(x.dot(self.weights.T) - y)) + l1
+        return grad
