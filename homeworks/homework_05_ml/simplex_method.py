@@ -21,22 +21,15 @@ def simplex_method(a, b, c):
     :return x: np.array, shape=(1, m)
     """
     n, m = a.shape
-    #  Создадим симплекс-таблицу,
+    #  Создадим симплекс-таблицу
     #  где кол-во строк это кол-во неравенств n + строка c взятая с противоположным знаком,
     #  а кол-во столбцов это кол-во переменных m + кол-во строк n + 2 столбца
     sim_tab = np.zeros((n+1, m+n+2))
     result = [0 for i in range(m)]
-    for i in range(n):
-        for j in range(m):
-            sim_tab[i][j] = a[i][j]
-    for i in range(n+1):
-        for j in range(n+1):
-            if i == j:
-                sim_tab[i][m+j] = 1
-    for i in range(n):
-        sim_tab[i][-1] = b[i]
-    for j in range(m):
-        sim_tab[-1][j] = c[j]*(-1)
+    sim_tab[:-1, :m] = a
+    sim_tab[:, m:] = np.eye(n+1)
+    sim_tab[:, -1] = b
+    sim_tab[-1, : m+1] = c[:]*(-1)
     dct = {}
     while is_negative(sim_tab, m):
         #  Найдем индекс столбца, в последней строке которого хранится
