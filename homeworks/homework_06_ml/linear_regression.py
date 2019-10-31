@@ -66,7 +66,7 @@ class LinearRegression:
 # Нормализация матрицы и добавление к ней слева единичного столбца для резервирования w0
     def normalization(self, mat_of_features):
         mat_scaled = preprocessing.scale(mat_of_features)
-        mat_scaled = np.insert(mat_scaled, 0, np.ones((mat_scaled.shape[0]), 1), axis=1)
+        mat_scaled = np.hstack(np.ones(mat_scaled.shape[0], 1), mat_scaled)
         return mat_scaled
 
     def MAE(self, x, y):
