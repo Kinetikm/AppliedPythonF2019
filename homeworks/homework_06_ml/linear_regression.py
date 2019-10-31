@@ -31,7 +31,7 @@ class LinearRegression:
         X_train = self.normalization(X_train)
         y_train = y_train.reshape((-1, 1))
         data = np.hstack((np.ones((X_train.shape[0], 1)), X_train, y_train))
-        self.weights = np.random.normal(scale=1e-8, size=(1, X_train.shape[1]))
+        self.weights = np.random.normal(scale=1e-8, size=(1, X_train.shape[1] + 1))
         eps = 1e-8
         grad_new = np.zeros_like(self.weights)
         for _ in range(self.max_iter):
