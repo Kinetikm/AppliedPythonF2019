@@ -4,7 +4,7 @@ import numpy as np
 from sklearn import preprocessing
 
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=1.0, regularization=None, alpha=0.5, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -51,7 +51,7 @@ class LinearRegression:
         """
         if X_test.shape[0] == 1:
             X_test = np.reshape(X_test, (-1, 1))
-        X_test =  np.hstack((np.ones((X_test.shape[0], 1)), X_test))
+        X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
         y_test = np.dot(X_test, self.weights.T)
         return y_test
 
