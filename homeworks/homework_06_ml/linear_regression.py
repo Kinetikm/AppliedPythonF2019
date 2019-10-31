@@ -46,7 +46,7 @@ class LinearRegression:
             v = b2 * v + (1 - b2) * (grad ** 2)
             mt = m / (1 - b1)
             vt = v / (1 - b2)
-            self.weights -= self.lambda_coef * mt/((vt + eps)**(1/2))
+            self.weights -= self.lambda_coef * mt[0]/((v[0] + eps)**(1/2))
 
     def normalize(self, X):
         for i in range(X.shape[0]):
@@ -56,8 +56,12 @@ class LinearRegression:
         return X
 
     def grad(self, x, y):
-        l1 = self.weights * self.alpha
-        return 2 * (x.T.dot((x.dot(self.weights) - y)) + l1)
+        l1 = self.alpha * self.weights
+        sign = np.sign(x.dot(self.weights.T) - y.reshape(-1, 1))
+        grad = np.apply_along_axis(lambda x, sign:
+                                   np.sum(x.reshape(-1, 1) * sign), 0, x, sign)
+        grad = grad.reshape(-1, 1) + l1.reshape(-1, 1)
+        return grad
 
     def predict(self, X_test):
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
