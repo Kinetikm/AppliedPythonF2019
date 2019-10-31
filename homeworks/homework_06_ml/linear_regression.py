@@ -8,8 +8,9 @@ class LinearRegression:
     def __init__(self, l1_reg_coef=0.1, l2_reg_coef=0.9, gamma=0.7, alpha=0.5,
                  batch_size=50, max_iter=100):
         """
-        :param lambda_coef: constant coef for gradient descent step
-        :param regulatization: regularizarion type ("L1" or "L2") or None
+        :param l1_reg_coef: constant coef for l1 regularization
+        :param l2_reg_coef: constant coef for l2 regularization
+        :param gamma: parameter for adadelta
         :param alpha: regularizarion coefficent
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
