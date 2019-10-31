@@ -3,6 +3,7 @@
 import numpy as np
 from sklearn import preprocessing
 
+
 class LinearRegression:
     def __init__(self, lambda_coef=1.0, regularization=None, alpha=0.5, batch_size=50, max_iter=100):
         """
