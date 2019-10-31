@@ -14,7 +14,7 @@ class LogisticRegression:
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
-        pass
+        raise NotImplementedError
 
     def fit(self, X_train, y_train):
         """
