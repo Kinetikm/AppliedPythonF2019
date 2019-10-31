@@ -6,7 +6,7 @@ from sklearn.utils import shuffle
 
 
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, alpha=1, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=10, alpha=1, batch_size=50, max_iter=100):
         self.L = lambda_coef
         self.alpha = alpha
         self.b = batch_size
@@ -26,9 +26,11 @@ class LinearRegression:
                 sample = table[i: i + self.b]
                 x = sample[:, : -1]
                 y = sample[:, -1].reshape(-1, 1)
+                sum_w = np.empty(self.weights.shape)
+                old_w = np.copy(self.weights)
                 for i in range(x.shape[0]):
-                    old_w = np.copy(self.weights)
-                    self.weights -= self.L * self.grad_step(x, y, i) / self.b
+                    sum_w += self.L * self.grad_step(x, y, i) / self.b
+                self.weights -= sum_w / self.b
                 ex = True
                 for i in range(len(self.weights)):
                     if ex:
