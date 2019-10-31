@@ -23,7 +23,7 @@ class LinearRegression:
         self.norm = True
         self.Loss = [0]
 
-    def fit(self, X_train, y_train, beta1=0.9, beta2=0.99, eps=1e-8, count=5):
+    def fit(self, X_train, y_train, beta1=0.9, beta2=0.99, eps=1e-8, count=5, eps_w=1e-5):
         """
         Fit model using gradient descent method
         :param X_train: training data
@@ -53,7 +53,7 @@ class LinearRegression:
         vt = 0
         Loss_prev = 0
         flag = 0
-
+        w_prev = np.zeros((X_train.shape[1], 1))
         for i in range(1, (self.max_iter + 1)):
             k = X_train.shape[0] // self.batch_size
             # X_y = np.random.permutation(X_tr_y_tr)[:self.batch_size]
@@ -73,6 +73,9 @@ class LinearRegression:
             y = X_tr_y_tr[:, -1].reshape(-1, 1)
             Loss = self._loss_MSE(x, y)
             # условие на выход из цикла
+            if i != 1 and self._dics(self.w, w_prev) < eps_w:
+                return self.w
+
             if Loss - Loss_prev < 0 and i != 1:
                 flag = 0
             else:
@@ -81,6 +84,13 @@ class LinearRegression:
             if flag == count:
                 return self.w
             Loss_prev = Loss
+
+    def _dics(self, x, y):
+        result = []
+        for i in range(len(x)):
+            result.append((x[i] - y[i]) ** 2)
+        r = sum(result)
+        return r
 
     def _split_into_batch(self, x_y):
         x_y = np.random.permutation(x_y)
