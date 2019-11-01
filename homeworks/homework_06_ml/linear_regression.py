@@ -50,7 +50,7 @@ class LinearRegression:  # Реализация для варианта 1
             # Считаем градиент и обновляем тетту
             y_pred = batch_X@self.theta
             gr = batch_X.T@(y_pred - batch_y)
-            gr += add_penalty()
+            gr += self.add_penalty()
             E_g = self.gamma*E_g + (1 - self.gamma)*(gr**2)
             delta = (-1)*((E_t + eps)**0.5)*gr/((E_g + eps)**0.5)
             self.theta += delta
