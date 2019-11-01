@@ -46,9 +46,7 @@ class LinearRegression:
 
         for j in range(m):
             grad_arr = [X_train[i, j] * np.sign(y_pred[i] - y[i]) for i in range(n)]
-            # print("grad_arr ", grad_arr)
             jgrad = np.sum(grad_arr)
-            # print("jgrad init", jgrad)
             jgrad /= n
 
             if self.regulatization == 'elastic':
@@ -61,8 +59,7 @@ class LinearRegression:
                 jgrad += self.alpha * (self.weights[j]) ** 2
             else:
                 raise Exception("Unknown regularisation")
-            
-            # print(f'{j} grad: {jgrad}')
+
             grad[j] = jgrad
         return grad
 
@@ -89,24 +86,16 @@ class LinearRegression:
                 y_batch = y_train[j:max(n, j+self.batch_size)]
 
                 y_pred = self.predict(X_batch)
-                # print("ypred = ", y_pred)
                 loss += self.get_mae_loss(y_pred, y_batch)
                 grad = self.get_grad(X_batch, y_pred, y_batch)
-                # print("grad", grad)
 
                 # adam optimisation
-
                 opt_m = self.betta1 * opt_m + (1-self.betta1) * grad
                 opt_v = self.betta2 * opt_v + (1-self.betta2) * grad**2
                 m_hat = opt_m / (1 - self.betta1 ** i)
                 v_hat = opt_v / (1 - self.betta2 ** i)
                 self.weights -= self.lambda_coef * m_hat / (np.sqrt(v_hat) + self.eps)
 
-                # print(f"{i} opt_m", opt_m)
-                # print(f"{i} opt_v", opt_v)
-                # print(f"{i} m_hat", m_hat)
-                # print(f"{i} v_hat", v_hat)
-                # print("self.weights", self.weights)
             if abs(priv_loss - loss) < self.loss_eps:
                 print("Loss eps reached")
                 break
