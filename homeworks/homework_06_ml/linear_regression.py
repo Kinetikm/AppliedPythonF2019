@@ -4,7 +4,8 @@ import numpy as np
 
 
 class LinearRegression:
-    def __init__(self, lambda_coef=200.0, regularization=None, alpha=0.5, batch_size=50, max_iter=100, normalize=True):
+    def __init__(self, lambda_coef=200.0, regularization=None, alpha=0.5,
+                 batch_size=50, max_iter=100, normalize=True, convergence=False, epsilon=0.0001):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -18,8 +19,10 @@ class LinearRegression:
         self.batch_size = batch_size
         self.max_iter = max_iter
         self.w = 0
-        self.loss = []
+        self.loss = [0]
         self.normalize = normalize
+        self.convergence = convergence
+        self.epsilon = epsilon
 
     def fit(self, X_train, y_train):
         """
@@ -41,12 +44,14 @@ class LinearRegression:
             perm = np.random.permutation(table)[:self.batch_size]
             x = perm[:, :-1]
             y = perm[:, -1].reshape(-1, 1)
-            err1 = sum(abs(x.dot(self.w.T) - y))/self.batch_size
             grad = self._grad(x, y, self.w)
             g_update += grad ** 2
             self.w -= self.lambda_coef * grad / np.sqrt(g_update + eps)/self.batch_size
-            err2 = sum(abs(x.dot(self.w.T) - y))/self.batch_size
-            self.loss.append(err2)
+            err = self.mean_abs_err(x, y, self.w)
+            self.loss.append(err)
+            if self.convergence:
+                if abs(self.loss[-1] - self.loss[-2]) < self.epsilon:
+                    break
 
     def _normalize(self, X):
         n = X.shape[1]
@@ -61,6 +66,9 @@ class LinearRegression:
         for j in range(w.shape[1]):
             gr[0, j] = sum(x[:, j].reshape(-1, 1)*np.sign(x.dot(w.T) - y)) + self.alpha*(np.sign(w[0, j]))
         return gr
+
+    def mean_abs_err(self, x, y, w):
+        return sum(abs(x.dot(self.w.T) - y))/self.batch_size
 
     def predict(self, X_test):
         """
@@ -77,3 +85,6 @@ class LinearRegression:
         :return: weights array
         """
         return self.w
+
+    def get_loss(self):
+        return self.loss[1:]
