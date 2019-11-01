@@ -77,4 +77,4 @@ class LinearRegression:  # Реализация для варианта 1
         return (x, y)
 
     def add_penalty(self):
-        return self.alpha*np.norm(self.theta)
+        return self.alpha*np.linalg.norm(self.theta)
