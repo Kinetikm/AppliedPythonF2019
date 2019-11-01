@@ -45,7 +45,7 @@ class LinearRegression:
             loss_mae = sum(abs(table[:, :-1:].dot(self.weight.T) - table[:, -1::])) / table.shape[0]
 
     def predict(self, x_test):
-        x = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
+        x = np.hstack((np.ones((x_test.shape[0], 1)), x_test))
         return x_test.dot(self.weight.T)
 
     def get_weights(self):
