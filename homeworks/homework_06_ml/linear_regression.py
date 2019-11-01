@@ -37,7 +37,9 @@ class LinearRegression:  # Реализация для варианта 1
         A_train = np.zeros((self.X_train.shape[0], self.X_train.shape[1]+1))
         A_train[:, :-2] = X_train[:, :]
         A_train[:, -1] = self.y
-        shuffle(self.A_train[:])
+        shuffle(A_train[:])
+        self.X_train = A_train[:, :-2]
+        self.y = A_train[:, -1]
         self._gradient_descent()
 
     def _add_penalty(self, loss, w):
