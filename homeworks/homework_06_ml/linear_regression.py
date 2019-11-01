@@ -32,7 +32,7 @@ class LinearRegression:  # Реализация для варианта 1
         self.y = y_train
         self.init_cost()
         self.n_samples, self.n_features = X_train.shape
-        self.theta = np.random.normal(size=(self.n_features + 1), scale=0.5)
+        self.theta = np.random.normal(size=(self.n_features), scale=0.5)
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         A_train = np.zeros((self.X_train.shape[0], self.X_train.shape[1]+1))
         A_train[:, :-2] = X_train[:, :]
@@ -55,7 +55,7 @@ class LinearRegression:  # Реализация для варианта 1
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch, i)
             # Считаем градиент и обновляем тетту
             y_pred = batch_X@self.theta
-            gr = self.grad_mse(batch_X, batch_y, y_pred)
+            gr = batch_X.T@(pred - batch_y) + self.alpha*np.sign(self.w)
             E_g = self.gamma*E_g + (1 - self.gamma)*(gr**2)
             delta = (-1)*((E_t + eps)**0.5)*gr/((E_g + eps)**0.5)
             self.theta += delta
