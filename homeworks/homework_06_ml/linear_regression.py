@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 import numpy as np
-import matplotlib.pyplot as plt
 import copy
 
 
@@ -18,7 +17,7 @@ class LinearRegression:
         """
         Loss: MSE, Regularization: elastic, Optim: Adam
         :param lambda_coef: constant coef for gradient descent step
-        :param alpha: regularizarion coefficent for l1
+        :param alpha: regularizarion coefficent
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
