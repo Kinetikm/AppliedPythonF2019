@@ -8,8 +8,8 @@ import numpy as np
 
 
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, regulatization='elastic', alpha=0.5,
-                 batch_size=50, max_iter=100, eps=1e-6, l1_ratio=0.5, betta1=0.01, betta2=0.01):
+    def __init__(self, lambda_coef=0.1, regulatization='elastic', alpha=0.001, loss_eps=1e-7,
+                 batch_size=50, max_iter=100, eps=1e-6, l1_ratio=0.5, betta1=0.5, betta2=0.5):
 
         """
         :param lambda_coef: constant coef for gradient descent step
@@ -24,6 +24,8 @@ class LinearRegression:
         self.alpha = alpha
         self.batch_size = batch_size
         self.max_iter = max_iter
+
+        self.loss_eps = loss_eps
 
         self.l1_ratio = l1_ratio
 
@@ -43,7 +45,10 @@ class LinearRegression:
         m = X_train.shape[1]
 
         for j in range(m):
-            jgrad = np.sum([X_train[i, j] * np.sign(y_pred - y[i]) for i in range(n)])
+            grad_arr = [X_train[i, j] * np.sign(y_pred[i] - y[i]) for i in range(n)]
+            # print("grad_arr ", grad_arr)
+            jgrad = np.sum(grad_arr)
+            # print("jgrad init", jgrad)
             jgrad /= n
 
             if self.regulatization == 'elastic':
@@ -56,7 +61,8 @@ class LinearRegression:
                 jgrad += self.alpha * (self.weights[j]) ** 2
             else:
                 raise Exception("Unknown regularisation")
-
+            
+            # print(f'{j} grad: {jgrad}')
             grad[j] = jgrad
         return grad
 
@@ -76,27 +82,38 @@ class LinearRegression:
         opt_m = 0
         opt_v = 0
         priv_loss = 0
-        for i in range(self.max_iter):
+        for i in range(1, self.max_iter):
             loss = 0
-            for i in range(0, n, self.batch_size):
-                X_batch = X_train[i:max(n, i+self.batch_size)]
-                y_batch = y_train[i:max(n, i+self.batch_size)]
+            for j in range(0, 1, self.batch_size):
+                X_batch = X_train[j:max(n, j+self.batch_size)]
+                y_batch = y_train[j:max(n, j+self.batch_size)]
 
                 y_pred = self.predict(X_batch)
+                # print("ypred = ", y_pred)
                 loss += self.get_mae_loss(y_pred, y_batch)
                 grad = self.get_grad(X_batch, y_pred, y_batch)
+                # print("grad", grad)
 
                 # adam optimisation
+
                 opt_m = self.betta1 * opt_m + (1-self.betta1) * grad
-                opt_v = self.betta2 * opt_v + (1-self.betta1) * grad**2
+                opt_v = self.betta2 * opt_v + (1-self.betta2) * grad**2
                 m_hat = opt_m / (1 - self.betta1 ** i)
                 v_hat = opt_v / (1 - self.betta2 ** i)
                 self.weights -= self.lambda_coef * m_hat / (np.sqrt(v_hat) + self.eps)
 
-            if abs(priv_loss - loss) < 1e-5:
+                # print(f"{i} opt_m", opt_m)
+                # print(f"{i} opt_v", opt_v)
+                # print(f"{i} m_hat", m_hat)
+                # print(f"{i} v_hat", v_hat)
+                # print("self.weights", self.weights)
+            if abs(priv_loss - loss) < self.loss_eps:
                 print("Loss eps reached")
                 break
-            print(loss)
+
+            if i % 10 == 0:
+                print("loss", loss)
+            priv_loss = loss
 
     def predict(self, X_test):
         """
