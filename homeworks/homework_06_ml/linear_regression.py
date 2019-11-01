@@ -14,12 +14,11 @@ def normalize(x):
 
 
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, alpha=0.5, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
         """
         Loss: MSE, Regularization: elastic, Optim: Adam
         :param lambda_coef: constant coef for gradient descent step
-        :param alpha1: regularizarion coefficent for l1
-        :param alpha2: regularizarion coefficent for l2
+        :param alpha: regularizarion coefficent for l1
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
