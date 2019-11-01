@@ -3,7 +3,6 @@
 
 
 import numpy as np
-import math
 from random import shuffle
 
 
@@ -34,9 +33,9 @@ class LinearRegression:  # Реализация для варианта 1
         self.init_cost()
         self.n_samples, self.n_features = X_train.shape
         self.theta = np.random.normal(size=(self.n_features + 1), scale=0.5)
-        self.X_train = np.hastack((np.ones((X_train.shape[0], 1)), X_train))
-        A_train = np.zeros((self.X_train.shape[0], self.X_train.shape[0]+1))
-        A_train[:,:-1] = X_train[:,:]
+        self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
+        A_train = np.zeros((self.X_train.shape[0], self.X_train.shape[1]+1))
+        A_train[:, :-1] = X_train[:, :]
         A_train[:, -1] = self.y
         shuffle(self.A_train[:])
         self._gradient_descent()
@@ -48,13 +47,13 @@ class LinearRegression:  # Реализация для варианта 1
 
     def _gradient_descent(self):  # Adadelta
         eps = 10**(-5)
-        E_g = np.zeros((X_train.shape[1],1))
-        E_t = np.zeros((X_train.shape[1],1))
+        E_g = np.zeros((X_train.shape[1], 1))
+        E_t = np.zeros((X_train.shape[1], 1))
         for i in range(1, self.max_iter + 1):
-            batch_X, batch_y = self.get_next_batch(self.X_train,self.y,self.batch, i)
+            batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch, i)
             # Считаем градиент и обновляем тетту
             y_pred = batch_X@self.theta
-            gr = self.grad_mse(batch_X,batch_y,y_pred)
+            gr = self.grad_mse(batch_X, batch_y, y_pred)
             E_g = self.gamma*E_g + (1 - self.gamma)*(gr**2)
             delta = (-1)*((E_t + eps)**0.5)*gr/((E_g + eps)**0.5)
             self.theta += delta
@@ -72,11 +71,6 @@ class LinearRegression:  # Реализация для варианта 1
         :return: y_test: predicted values
         """
         return X_test.T * self.get_weights()[1:] + self.get_weights()[0]
-
-    @staticmethod
-    def _add_intercept(X):
-        b = np.ones([X.shape[0], 1])
-        return np.concatenate([b, X], axis=1)
 
     def get_weights(self):
         """
