@@ -35,7 +35,7 @@ class LinearRegression:  # Реализация для варианта 1
         self.theta = np.random.normal(size=(self.n_features + 1), scale=0.5)
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         A_train = np.zeros((self.X_train.shape[0], self.X_train.shape[1]+1))
-        A_train[:, :-1] = X_train[:, :]
+        A_train[:, :-2] = X_train[:, :]
         A_train[:, -1] = self.y
         shuffle(self.A_train[:])
         self._gradient_descent()
