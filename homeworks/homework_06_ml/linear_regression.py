@@ -19,10 +19,11 @@ class LinearRegression:
         :return: None
         """
         self.weight = np.random.normal(size=(1, x_train.shape[1] + 1))
-        e_g, e_o = 0
+        e_g = 0
+        e_o = 0
         eps = 1e-9
         lam = self.lambda_coef
-        rms_o = 100
+        rms_o = 50
         table = np.hstack((np.ones((x_train.shape[0], 1)), x_train, y_train.reshape(-1, 1)))
         sample = np.arange(x_train.shape[0])
         for _ in range(self.max_iter):
