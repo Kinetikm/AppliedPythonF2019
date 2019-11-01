@@ -32,7 +32,7 @@ class LinearRegression:  # Реализация для варианта 1
         self.y = y_train
         self.init_cost()
         self.n_samples, self.n_features = X_train.shape
-        self.theta = np.random.normal(size=(self.n_features), scale=0.5)
+        self.theta = np.random.rand(X_train.shape[1], 1)
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         A_train = np.zeros((self.X_train.shape[0], self.X_train.shape[1]+1))
         A_train[:, :-2] = X_train[:, :]
