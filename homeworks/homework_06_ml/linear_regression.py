@@ -1,38 +1,52 @@
 #!/usr/bin/env python
 # coding: utf-8
+import numpy as np
 
 
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
-        """
-        :param lambda_coef: constant coef for gradient descent step
-        :param regulatization: regularizarion type ("L1" or "L2") or None
-        :param alpha: regularizarion coefficent
-        :param batch_size: num sample per one model parameters update
-        :param max_iter: maximum number of parameters updates
-        """
-        raise NotImplementedError
+    def __init__(self, lambda_coef=0.9, alpha=0.5, batch_size=50, max_iter=100):
+        self.lambda_coef = lambda_coef
+        self.alpha = alpha
+        self.max_iter = max_iter
+        self.batch_size = batch_size
+        self.weight = 0
 
-    def fit(self, X_train, y_train):
+    def fit(self, x_train, y_train):
         """
         Fit model using gradient descent method
-        :param X_train: training data
+        :param x_train: training data
         :param y_train: target values for training data
         :return: None
         """
-        pass
+        self.weight = np.random.normal(size=(1, x_train.shape[1] + 1))
+        e_g = 0
+        e_w = 0
+        eps = 1e-8
+        lam = self.lambda_coef
+        n_grad = 0
+        rms_w = 100
+        table = np.hstack((np.ones((x_train.shape[0], 1)), x_train, y_train.reshape(-1, 1)))
+        n_grad = np.ones(X_train.shape[1] + 1)
+        sample = np.arange(x_train.shape[0])
+        v_i = np.zeros_like(self.weight)
+        for _ in range(self.max_iter):
+            np.random.shuffle(sample)
+            table_batch = np.take(table, sample[:self.batch_size], axis=0)
+            for i in range(table_batch.shape[0]):
+                x = table[i:i + 1:, :-1]
+                y = table[i:i + 1:, -1::]
+                n_grad = np.sign(x.dot(self.weight.T) - y.reshape(-1, 1))
+                e_g = lam * e_g + (1 - lam) * (n_grad ** 2)
+                rms_g = np.sqrt(e_g + eps)
+                delta_w = - (rms_w / rms_g) * n_grad
+                e_w = lam * e_w + (1 - lam) * (delta_w ** 2)
+                rms_w = np.sqrt(e_w + eps)
+                self.weight += delta_w
+            loss_mae = sum(abs(table[:, :-1:].dot(self.weight.T) - table[:, -1::])) / table.shape[0]
 
-    def predict(self, X_test):
-        """
-        Predict using model.
-        :param X_test: test data for predict in
-        :return: y_test: predicted values
-        """
-        pass
+    def predict(self, x_test):
+        x = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
+        return x_test.dot(self.weight.T)
 
     def get_weights(self):
-        """
-        Get weights from fitted linear model
-        :return: weights array
-        """
-        pass
+        return self.weight
