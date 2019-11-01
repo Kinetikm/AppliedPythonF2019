@@ -27,7 +27,7 @@ def simplex_method(a, b, c):
     sim_tab = np.zeros((n+1, m+n+2))
     result = [0 for i in range(m)]
     sim_tab[:-1, :m] = a
-    sim_tab[:, m:] = np.eye(n+1)
+    sim_tab[:, m+1:] = np.eye(n+1)
     sim_tab[:, -1] = b
     sim_tab[-1, : m+1] = c[:]*(-1)
     dct = {}
