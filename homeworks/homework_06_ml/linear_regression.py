@@ -49,8 +49,8 @@ class LinearRegression:  # Реализация для варианта 1
 
     def _gradient_descent(self):  # Adadelta
         eps = 10**(-5)
-        E_g = np.zeros((X_train.shape[1], 1))
-        E_t = np.zeros((X_train.shape[1], 1))
+        E_g = np.zeros((self.X_train.shape[1], 1))
+        E_t = np.zeros((self.X_train.shape[1], 1))
         for i in range(1, self.max_iter + 1):
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch, i)
             # Считаем градиент и обновляем тетту
