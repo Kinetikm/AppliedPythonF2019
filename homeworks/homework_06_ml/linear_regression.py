@@ -19,29 +19,25 @@ class LinearRegression:
         :return: None
         """
         self.weight = np.random.normal(size=(1, x_train.shape[1] + 1))
-        e_g = 0
-        e_w = 0
-        eps = 1e-8
+        e_g, e_o = 0
+        eps = 1e-9
         lam = self.lambda_coef
-        n_grad = 0
-        rms_w = 100
+        rms_o = 100
         table = np.hstack((np.ones((x_train.shape[0], 1)), x_train, y_train.reshape(-1, 1)))
-        n_grad = np.ones(x_train.shape[1] + 1)
         sample = np.arange(x_train.shape[0])
-        v_i = np.zeros_like(self.weight)
         for _ in range(self.max_iter):
             np.random.shuffle(sample)
             table_batch = np.take(table, sample[:self.batch_size], axis=0)
             for i in range(table_batch.shape[0]):
                 x = table[i:i + 1:, :-1]
                 y = table[i:i + 1:, -1::]
-                n_grad = np.sign(x.dot(self.weight.T) - y.reshape(-1, 1))
-                e_g = lam * e_g + (1 - lam) * (n_grad ** 2)
+                sig_grad = np.sign(x.dot(self.weight.T) - y.reshape(-1, 1))
+                e_g = lam * e_g + (1 - lam) * (sig_grad ** 2)
                 rms_g = np.sqrt(e_g + eps)
-                delta_w = - (rms_w / rms_g) * n_grad
-                e_w = lam * e_w + (1 - lam) * (delta_w ** 2)
-                rms_w = np.sqrt(e_w + eps)
-                self.weight += delta_w
+                delta_o = - (rms_o / rms_g) * sig_grad
+                e_o = lam * e_o + (1 - lam) * (delta_w ** 2)
+                rms_o = np.sqrt(e_o + eps)
+                self.weight += delta_o
             loss_mae = sum(abs(table[:, :-1:].dot(self.weight.T) - table[:, -1::])) / table.shape[0]
 
     def predict(self, x_test):
