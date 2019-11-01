@@ -5,7 +5,7 @@ from random import randint
 
 
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=1, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
         self.lambda_coef = lambda_coef
         self.alpha = alpha
         self.batch_size = batch_size
@@ -27,6 +27,7 @@ class LinearRegression:
         v = np.zeros((1, X_train.shape[1] + 1))
         w = np.zeros((1, X_train.shape[1] + 1))
         self.weights = w
+        self.normal(X_train)
         b_n = randint(0, X_train.shape[0] - self.batch_size)
         batch_x = X_train[b_n:b_n + self.batch_size, ::]
         batch_y = y_train[b_n:b_n + self.batch_size]
@@ -39,6 +40,13 @@ class LinearRegression:
             v_hat = v / (1 - np.power(0.999, t))
             w = w - self.lambda_coef * m_hat / (np.sqrt(v_hat) + 0.00000001)
             self.weights = w
+
+    def normal(self, x):
+        mean = x.mean(axis=1)
+        std = np.std(x, axis=1)
+        for j in range(x.shape[0]):
+            if std[j] > 0:
+                x[j, :] = (x[j, :] - mean[j]) / std[j]
 
     def predict(self, X_test):
         X = np.hstack([X_test, np.ones((X_test.shape[0], 1))])
