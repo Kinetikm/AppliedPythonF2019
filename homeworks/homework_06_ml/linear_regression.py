@@ -100,8 +100,6 @@ class LinearRegression:
                 print("Loss eps reached")
                 break
 
-            if i % 10 == 0:
-                print("loss", loss)
             priv_loss = loss
 
     def predict(self, X_test):
