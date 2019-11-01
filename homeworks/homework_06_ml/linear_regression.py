@@ -95,5 +95,5 @@ class LinearRegression:  # Реализация для варианта 1
 
     def get_next_batch(self, X, Y, batch, i):
         x = X[i * batch % X.shape[0]:i * batch % X.shape[0] + batch]
-        y = Y[(i-1)*batch:batch*i][i * batch % y.shape[0]:i * batch % y.shape[0] + batch]
+        y = Y[i * batch % Y.shape[0]:i * batch % Y.shape[0] + batch]
         return (x, y)
