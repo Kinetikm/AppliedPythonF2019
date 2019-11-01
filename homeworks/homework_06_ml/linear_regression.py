@@ -36,7 +36,7 @@ class LinearRegression:
                 e_g = lam * e_g + (1 - lam) * (sig_grad ** 2)
                 rms_g = np.sqrt(e_g + eps)
                 delta_o = - (rms_o / rms_g) * sig_grad
-                e_o = lam * e_o + (1 - lam) * (delta_w ** 2)
+                e_o = lam * e_o + (1 - lam) * (delta_o ** 2)
                 rms_o = np.sqrt(e_o + eps)
                 self.weight += delta_o
             loss_mae = sum(abs(table[:, :-1:].dot(self.weight.T) - table[:, -1::])) / table.shape[0]
