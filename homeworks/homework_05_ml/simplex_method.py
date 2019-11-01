@@ -29,7 +29,7 @@ def simplex_method(a, b, c):
     sim_tab[:-1, :m] = a
     sim_tab[:, m+1:] = np.eye(n+1)
     sim_tab[:-1, -1] = b
-    sim_tab[-1, : m+1] = c[:]*(-1)
+    sim_tab[-1, : m] = c[:]*(-1)
     dct = {}
     while is_negative(sim_tab, m):
         #  Найдем индекс столбца, в последней строке которого хранится
