@@ -46,7 +46,7 @@ class LinearRegression:
 
     def predict(self, x_test):
         x = np.hstack((np.ones((x_test.shape[0], 1)), x_test))
-        return x_test.dot(self.weight.T)
+        return x.dot(self.weight.T)
 
     def get_weights(self):
         return self.weight
