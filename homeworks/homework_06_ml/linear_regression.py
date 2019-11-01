@@ -26,7 +26,7 @@ class LinearRegression:
         n_grad = 0
         rms_w = 100
         table = np.hstack((np.ones((x_train.shape[0], 1)), x_train, y_train.reshape(-1, 1)))
-        n_grad = np.ones(X_train.shape[1] + 1)
+        n_grad = np.ones(x_train.shape[1] + 1)
         sample = np.arange(x_train.shape[0])
         v_i = np.zeros_like(self.weight)
         for _ in range(self.max_iter):
