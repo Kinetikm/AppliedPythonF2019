@@ -94,6 +94,6 @@ class LinearRegression:  # Реализация для варианта 1
         self.cost_func = mean_squared_error
 
     def get_next_batch(self, X, Y, batch, i):
-        x = X[(i-1)*batch:batch*i]
-        y = Y[(i-1)*batch:batch*i]
+        x = X[i * batch % X.shape[0]:i * batch % X.shape[0] + batch]
+        y = Y[(i-1)*batch:batch*i][i * batch % y.shape[0]:i * batch % y.shape[0] + batch]
         return (x, y)
