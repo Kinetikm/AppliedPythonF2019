@@ -55,7 +55,7 @@ class LinearRegression:  # Реализация для варианта 1
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch, i)
             # Считаем градиент и обновляем тетту
             y_pred = batch_X@self.theta
-            gr = batch_X.T@(pred - batch_y) + self.alpha*np.sign(self.w)
+            gr = batch_X.T@(y_pred - batch_y) + self.alpha*np.sign(self.theta)
             E_g = self.gamma*E_g + (1 - self.gamma)*(gr**2)
             delta = (-1)*((E_t + eps)**0.5)*gr/((E_g + eps)**0.5)
             self.theta += delta
