@@ -4,6 +4,7 @@
 
 import numpy as np
 import math
+from random import shuffle
 
 
 class LinearRegression:  # Реализация для варианта 1
@@ -18,11 +19,9 @@ class LinearRegression:  # Реализация для варианта 1
         self.gamma = lambda_coef
         self.reg = regulatization
         self.alpha = alpha
-        self.bath = batch_size
+        self.batch = batch_size
         self.max_iter = max_iter
-        self.errors = []
         self.theta = []
-        self.grad_lst = []
 
     def fit(self, X_train, y_train):
         """
@@ -35,9 +34,12 @@ class LinearRegression:  # Реализация для варианта 1
         self.init_cost()
         self.n_samples, self.n_features = X_train.shape
         self.theta = np.random.normal(size=(self.n_features + 1), scale=0.5)
-        self.X_train = self._add_intercept(X_train)
-        self.theta, self.errors = self._gradient_descent()
-        logging.info(" Theta: %s" % self.theta.flatten())
+        self.X_train = np.hastack((np.ones((X_train.shape[0], 1)), X_train))
+        A_train = np.zeros((self.X_train.shape[0], self.X_train.shape[0]+1))
+        A_train[:,:-1] = X_train[:,:]
+        A_train[:, -1] = self.y
+        shuffle(self.A_train[:])
+        self._gradient_descent()
 
     def _add_penalty(self, loss, w):
         """Добавляю регуляризацию"""
@@ -45,22 +47,18 @@ class LinearRegression:  # Реализация для варианта 1
         return loss
 
     def _gradient_descent(self):  # Adadelta
-        eps = 1
-        theta = self.theta
-        errors = [self._cost(self.X_train, self.y, theta)]
-        E_g = 0
-        E_t = 0
-        rms_t = math.sqrt(E_g + eps)
+        eps = 10**(-5)
+        E_g = np.zeros((X_train.shape[1],1))
+        E_t = np.zeros((X_train.shape[1],1))
         for i in range(1, self.max_iter + 1):
+            batch_X, batch_y = self.get_next_batch(self.X_train,self.y,self.batch, i)
             # Считаем градиент и обновляем тетту
-            E_g = self.gamma * E_g + (1 - self.gamma) * (np.linalg.norm(self.cost_func(theta)))
-            rms_g = math.sqrt(E_g + eps)
-            delta = rms_t * cost_d(theta) / rms_g
-            E_t = self.gamma * E_t + (1 - self.gamma) * (np.linalg.norm(delta))
-            rms_t = math.sqrt(E_t[i] + eps)
-            theta -= delta
-            errors.append(self._cost(self.X_train, self.y, theta))
-        return theta, errors
+            y_pred = batch_X@self.theta
+            gr = self.grad_mse(batch_X,batch_y,y_pred)
+            E_g = self.gamma*E_g + (1 - self.gamma)*(gr**2)
+            delta = (-1)*((E_t + eps)**0.5)*gr/((E_g + eps)**0.5)
+            self.theta += delta
+            E_t = self.self.gamma * E_t + (1 - self.gamma)*(delta**2)
 
     def _cost(self, X, y, theta):
         pred = X.dot(theta)
@@ -99,29 +97,7 @@ class LinearRegression:  # Реализация для варианта 1
             return np.mean(squared_error(actual, predicted))
         self.cost_func = mean_squared_error
 
-    def grad_mse(self, X, y):
-        grad = np.zeros(len(self.weights))
-        grad[0] = np.mean((self.predict(X) - y)**2)
-        grad[1:] = np.mean(X*sign[:, None], axis=0)
-        return grad
-
-    def stochastic_descent(A, Y, speed=0.1):
-        theta = np.array(INITIAL_THETA.copy(), dtype=np.float32)
-        previous_cost = 10 ** 6
-        current_cost = cost_function(A, Y, theta)
-        while np.abs(previous_cost - current_cost) > EPS:
-            previous_cost = current_cost
-            # --------------------------------------
-            # for i in range(len(Y)):
-            i = np.random.randint(0, len(Y))
-            derivatives = [0] * len(theta)
-            for j in range(len(theta)):
-                derivatives[j] = (Y[i] - A[i] @ theta) * A[i][j]
-            theta[0] += speed * derivatives[0]
-            theta[1] += speed * derivatives[1]
-            current_cost = cost_function(A, Y, theta)
-            print("Stochastic cost:", current_cost)
-            plt.plot(theta[0], theta[1], 'ro')
-            # --------------------------------------
-            current_cost = cost_function(A, Y, theta)
-        return theta
+    def get_next_batch(self, X, Y, batch, i):
+        x = X[(i-1)*batch:batch*i]
+        y = Y[(i-1)*batch:batch*i]
+        return (x, y)
