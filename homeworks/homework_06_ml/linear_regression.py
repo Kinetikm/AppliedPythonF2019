@@ -30,7 +30,6 @@ class LinearRegression:  # Реализация для варианта 1
         :return: None
         """
         self.y = y_train
-        self.init_cost()
         self.n_samples, self.n_features = X_train.shape
         self.theta = np.random.rand(X_train.shape[1], 1)
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
@@ -42,11 +41,6 @@ class LinearRegression:  # Реализация для варианта 1
         self.y = A_train[:, -1]
         self._gradient_descent()
 
-    def _add_penalty(self, loss, w):
-        """Добавляю регуляризацию"""
-        loss += self.alpha * np.abs(w[1:]).sum()
-        return loss
-
     def _gradient_descent(self):  # Adadelta
         eps = 10**(-5)
         E_g = np.zeros((self.X_train.shape[1], 1))
@@ -55,16 +49,12 @@ class LinearRegression:  # Реализация для варианта 1
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch, i)
             # Считаем градиент и обновляем тетту
             y_pred = batch_X@self.theta
-            gr = batch_X.T@(y_pred - batch_y) + self.alpha*np.sign(self.theta)
+            gr = batch_X.T@(y_pred - batch_y)
+            gr += add_penalty()
             E_g = self.gamma*E_g + (1 - self.gamma)*(gr**2)
             delta = (-1)*((E_t + eps)**0.5)*gr/((E_g + eps)**0.5)
             self.theta += delta
             E_t = self.self.gamma * E_t + (1 - self.gamma)*(delta**2)
-
-    def _cost(self, X, y, theta):
-        pred = X.dot(theta)
-        error = self.cost_func(y, pred)
-        return error
 
     def predict(self, X_test):
         """
@@ -81,19 +71,10 @@ class LinearRegression:  # Реализация для варианта 1
         """
         return self.theta
 
-    def _loss(self, w):
-        loss = self.cost_func(self.y, np.dot(self.X, w))
-        return self._add_penalty(loss, w)
-
-    def init_cost(self):
-        def squared_error(actual, predicted):
-            return (actual - predicted) ** 2
-
-        def mean_squared_error(actual, predicted):
-            return np.mean(squared_error(actual, predicted))
-        self.cost_func = mean_squared_error
-
     def get_next_batch(self, X, Y, batch, i):
         x = X[i * batch % X.shape[0]:i * batch % X.shape[0] + batch]
         y = Y[i * batch % Y.shape[0]:i * batch % Y.shape[0] + batch]
         return (x, y)
+
+    def add_penalty(self):
+        return self.alpha*np.norm(self.theta)
