@@ -6,7 +6,7 @@ import numpy as np
 from random import shuffle
 
 
-class LinearRegression:  # Реализация для варианта 1
+class LinearRegression:  # Optimization: Adadelta; Regulatization: l1
     def __init__(self, lambda_coef=0.9, regulatization='l1', alpha=0.5, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
