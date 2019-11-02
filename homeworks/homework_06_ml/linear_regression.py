@@ -46,11 +46,11 @@ class LinearRegression:  # Реализация для варианта 1
         E_g = np.zeros((self.n_features + 1, 1))
         E_t = np.zeros((self.n_features + 1, 1))
         for i in range(1, self.max_iter + 1):
-            batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch, i)
+            batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch)
             y_pred = np.matmul(batch_X, self.theta)
             print(y_pred.shape)
             # Считаем градиент и обновляем тетту
-            gr = np.matmul(batch_X.T,(y_pred - batch_y))
+            gr = np.matmul(batch_X.T, (y_pred - batch_y))
             gr += self.add_penalty()
             print(batch_X.shape)
             print(y_pred.shape)
@@ -75,10 +75,11 @@ class LinearRegression:  # Реализация для варианта 1
         """
         return self.theta
 
-    def get_next_batch(self, X, Y, batch, i):
-        x = X[i * batch % X.shape[0]:i * batch % X.shape[0] + batch]
-        y = Y[i * batch % Y.shape[0]:i * batch % Y.shape[0] + batch]
-        return (x, y)
+    def get_next_batch(self, X, Y, batch):
+        index = np.random.choice(self.n_samples, batch, replace=False)
+        x_batch = X[index]
+        y_batch = Y[index]
+        return x_batch, y_batch
 
     def add_penalty(self):
         return self.alpha*np.linalg.norm(self.theta)
