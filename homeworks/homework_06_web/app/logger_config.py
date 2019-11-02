@@ -1,4 +1,5 @@
 
+
 LOGGING_CONFIG = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -8,20 +9,19 @@ LOGGING_CONFIG = {
         },
     },
     'handlers': {
-        'default': {
+        'db_handler': {
             'level': 'INFO',
-            'formatter': 'standard',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'log',
-            'maxBytes': 5000,
-            'backupCount': 1,
-        },
+            'class': 'app.log_handler.LogDBHandler',
+        }
     },
     'loggers': {
         'RequestLogger': {
-            'handlers': ['default'],
+            'handlers': ['db_handler'],
             'level': 'INFO',
             'propagate': False
         },
     }
 }
+
+
+

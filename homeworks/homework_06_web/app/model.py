@@ -1,10 +1,10 @@
-from sqlalchemy import ForeignKey, Column, Integer, String, DateTime
+from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 
 Base = declarative_base()
-
+LogBase = declarative_base()
 
 class Airports(Base):
     __tablename__ = 'airports'
@@ -41,6 +41,37 @@ class Flights(Base):
             'airplane': self.airplane.airplane,
             'airport': self.airport.airport,
             'flight_time': self.flight_time,
+        }
+
+
+class Log(LogBase):
+    __tablename__ = 'log'
+
+    time = Column(DateTime, primary_key=True)
+    lavel_name = Column(String)
+    name = Column(String)
+    remote_addr = Column(String)
+    method = Column(String)
+    scheme = Column(String)
+    full_path = Column(String)
+    json = Column(String)
+    status = Column(String)
+    resp_time = Column(Float)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializable format"""
+        return {
+            'time': self.time,
+            'lavel_name': self.lavel_name,
+            'name': self.name,
+            'remote_addr': self.remote_addr,
+            'method': self.method,
+            'scheme': self.scheme,
+            'full_path': self.full_path,
+            'json': str(self.json),
+            'status': self.status,
+            'resp_time': self.resp_time,
         }
 
 

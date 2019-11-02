@@ -5,30 +5,32 @@ import validation
 import time
 from logger_config import LOGGING_CONFIG
 import logging.config
-from model import Airports, Airplanes, Flights
+from model import Airports, Airplanes, Flights, Log
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 flights_engine = create_engine('sqlite:///flights.db')
+log_engine = create_engine('sqlite:///log.db')
 flight_schema = validation.FlightSchema()
 args_schema = validation.ArgsSchema()
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger('RequestLogger')
-logger.info('App running')
 Session = sessionmaker(bind=flights_engine)
+LogSession = sessionmaker(bind=log_engine)
 
 
 @app.route('/flights', methods=['GET'])
 def get_flights():
     args = args_schema.load(request.args)
     session = g.session
-    result = session.query(Flights)
     if args['filter_by_airport'] is not None:
         result = session.query(Flights).join(Flights.airport).filter(Airports.airport == args['filter_by_airport'])
-    if args['filter_by_plane'] is not None:
+    elif args['filter_by_plane'] is not None:
         result = session.query(Flights).join(Flights.airplane).filter(Airplanes.airplane == args['filter_by_plane'])
-    if args['filter_by_time'] is not None:
+    elif args['filter_by_time'] is not None:
         result = session.query(Flights).filter(Flights.dep_time == args['filter_by_time'])
+    else:
+        result = session.query(Flights)
     if args['sort_by'] is not None:
         result = result.order_by(args['sort_by'])
     data = [i.serialize for i in result.all()]
@@ -114,6 +116,15 @@ def put_flight(flight_id):
     except ValidationError as e:
         abort(400, str(e))
 
+@app.route('/log', methods=['GET'])
+def get_log():
+    session = LogSession()
+    result = session.query(Log).all()
+    data = [i.serialize for i in result]
+    session.close()
+    print(data)
+    return jsonify(data)
+
 
 @app.before_request
 def before_request():
@@ -124,10 +135,9 @@ def before_request():
 @app.after_request
 def after_request(response):
     resp_time = (time.time() - g.start) * 1000  # время ответа сервера в миллисекндах
-    if 400 <= response.status_code < 500:
-        logger.info('%s %s %s %s %s %s %s %s', request.remote_addr, request.method, request.scheme, request.full_path,
-                    request.json, response.status, response.data, resp_time)
-    logger.info('%s %s %s %s %s %s', request.remote_addr, request.method, request.scheme, request.full_path,
-                response.status, resp_time)
+    d = dict(remote_addr=request.remote_addr, method=request.method, scheme=request.scheme,
+             full_path=request.full_path, json=request.json, status=response.status,
+             resp_time=resp_time)
+    logger.info(msg='', extra=d)
     g.session.close()
     return response
