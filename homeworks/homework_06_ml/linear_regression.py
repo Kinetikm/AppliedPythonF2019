@@ -51,6 +51,7 @@ class LinearRegression:  # Реализация для варианта 1
             y_pred = batch_X@self.theta
             gr = batch_X.T@(y_pred - batch_y)
             gr += self.add_penalty()
+            print(gr.shape)
             E_g = self.gamma*E_g + (1 - self.gamma)*(gr**2)
             delta = (-1)*((E_t + eps)**0.5)*gr/((E_g + eps)**0.5)
             self.theta += delta
