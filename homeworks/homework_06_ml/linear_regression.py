@@ -55,7 +55,7 @@ class LinearRegression:  # Реализация для варианта 1
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        return X_test.T @ self.get_weights()[1:] + self.get_weights()[0]
+        return X_test @ self.get_weights()[1:] + self.get_weights()[0]
 
     def get_weights(self):
         """
