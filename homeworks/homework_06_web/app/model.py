@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship
 Base = declarative_base()
 LogBase = declarative_base()
 
+
 class Airports(Base):
     __tablename__ = 'airports'
 

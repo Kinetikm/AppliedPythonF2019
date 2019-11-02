@@ -116,6 +116,7 @@ def put_flight(flight_id):
     except ValidationError as e:
         abort(400, str(e))
 
+
 @app.route('/log', methods=['GET'])
 def get_log():
     session = LogSession()

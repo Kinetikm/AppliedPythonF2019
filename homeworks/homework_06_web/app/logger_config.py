@@ -22,6 +22,3 @@ LOGGING_CONFIG = {
         },
     }
 }
-
-
-
