@@ -33,24 +33,18 @@ class LinearRegression:  # Реализация для варианта 1
         self.n_samples, self.n_features = X_train.shape
         self.theta = np.random.sample((self.n_features, 1))
         self.X_train = np.hstack((np.ones((self.n_samples, 1)), X_train))
-        A_train = np.zeros((self.n_samples, self.n_features+1))
-        A_train[:, :-1] = X_train[:, :]
-        A_train[:, -1] = self.y
-        shuffle(A_train[:])
-        self.X_train = A_train[:, :-1]
-        self.y = A_train[:, -1]
         self._gradient_descent()
 
     def _gradient_descent(self):  # Adadelta
         eps = 10**(-5)
         E_g = np.zeros((self.n_features + 1, 1))
         E_t = np.zeros((self.n_features + 1, 1))
-        for i in range(1, self.max_iter + 1):
+        for i in range(self.max_iter):
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch)
             y_pred = np.matmul(batch_X, self.theta)
             print(y_pred.shape)
             # Считаем градиент и обновляем тетту
-            gr = np.matmul(batch_X.T, (y_pred - batch_y))
+            gr = batch_X.T * (y_pred - batch_y)
             gr += self.add_penalty()
             print(batch_X.shape)
             print(y_pred.shape)
