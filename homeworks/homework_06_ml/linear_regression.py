@@ -44,9 +44,6 @@ class LinearRegression:  # Реализация для варианта 1
             # Считаем градиент и обновляем тетту
             gr = (2 / (self.n_features+1)) * batch_X.T @ (batch_X @ self.theta - batch_y.reshape(-1, 1))
             gr += self.add_penalty()
-            print(batch_y.shape)
-            print((batch_X@self.theta - batch_y).shape)
-            print(gr.shape)
             E_g = self.gamma*E_g + (1 - self.gamma)*(gr**2)
             delta = (-1)*((E_t + eps)**0.5)*gr/((E_g + eps)**0.5)
             self.theta += delta
