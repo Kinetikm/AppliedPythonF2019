@@ -31,7 +31,7 @@ jsons = {
     },
     "update":
     {
-        "id_flight": "2",
+        "id_flight": "1",
         "flight":
         {
             "departure_time": "16:00",
@@ -60,7 +60,23 @@ jsons = {
     "bad delete":
     {
         "id_flight": "4",
-    }
+    },
+    "third insert":
+    {
+        "departure_time": "06:00",
+        "arrival_time": "08:00",
+        "travel_time": "02:00",
+        "destination_airport": "Sheremetievo",
+        "type_aircraft": "TU"
+    },
+    "forth insert":
+    {
+        "departure_time": "10:00",
+        "arrival_time": "11:00",
+        "travel_time": "01:00",
+        "destination_airport": "Vnukovo",
+        "type_aircraft": "TU"
+    },
 }
 
 with open('request_dumps.txt', 'w') as f:
@@ -77,6 +93,9 @@ with open('request_dumps.txt', 'w') as f:
         Urls('delete', 'http://localhost:5000/delete_flight', None, jsons["delete"]),
         Urls('delete', 'http://localhost:5000/delete_flight', None, jsons["bad delete"]),
         Urls('get', 'http://localhost:5000/show_flights', None, None),
+        Urls('post', 'http://localhost:5000/new_flight', None, jsons["third insert"]),
+        Urls('post', 'http://localhost:5000/new_flight', None, jsons["forth insert"]),
+        Urls('get', 'http://localhost:5000/show_flights?sort_by=arrival_time&filter_field=destination_airport&filter_value=Sheremetievo', None, None),
     ]):
         resp = requests.request(
             method=url.method,

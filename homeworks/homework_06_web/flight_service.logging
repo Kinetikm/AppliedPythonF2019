@@ -1,23 +1,31 @@
-INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
-INFO:root:show_flights, output all flights
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flights HTTP/1.1" 200 -
-INFO:root:new_flight: new id_flight = 1
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "POST /new_flight HTTP/1.1" 200 -
-INFO:root:new_flight: new id_flight = 2
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "POST /new_flight HTTP/1.1" 200 -
-INFO:root:new_flight: new id_flight = None
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "POST /new_flight HTTP/1.1" 400 -
-INFO:root:show_flights, output all flights
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flights HTTP/1.1" 200 -
-INFO:root:show_flight, id_flight = 1: exists = False
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flight/1 HTTP/1.1" 400 -
-INFO:root:show_flight, id_flight = 33: exists = False
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flight/33 HTTP/1.1" 400 -
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "PUT /update_flight HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "PUT /update_flight HTTP/1.1" 400 -
-INFO:root:delete_flight, id_flight = 1: result = True
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "DELETE /delete_flight HTTP/1.1" 200 -
-INFO:root:delete_flight, id_flight = 4: result = False
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "DELETE /delete_flight HTTP/1.1" 400 -
-INFO:root:show_flights, output all flights
-INFO:werkzeug:127.0.0.1 - - [27/Oct/2019 21:05:03] "GET /show_flights HTTP/1.1" 200 -
+2019-11-02 19:04:29,888 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2019-11-02 19:04:31,223 - flask.app - INFO - {'url': 'http://localhost:5000/show_flights', 'args': {}, 'body': None, 'req_method': 'GET', 'duration': 0.0005, 'response': <Response 29 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,223 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "GET /show_flights HTTP/1.1" 200 -
+2019-11-02 19:04:31,228 - flask.app - INFO - {'url': 'http://localhost:5000/new_flight', 'args': {}, 'body': {'departure_time': '10:00', 'arrival_time': '13:00', 'travel_time': '03:00', 'destination_airport': 'Vnukovo', 'type_aircraft': 'TU'}, 'req_method': 'POST', 'duration': 0.0014, 'response': <Response 33 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,229 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "POST /new_flight HTTP/1.1" 200 -
+2019-11-02 19:04:31,236 - flask.app - INFO - {'url': 'http://localhost:5000/new_flight', 'args': {}, 'body': {'departure_time': '11:00', 'arrival_time': '12:00', 'travel_time': '01:00', 'destination_airport': 'Sheremetievo', 'type_aircraft': 'TU'}, 'req_method': 'POST', 'duration': 0.0039, 'response': <Response 33 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,236 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "POST /new_flight HTTP/1.1" 200 -
+2019-11-02 19:04:31,240 - flask.app - INFO - {'url': 'http://localhost:5000/new_flight', 'args': {}, 'body': {'departure_time': '12:00', 'arrival_time': '25:00', 'travel_time': '02:00', 'destination_airport': 'Vnukovo', 'type_aircraft': 'TU'}, 'req_method': 'POST', 'duration': 0.0006, 'response': <Response 18 bytes [400 BAD REQUEST]>, 'http_status': 400}
+2019-11-02 19:04:31,240 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "POST /new_flight HTTP/1.1" 400 -
+2019-11-02 19:04:31,244 - flask.app - INFO - {'url': 'http://localhost:5000/show_flights', 'args': {}, 'body': None, 'req_method': 'GET', 'duration': 0.0004, 'response': <Response 337 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,244 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "GET /show_flights HTTP/1.1" 200 -
+2019-11-02 19:04:31,247 - flask.app - INFO - {'url': 'http://localhost:5000/show_flight/1', 'args': {}, 'body': None, 'req_method': 'GET', 'duration': 0.0002, 'response': <Response 151 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,247 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "GET /show_flight/1 HTTP/1.1" 200 -
+2019-11-02 19:04:31,251 - flask.app - INFO - {'url': 'http://localhost:5000/show_flight/33', 'args': {}, 'body': None, 'req_method': 'GET', 'duration': 0.0002, 'response': <Response 18 bytes [400 BAD REQUEST]>, 'http_status': 400}
+2019-11-02 19:04:31,251 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "GET /show_flight/33 HTTP/1.1" 400 -
+2019-11-02 19:04:31,256 - flask.app - INFO - {'url': 'http://localhost:5000/update_flight', 'args': {}, 'body': {'id_flight': '1', 'flight': {'departure_time': '16:00', 'arrival_time': '17:00', 'travel_time': '01:00', 'destination_airport': 'Vnukovo', 'type_aircraft': 'TU'}}, 'req_method': 'PUT', 'duration': 0.0019, 'response': <Response 17 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,257 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "PUT /update_flight HTTP/1.1" 200 -
+2019-11-02 19:04:31,262 - flask.app - INFO - {'url': 'http://localhost:5000/update_flight', 'args': {}, 'body': {'id_flight': '3', 'flight': {'departure_time': 1600, 'arrival_time': '17:00', 'travel_time': '01:00', 'destination_airport': 'Vnukovo', 'type_aircraft': 'TU'}}, 'req_method': 'PUT', 'duration': 0.0007, 'response': <Response 77 bytes [400 BAD REQUEST]>, 'http_status': 400}
+2019-11-02 19:04:31,262 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "PUT /update_flight HTTP/1.1" 400 -
+2019-11-02 19:04:31,266 - flask.app - INFO - {'url': 'http://localhost:5000/delete_flight', 'args': {}, 'body': {'id_flight': '1'}, 'req_method': 'DELETE', 'duration': 0.0005, 'response': <Response 17 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,266 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "DELETE /delete_flight HTTP/1.1" 200 -
+2019-11-02 19:04:31,269 - flask.app - INFO - {'url': 'http://localhost:5000/delete_flight', 'args': {}, 'body': {'id_flight': '4'}, 'req_method': 'DELETE', 'duration': 0.0003, 'response': <Response 50 bytes [400 BAD REQUEST]>, 'http_status': 400}
+2019-11-02 19:04:31,270 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "DELETE /delete_flight HTTP/1.1" 400 -
+2019-11-02 19:04:31,275 - flask.app - INFO - {'url': 'http://localhost:5000/show_flights', 'args': {}, 'body': None, 'req_method': 'GET', 'duration': 0.0007, 'response': <Response 185 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,276 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "GET /show_flights HTTP/1.1" 200 -
+2019-11-02 19:04:31,283 - flask.app - INFO - {'url': 'http://localhost:5000/new_flight', 'args': {}, 'body': {'departure_time': '06:00', 'arrival_time': '08:00', 'travel_time': '02:00', 'destination_airport': 'Sheremetievo', 'type_aircraft': 'TU'}, 'req_method': 'POST', 'duration': 0.0012, 'response': <Response 33 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,283 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "POST /new_flight HTTP/1.1" 200 -
+2019-11-02 19:04:31,288 - flask.app - INFO - {'url': 'http://localhost:5000/new_flight', 'args': {}, 'body': {'departure_time': '10:00', 'arrival_time': '11:00', 'travel_time': '01:00', 'destination_airport': 'Vnukovo', 'type_aircraft': 'TU'}, 'req_method': 'POST', 'duration': 0.001, 'response': <Response 33 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,288 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "POST /new_flight HTTP/1.1" 200 -
+2019-11-02 19:04:31,293 - flask.app - INFO - {'url': 'http://localhost:5000/show_flights?sort_by=arrival_time&filter_field=destination_airport&filter_value=Sheremetievo', 'args': {'sort_by': 'arrival_time', 'filter_field': 'destination_airport', 'filter_value': 'Sheremetievo'}, 'body': None, 'req_method': 'GET', 'duration': 0.0005, 'response': <Response 342 bytes [200 OK]>, 'http_status': 200}
+2019-11-02 19:04:31,293 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2019 19:04:31] "GET /show_flights?sort_by=arrival_time&filter_field=destination_airport&filter_value=Sheremetievo HTTP/1.1" 200 -

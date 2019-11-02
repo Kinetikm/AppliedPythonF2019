@@ -1,7 +1,21 @@
 {
     "2": {
-        "departure_time": "16:00",
-        "arrival_time": "17:00",
+        "departure_time": "11:00",
+        "arrival_time": "12:00",
+        "travel_time": "01:00",
+        "destination_airport": "Sheremetievo",
+        "type_aircraft": "TU"
+    },
+    "3": {
+        "departure_time": "06:00",
+        "arrival_time": "08:00",
+        "travel_time": "02:00",
+        "destination_airport": "Sheremetievo",
+        "type_aircraft": "TU"
+    },
+    "4": {
+        "departure_time": "10:00",
+        "arrival_time": "11:00",
         "travel_time": "01:00",
         "destination_airport": "Vnukovo",
         "type_aircraft": "TU"

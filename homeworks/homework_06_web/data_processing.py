@@ -38,51 +38,69 @@ def is_valid(entry):
         return False
 
 
-def select_all():
+def select_all(sort_by, filter_field, filter_value):
     with open("data.json", 'r', encoding='utf-8')as file:
-        return file.read()
+        res = json.loads(file.read())
+        if len(res) == 0:
+            res = []
+        else:
+            res = [{"id_flight": i, "flight": res[i]} for i in res]
+    if filter_field is not None and filter_value is not None and len(res) > 0:
+        try:
+            res = [i for i in res if i["flight"][filter_field] == filter_value]
+        except BaseException:
+            return None
+    if sort_by is not None and len(res) > 0:
+        try:
+            res.sort(key=lambda a: a["flight"][sort_by])
+        except BaseException:
+            return None
+    print(res)
+    return res
 
 
 def select(id_flight):
     with open("data.json", 'r', encoding='utf-8')as file:
         data = json.loads(file.read())
-    if id_flight in data:
-        return True, json.dumps(data[id_flight])
-    return False, ""
+    try:
+        return True, data[str(id_flight)]
+    except BaseException:
+        return False, ""
 
 
 def insert(entry):
     with open("data.json", 'r', encoding='utf-8')as file:
         data = json.loads(file.read())
     if is_valid(entry):
-        id_flight = c.new_id()
-        data[id_flight] = entry
+        key = c.new_id()
+        data[key] = entry
         with open("data.json", 'w', encoding='utf-8')as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-        return id_flight
+        return key
     return None
 
 
 def update(id_flight, flight):
     with open("data.json", 'r', encoding='utf-8')as file:
         data = json.loads(file.read())
-    id_flight = str(id_flight)
-    if is_valid(flight) and id_flight in data:
-        data[id_flight] = flight
-        with open("data.json", 'w', encoding='utf-8')as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-        return True, ""
+    if is_valid(flight):
+        try:
+            data[str(id_flight)] = flight
+            with open("data.json", 'w', encoding='utf-8')as file:
+                json.dump(data, file, ensure_ascii=False, indent=4)
+            return True, ""
+        except BaseException:
+            pass
     return False, '''id_flight not exist or flight format not valid'''
 
 
 def delete(id_flight):
     with open("data.json", 'r', encoding='utf-8')as file:
         data = json.loads(file.read())
-    result = id_flight in data
-    message = "id_flight not exist"
-    if result:
-        message = ""
-        del data[id_flight]
-    with open("data.json", 'w', encoding='utf-8')as file:
-        json.dump(data, file, ensure_ascii=False, indent=4)
-    return result, message
+    try:
+        del data[str(id_flight)]
+        with open("data.json", 'w', encoding='utf-8')as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
+        return True, ""
+    except BaseException:
+        return False, "id_flight not exist"

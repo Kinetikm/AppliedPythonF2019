@@ -1,41 +1,48 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, g
 import data_processing as dp
 from os import path
 import json
 import logging
-
-logging.basicConfig(filename="flight_service.logging", level=logging.INFO)
+import time
 
 app = Flask(__name__)
 
 
 @app.route("/show_flights", methods=["GET"])
 def show_flights():
-    logging.info("show_flights, output all flights")
-    return dp.select_all()
+    sort_by = request.args.get("sort_by")
+    filter_field = request.args.get("filter_field", default=None)
+    filter_value = request.args.get("filter_value", default=None)
+    resp = jsonify(
+        success=True,
+        result=dp.select_all(
+            sort_by,
+            filter_field,
+            filter_value))
+    return resp
 
 
 @app.route("/show_flight/<int:id_flight>", methods=["GET"])
 def show_flight(id_flight):
     exist, flight = dp.select(id_flight)
-    logging.info(
-        "show_flight, id_flight = {}: exists = {}".format(
-            id_flight, exist))
     if exist:
-        return flight
-    resp = jsonify(success=False)
-    resp.status_code = 400
+        resp = jsonify(success=True, flight=flight)
+        resp.status_code = 200
+    else:
+        resp = jsonify(success=False)
+        resp.status_code = 400
     return resp
 
 
 @app.route("/new_flight", methods=["POST"])
-def new_flights():
+def new_flight():
     res = dp.insert(request.json)
-    logging.info("new_flight: new id_flight = {}".format(res))
-    resp = jsonify(success=res if res else False)
-    resp.status_code = 200 if res else 400
-    if res:
-        resp.message = "id_flight = {}".format(res)
+    if res is not None:
+        resp = jsonify(success=True, id_flight=res)
+        resp.status_code = 200
+    else:
+        resp = jsonify(success=False)
+        resp.status_code = 400
     return resp
 
 
@@ -49,8 +56,7 @@ def update_flight():
         resp = jsonify(success=True)
         resp.status_code = 200
     else:
-        resp = jsonify(success=False)
-        resp.message = message
+        resp = jsonify(success=False, message=message)
         resp.status_code = 400
     return resp
 
@@ -61,15 +67,11 @@ def delete_flights():
     if "id_flight" not in body:
         return False, '''"id_flight" not scecified in request'''
     res, message = dp.delete(body["id_flight"])
-    logging.info(
-        "delete_flight, id_flight = {}: result = {}".format(
-            body["id_flight"], res))
     if res:
         resp = jsonify(success=True)
         resp.status_code = 200
     else:
-        resp = jsonify(success=False)
-        resp.message = message
+        resp = jsonify(success=False, message=message)
         resp.status_code = 400
     return resp
 
@@ -78,4 +80,27 @@ def start_server():
     if not path.isfile("data.json"):
         with open("data.json", "w", encoding='utf-8') as file:
             json.dump(dict(), file, ensure_ascii=False, indent=4)
+
+    logging.basicConfig(
+        filename="flight_service.logging",
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    @app.before_request
+    def timer_on():
+        g.start_handlefunc = time.time()
+
+    @app.after_request
+    def log_request(resp):
+        dur = round(time.time() - g.start_handlefunc, 4)
+        app.logger.info({
+            "url": request.url,
+            "args": dict(request.args),
+            "body": request.json,
+            "req_method": request.method,
+            "duration": dur,
+            "response": resp,
+            "http_status": resp.status_code
+        })
+        return resp
     app.run()
