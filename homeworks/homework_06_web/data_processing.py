@@ -55,7 +55,6 @@ def select_all(sort_by, filter_field, filter_value):
             res.sort(key=lambda a: a["flight"][sort_by])
         except BaseException:
             return None
-    print(res)
     return res
 
 

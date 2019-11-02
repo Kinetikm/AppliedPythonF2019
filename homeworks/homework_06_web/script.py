@@ -2,7 +2,7 @@ from collections import namedtuple
 import requests
 from requests_toolbelt.utils.dump import dump_all
 
-Urls = namedtuple('Urls', ['method', 'url', 'headers', 'json'])
+Urls = namedtuple('Urls', ['method', 'url', 'headers', 'json', 'params'])
 
 jsons = {
     "first insert":
@@ -78,29 +78,34 @@ jsons = {
         "type_aircraft": "TU"
     },
 }
+params = {
+    "sort_by": "arrival_time",
+    "filter_field": "destination_airport",
+    "filter_value": "Sheremetievo"}
 
 with open('request_dumps.txt', 'w') as f:
     for index, url in enumerate([
-        Urls('get', 'http://localhost:5000/show_flights', None, None),
-        Urls('post', 'http://localhost:5000/new_flight', None, jsons["first insert"]),
-        Urls('post', 'http://localhost:5000/new_flight', None, jsons["second insert"]),
-        Urls('post', 'http://localhost:5000/new_flight', None, jsons["bad insert"]),
-        Urls('get', 'http://localhost:5000/show_flights', None, None),
-        Urls('get', 'http://localhost:5000/show_flight/1', None, None),
-        Urls('get', 'http://localhost:5000/show_flight/33', None, None),
-        Urls('put', 'http://localhost:5000/update_flight', None, jsons["update"]),
-        Urls('put', 'http://localhost:5000/update_flight', None, jsons["bad update"]),
-        Urls('delete', 'http://localhost:5000/delete_flight', None, jsons["delete"]),
-        Urls('delete', 'http://localhost:5000/delete_flight', None, jsons["bad delete"]),
-        Urls('get', 'http://localhost:5000/show_flights', None, None),
-        Urls('post', 'http://localhost:5000/new_flight', None, jsons["third insert"]),
-        Urls('post', 'http://localhost:5000/new_flight', None, jsons["forth insert"]),
-        Urls('get', 'http://localhost:5000/show_flights?sort_by=arrival_time&filter_field=destination_airport&filter_value=Sheremetievo', None, None),
+        Urls('get', 'http://localhost:5000/show_flights', None, None, None),
+        Urls('post', 'http://localhost:5000/new_flight', None, jsons["first insert"], None),
+        Urls('post', 'http://localhost:5000/new_flight', None, jsons["second insert"], None),
+        Urls('post', 'http://localhost:5000/new_flight', None, jsons["bad insert"], None),
+        Urls('get', 'http://localhost:5000/show_flights', None, None, None),
+        Urls('get', 'http://localhost:5000/show_flight/1', None, None, None),
+        Urls('get', 'http://localhost:5000/show_flight/33', None, None, None),
+        Urls('put', 'http://localhost:5000/update_flight', None, jsons["update"], None),
+        Urls('put', 'http://localhost:5000/update_flight', None, jsons["bad update"], None),
+        Urls('delete', 'http://localhost:5000/delete_flight', None, jsons["delete"], None),
+        Urls('delete', 'http://localhost:5000/delete_flight', None, jsons["bad delete"], None),
+        Urls('get', 'http://localhost:5000/show_flights', None, None, None),
+        Urls('post', 'http://localhost:5000/new_flight', None, jsons["third insert"], None),
+        Urls('post', 'http://localhost:5000/new_flight', None, jsons["forth insert"], None),
+        Urls('get', 'http://localhost:5000/show_flights', None, None, params),
     ]):
         resp = requests.request(
             method=url.method,
             url=url.url,
             headers=url.headers,
-            json=url.json)
+            json=url.json,
+            params=url.params)
         print(index, url, resp.status_code, resp.ok, file=f)
         print(dump_all(resp).decode('utf-8'), file=f)
