@@ -37,7 +37,7 @@ class LinearRegression:  # Реализация для варианта 1
         A_train[:, :-1] = X_train[:, :]
         A_train[:, -1] = self.y
         shuffle(A_train[:])
-        self.X_train = A_train[:, :-2]
+        self.X_train = A_train[:, :-1]
         self.y = A_train[:, -1]
         self._gradient_descent()
 
