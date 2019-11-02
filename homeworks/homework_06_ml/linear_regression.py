@@ -41,7 +41,7 @@ class LinearRegression:  # Реализация для варианта 1
         E_t = np.zeros((self.n_features + 1, 1))
         for i in range(self.max_iter):
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch)
-            y_pred = np.matmul(batch_X, self.theta)
+            y_pred = batch_X * self.theta
             print(y_pred.shape)
             # Считаем градиент и обновляем тетту
             gr = batch_X.T * (y_pred - batch_y)
