@@ -50,7 +50,7 @@ class LinearRegression:  # Реализация для варианта 1
             E_g = self.gamma*E_g + (1 - self.gamma)*(gr**2)
             delta = (-1)*((E_t + eps)**0.5)*gr/((E_g + eps)**0.5)
             self.theta += delta
-            E_t = self.self.gamma * E_t + (1 - self.gamma)*(delta**2)
+            E_t = self.gamma * E_t + (1 - self.gamma)*(delta**2)
 
     def predict(self, X_test):
         """
