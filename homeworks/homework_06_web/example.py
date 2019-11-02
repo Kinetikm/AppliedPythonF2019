@@ -10,7 +10,7 @@ with open('request_dumps.txt', 'w') as f:
                   Urls('get', 'http://localhost:5000/flights', None, None, None, {'sort_by': 'dep_time'}),
                   Urls('get', 'http://localhost:5000/flights/2/', None, None, None, None),  # получаем рейс 2
                   Urls('get', 'http://localhost:5000/flights/100/', None, None, None, None),  # несушествующий рейс
-                  Urls('delete', 'http://localhost:5000/flights/2/', None, None, None, None),  # удаляем рейс
+                  Urls('delete', 'http://localhost:5000/flights/3/', None, None, None, None),  # удаляем рейс
                   Urls('post', 'http://localhost:5000/flights', None,  # добавляем
                        {"airplane": "A380", "arr_time": "Thu, 15 Nov 2018 03:12:52 GMT",
                         "dep_time": "Thu, 15 Nov 2018 02:12:52 GMT", "dest_airport": "Moscow"}, None, None),

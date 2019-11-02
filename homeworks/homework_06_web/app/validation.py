@@ -16,7 +16,7 @@ class FlightSchema(Schema):
 
 class ArgsSchema(Schema):
 
-    PERMISSIBLE_VALUE = ['airplane', 'dest_airport', 'dep_time', 'arr_time']
+    PERMISSIBLE_VALUE = ['airplane', 'airport', 'dep_time', 'arr_time', 'flight_time']
     sort_by = fields.Str(missing=None)
     filter_by_plane = fields.Str(missing=None)
     filter_by_airport = fields.Str(missing=None)

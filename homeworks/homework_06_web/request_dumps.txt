@@ -9,11 +9,11 @@
 
 > HTTP/1.0 200 OK
 > Content-Type: application/json
-> Content-Length: 763
+> Content-Length: 738
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Sun, 27 Oct 2019 09:40:04 GMT
+> Date: Sat, 02 Nov 2019 14:17:58 GMT
 > 
-[{"airplane":"A320","arr_time":"Wed, 22 Aug 2018 02:52:56 GMT","dep_time":"Tue, 21 Aug 2018 20:52:56 GMT","dest_airport":"Chelyabinsk","flight_time":"6:0"},{"airplane":"B737","arr_time":"Tue, 03 Jul 2018 15:48:47 GMT","dep_time":"Tue, 03 Jul 2018 09:48:47 GMT","dest_airport":"Moscow","flight_time":"6:0"},{"airplane":"B737","arr_time":"Wed, 14 Mar 2018 23:02:23 GMT","dep_time":"Wed, 14 Mar 2018 13:02:23 GMT","dest_airport":"Ekaterinburg","flight_time":"10:0"},{"airplane":"B737","arr_time":"Thu, 19 Apr 2018 20:20:13 GMT","dep_time":"Thu, 19 Apr 2018 16:20:13 GMT","dest_airport":"Minsk","flight_time":"4:0"},{"airplane":"A380","arr_time":"Tue, 02 Oct 2018 08:50:46 GMT","dep_time":"Mon, 01 Oct 2018 23:50:46 GMT","dest_airport":"London","flight_time":"9:0"}]
+[{"airplane":"B737","airport":"Minsk","arr_time":"Tue, 11 Dec 2018 21:13:17 GMT","dep_time":"Tue, 11 Dec 2018 18:13:17 GMT","flight_time":"3:0"},{"airplane":"B777","airport":"Chelyabinsk","arr_time":"Tue, 23 Jan 2018 16:33:13 GMT","dep_time":"Tue, 23 Jan 2018 10:33:13 GMT","flight_time":"6:0"},{"airplane":"B777","airport":"Ekaterinburg","arr_time":"Thu, 15 Mar 2018 07:24:48 GMT","dep_time":"Wed, 14 Mar 2018 22:24:48 GMT","flight_time":"9:0"},{"airplane":"B737","airport":"Moscow","arr_time":"Sun, 18 Mar 2018 21:02:54 GMT","dep_time":"Sun, 18 Mar 2018 16:02:54 GMT","flight_time":"5:0"},{"airplane":"A380","airport":"London","arr_time":"Fri, 13 Jul 2018 08:31:44 GMT","dep_time":"Thu, 12 Jul 2018 22:31:44 GMT","flight_time":"10:0"}]
 
 1 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None, params={'sort_by': 'dep_time'}) 200 True
 < GET /flights?sort_by=dep_time HTTP/1.1
@@ -26,11 +26,11 @@
 
 > HTTP/1.0 200 OK
 > Content-Type: application/json
-> Content-Length: 763
+> Content-Length: 738
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Sun, 27 Oct 2019 09:40:04 GMT
+> Date: Sat, 02 Nov 2019 14:17:58 GMT
 > 
-[{"airplane":"B737","arr_time":"Wed, 14 Mar 2018 23:02:23 GMT","dep_time":"Wed, 14 Mar 2018 13:02:23 GMT","dest_airport":"Ekaterinburg","flight_time":"10:0"},{"airplane":"B737","arr_time":"Thu, 19 Apr 2018 20:20:13 GMT","dep_time":"Thu, 19 Apr 2018 16:20:13 GMT","dest_airport":"Minsk","flight_time":"4:0"},{"airplane":"B737","arr_time":"Tue, 03 Jul 2018 15:48:47 GMT","dep_time":"Tue, 03 Jul 2018 09:48:47 GMT","dest_airport":"Moscow","flight_time":"6:0"},{"airplane":"A320","arr_time":"Wed, 22 Aug 2018 02:52:56 GMT","dep_time":"Tue, 21 Aug 2018 20:52:56 GMT","dest_airport":"Chelyabinsk","flight_time":"6:0"},{"airplane":"A380","arr_time":"Tue, 02 Oct 2018 08:50:46 GMT","dep_time":"Mon, 01 Oct 2018 23:50:46 GMT","dest_airport":"London","flight_time":"9:0"}]
+[{"airplane":"B777","airport":"Chelyabinsk","arr_time":"Tue, 23 Jan 2018 16:33:13 GMT","dep_time":"Tue, 23 Jan 2018 10:33:13 GMT","flight_time":"6:0"},{"airplane":"B777","airport":"Ekaterinburg","arr_time":"Thu, 15 Mar 2018 07:24:48 GMT","dep_time":"Wed, 14 Mar 2018 22:24:48 GMT","flight_time":"9:0"},{"airplane":"B737","airport":"Moscow","arr_time":"Sun, 18 Mar 2018 21:02:54 GMT","dep_time":"Sun, 18 Mar 2018 16:02:54 GMT","flight_time":"5:0"},{"airplane":"A380","airport":"London","arr_time":"Fri, 13 Jul 2018 08:31:44 GMT","dep_time":"Thu, 12 Jul 2018 22:31:44 GMT","flight_time":"10:0"},{"airplane":"B737","airport":"Minsk","arr_time":"Tue, 11 Dec 2018 21:13:17 GMT","dep_time":"Tue, 11 Dec 2018 18:13:17 GMT","flight_time":"3:0"}]
 
 2 Urls(method='get', url='http://localhost:5000/flights/2/', headers=None, json=None, data=None, params=None) 200 True
 < GET /flights/2/ HTTP/1.1
@@ -43,13 +43,13 @@
 
 > HTTP/1.0 200 OK
 > Content-Type: application/json
-> Content-Length: 157
+> Content-Length: 150
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Sun, 27 Oct 2019 09:40:04 GMT
+> Date: Sat, 02 Nov 2019 14:17:58 GMT
 > 
-{"airplane":"B737","arr_time":"Wed, 14 Mar 2018 23:02:23 GMT","dep_time":"Wed, 14 Mar 2018 13:02:23 GMT","dest_airport":"Ekaterinburg","flight_time":"10:0"}
+{"airplane":"B777","airport":"Chelyabinsk","arr_time":"Tue, 23 Jan 2018 16:33:13 GMT","dep_time":"Tue, 23 Jan 2018 10:33:13 GMT","flight_time":"6:0"}
 
-3 Urls(method='get', url='http://localhost:5000/flights/100/', headers=None, json=None, data=None, params=None) 404 False
+3 Urls(method='get', url='http://localhost:5000/flights/100/', headers=None, json=None, data=None, params=None) 200 True
 < GET /flights/100/ HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.21.0
@@ -58,19 +58,16 @@
 < Connection: keep-alive
 < 
 
-> HTTP/1.0 404 NOT FOUND
-> Content-Type: text/html
-> Content-Length: 232
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 5
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Sun, 27 Oct 2019 09:40:04 GMT
+> Date: Sat, 02 Nov 2019 14:17:58 GMT
 > 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>404 Not Found</title>
-<h1>Not Found</h1>
-<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+null
 
-4 Urls(method='delete', url='http://localhost:5000/flights/2/', headers=None, json=None, data=None, params=None) 200 True
-< DELETE /flights/2/ HTTP/1.1
+4 Urls(method='delete', url='http://localhost:5000/flights/3/', headers=None, json=None, data=None, params=None) 200 True
+< DELETE /flights/3/ HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.21.0
 < Accept-Encoding: gzip, deflate
@@ -83,7 +80,7 @@
 > Content-Type: text/html; charset=utf-8
 > Content-Length: 2
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Sun, 27 Oct 2019 09:40:04 GMT
+> Date: Sat, 02 Nov 2019 14:17:58 GMT
 > 
 OK
 5 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT', 'dest_airport': 'Moscow'}, data=None, params=None) 200 True
@@ -101,7 +98,7 @@ OK
 > Content-Type: text/html; charset=utf-8
 > Content-Length: 2
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Sun, 27 Oct 2019 09:40:04 GMT
+> Date: Sat, 02 Nov 2019 14:17:58 GMT
 > 
 OK
 6 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT'}, data=None, params=None) 400 False
@@ -119,7 +116,7 @@ OK
 > Content-Type: text/html
 > Content-Length: 170
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Sun, 27 Oct 2019 09:40:04 GMT
+> Date: Sat, 02 Nov 2019 14:17:58 GMT
 > 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <title>400 Bad Request</title>
@@ -141,7 +138,7 @@ OK
 > Content-Type: text/html; charset=utf-8
 > Content-Length: 2
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Sun, 27 Oct 2019 09:40:04 GMT
+> Date: Sat, 02 Nov 2019 14:17:58 GMT
 > 
 OK
 8 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None, params={'sort_by': 'dep_time', 'filter_by_airport': 'Moscow'}) 200 True
@@ -155,9 +152,9 @@ OK
 
 > HTTP/1.0 200 OK
 > Content-Type: application/json
-> Content-Length: 302
+> Content-Length: 437
 > Server: Werkzeug/0.16.0 Python/3.7.4
-> Date: Sun, 27 Oct 2019 09:40:04 GMT
+> Date: Sat, 02 Nov 2019 14:17:58 GMT
 > 
-[{"airplane":"A320","arr_time":"Thu, 27 Sep 2018 23:21:43 GMT","dep_time":"Thu, 27 Sep 2018 22:21:43 GMT","dest_airport":"Moscow","flight_time":"1:0"},{"airplane":"A380","arr_time":"Thu, 15 Nov 2018 03:12:52 GMT","dep_time":"Thu, 15 Nov 2018 02:12:52 GMT","dest_airport":"Moscow","flight_time":"1:0"}]
+[{"airplane":"B737","airport":"Moscow","arr_time":"Sun, 18 Mar 2018 21:02:54 GMT","dep_time":"Sun, 18 Mar 2018 16:02:54 GMT","flight_time":"5:0"},{"airplane":"A320","airport":"Moscow","arr_time":"Thu, 27 Sep 2018 23:21:43 GMT","dep_time":"Thu, 27 Sep 2018 22:21:43 GMT","flight_time":"1:0"},{"airplane":"A380","airport":"Moscow","arr_time":"Thu, 15 Nov 2018 03:12:52 GMT","dep_time":"Thu, 15 Nov 2018 02:12:52 GMT","flight_time":"1:0"}]
 
