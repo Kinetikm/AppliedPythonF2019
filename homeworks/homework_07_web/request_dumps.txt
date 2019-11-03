@@ -1,0 +1,261 @@
+0 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '16:56', 'arr_time': '18:56', 'travel_time': '2H00M', 'dst_airport': 'VOL', 'aircraft': 'Boeing'}, data=None) 201 True
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 110
+< Content-Type: application/json
+< 
+< {"dep_time": "16:56", "arr_time": "18:56", "travel_time": "2H00M", "dst_airport": "VOL", "aircraft": "Boeing"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 122
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:32 GMT
+> 
+{"inserted":{"aircraft":"Boeing","arr_time":"18:56","dep_time":"16:56","dst_airport":"VOL","id":4,"travel_time":"2H00M"}}
+
+1 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '16:56', 'arr_time': '12:56+1', 'travel_time': '12H00M', 'dst_airport': 'CAN', 'aircraft': 'Airbus'}, data=None) 201 True
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 113
+< Content-Type: application/json
+< 
+< {"dep_time": "16:56", "arr_time": "12:56+1", "travel_time": "12H00M", "dst_airport": "CAN", "aircraft": "Airbus"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 125
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:32 GMT
+> 
+{"inserted":{"aircraft":"Airbus","arr_time":"12:56+1","dep_time":"16:56","dst_airport":"CAN","id":5,"travel_time":"12H00M"}}
+
+2 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '16:56', 'arr_time': '19:56', 'travel_time': '12H00M', 'dst_airport': 'QQQ', 'aircraft': 'Airbus'}, data=None) 400 False
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 111
+< Content-Type: application/json
+< 
+< {"dep_time": "16:56", "arr_time": "19:56", "travel_time": "12H00M", "dst_airport": "QQQ", "aircraft": "Airbus"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 78
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:32 GMT
+> 
+{"code": 400, "name": "Data incorrect", "description": "Airport doesnt exist"}
+3 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '16:56', 'arr_time': '18:56', 'travel_time': '12H00M', 'dst_airport': 'CAN', 'aircraft': 'Stul'}, data=None) 400 False
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 109
+< Content-Type: application/json
+< 
+< {"dep_time": "16:56", "arr_time": "18:56", "travel_time": "12H00M", "dst_airport": "CAN", "aircraft": "Stul"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 79
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:32 GMT
+> 
+{"code": 400, "name": "Data incorrect", "description": "Aircraft doesnt exist"}
+4 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '16:56', 'arr_time': '14:56', 'travel_time': '12H00M', 'dst_airport': 'CAN', 'aircraft': 'Airbus'}, data=None) 400 False
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 111
+< Content-Type: application/json
+< 
+< {"dep_time": "16:56", "arr_time": "14:56", "travel_time": "12H00M", "dst_airport": "CAN", "aircraft": "Airbus"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 103
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+{"code": 400, "name": "Data incorrect", "description": "Departure time should be smaller than arrival"}
+5 Urls(method='get', url='http://localhost:5000/service/rows', headers=None, json={}, data=None) 200 True
+< GET /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 564
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+{"flights":[{"aircraft":"Boeing","arr_time":"13:00","dep_time":"12:00","dst_airport":"VOL","id":1,"travel_time":"1H00M"},{"aircraft":"Airbus","arr_time":"11:00","dep_time":"10:00","dst_airport":"CAN","id":2,"travel_time":"1H00M"},{"aircraft":"Superjet","arr_time":"12:00","dep_time":"11:00","dst_airport":"SEP","id":3,"travel_time":"1H00M"},{"aircraft":"Boeing","arr_time":"18:56","dep_time":"16:56","dst_airport":"VOL","id":4,"travel_time":"2H00M"},{"aircraft":"Airbus","arr_time":"12:56+1","dep_time":"16:56","dst_airport":"CAN","id":5,"travel_time":"12H00M"}]}
+
+6 Urls(method='put', url='http://localhost:5000/service/rows/3', headers=None, json={'dep_time': '16:56', 'arr_time': '17:56', 'travel_time': '13H00M', 'dst_airport': 'CAN', 'aircraft': 'Airbus', 'id': 3}, data=None) 200 True
+< PUT /service/rows/3 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 120
+< Content-Type: application/json
+< 
+< {"dep_time": "16:56", "arr_time": "17:56", "travel_time": "13H00M", "dst_airport": "CAN", "aircraft": "Airbus", "id": 3}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 122
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+{"updated":{"aircraft":"Airbus","arr_time":"17:56","dep_time":"16:56","dst_airport":"CAN","id":3,"travel_time":"13H00M"}}
+
+7 Urls(method='get', url='http://localhost:5000/service/rows/3', headers=None, json={}, data=None) 200 True
+< GET /service/rows/3 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 121
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+{"flight":{"aircraft":"Airbus","arr_time":"17:56","dep_time":"16:56","dst_airport":"CAN","id":3,"travel_time":"13H00M"}}
+
+8 Urls(method='delete', url='http://localhost:5000/service/rows/4', headers=None, json={}, data=None) 204 True
+< DELETE /service/rows/4 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 204 NO CONTENT
+> Content-Type: application/json
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+
+9 Urls(method='get', url='http://localhost:5000/service/rows', headers=None, json={}, data=None) 200 True
+< GET /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 454
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+{"flights":[{"aircraft":"Boeing","arr_time":"13:00","dep_time":"12:00","dst_airport":"VOL","id":1,"travel_time":"1H00M"},{"aircraft":"Airbus","arr_time":"11:00","dep_time":"10:00","dst_airport":"CAN","id":2,"travel_time":"1H00M"},{"aircraft":"Airbus","arr_time":"17:56","dep_time":"16:56","dst_airport":"CAN","id":3,"travel_time":"13H00M"},{"aircraft":"Airbus","arr_time":"12:56+1","dep_time":"16:56","dst_airport":"CAN","id":5,"travel_time":"12H00M"}]}
+
+10 Urls(method='get', url='http://localhost:5000/statistic/min/2', headers=None, json={}, data=None) 200 True
+< GET /statistic/min/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 19
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+{"statistic":0.01}
+
+11 Urls(method='get', url='http://localhost:5000/statistic/average/2', headers=None, json={}, data=None) 200 True
+< GET /statistic/average/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 20
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+{"statistic":0.011}
+
+12 Urls(method='get', url='http://localhost:5000/statistic/count/2', headers=None, json={}, data=None) 200 True
+< GET /statistic/count/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 16
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+{"statistic":2}
+
+13 Urls(method='get', url='http://localhost:5000/statistic/percentile/2', headers=None, json={}, data=None) 200 True
+< GET /statistic/percentile/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 37
+> Server: Werkzeug/0.16.0 Python/3.7.4
+> Date: Sun, 03 Nov 2019 13:56:33 GMT
+> 
+{"statistic":[{"id":2,"time":0.01}]}
+
