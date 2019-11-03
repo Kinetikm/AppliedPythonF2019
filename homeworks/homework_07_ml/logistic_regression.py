@@ -53,6 +53,8 @@ class LogisticRegression:
         for i in range(self.max_iter):
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch)
             # Считаем градиент и обновляем тетту
+            print(self.theta.shape)
+            print(batch_X.shape)
             gr = (batch_y - 1 / (1 + np.exp(self.theta.T @ batch_X))) * batch_X
             gr += self.add_penalty()
             speed_n = self.gamma * speed_l + self.etta * gr
