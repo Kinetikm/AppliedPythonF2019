@@ -7,12 +7,13 @@ from logger_config import LOGGING_CONFIG
 import logging.config
 from model import Airports, Airplanes, Flights, Log
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func
 
 flights_engine = create_engine('sqlite:///flights.db')
 log_engine = create_engine('sqlite:///log.db')
 flight_schema = validation.FlightSchema()
 args_schema = validation.ArgsSchema()
+metrics_schema = validation.MetricsParamsSchema()
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger('RequestLogger')
 Session = sessionmaker(bind=flights_engine)
@@ -125,6 +126,27 @@ def get_log():
     session.close()
     print(data)
     return jsonify(data)
+
+
+@app.route('/metrics', methods=['GET'])
+def get_metrics():
+    try:
+        args = metrics_schema.load(request.args)
+        method_type = args['method_type']
+        session = LogSession()
+        # sqlite не поддерживает percentile_count, поэтому обходимся без него
+        req_numb = session.query(func.count(Log.time)).filter(Log.method == method_type).first()[0]
+        ofs = req_numb * 0.9 - 1
+        data = {'max_time': session.query(func.max(Log.resp_time)).filter(Log.method == method_type).first()[0],
+                'min_time': session.query(func.min(Log.resp_time)).filter(Log.method == method_type).first()[0],
+                'req_numb': req_numb,
+                'avg_time': session.query(func.avg(Log.resp_time)).filter(Log.method == method_type).first()[0],
+                'percentiles': session.query(Log.resp_time).order_by(Log.resp_time).filter(
+                    Log.method == method_type).limit(1).offset(ofs).first()[0]}
+        session.close()
+        return jsonify(data)
+    except ValidationError as e:
+        abort(400, str(e))
 
 
 @app.before_request

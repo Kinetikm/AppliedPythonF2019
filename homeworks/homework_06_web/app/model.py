@@ -2,7 +2,6 @@ from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-
 Base = declarative_base()
 LogBase = declarative_base()
 
@@ -52,7 +51,7 @@ class Log(LogBase):
     lavel_name = Column(String)
     name = Column(String)
     remote_addr = Column(String)
-    method = Column(String)
+    method = Column(String, index=True)
     scheme = Column(String)
     full_path = Column(String)
     json = Column(String)

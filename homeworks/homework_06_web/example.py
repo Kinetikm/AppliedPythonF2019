@@ -23,6 +23,8 @@ with open('request_dumps.txt', 'w') as f:
                   # фильтруем по аэропорту
                   Urls('get', 'http://localhost:5000/flights', None, None, None, {'sort_by': 'dep_time',
                                                                                   'filter_by_airport': 'Moscow'}),
+                  # метрики для get-запросов
+                  Urls('get', 'http://localhost:5000/metrics', None, None, None, {'method_type': 'GET'}),
                   ]
     for index, url in enumerate(test_reqts):
         resp = requests.request(method=url.method, url=url.url, json=url.json, data=url.data, params=url.params)

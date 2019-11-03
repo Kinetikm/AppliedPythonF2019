@@ -26,3 +26,14 @@ class ArgsSchema(Schema):
     def validate_sort_by(self, value):
         if (value is not None) and (value not in self.PERMISSIBLE_VALUE):
             raise ValidationError('Incorrect value of sort_by parameter')
+
+
+class MetricsParamsSchema(Schema):
+
+    PERMISSIBLE_VALUE = ['GET', 'POST', 'PUT', 'DELETE']
+    method_type = fields.Str(required=True)
+
+    @validates('method_type')
+    def validate_sort_by(self, value):
+        if (value is not None) and (value not in self.PERMISSIBLE_VALUE):
+            raise ValidationError('Incorrect value of sort_by parameter')
