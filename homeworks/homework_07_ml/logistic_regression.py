@@ -57,7 +57,6 @@ class LogisticRegression:
             for j in range(self.n_features):
                 gr += (batch_y[j] - 1 / (1 + np.exp((-1)*self.theta.T @ batch_X.T[:, j]))) * batch_X[j, :]
             gr = gr.reshape(-1, 1)
-            print(gr.shape)
             gr += self.add_penalty()
             speed_n = self.gamma * speed_l + self.etta * gr
             self.theta -= speed_n
@@ -69,7 +68,8 @@ class LogisticRegression:
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        pass
+        X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
+        return 0.5 * (np.tanh(0.5 * X_test.dot(self.theta)) + 1)  # аналог сигмоиды
 
     def predict_proba(self, X_test):
         """
