@@ -42,6 +42,7 @@ class LogisticRegression:
         self.y = y_train
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
+        self.weights = np.random.rand(np.shape(X_train)[1], 1)
         if self.c > 1:  # Здесь должна быть реализация softmax'a
             pass
         else:
