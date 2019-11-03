@@ -69,7 +69,7 @@ class LogisticRegression:
         :return: y_test: predicted values
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return 0.5 * (np.tanh(0.5 * X_test.dot(self.theta)) + 1)  # аналог сигмоиды
+        return list(0.5 * (np.tanh(0.5 * X_test.dot(self.theta)) + 1))  # аналог сигмоиды
 
     def predict_proba(self, X_test):
         """
@@ -78,7 +78,7 @@ class LogisticRegression:
         :return: y_test: predicted probabilities
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return list(0.5 * (np.tanh(0.5 * X_test.dot(self.theta)) + 1))  # аналог сигмоиды
+        return 0.5 * (np.tanh(0.5 * X_test.dot(self.theta)) + 1)  # аналог сигмоиды
 
     def get_weights(self):
         """
