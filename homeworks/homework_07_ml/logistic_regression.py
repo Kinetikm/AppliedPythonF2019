@@ -42,7 +42,7 @@ class LogisticRegression:
         self.y = y_train
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
-        self.theta = np.random.rand(self.n_features + 1, 1)
+        self.theta = np.random.rand(self.n_features , 1)
         if self.c > 1:  # Здесь должна быть реализация softmax'a
             pass
         else:
@@ -55,7 +55,9 @@ class LogisticRegression:
             # Считаем градиент и обновляем тетту
             print(self.theta.shape)
             print(batch_X.shape)
-            gr = (batch_y - 1 / (1 + np.exp(self.theta @ batch_X.T))) * batch_X
+            gr = np.zeros((self.n_features, 1)).reshape(1, -1)
+            for j in range(self.n_samples):
+                gr += (batch_y[j] - 1 / (1 + np.exp((-1)*self.theta.T @ batch_X.T[:, j]))) * batch_X[j, :]
             print(gr.shape)
             gr += self.add_penalty()
             speed_n = self.gamma * speed_l + self.etta * gr
