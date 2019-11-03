@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, c=1, gamma=0.99, etta=2, regulatization='elastic', alpha=0.6, batch_size=50, max_iter=100):
+    def __init__(self, c=1, gamma=0.99, etta=1, regulatization='elastic', alpha=0.6, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -78,7 +78,7 @@ class LogisticRegression:
         :return: y_test: predicted probabilities
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return 0.5 * (np.tanh(0.5 * X_test.dot(self.theta)) + 1)  # аналог сигмоиды
+        return 1/(1 + np.exp(X_test.dot(self.theta)))
 
     def get_weights(self):
         """
