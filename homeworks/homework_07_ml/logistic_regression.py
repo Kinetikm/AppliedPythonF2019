@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, c=1, gamma=0.9, etta =0.9, regulatization='elastic', alpha=0.5, batch_size=50, max_iter=100):
+    def __init__(self, c=1, gamma=0.9, etta=0.9, regulatization='elastic', alpha=0.5, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -41,7 +41,7 @@ class LogisticRegression:
         """
         self.y = y_train
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
-        self.n_sample, self.n_features = self.X_train.shape
+        self.n_samples, self.n_features = self.X_train.shape
         if self.c > 1:  # Здесь должна быть реализация softmax'a
             pass
         else:
