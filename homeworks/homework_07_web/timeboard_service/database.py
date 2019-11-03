@@ -20,7 +20,7 @@ def init_db(db):
     flights = []
     dep_time = ["10:00", "11:00", "12:00"]
     arr_time = ["11:00", "12:00", "13:00"]
-    travel_time =["1H00M", "1H00M", "1H00M"]
+    travel_time = ["1H00M", "1H00M", "1H00M"]
     for d_time, a_time, t_time in zip(dep_time, arr_time, travel_time):
         flight = FlightTable(
             dep_time=d_time,
