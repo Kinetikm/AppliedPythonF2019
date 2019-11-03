@@ -42,7 +42,7 @@ class LogisticRegression:
         self.y = y_train
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
-        self.theta = np.random.rand(self.n_features , 1)
+        self.theta = np.random.rand(self.n_features, 1)
         if self.c > 1:  # Здесь должна быть реализация softmax'a
             pass
         else:
@@ -69,7 +69,7 @@ class LogisticRegression:
         :return: y_test: predicted values
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return list(0.5 * (np.tanh(0.5 * X_test.dot(self.theta)) + 1))  # аналог сигмоиды
+        return np.squeeze(0.5 * (np.tanh(0.5 * X_test.dot(self.theta)) + 1))  # аналог сигмоиды
 
     def predict_proba(self, X_test):
         """
