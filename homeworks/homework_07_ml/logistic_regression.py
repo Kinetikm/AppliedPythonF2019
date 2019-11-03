@@ -56,7 +56,7 @@ class LogisticRegression:
             print(self.theta.shape)
             print(batch_X.shape)
             gr = np.zeros((self.n_features, 1)).reshape(1, -1)
-            for j in range(self.n_samples):
+            for j in range(self.n_features):
                 gr += (batch_y[j] - 1 / (1 + np.exp((-1)*self.theta.T @ batch_X.T[:, j]))) * batch_X[j, :]
             print(gr.shape)
             gr += self.add_penalty()
