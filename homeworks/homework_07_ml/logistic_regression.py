@@ -61,6 +61,7 @@ class LogisticRegression:
 
     @staticmethod
     def sigmoid(z):
+        z = np.clip(z, -15, 15)
         return 1 / (1 + np.exp((-1)*z))
 
     def gradient(self, w, X, Y):
