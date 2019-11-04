@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, c=1, gamma=0.99, etta=0.9, regulatization='elastic', alpha=0.6, batch_size=50, max_iter=100):
+    def __init__(self, c=1, gamma=0.99, etta=0.9, regulatization='elastic', alpha=0.2, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -24,7 +24,7 @@ class LogisticRegression:
         self.theta = []
 
     def add_penalty(self):
-        return self.alpha * np.sign(self.get_weights()) + 0.6 * self.get_weights()
+        return self.alpha * np.sign(self.get_weights()) + 0.2 * self.get_weights()
 
     def get_next_batch(self, X, Y, batch):
         index = np.random.choice(self.n_samples, batch, replace=False)
