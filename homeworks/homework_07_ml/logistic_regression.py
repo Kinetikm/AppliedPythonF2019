@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, c=1, gamma=0.7, etta=0.6, regulatization='elastic', alpha=0.3, batch_size=50, max_iter=100):
+    def __init__(self, c=1, gamma=0.2, etta=0.6, regulatization='elastic', alpha=0.3, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
