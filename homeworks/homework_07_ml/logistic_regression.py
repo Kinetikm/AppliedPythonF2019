@@ -66,7 +66,7 @@ class LogisticRegression:
     @staticmethod
     def gradient(w, X, Y):
         z = np.dot(w.T, X)
-        A = sigmoid(z)
+        A = self.sigmoid(z)
         grad = 1 / X.shape[1] * np.dot(X, (A - Y).T)
         return grad
 
