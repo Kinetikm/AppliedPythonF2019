@@ -91,7 +91,7 @@ class LogisticRegression:
         :return: y_test: predicted probabilities
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return 1 - 1/(1 + np.exp(X_test.dot(self.theta)))
+        return 1/(1 + np.exp((-1)*X_test.dot(self.theta)))
 
     def get_weights(self):
         """
