@@ -53,14 +53,22 @@ class LogisticRegression:
         for i in range(self.max_iter):
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch)
             # Считаем градиент и обновляем тетту
-            gr = np.zeros((self.n_features, 1)).reshape(1, -1)
-            for j in range(self.n_features):
-                gr += (batch_y[j] - 1 / (1 + np.exp((-1)*self.theta.T @ batch_X.T[:, j]))) * batch_X[j, :]
-            gr = gr.reshape(-1, 1)
+            gr = self.gradient(self.theta, batch_X, batch_y)
             gr += self.add_penalty()
             speed_n = self.gamma * speed_l + self.etta * gr
             self.theta -= speed_n
             speed_l = speed_n
+
+    @staticmethod
+    def sigmoid(z):
+        return 1 / (1 + np.exp(z))
+
+    @staticmethod
+    def gradient(w, X, Y):
+        z = np.dot(w.T, X)
+        A = sigmoid(z)
+        grad = 1 / X.shape[1] * np.dot(X, (A - Y).T)
+        return grad
 
     def predict(self, X_test):
         """
@@ -78,7 +86,7 @@ class LogisticRegression:
         :return: y_test: predicted probabilities
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return 1 - 1/(1 + np.exp(X_test.dot(self.theta)))
+        return 1/(1 + np.exp(X_test.dot(self.theta)))
 
     def get_weights(self):
         """
