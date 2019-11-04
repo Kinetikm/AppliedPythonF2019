@@ -76,7 +76,7 @@ class LogisticRegression:
         :return: y_test: predicted values
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        y_test = np.squeeze(0.5 * (np.tanh(0.5 * X_test.dot(self.theta)) + 1))  # аналог сигмоиды
+        y_test = np.squeeze(self.sigmoid(X_test.dot(self.theta)))
         for i in range(y_test.shape[0]):
             if y_test[i] > 0.5:
                 y_test[i] = 1
@@ -91,7 +91,7 @@ class LogisticRegression:
         :return: y_test: predicted probabilities
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return 1 - 1/(1 + np.exp((-1)*X_test.dot(self.theta)))
+        return 1/(1 + np.exp((-1)*X_test.dot(self.theta)))
 
     def get_weights(self):
         """
