@@ -92,7 +92,7 @@ class LogisticRegression:
         :return: y_test: predicted probabilities
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return self.sigmoid(X_test.dot(self.theta))
+        return 1 - self.sigmoid(X_test.dot(self.theta))
 
     def get_weights(self):
         """
