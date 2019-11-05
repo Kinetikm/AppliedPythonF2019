@@ -1,0 +1,80 @@
+0 Urls(method='post', url='http://localhost:8000/api/flights/', headers=None, json={'departure_time': '2019-11-01T20:41:57Z', 'arrival_time': '2019-11-01T20:41:57Z', 'flight_time': 456465, 'destination_airport': 'dmd', 'aircraft_type': 'boing'}, data=None) 201 True
+< POST /api/flights/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.20.1
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 161
+< Content-Type: application/json
+< 
+< {"departure_time": "2019-11-01T20:41:57Z", "arrival_time": "2019-11-01T20:41:57Z", "flight_time": 456465, "destination_airport": "dmd", "aircraft_type": "boing"}
+> HTTP/1.1 201 Created
+> Date: Tue, 05 Nov 2019 19:55:50 GMT
+> Server: WSGIServer/0.2 CPython/3.6.5
+> Content-Type: application/json
+> Vary: Accept, Cookie
+> Allow: GET, POST, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 166
+> 
+{"flight_id":6,"departure_time":"2019-11-01T20:41:57Z","arrival_time":"2019-11-01T20:41:57Z","flight_time":456465,"destination_airport":"dmd","aircraft_type":"boing"}
+1 Urls(method='get', url='http://localhost:8000/api/flights/', headers=None, json=None, data=None) 200 True
+< GET /api/flights/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.20.1
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.1 200 OK
+> Date: Tue, 05 Nov 2019 19:55:50 GMT
+> Server: WSGIServer/0.2 CPython/3.6.5
+> Content-Type: application/json
+> Vary: Accept, Cookie
+> Allow: GET, POST, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 666
+> 
+[{"flight_id":2,"departure_time":"2012-01-01T03:03:00Z","arrival_time":"2012-02-01T00:00:00Z","flight_time":453,"destination_airport":"dmd","aircraft_type":"boing"},{"flight_id":4,"departure_time":"2019-11-01T20:41:57Z","arrival_time":"2019-11-01T20:41:57Z","flight_time":456465,"destination_airport":"svo","aircraft_type":"boing"},{"flight_id":5,"departure_time":"2019-11-01T20:41:57Z","arrival_time":"2019-11-01T20:41:57Z","flight_time":456465,"destination_airport":"dmd","aircraft_type":"boing"},{"flight_id":6,"departure_time":"2019-11-01T20:41:57Z","arrival_time":"2019-11-01T20:41:57Z","flight_time":456465,"destination_airport":"dmd","aircraft_type":"boing"}]
+2 Urls(method='put', url='http://localhost:8000/api/flights/6', headers=None, json={'destination_airport': 'svo'}, data=None) 200 True
+< PUT /api/flights/6 HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.20.1
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 30
+< Content-Type: application/json
+< 
+< {"destination_airport": "svo"}
+> HTTP/1.1 200 OK
+> Date: Tue, 05 Nov 2019 19:55:50 GMT
+> Server: WSGIServer/0.2 CPython/3.6.5
+> Content-Type: application/json
+> Vary: Accept, Cookie
+> Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 166
+> 
+{"flight_id":6,"departure_time":"2019-11-01T20:41:57Z","arrival_time":"2019-11-01T20:41:57Z","flight_time":456465,"destination_airport":"svo","aircraft_type":"boing"}
+3 Urls(method='delete', url='http://localhost:8000/api/flights/6', headers=None, json=None, data=None) 204 True
+< DELETE /api/flights/6 HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.20.1
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.1 204 No Content
+> Date: Tue, 05 Nov 2019 19:55:50 GMT
+> Server: WSGIServer/0.2 CPython/3.6.5
+> Vary: Accept, Cookie
+> Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 0
+> 
+
