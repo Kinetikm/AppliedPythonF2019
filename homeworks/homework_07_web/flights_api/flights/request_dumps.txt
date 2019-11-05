@@ -1,0 +1,133 @@
+0 Urls(method='post', url='http://localhost:8000/api/flights/flight/create/', headers=None, json={'departure': '2222-02-12T22:22:00.000000Z', 'arrival': '2222-02-12T22:22:50.000000Z', 'destination': 'VKO', 'aircraft': 'boeing'}, data=None) 201 True
+< POST /api/flights/flight/create/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 130
+< Content-Type: application/json
+< 
+< {"departure": "2222-02-12T22:22:00.000000Z", "arrival": "2222-02-12T22:22:50.000000Z", "destination": "VKO", "aircraft": "boeing"}
+> HTTP/1.1 201 Created
+> Date: Tue, 05 Nov 2019 22:58:44 GMT
+> Server: WSGIServer/0.2 CPython/3.7.4
+> Content-Type: application/json
+> Vary: Accept, Cookie
+> Allow: GET, POST, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 123
+> 
+{"departure":"2222-02-12T22:22:00.000000Z","arrival":"2222-02-12T22:22:50.000000Z","destination":"VKO","aircraft":"boeing"}
+1 Urls(method='get', url='http://localhost:8000/api/flights/all', headers=None, json=None, data=None) 200 True
+< GET /api/flights/all HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.1 301 Moved Permanently
+> Date: Tue, 05 Nov 2019 22:58:44 GMT
+> Server: WSGIServer/0.2 CPython/3.7.4
+> Content-Type: text/html; charset=utf-8
+> Location: /api/flights/all/
+> Content-Length: 0
+> 
+< GET /api/flights/all/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.1 200 OK
+> Date: Tue, 05 Nov 2019 22:58:44 GMT
+> Server: WSGIServer/0.2 CPython/3.7.4
+> Content-Type: application/json
+> Vary: Accept, Cookie
+> Allow: GET, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 475
+> 
+[{"id":6,"departure":"1222-10-10T11:11:00.000000Z","arrival":"2222-02-22T22:22:00.000000Z","travel":"365012 days, 11:11:00","destination":"DME","aircraft":"il"},{"id":7,"departure":"2222-02-12T22:22:00.000000Z","arrival":"5211-03-31T23:22:00.000000Z","travel":"1091757 days, 1:00:00","destination":"VKO","aircraft":"airbus"},{"id":8,"departure":"2222-02-12T22:22:00.000000Z","arrival":"2222-02-12T22:22:50.000000Z","travel":"0:00:50","destination":"VKO","aircraft":"boeing"}]
+2 Urls(method='put', url='http://localhost:8000/api/flights/flight/6/', headers=None, json={'departure': '2222-02-12T22:22:00.000000Z', 'arrival': '2222-02-12T22:22:10.000000Z', 'destination': 'DME', 'aircraft': 'airbus'}, data=None) 200 True
+< PUT /api/flights/flight/6/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 130
+< Content-Type: application/json
+< 
+< {"departure": "2222-02-12T22:22:00.000000Z", "arrival": "2222-02-12T22:22:10.000000Z", "destination": "DME", "aircraft": "airbus"}
+> HTTP/1.1 200 OK
+> Date: Tue, 05 Nov 2019 22:58:44 GMT
+> Server: WSGIServer/0.2 CPython/3.7.4
+> Content-Type: application/json
+> Vary: Accept, Cookie
+> Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 123
+> 
+{"departure":"2222-02-12T22:22:00.000000Z","arrival":"2222-02-12T22:22:10.000000Z","destination":"DME","aircraft":"airbus"}
+3 Urls(method='get', url='http://localhost:8000/api/flights/all/dep_sort/', headers=None, json=None, data=None) 200 True
+< GET /api/flights/all/dep_sort/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.1 200 OK
+> Date: Tue, 05 Nov 2019 22:58:44 GMT
+> Server: WSGIServer/0.2 CPython/3.7.4
+> Content-Type: application/json
+> Vary: Accept, Cookie
+> Allow: GET, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 479
+> 
+[{"id":6,"departure":"2222-02-12T22:22:00.000000Z","arrival":"2222-02-12T22:22:10.000000Z","travel":"365012 days, 11:11:00","destination":"DME","aircraft":"airbus"},{"id":7,"departure":"2222-02-12T22:22:00.000000Z","arrival":"5211-03-31T23:22:00.000000Z","travel":"1091757 days, 1:00:00","destination":"VKO","aircraft":"airbus"},{"id":8,"departure":"2222-02-12T22:22:00.000000Z","arrival":"2222-02-12T22:22:50.000000Z","travel":"0:00:50","destination":"VKO","aircraft":"boeing"}]
+4 Urls(method='get', url='http://localhost:8000/api/flights/all/air_sort/', headers=None, json=None, data=None) 200 True
+< GET /api/flights/all/air_sort/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.1 200 OK
+> Date: Tue, 05 Nov 2019 22:58:44 GMT
+> Server: WSGIServer/0.2 CPython/3.7.4
+> Content-Type: application/json
+> Vary: Accept, Cookie
+> Allow: GET, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 479
+> 
+[{"id":6,"departure":"2222-02-12T22:22:00.000000Z","arrival":"2222-02-12T22:22:10.000000Z","travel":"365012 days, 11:11:00","destination":"DME","aircraft":"airbus"},{"id":8,"departure":"2222-02-12T22:22:00.000000Z","arrival":"2222-02-12T22:22:50.000000Z","travel":"0:00:50","destination":"VKO","aircraft":"boeing"},{"id":7,"departure":"2222-02-12T22:22:00.000000Z","arrival":"5211-03-31T23:22:00.000000Z","travel":"1091757 days, 1:00:00","destination":"VKO","aircraft":"airbus"}]
+5 Urls(method='delete', url='http://localhost:8000/api/flights/flight/8/', headers=None, json=None, data=None) 204 True
+< DELETE /api/flights/flight/8/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.1 204 No Content
+> Date: Tue, 05 Nov 2019 22:58:44 GMT
+> Server: WSGIServer/0.2 CPython/3.7.4
+> Vary: Accept, Cookie
+> Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+> X-Frame-Options: SAMEORIGIN
+> Content-Length: 0
+> 
+
