@@ -62,7 +62,8 @@ class ORM():
             session.add(aircraft)
             session.commit()
 
-        flightdb = Flights(departure=flight["departure"],
+        flightdb = Flights(
+                        departure=flight["departure"],
                         arrival=flight["arrival"],
                         travel_time=flight["travel_time"],
                         airport=flight["destination"],
