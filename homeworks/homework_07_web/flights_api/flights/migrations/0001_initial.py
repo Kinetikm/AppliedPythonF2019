@@ -15,13 +15,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Aircraft',
             fields=[
-                ('aircraft_model', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Aircraft')),
+                ('aircraft_model', models.CharField(max_length=255, primary_key=True, serialize=False,
+                                                    verbose_name='Aircraft')),
             ],
         ),
         migrations.CreateModel(
             name='Destination',
             fields=[
-                ('airport', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Destination')),
+                ('airport', models.CharField(max_length=255, primary_key=True, serialize=False,
+                                             verbose_name='Destination')),
             ],
         ),
         migrations.CreateModel(
@@ -32,7 +34,8 @@ class Migration(migrations.Migration):
                 ('arrival', models.DateTimeField(verbose_name='Arrival_time')),
                 ('travel', models.PositiveIntegerField(verbose_name='Travel_time')),
                 ('aircraft', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='flights.Aircraft')),
-                ('destination', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='flights.Destination')),
+                ('destination', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                                  to='flights.Destination')),
             ],
         ),
     ]
