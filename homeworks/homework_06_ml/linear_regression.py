@@ -40,7 +40,7 @@ class LinearRegression:
         x = np.array_split(x_train, self.batch_size)
         y = np.array_split(y_train, self.batch_size)
         self.coef_ = np.random.randn(x_train.shape[1])
-        l2 = self.alpha * sum(self.coef_ ** 2)
+        l2 = 2 * self.alpha * sum(self.coef_)
         tmp_err = np.inf
         indexes = list(range(len(x)))
         np.random.shuffle(indexes)
