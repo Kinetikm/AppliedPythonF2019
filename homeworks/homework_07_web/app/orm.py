@@ -63,13 +63,13 @@ class ORM():
             session.commit()
 
         flightdb = Flights(departure=flight["departure"],
-                         arrival=flight["arrival"],
-                         travel_time=flight["travel_time"],
-                         airport=flight["destination"],
-                         aircraft=flight["aircraft_type"])
+                        arrival=flight["arrival"],
+                        travel_time=flight["travel_time"],
+                        airport=flight["destination"],
+                        aircraft=flight["aircraft_type"])
         session.add(flight)
         session.commit()
-        return True 
+        return True
 
     def delete(self, id_):
         flightdb = session.query(Flights).filter(Flights.id == id_).first()
@@ -99,6 +99,6 @@ class ORM():
                     Flights.airport: flight["destination"],
                     Flights.aircraft: flight["aircraft_type"]})
         session.commit()
-        return True    
+        return True
 
 orm = ORM()
