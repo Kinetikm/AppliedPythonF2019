@@ -44,7 +44,8 @@ with open('request_dumps.txt', 'w') as f:
                                                                   "arrival_time": "2019-10-20 21:05",
                                                                   "travel_time": "04:15",
                                                                   "destination_airport": "Moscow",
-                                                                  "type_of_aircraft": "Airflot"}, None)
+                                                                  "type_of_aircraft": "Airflot"}, None),
+            Urls('get', 'http://localhost:5000/flights/metric', None, None, None)
             ]
     for index, url in enumerate(test):
         resp = requests.request(method=url.method, url=url.url, json=url.json, data=url.data)

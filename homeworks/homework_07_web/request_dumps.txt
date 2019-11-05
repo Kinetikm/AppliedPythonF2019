@@ -13,7 +13,7 @@
 > Content-Type: application/json
 > Content-Length: 207
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:24 GMT
+> Date: Tue, 05 Nov 2019 19:21:25 GMT
 > 
 {
   "flight": {
@@ -38,7 +38,7 @@
 > Content-Type: application/json
 > Content-Length: 642
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:24 GMT
+> Date: Tue, 05 Nov 2019 19:21:25 GMT
 > 
 {
   "flights": [
@@ -81,7 +81,7 @@
 > Content-Type: application/json
 > Content-Length: 203
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:25 GMT
+> Date: Tue, 05 Nov 2019 19:21:25 GMT
 > 
 {
   "flight": {
@@ -108,7 +108,7 @@
 > Content-Type: application/json
 > Content-Length: 203
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:25 GMT
+> Date: Tue, 05 Nov 2019 19:21:25 GMT
 > 
 {
   "flight": {
@@ -134,7 +134,7 @@
 > Content-Type: application/json
 > Content-Length: 33
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:25 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "result": "flight deleted"
@@ -153,7 +153,7 @@
 > Content-Type: application/json
 > Content-Length: 207
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:25 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "flight": {
@@ -178,7 +178,7 @@
 > Content-Type: application/json
 > Content-Length: 34
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:25 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "error": "flight not found"
@@ -197,7 +197,7 @@
 > Content-Type: application/json
 > Content-Length: 230
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:25 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "flights": [
@@ -226,7 +226,7 @@
 > Content-Type: application/json
 > Content-Length: 208
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:25 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "flight": {
@@ -251,7 +251,7 @@
 > Content-Type: application/json
 > Content-Length: 440
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:25 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "flights": [
@@ -287,7 +287,7 @@
 > Content-Type: application/json
 > Content-Length: 29
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:25 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "error": "bad request"
@@ -306,7 +306,7 @@
 > Content-Type: application/json
 > Content-Length: 850
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:26 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "flights": [
@@ -354,7 +354,7 @@
 > Content-Type: application/json
 > Content-Length: 850
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:26 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "flihgts": [
@@ -404,7 +404,7 @@
 > Content-Type: application/json
 > Content-Length: 207
 > Server: Werkzeug/0.15.4 Python/3.7.3
-> Date: Mon, 04 Nov 2019 18:41:26 GMT
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
 > 
 {
   "flight": {
@@ -413,6 +413,54 @@
     "destination_airport": "Moscow", 
     "travel_time": "04:15", 
     "type_of_aircraft": "Airflot"
+  }
+}
+
+14 Urls(method='get', url='http://localhost:5000/flights/metric', headers=None, json=None, data=None) 200 True
+< GET /flights/metric HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 693
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 19:21:26 GMT
+> 
+{
+  "metric": {
+    "DELETE": {
+      "avg_duration": 0.0731, 
+      "count_request": 1, 
+      "max_duration": 0.0731, 
+      "min_duration": 0.0731, 
+      "percentile": 0.0731
+    }, 
+    "GET": {
+      "avg_duration": 0.004, 
+      "count_request": 7, 
+      "max_duration": 0.0063, 
+      "min_duration": 0.002, 
+      "percentile": 0.002
+    }, 
+    "POST": {
+      "avg_duration": 0.0854, 
+      "count_request": 4, 
+      "max_duration": 0.1336, 
+      "min_duration": 0.0009, 
+      "percentile": 0.0009
+    }, 
+    "PUT": {
+      "avg_duration": 0.0935, 
+      "count_request": 2, 
+      "max_duration": 0.0969, 
+      "min_duration": 0.0901, 
+      "percentile": 0.0901
+    }
   }
 }
 

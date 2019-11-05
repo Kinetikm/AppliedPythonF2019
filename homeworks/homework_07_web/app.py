@@ -4,9 +4,11 @@ from flask import Flask, jsonify, abort, make_response, request, g
 from schema import valid
 from models import Flights, Airports, Aircrafts, LogTable
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, desc, func
 import logging
 import time
+import math
+
 
 engine = create_engine('sqlite:///database.db')
 Session = sessionmaker(bind=engine)
@@ -30,10 +32,12 @@ def before():
 def after(response):
     duration_time = time.time() - g.start
     session = Session()
-    log = LogTable(url=request.url,
+    log = LogTable(data_of_request=time.asctime(),
+                   url=request.url,
                    method=request.method,
                    status_code=response.status_code,
-                   duration=round(duration_time, 4))
+                   duration=round(duration_time, 4),
+                   json_data=request.json)
     session.add(log)
     session.commit()
     session.close()
@@ -188,6 +192,32 @@ def filter_by_aircraft(type_of_aircraft):
             data.append(flight.get_data())
         return jsonify({"flights": data}), 200
     abort(404)
+
+
+@app.route("/flights/metric", methods=["GET"])
+def metric():
+    session = Session()
+    methods = ["GET", "POST", "PUT", "DELETE"]
+    metric = {}
+    for method in methods:
+        cnt = session.query(LogTable).filter(LogTable.method == method).count()
+        if cnt:
+            method_info = {}
+            min_dur = session.query(LogTable.duration).filter(LogTable.method == method).\
+                order_by(LogTable.duration).all()[0]
+            max_dur = session.query(LogTable.duration).filter(LogTable.method == method).\
+                order_by(desc(LogTable.duration)).all()[0]
+            avg_dur = session.query(func.avg(LogTable.duration)).filter(LogTable.method == method).first()
+            rank = math.floor(((90 * (cnt - 1)) / 100) + 1)
+            percentile = session.query(LogTable.duration).filter(LogTable.method == method).\
+                order_by(LogTable.duration).limit(rank).first()
+            method_info["count_request"] = cnt
+            method_info["min_duration"] = min_dur[0]
+            method_info["max_duration"] = max_dur[0]
+            method_info["avg_duration"] = round(avg_dur[0], 4)
+            method_info["percentile"] = percentile[0]
+            metric[method] = method_info
+    return jsonify({"metric": metric}), 200
 
 
 if __name__ == "__main__":

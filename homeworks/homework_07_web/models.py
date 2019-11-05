@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from sqlalchemy import Column, Integer, String, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -47,7 +47,9 @@ class LogTable(Base):
     __tablename__ = "logs"
 
     id = Column(Integer, primary_key=True)
+    data_of_request = Column(String)
     url = Column(String)
-    method = Column(String)
+    method = Column(String, index=True)
     status_code = Column(String)
     duration = Column(Float)
+    json_data = Column(JSON)
