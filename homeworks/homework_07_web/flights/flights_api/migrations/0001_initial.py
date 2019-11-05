@@ -31,8 +31,20 @@ class Migration(migrations.Migration):
                 ('departure_time', models.DateTimeField()),
                 ('arrival_time', models.DateTimeField()),
                 ('flight_time', models.PositiveIntegerField()),
-                ('aircraft_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='flights_api.AircraftType')),
-                ('destination_airport', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='flights_api.Airports')),
+                (
+                    'aircraft_type',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='flights_api.AircraftType'
+                    )
+                ),
+                (
+                    'destination_airport',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='flights_api.Airports'
+                    )
+                ),
             ],
         ),
     ]
