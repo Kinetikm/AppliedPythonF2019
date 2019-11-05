@@ -1,38 +1,72 @@
-#!/usr/bin/env python
-# coding: utf-8
+import numpy as np
 
 
 class LinearRegression:
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
+    def __init__(self, ada_coef=0.9, regularization='L2', alpha=0.5, batch_size=50, max_iter=1000):
         """
-        :param lambda_coef: constant coef for gradient descent step
-        :param regulatization: regularizarion type ("L1" or "L2") or None
-        :param alpha: regularizarion coefficent
+        :param regularization: L2
+        :param alpha: regularization coefficent
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
-        raise NotImplementedError
+        self.ada_coef = ada_coef
+        self.alpha = alpha
+        self.max_iter = max_iter
+        self.batch_size = batch_size
+        self.coef_ = None
+        self.intercept_ = None
 
-    def fit(self, X_train, y_train):
+    def normalize(self, x_train):
+        mean = np.mean(x_train, axis=0)
+        std = np.std(x_train, axis=0)
+        return (x_train - mean) / std
+
+    def mae(self, x_test, y):
+        return sum(abs(np.sum(self.intercept_ + self.coef_ * x_test, axis=1) - y))
+
+    def grad_func(self, x_train, y_train, coef_last, regulator):
+        return -2 * (1 / x_train.shape[0]) * x_train.transpose().dot(y_train) + 2 * (
+                1 / x_train.shape[0]) * x_train.transpose().dot(x_train).dot(coef_last) + regulator
+
+    def fit(self, x_train, y_train, eps=1e-5):
         """
         Fit model using gradient descent method
-        :param X_train: training data
+        :param x_train: training data
         :param y_train: target values for training data
         :return: None
         """
-        pass
+        assert x_train.shape[0] == y_train.shape[0], 'Invalid dimensions'
+        x_train = self.normalize(x_train)
+        x_train = np.hstack([np.ones((x_train.shape[0], 1)), x_train])
+        self.coef_ = np.random.randn(x_train.shape[1])
+        l2 = self.alpha * sum(self.coef_ ** 2)
+        tmp_err = np.inf
+        x = np.split(x_train, self.batch_size, axis=0)
+        y = np.split(y_train, self.batch_size, axis=0)
+        indexes = list(range(x.shape[0]))
+        np.random.shuffle(indexes)
+        sqrs = np.zeros(x_train.shape[1])
+        deltas = np.zeros(x_train.shape[1])
+        for _ in range(self.max_iter):
+            for idx in indexes:
+                eps_stable = 1e-5
+                g = self.grad_func(x[idx], y[idx], self.coef_, l2) / x[idx].shape[0]
+                sqrs = self.ada_coef * sqrs + (1 - self.ada_coef) * np.square(g)
+                cur_delta = np.sqrt(deltas + eps_stable) / np.sqrt(sqrs + eps_stable) * g
+                deltas = self.ada_coef * deltas + (1 - self.ada_coef) * np.square(cur_delta)
+                # update weight
+                self.coef_ -= cur_delta
+                err = self.mae(x[idx], y[idx])
+                if abs(tmp_err - err) / x[idx].shape[0] < eps:
+                    return
+                tmp_err = err
+        self.intercept_ = self.coef_[0]
+        self.coef_ = self.coef_[1:]
 
-    def predict(self, X_test):
-        """
-        Predict using model.
-        :param X_test: test data for predict in
-        :return: y_test: predicted values
-        """
-        pass
+    def predict(self, x_test):
+        assert self.coef_ is None, 'Model is not fitted'
+        return np.sum(self.intercept_ + self.coef_ * x_test, axis=1)
 
     def get_weights(self):
-        """
-        Get weights from fitted linear model
-        :return: weights array
-        """
-        pass
+        assert self.coef_ is None, 'Model is not fitted'
+        return np.hstack((self.intercept_, self.coef_))
