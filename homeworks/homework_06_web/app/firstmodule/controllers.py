@@ -4,6 +4,7 @@ import app.firstmodule.entities as entities
 import app.firstmodule.validation as validation
 import time
 import logging
+import app.firstmodule.orm_queries as orm_queries
 
 
 module = Blueprint('', __name__)
@@ -22,6 +23,7 @@ def teardown_request(response):
         controllers_logger.info((f'Have done the {request.url} with ') +
                                 (f'{request.method} method for ') +
                                 (f'{"%.5f" % diff}'))
+    orm_queries.add_metric(request, g.start, diff, response.status_code)
     return response
 
 
@@ -32,23 +34,17 @@ def create_flight():
         validation.validate_duration(request.json)
     except validation.ValidationError:
         abort(400)
-    new_flight = {
-        'departure_time': request.json['departure_time'],
-        'arrival_time': request.json['arrival_time'],
-        'duration': request.json['duration'],
-        'arrive_location': request.json['arrive_location'],
-        'aircraft_type': request.json['aircraft_type']
-    }
-    entities.flights.append(entities.Flight(new_flight))
-    return jsonify({'flight': new_flight}), 201
+    orm_queries.add_flight(request)
+    return jsonify({'flight': request.json}), 201
 
 
 @module.route('/flights/<int:flight_id>', methods=['GET'])
 def get_flight(flight_id):
-    flight = list(filter(lambda f: f.id == flight_id, entities.flights))
-    if len(flight) == 0:
+    try:
+        res = orm_queries.get_flight_by_id(flight_id)
+    except IndexError:
         abort(404)
-    return jsonify({'flight': flight[0].convert_to_dict()})
+    return jsonify({'flight': res})
 
 
 @module.errorhandler(404)
@@ -63,58 +59,43 @@ def bad_request(error):
 
 @module.route('/flights', methods=['GET'])
 def get_flights():
-    all_flights = []
-    for flight in entities.flights:
-        all_flights.append(flight.convert_to_dict())
-    return jsonify({'flights': all_flights})
+    res = orm_queries.get_all_flights(request.json)
+    return jsonify({'flights': res})
 
 
 @module.route('/flights/<int:flight_id>', methods=['PUT'])
 def change_flight(flight_id):
-    flight = list(filter(lambda f: f.id == flight_id, entities.flights))
-    if len(flight) == 0:
-        abort(404)
+    if not request.json:
+        abort(400)
     try:
         validation.FlightSchema().load(request.json)
         validation.validate_duration(request.json)
     except validation.ValidationError:
         abort(400)
-    flight = flight[0]
-    flight.departure_time = request.json['departure_time']
-    flight.arrival_time = request.json['arrival_time']
-    flight.duration = request.json['duration']
-    flight.arrive_location = request.json['arrive_location']
-    flight.aircraft_type = request.json['aircraft_type']
-    return jsonify({'flight': flight.convert_to_dict()})
+    flight = orm_queries.get_flight_object(flight_id)
+    try:
+        flight = flight[0]
+    except IndexError:
+        abort(404)
+    try:
+        orm_queries.modify_flight(request, flight_id, flight)
+    except IndexError:
+        abort(400)
+    return jsonify({'result': 'Successfully changed'})
 
 
 @module.route('/flights/<int:flight_id>', methods=['DELETE'])
 def delete_flight(flight_id):
-    flight = list(filter(lambda f: f.id == flight_id, entities.flights))
-    if len(flight) == 0:
+    flight = orm_queries.get_flight_object(flight_id)
+    try:
+        flight = flight[0]
+    except IndexError:
         abort(404)
-    flight = flight[0]
-    entities.flights.remove(flight)
+    orm_queries.delete_flight(flight_id)
     return jsonify({'result': 'Successfully delete'})
 
 
-@module.route('/flights/duration_sorted', methods=['GET'])
-def sort_flights_by_duration():
-    sorted_flights = sorted(entities.flights, key=lambda flight:
-                            flight.duration, reverse=True)
-    all_flights = []
-    for flight in sorted_flights:
-        all_flights.append(flight.convert_to_dict())
-    return jsonify({'flights': all_flights})
-
-
-@module.route('/flights/<string:arrive_location>', methods=['GET'])
-def get_dmd_arrival_flights(arrive_location):
-    accord_flights = list(filter(lambda flight: flight.arrive_location ==
-                                 arrive_location, entities.flights))
-    if len(accord_flights) == 0:
-        abort(400)
-    all_flights = []
-    for flight in accord_flights:
-        all_flights.append(flight.convert_to_dict())
-    return jsonify({'flights': all_flights})
+@module.route('/flights/metrix', methods=['GET'])
+def get_metrix():
+    metrix = orm_queries.get_metrix(request.json)
+    return jsonify({'metrix': metrix})
