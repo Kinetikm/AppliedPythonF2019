@@ -1,0 +1,297 @@
+0 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 3
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+[]
+
+1 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '2:00', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "2:00", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 201 CREATED
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+OK
+2 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '1:00', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "1:00", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 18
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+Invalid Input Data
+3 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-23 12:00:00', 'arrival': '2019-10-23 10:00:00', 'time_in_flight': '2:00', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 12:00:00", "arrival": "2019-10-23 10:00:00", "time_in_flight": "2:00", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 18
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+Invalid Input Data
+4 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '2:00', 'airport': 'SV', 'aircraft_type': 'AN28'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 138
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "2:00", "airport": "SV", "aircraft_type": "AN28"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 18
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+Invalid Input Data
+5 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-24 10:00:00', 'arrival': '2019-10-24 14:25:00', 'time_in_flight': '4:25', 'airport': 'DMD', 'aircraft_type': 'SU100'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 140
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-24 10:00:00", "arrival": "2019-10-24 14:25:00", "time_in_flight": "4:25", "airport": "DMD", "aircraft_type": "SU100"}
+> HTTP/1.0 201 CREATED
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+OK
+6 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 289
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+[{"aircraft_type":"AN28","airport":"SVO","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","id_":1,"time_in_flight":"02:00:00"},{"aircraft_type":"SU100","airport":"DMD","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","id_":2,"time_in_flight":"04:25:00"}]
+
+7 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '2:00', 'airport': 'DMD', 'aircraft_type': 'AN28'}, data=None) 200 True
+< PUT /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "2:00", "airport": "DMD", "aircraft_type": "AN28"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+OK
+8 Urls(method='put', url='http://localhost:5000/flights/3', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '2:00', 'airport': 'DMD', 'aircraft_type': 'AN28'}, data=None) 404 False
+< PUT /flights/3 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "2:00", "airport": "DMD", "aircraft_type": "AN28"}
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 14
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+No Such Flight
+9 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'departure': '2019-10-24 10:00:00', 'arrival': '2019-10-24 14:25:00', 'time_in_flight': '4:25', 'airport': 'SVO', 'aircraft_type': 'SU104'}, data=None) 200 True
+< PUT /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 140
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-24 10:00:00", "arrival": "2019-10-24 14:25:00", "time_in_flight": "4:25", "airport": "SVO", "aircraft_type": "SU104"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+OK
+10 Urls(method='delete', url='http://localhost:5000/flights/3', headers=None, json=None, data=None) 404 False
+< DELETE /flights/3 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 14
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+No Such Flight
+11 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-25 10:00:00', 'arrival': '2019-10-25 13:00:00', 'time_in_flight': '3:00', 'airport': 'DIA', 'aircraft_type': 'A320'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-25 10:00:00", "arrival": "2019-10-25 13:00:00", "time_in_flight": "3:00", "airport": "DIA", "aircraft_type": "A320"}
+> HTTP/1.0 201 CREATED
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+OK
+12 Urls(method='get', url='http://localhost:5000/flights?filter_by_airport=DMD', headers=None, json=None, data=None) 200 True
+< GET /flights?filter_by_airport=DMD HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 3
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:55 GMT
+> 
+[]
+
+13 Urls(method='get', url='http://localhost:5000/flights?sort_by=arrival', headers=None, json=None, data=None) 200 True
+< GET /flights?sort_by=arrival HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 432
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:56 GMT
+> 
+[{"aircraft_type":"AN28","airport":"SVO","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","id_":1,"time_in_flight":"02:00:00"},{"aircraft_type":"SU104","airport":"SVO","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","id_":2,"time_in_flight":"04:25:00"},{"aircraft_type":"A320","airport":"DIA","arrival":"2019-10-25 10:00:00","departure":"2019-10-25 07:00:00","id_":3,"time_in_flight":"03:00:00"}]
+
+14 Urls(method='delete', url='http://localhost:5000/flights/2', headers=None, json=None, data=None) 204 True
+< DELETE /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 204 NO CONTENT
+> Content-Type: text/html; charset=utf-8
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:56 GMT
+> 
+
+15 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 288
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:56 GMT
+> 
+[{"aircraft_type":"AN28","airport":"SVO","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","id_":1,"time_in_flight":"02:00:00"},{"aircraft_type":"A320","airport":"DIA","arrival":"2019-10-25 10:00:00","departure":"2019-10-25 07:00:00","id_":3,"time_in_flight":"03:00:00"}]
+
+16 Urls(method='get', url='http://localhost:5000/flights?show_performance=true', headers=None, json=None, data=None) 200 True
+< GET /flights?show_performance=true HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 523
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 22:11:56 GMT
+> 
+{"DELETE":{"average_time":30.657052993774414,"minimal_time":17.815351486206055,"number_of_requests":2,"percentile":40.9304141998291},"GET":{"average_time":7.715559005737305,"minimal_time":5.081892013549805,"number_of_requests":5,"percentile":10.654115676879883},"POST":{"average_time":21.561026573181152,"minimal_time":0.7960796356201172,"number_of_requests":6,"percentile":45.82023620605469},"PUT":{"average_time":36.48193677266439,"minimal_time":23.505449295043945,"number_of_requests":3,"percentile":43.73950958251953}}
+
