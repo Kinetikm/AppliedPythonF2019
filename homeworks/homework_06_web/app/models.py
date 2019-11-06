@@ -27,22 +27,13 @@ class Aircraft(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(10))
 
-    # def __repr__(self):
-    #     return jsonself.id
-
 
 class Airport(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(30))
-
-    # def __repr__(self):
-    #     return self.id
 
 
 class Statistic(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     type = db.Column(db.Integer, nullable=False)
     time = db.Column(db.Numeric(6, 4), nullable=False)
-
-    # def __repr__(self):
-    #     return self.id

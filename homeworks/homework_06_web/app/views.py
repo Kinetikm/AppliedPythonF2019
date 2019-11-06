@@ -1,17 +1,11 @@
 import time
 from app import app
+from sqlalchemy import func
 from app.db_func import get_all_flights, get_one_flight, add_flight, change_flight, delete_flight, get_all_airports, \
-    get_all_aircrafts, write_duration, get_all_queries
+    get_all_aircrafts, write_duration, get_all_queries, get_stat
 from app.models import Statistic
 from flask import request, abort, jsonify, g
 from marshmallow import Schema, fields, validates_schema, ValidationError
-
-
-@app.route('/flights', methods=['GET'])
-def get_flights():
-    g.type = 0
-    records = get_all_flights()
-    return jsonify(records)
 
 
 class FlightSchema(Schema):
@@ -25,6 +19,13 @@ class FlightSchema(Schema):
     def validate_time(self, flight, **kwargs):
         if flight["dept_time"] > flight["arr_time"]:
             raise ValidationError("Departure time can`t be greater than arrival time")
+
+
+@app.route('/flights', methods=['GET'])
+def get_flights():
+    g.type = 0
+    records = get_all_flights()
+    return jsonify(records)
 
 
 @app.route('/flights', methods=['POST'])
@@ -97,3 +98,18 @@ def send_req(resp):
 @app.route('/queries', methods=['GET'])
 def get_query():
     return jsonify(get_all_queries())
+
+
+@app.route('/min', methods=['GET'])
+def min():
+    return jsonify(get_stat(func.min))
+
+
+@app.route('/avg', methods=['GET'])
+def avg():
+    return jsonify(get_stat(func.avg))
+
+
+@app.route('/count', methods=['GET'])
+def get_count():
+    return jsonify(get_stat(func.count))

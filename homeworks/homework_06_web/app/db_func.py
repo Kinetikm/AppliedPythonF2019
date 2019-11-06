@@ -27,7 +27,7 @@ def add_flight(body):
         arr_time=body["arr_time"],
         travel_time=body["travel_time"],
         airport_id=airport.id,
-        aircraft_id =aircraft.id
+        aircraft_id=aircraft.id
     )
 
     db.session.add(flight)
@@ -36,7 +36,6 @@ def add_flight(body):
 
 def change_flight(id, body):
     flight = Flight.query.get(id)
-
     if not flight:
         abort(404)
 
@@ -77,10 +76,19 @@ def write_duration(g):
     if type is None:
         return
 
-    row = Statistic(type = type, time = duration)
+    row = Statistic(type=type, time=duration)
     db.session.add(row)
     db.session.commit()
 
 
 def get_all_queries():
-    return [{'Type':query.type, 'Time':float(query.time)} for query in Statistic.query.all()]
+    return [{'Type': query.type, 'Time': float(query.time)} for query in Statistic.query.all()]
+
+
+def get_stat(f):
+    min_0 = db.session.query(f(Statistic.time)).filter(Statistic.type == 0).first()[0]
+    min_1 = db.session.query(f(Statistic.time)).filter(Statistic.type == 1).first()[0]
+    min_2 = db.session.query(f(Statistic.time)).filter(Statistic.type == 2).first()[0]
+    min_3 = db.session.query(f(Statistic.time)).filter(Statistic.type == 3).first()[0]
+    return {'GET': float(min_0) if min_0 else 0, 'POST': float(min_1) if min_1 else 0,
+            'PUT': float(min_2) if min_2 else 0, 'DELETE': float(min_3) if min_3 else 0}
