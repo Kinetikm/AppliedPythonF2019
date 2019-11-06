@@ -5,6 +5,14 @@
 import numpy as np
 
 
+'''
+var 13
+regularization: elastic
+optim: adagrad
+
+'''
+
+
 class LogisticRegression:
     def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
         """
@@ -14,6 +22,12 @@ class LogisticRegression:
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
+        self._lambda = lambda_coef
+        self._alpha = alpha
+        self._batch_size = batch_size
+        self._max_iter = max_iter
+        self._weights = []
+
         raise NotImplementedError
 
     def fit(self, X_train, y_train):
@@ -46,4 +60,4 @@ class LogisticRegression:
         Get weights from fitted linear model
         :return: weights array
         """
-        pass
+        return self._weights
