@@ -1,0 +1,397 @@
+0 Urls(method='get', url='http://localhost:8000/api/flight/all', headers=None, json=None, data=None) 200 True
+< GET /api/flight/all HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Date: Wed, 06 Nov 2019 03:21:13 GMT
+> Server: WSGIServer/0.1 Python/2.7.15+
+> Vary: Accept, Cookie
+> X-Frame-Options: SAMEORIGIN
+> Content-Type: application/json
+> Content-Length: 2
+> Allow: GET, HEAD, OPTIONS
+> 
+[]
+1 Urls(method='post', url='http://localhost:8000/api/flight/create/', headers=None, json={'departure_time': '2019-02-12T22:14:00.000000Z', 'arrival_time': '2019-02-12T22:18:50.000000Z', 'airport': 'hzgde', 'aircraft': 'hzkuda'}, data=None) 400 False
+< POST /api/flight/create/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 138
+< Content-Type: application/json
+< 
+< {"departure_time": "2019-02-12T22:14:00.000000Z", "arrival_time": "2019-02-12T22:18:50.000000Z", "airport": "hzgde", "aircraft": "hzkuda"}
+> HTTP/1.0 400 Bad Request
+> Date: Wed, 06 Nov 2019 03:21:13 GMT
+> Server: WSGIServer/0.1 Python/2.7.15+
+> Vary: Accept, Cookie
+> X-Frame-Options: SAMEORIGIN
+> Content-Type: application/json
+> Content-Length: 123
+> Allow: GET, POST, HEAD, OPTIONS
+> 
+{"airport":["Invalid pk \"hzgde\" - object does not exist."],"aircraft":["Invalid pk \"hzkuda\" - object does not exist."]}
+2 Urls(method='get', url='http://localhost:8000/api/flight/all', headers=None, json=None, data=None) 200 True
+< GET /api/flight/all HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Date: Wed, 06 Nov 2019 03:21:13 GMT
+> Server: WSGIServer/0.1 Python/2.7.15+
+> Vary: Accept, Cookie
+> X-Frame-Options: SAMEORIGIN
+> Content-Type: application/json
+> Content-Length: 2
+> Allow: GET, HEAD, OPTIONS
+> 
+[]
+3 Urls(method='put', url='http://localhost:8000/api/flight/1/', headers=None, json={'departure_time': '2019-02-12T22:20:00.000000Z', 'arrival_time': '2019-02-12T22:23:10.000000Z', 'airport': 'rip', 'aircraft': 'zont'}, data=None) 404 False
+< PUT /api/flight/1/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 134
+< Content-Type: application/json
+< 
+< {"departure_time": "2019-02-12T22:20:00.000000Z", "arrival_time": "2019-02-12T22:23:10.000000Z", "airport": "rip", "aircraft": "zont"}
+> HTTP/1.0 404 Not Found
+> Date: Wed, 06 Nov 2019 03:21:13 GMT
+> Server: WSGIServer/0.1 Python/2.7.15+
+> X-Frame-Options: SAMEORIGIN
+> Content-Type: text/html
+> Content-Length: 2791
+> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Page not found at /api/flight/1/</title>
+  <meta name="robots" content="NONE,NOARCHIVE">
+  <style type="text/css">
+    html * { padding:0; margin:0; }
+    body * { padding:10px 20px; }
+    body * * { padding:0; }
+    body { font:small sans-serif; background:#eee; }
+    body>div { border-bottom:1px solid #ddd; }
+    h1 { font-weight:normal; margin-bottom:.4em; }
+    h1 span { font-size:60%; color:#666; font-weight:normal; }
+    table { border:none; border-collapse: collapse; width:100%; }
+    td, th { vertical-align:top; padding:2px 3px; }
+    th { width:12em; text-align:right; color:#666; padding-right:.5em; }
+    #info { background:#f6f6f6; }
+    #info ol { margin: 0.5em 4em; }
+    #info ol li { font-family: monospace; }
+    #summary { background: #ffc; }
+    #explanation { background:#eee; border-bottom: 0px none; }
+  </style>
+</head>
+<body>
+  <div id="summary">
+    <h1>Page not found <span>(404)</span></h1>
+    <table class="meta">
+      <tr>
+        <th>Request Method:</th>
+        <td>PUT</td>
+      </tr>
+      <tr>
+        <th>Request URL:</th>
+        <td>http://localhost:8000/api/flight/1/</td>
+      </tr>
+      
+    </table>
+  </div>
+  <div id="info">
+    
+      <p>
+      Using the URLconf defined in <code>myapp.urls</code>,
+      Django tried these URL patterns, in this order:
+      </p>
+      <ol>
+        
+          <li>
+            
+                ^admin/
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                all
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                create
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                &lt;int:pk&gt;
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                dep_sort
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                air_sort
+                
+            
+          </li>
+        
+      </ol>
+      <p>
+        
+        The current path, <code>api/flight/1/</code>, didn't match any of these.
+      </p>
+    
+  </div>
+
+  <div id="explanation">
+    <p>
+      You're seeing this error because you have <code>DEBUG = True</code> in
+      your Django settings file. Change that to <code>False</code>, and Django
+      will display a standard 404 page.
+    </p>
+  </div>
+</body>
+</html>
+
+4 Urls(method='get', url='http://localhost:8000/api/flight/all/dep_sort/', headers=None, json=None, data=None) 200 True
+< GET /api/flight/all/dep_sort/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Date: Wed, 06 Nov 2019 03:21:13 GMT
+> Server: WSGIServer/0.1 Python/2.7.15+
+> Vary: Accept, Cookie
+> X-Frame-Options: SAMEORIGIN
+> Content-Type: application/json
+> Content-Length: 2
+> Allow: GET, HEAD, OPTIONS
+> 
+[]
+5 Urls(method='get', url='http://localhost:8000/api/flight/all/air_sort/', headers=None, json=None, data=None) 200 True
+< GET /api/flight/all/air_sort/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Date: Wed, 06 Nov 2019 03:21:13 GMT
+> Server: WSGIServer/0.1 Python/2.7.15+
+> Vary: Accept, Cookie
+> X-Frame-Options: SAMEORIGIN
+> Content-Type: application/json
+> Content-Length: 2
+> Allow: GET, HEAD, OPTIONS
+> 
+[]
+6 Urls(method='delete', url='http://localhost:8000/api/flight/8/', headers=None, json=None, data=None) 404 False
+< DELETE /api/flight/8/ HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 404 Not Found
+> Date: Wed, 06 Nov 2019 03:21:13 GMT
+> Server: WSGIServer/0.1 Python/2.7.15+
+> X-Frame-Options: SAMEORIGIN
+> Content-Type: text/html
+> Content-Length: 2794
+> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Page not found at /api/flight/8/</title>
+  <meta name="robots" content="NONE,NOARCHIVE">
+  <style type="text/css">
+    html * { padding:0; margin:0; }
+    body * { padding:10px 20px; }
+    body * * { padding:0; }
+    body { font:small sans-serif; background:#eee; }
+    body>div { border-bottom:1px solid #ddd; }
+    h1 { font-weight:normal; margin-bottom:.4em; }
+    h1 span { font-size:60%; color:#666; font-weight:normal; }
+    table { border:none; border-collapse: collapse; width:100%; }
+    td, th { vertical-align:top; padding:2px 3px; }
+    th { width:12em; text-align:right; color:#666; padding-right:.5em; }
+    #info { background:#f6f6f6; }
+    #info ol { margin: 0.5em 4em; }
+    #info ol li { font-family: monospace; }
+    #summary { background: #ffc; }
+    #explanation { background:#eee; border-bottom: 0px none; }
+  </style>
+</head>
+<body>
+  <div id="summary">
+    <h1>Page not found <span>(404)</span></h1>
+    <table class="meta">
+      <tr>
+        <th>Request Method:</th>
+        <td>DELETE</td>
+      </tr>
+      <tr>
+        <th>Request URL:</th>
+        <td>http://localhost:8000/api/flight/8/</td>
+      </tr>
+      
+    </table>
+  </div>
+  <div id="info">
+    
+      <p>
+      Using the URLconf defined in <code>myapp.urls</code>,
+      Django tried these URL patterns, in this order:
+      </p>
+      <ol>
+        
+          <li>
+            
+                ^admin/
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                all
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                create
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                &lt;int:pk&gt;
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                dep_sort
+                
+            
+          </li>
+        
+          <li>
+            
+                api/flight
+                
+            
+                air_sort
+                
+            
+          </li>
+        
+      </ol>
+      <p>
+        
+        The current path, <code>api/flight/8/</code>, didn't match any of these.
+      </p>
+    
+  </div>
+
+  <div id="explanation">
+    <p>
+      You're seeing this error because you have <code>DEBUG = True</code> in
+      your Django settings file. Change that to <code>False</code>, and Django
+      will display a standard 404 page.
+    </p>
+  </div>
+</body>
+</html>
+
+7 Urls(method='get', url='http://localhost:8000/api/flight/all', headers=None, json=None, data=None) 200 True
+< GET /api/flight/all HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Date: Wed, 06 Nov 2019 03:21:13 GMT
+> Server: WSGIServer/0.1 Python/2.7.15+
+> Vary: Accept, Cookie
+> X-Frame-Options: SAMEORIGIN
+> Content-Type: application/json
+> Content-Length: 2
+> Allow: GET, HEAD, OPTIONS
+> 
+[]
