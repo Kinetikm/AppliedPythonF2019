@@ -26,9 +26,9 @@ class LogisticRegression:
     def add_penalty(self):
         return self.alpha * np.sign(self.get_weights()) + self.beta * self.get_weights()
 
-    def get_next_batch(self, X, Y, batch):
-        index = np.random.choice(self.n_samples, size=batch, replace=False)
-        x_batch = X[index, :]
+    def get_next_batch(self, X, Y):
+        index = np.random.choice(self.n_samples, size=self.batch, replace=False)
+        x_batch = X[index]
         y_batch = Y[index]
         return x_batch, y_batch
 
@@ -43,13 +43,14 @@ class LogisticRegression:
         self.class_num = len(np.unique(self.y))
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
-        self.theta = np.zeros((self.n_features, self.class_num))
+        # self.theta = np.zeros((self.n_features, self.class_num))
+        self.theta = np.random.rand(self.n_features, self.class_num)
         self._gradient_descent()
 
     def _gradient_descent(self):
         speed = np.zeros(self.theta.shape)
         for i in range(self.max_iter):
-            batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch)
+            batch_X, batch_y = self.get_next_batch(self.X_train, self.y)
             # Считаем градиент и обновляем тетту
             gr = self.gradient(batch_X, batch_y)
             speed = self.gamma * speed + self.etta * gr
