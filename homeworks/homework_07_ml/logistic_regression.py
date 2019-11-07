@@ -4,9 +4,8 @@
 
 import numpy as np
 
-
 class LogisticRegression:
-    def __init__(self, lambda_coef=1.0, alpha=0.5, batch_size=50, max_iter=100, gamma = 0.2, threshold = 0.5):
+    def __init__(self, lambda_coef=1.0, alpha=0.3, batch_size=50, max_iter=100, gamma=0.9, threshold=0.5):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param alpha: regularizarion coefficent
@@ -24,13 +23,13 @@ class LogisticRegression:
         self.weights = None
 
     def sigmoid(self, w, x):
-        print(w)
         return 1 / (1 + np.exp(-(x @ w.T)))
 
+
     def grad(self, w, x, y):
-        logloss_grad = (self.sigmoid(w, x) - y) * x
-        reg_grad = np.sum(2 * self.weights)
-        return np.mean(logloss_grad + self.alpha * reg_grad)
+        logloss_grad = (self.sigmoid(w, x) - y.reshape(y.shape[0], 1)) * x
+        reg_grad = 2 * w
+        return np.mean(logloss_grad + self.alpha * reg_grad, axis=0)
 
     @staticmethod
     def shuffle(a, b):
@@ -51,22 +50,20 @@ class LogisticRegression:
         X = (X_train - np.mean(X_train)) / np.std(X_train)
         X = np.hstack((np.ones((X.shape[0], 1)), X))
         dim = X.shape[1]
-        a = np.array
-        print(a)
+        a = np.random.normal(0, 10, size=dim)
         X = np.array_split(X, self.batch_size)
         Y = np.array_split(y_train, self.batch_size)
         a = a.reshape(1, a.shape[0])
-        print(a)
         i = 0
-        v = 0
+        v = np.array([0] * dim)
         while i < self.max_iter:
             LogisticRegression.shuffle(X, Y)
             for batch, res in zip(X, Y):
-                print(a)
                 v = self.gamma * v + self.lr * self.grad(a - self.gamma * v, batch, res)
                 a = a - v
             i += 1
-        self.weights = a
+            v = np.array([0] * dim)
+            self.weights = a
 
     def predict(self, X_test):
         """
@@ -76,7 +73,7 @@ class LogisticRegression:
         """
         pred_val = lambda x: 1 if x >= self.threshold else 0
         predict_classes = np.vectorize(pred_val)
-        return pred_val(self.predict(X_test))
+        return predict_classes(self.predict_proba(X_test))
 
     def predict_proba(self, X_test):
         """
@@ -85,8 +82,9 @@ class LogisticRegression:
         :return: y_test: predicted probabilities
         """
         X = (X_test - np.mean(X_test)) / np.std(X_test)
-        X = np.hstack((np.ones((X_test.shape[0], 1)), X))
-        return X @ self.weights.T
+        X = np.hstack((np.ones((X.shape[0], 1)), X))
+        pr = self.sigmoid(self.weights, X)
+        return pr.reshape(pr.shape[0],)
 
     def get_weights(self):
         """
@@ -94,6 +92,3 @@ class LogisticRegression:
         :return: weights array
         """
         return self.weights
-
-
-print(np.array([np.random.normal(0, 10)] * 5))
