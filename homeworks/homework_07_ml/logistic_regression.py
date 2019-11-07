@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, c=1, gamma=0.99, etta=0.555, regulatization='elastic', alpha=0.3, batch_size=50, max_iter=100):
+    def __init__(self, c=1, gamma=0.99, etta=0.9, regulatization='elastic', alpha=0.1, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -24,7 +24,7 @@ class LogisticRegression:
         self.theta = []
 
     def add_penalty(self):
-        return self.alpha * np.sign(self.get_weights()) + 0.01 * self.get_weights()
+        return self.alpha * np.sign(self.get_weights()) + 2 * self.get_weights()
 
     def get_next_batch(self, X, Y, batch):
         index = np.random.choice(self.n_samples, size=batch, replace=False)
@@ -47,11 +47,7 @@ class LogisticRegression:
 
     def binary_gradient_descent(self):
         speed = np.zeros(self.theta.shape)
-        #  ind = np.arange(self.n_samples)
         for i in range(self.max_iter):
-            #  np.random.shuffle(ind)
-            #  batch_X = np.take(X_train, ind[:self.batch_size], axis=0)
-            #  batch_y = np.take(y_train, ind[:self.batch_size])
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch)
             # Считаем градиент и обновляем тетту
             gr = self.gradient(batch_X, batch_y)
@@ -63,10 +59,13 @@ class LogisticRegression:
         z = np.clip(z, -10, 10)
         return 1 / (1 + np.exp((-1)*z))
 
-    def gradient(self, X, Y):
-        self.n_samples = X.shape[0]
-        grad = X.T @ (self.predict_proba(X) - Y)
-        return (grad + self.add_penalty()) / self.n_samples
+    def gradient(self, x, y):
+        self.n_samples = x.shape[0]
+        gr = x.T @ self.softmax(x @ self.theta)
+        return (gr + self.add_penalty()) / self.n_samples
+
+    def softmax(self, z):
+        return np.ex(z - np.max(z)) / np.sum(np.exp(z - np.max(z)))
 
     def predict(self, X_test):
         """
@@ -75,13 +74,7 @@ class LogisticRegression:
         :return: y_test: predicted values
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        y_test = np.squeeze(self.sigmoid(X_test.dot(self.theta)))
-        for i in range(y_test.shape[0]):
-            if y_test[i] > 0.5:
-                y_test[i] = 1
-            else:
-                y_test[i] = 0
-        return y_test
+        return self.softmax(X_test @ self.theta).argmax(axis=1)
 
     def predict_proba(self, X_test):
         """
@@ -91,7 +84,7 @@ class LogisticRegression:
         """
         if X_test.shape[1] != self.theta.shape[0]:
             X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return self.sigmoid(X_test @ self.theta)
+        return self.softmax((X_test @ self.theta))
 
     def get_weights(self):
         """
