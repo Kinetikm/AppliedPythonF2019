@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, gamma=0.5, etta=0.9, regulatization='elastic', alpha=0.1, beta=5, batch_size=50, max_iter=100):
+    def __init__(self, gamma=0.5, etta=0.9, regulatization='elastic', alpha=0, beta=10, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -44,9 +44,9 @@ class LogisticRegression:
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
         self.theta = np.zeros((self.n_features, self.class_num))
-        self.binary_gradient_descent()
+        self._gradient_descent()
 
-    def binary_gradient_descent(self):
+    def _gradient_descent(self):
         speed = np.zeros(self.theta.shape)
         for i in range(self.max_iter):
             batch_X, batch_y = self.get_next_batch(self.X_train, self.y, self.batch)
@@ -54,11 +54,6 @@ class LogisticRegression:
             gr = self.gradient(batch_X, batch_y)
             speed = self.gamma * speed + self.etta * gr
             self.theta -= speed
-
-    @staticmethod
-    def sigmoid(z):
-        z = np.clip(z, -10, 10)
-        return 1 / (1 + np.exp((-1)*z))
 
     def gradient(self, x, y):
         self.n_samples = x.shape[0]
@@ -75,7 +70,7 @@ class LogisticRegression:
         :return: y_test: predicted values
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return self.softmax(X_test @ self.theta).argmax(axis=1)
+        return self.softmax(X_test @ self.get_weights()).argmax(axis=1)
 
     def predict_proba(self, X_test):
         """
@@ -85,7 +80,7 @@ class LogisticRegression:
         """
         if X_test.shape[1] != self.theta.shape[0]:
             X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return self.softmax((X_test @ self.theta))
+        return self.softmax((X_test @ self.get_weights()))
 
     def get_weights(self):
         """
