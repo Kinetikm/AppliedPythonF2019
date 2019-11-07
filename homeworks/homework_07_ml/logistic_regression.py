@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, c=1, gamma=0.99, etta=0.9, regulatization='elastic', alpha=0.1, batch_size=50, max_iter=100):
+    def __init__(self, gamma=0.5, etta=0.9, regulatization='elastic', alpha=0.1, beta=5, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -14,17 +14,17 @@ class LogisticRegression:
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
-        self.c = c
         self.gamma = gamma
         self.etta = etta
         self.alpha = alpha
+        self.beta = beta
         self.reg = regulatization
         self.batch = batch_size
         self.max_iter = max_iter
         self.theta = []
 
     def add_penalty(self):
-        return self.alpha * np.sign(self.get_weights()) + 2 * self.get_weights()
+        return self.alpha * np.sign(self.get_weights()) + self.beta * self.get_weights()
 
     def get_next_batch(self, X, Y, batch):
         index = np.random.choice(self.n_samples, size=batch, replace=False)
@@ -39,10 +39,11 @@ class LogisticRegression:
         :param y_train: target values for training data
         :return: None
         """
-        self.y = y_train
+        self.y = y_train.astype(int)
+        self.class_num = len(np.unique(self.y))
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
-        self.theta = np.zeros(self.n_features)
+        self.theta = np.zeros((self.n_features, self.class_num))
         self.binary_gradient_descent()
 
     def binary_gradient_descent(self):
@@ -65,7 +66,7 @@ class LogisticRegression:
         return (gr + self.add_penalty()) / self.n_samples
 
     def softmax(self, z):
-        return np.ex(z - np.max(z)) / np.sum(np.exp(z - np.max(z)))
+        return np.exp(z - np.max(z)) / np.sum(np.exp(z - np.max(z)))
 
     def predict(self, X_test):
         """
