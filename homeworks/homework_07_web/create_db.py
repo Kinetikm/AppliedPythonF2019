@@ -13,7 +13,7 @@ if __name__ == "__main__":
             "aircraft_type": "Snoop-Dog Airbus A320"
         },
         {
-             "departure": "22:31",
+            "departure": "22:31",
             "arrival": "6:44",
             "travel_time": "8:13",
             "destination": "Tokyo",

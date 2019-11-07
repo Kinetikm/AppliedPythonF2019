@@ -44,12 +44,14 @@ def select_all(self):
     query = session.query(Flights).all()
     return query, True
 
+
 def select_by_id(id_):
     query = session.query(Flights).filter(Flights.id == id_).first()
     if flight:
         return query, True
     else:
         None, False
+
 
 def insert(flight_):
     airport = session.query(Dest_airports).filter(Dest_airports.airport == flight_["destination"]).first()
@@ -73,6 +75,7 @@ def insert(flight_):
     session.commit()
     return True
 
+
 def delete(id_):
     flightdb = session.query(Flights).filter(Flights.id == id_).first()
     if flightdb:
@@ -81,6 +84,7 @@ def delete(id_):
         return True
     else:
         return False
+
 
 def update(id_, flight_):
     airport = session.query(Dest_airports).filter(Dest_airports.airport == flight_["destination"]).first()
