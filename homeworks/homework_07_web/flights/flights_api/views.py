@@ -2,17 +2,18 @@ from rest_framework import generics, mixins
 
 from .models import Flights, Airports, AircraftType
 from .serializers import FlightSerializer
+from .request_log.mixins import RequestLogViewMixin
 
 
-class FlightListCreateAPIView(generics.ListCreateAPIView):
+class FlightListCreateAPIView(RequestLogViewMixin, generics.ListCreateAPIView):
     serializer_class = FlightSerializer
     queryset = Flights.objects.all()
 
 
 class FlightDetailAPIView(
+        RequestLogViewMixin,
         generics.RetrieveUpdateDestroyAPIView,
         mixins.UpdateModelMixin):
-
     serializer_class = FlightSerializer
 
     def put(self, request, *args, **kwargs):
