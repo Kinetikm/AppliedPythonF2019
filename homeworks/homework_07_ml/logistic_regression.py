@@ -57,7 +57,6 @@ class LogisticRegression:
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        # return np.around(self.predict_proba(X_test))
         prob = self.predict_proba(X_test)
         predictions = np.where(prob >= pr, 1, 0)
         return predictions
@@ -82,4 +81,3 @@ class LogisticRegression:
 
     def logloss(self, y, data):
         return -1 * np.sum((y * np.log(self.predict_proba(data))) + ((1 - y) * np.log(1 - self.predict_proba(data))))
-
