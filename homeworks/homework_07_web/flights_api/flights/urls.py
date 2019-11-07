@@ -8,4 +8,5 @@ urlpatterns = [
     path('flight/<int:pk>/', FlightDetailView.as_view()),
     path('all/dep_sort/', FlightsDepListView.as_view()),
     path('all/air_sort/', FlightsArrListView.as_view()),
+    path('log/', LogsListView.as_view()),
 ]
