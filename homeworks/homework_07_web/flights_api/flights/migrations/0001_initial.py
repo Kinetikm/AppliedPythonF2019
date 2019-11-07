@@ -35,7 +35,8 @@ class Migration(migrations.Migration):
                 ('arrival', models.DateTimeField(verbose_name='Arrival_time')),
                 ('travel', models.CharField(max_length=255, verbose_name='Travel_time_in_hours')),
                 ('aircraft', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='flights.Aircraft')),
-                ('destination', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='flights.Destination')),
+                ('destination', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                                  to='flights.Destination')),
             ],
         ),
     ]
