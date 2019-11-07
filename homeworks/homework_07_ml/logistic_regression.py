@@ -73,7 +73,6 @@ class LogisticRegression:
         :return: y_test: predicted values
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        print(self.stable_softmax(X_test @ self.theta).argmax(axis=1))
         return self.stable_softmax(X_test @ self.theta).argmax(axis=1)
 
     def predict_proba(self, X_test):
