@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=1.0, regulatization='elastic', alpha=0.5, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2") or None
@@ -14,7 +14,7 @@ class LogisticRegression:
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
-        raise NotImplementedError
+        pass
 
     def fit(self, X_train, y_train):
         """
