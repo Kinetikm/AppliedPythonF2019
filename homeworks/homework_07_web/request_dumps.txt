@@ -1,4 +1,4 @@
-0 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '21:31', 'arrival': '6:44', 'travel_time': '9:13', 'destination': 'Mexico', 'aircraft_type': 'Airbus A320'}, data=None) 201 True
+0 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '21:31', 'arrival': '6:44', 'travel_time': '9:13', 'destination': 'Mexico', 'aircraft_type': 'Airbus A320'}, data=None) 500 False
 < POST /flights HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -9,15 +9,15 @@
 < Content-Type: application/json
 < 
 < {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}
-> HTTP/1.0 201 CREATED
+> HTTP/1.0 500 INTERNAL SERVER ERROR
 > Content-Type: application/json
-> Content-Length: 122
+> Content-Length: 37
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Sat, 26 Oct 2019 16:20:59 GMT
+> Date: Thu, 07 Nov 2019 19:40:45 GMT
 > 
-{"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}
+{"message": "Internal Server Error"}
 
-1 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+1 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 500 False
 < GET /flights HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -26,15 +26,15 @@
 < Connection: keep-alive
 < 
 
-> HTTP/1.0 200 OK
+> HTTP/1.0 500 INTERNAL SERVER ERROR
 > Content-Type: application/json
-> Content-Length: 534
+> Content-Length: 37
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Sat, 26 Oct 2019 16:20:59 GMT
+> Date: Thu, 07 Nov 2019 19:40:45 GMT
 > 
-{"1": {"departure": "20:31", "arrival": "5:44", "travel_time": "9:13", "destination": "Jamaica", "aircraft_type": "Snoop-Dog Airbus A320"}, "2": {"departure": "7:31", "arrival": "13:44", "travel_time": "6:13", "destination": "Riyadh", "aircraft_type": "Snoop-Dog Airbus A320"}, "3": {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}, "4": {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}}
+{"message": "Internal Server Error"}
 
-2 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'aircraft_type': 'Snoop-Dog Airbus A320 V2'}, data=None) 202 True
+2 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'aircraft_type': 'Snoop-Dog Airbus A320 V2'}, data=None) 500 False
 < PUT /flights/2 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -45,15 +45,15 @@
 < Content-Type: application/json
 < 
 < {"aircraft_type": "Snoop-Dog Airbus A320 V2"}
-> HTTP/1.0 202 ACCEPTED
+> HTTP/1.0 500 INTERNAL SERVER ERROR
 > Content-Type: application/json
-> Content-Length: 135
+> Content-Length: 37
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Sat, 26 Oct 2019 16:20:59 GMT
+> Date: Thu, 07 Nov 2019 19:40:45 GMT
 > 
-{"departure": "7:31", "arrival": "13:44", "travel_time": "6:13", "destination": "Riyadh", "aircraft_type": "Snoop-Dog Airbus A320 V2"}
+{"message": "Internal Server Error"}
 
-3 Urls(method='delete', url='http://localhost:5000/flights/0', headers=None, json=None, data=None) 404 False
+3 Urls(method='delete', url='http://localhost:5000/flights/0', headers=None, json=None, data=None) 500 False
 < DELETE /flights/0 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -63,10 +63,11 @@
 < Content-Length: 0
 < 
 
-> HTTP/1.0 404 NOT FOUND
+> HTTP/1.0 500 INTERNAL SERVER ERROR
 > Content-Type: application/json
-> Content-Length: 15
+> Content-Length: 37
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Sat, 26 Oct 2019 16:20:59 GMT
+> Date: Thu, 07 Nov 2019 19:40:45 GMT
 > 
-"0 not found."
+{"message": "Internal Server Error"}
+

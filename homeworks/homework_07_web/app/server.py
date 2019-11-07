@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_restful import Api, Resource
 from app.db import *
 from app.validator import *
-from app.orm import orm
+import orm
 import logging as log
 import time
 
