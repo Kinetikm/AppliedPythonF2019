@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.00005, batch_size=50, max_iter=100):
         self.lambda_coef = lambda_coef
         self.regularization = regulatization
         self.alpha1 = alpha
@@ -43,9 +43,9 @@ class LogisticRegression:
         grad_el = np.empty_like(self.weight)
         for j in range(self.weight.shape[1]):
             grad_el[0, j] = (np.sum((y.reshape(-1, 1) - self.sigm(x.dot(self.weight.T)).reshape(-1, 1)) * x[:, j]) +
-                          self.alpha1 * (1 - self.alpha2) * self.weight[0, j] + (self.alpha1 *
-                                                                                 self.alpha2 *
-                                                                                 np.sign(self.weight[0, j])))
+                             self.alpha1 * (1 - self.alpha2) * self.weight[0, j] + (self.alpha1 *
+                                                                                    self.alpha2 *
+                                                                                    np.sign(self.weight[0, j])))
         return grad_el
 
     def sigm(self, z):
