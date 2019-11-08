@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.00005, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=0.00001, regulatization=None, alpha=0.5, batch_size=500, max_iter=1000):
         self.lambda_coef = lambda_coef
         self.regularization = regulatization
         self.alpha1 = alpha
