@@ -24,10 +24,10 @@ class LogisticRegression:
         self.theta = []
 
     def add_penalty(self):
-        return self.alpha * np.sign(self.get_weights()) + self.beta * self.get_weights()
+        return (-1)*self.alpha * np.sign(self.theta) + self.beta * self.theta
 
     def get_next_batch(self, X, Y):
-        index = np.random.choice(self.n_samples, size=self.batch, replace=False)
+        index = np.random.choice(self.n_samples, self.batch, replace=False)
         x_batch = X[index]
         y_batch = Y[index]
         return x_batch, y_batch
@@ -43,8 +43,8 @@ class LogisticRegression:
         self.class_num = len(np.unique(self.y))
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
-        # self.theta = np.zeros((self.n_features, self.class_num))
-        self.theta = np.random.rand(self.n_features, self.class_num)
+        self.theta = np.zeros((self.n_features, self.class_num))
+        #self.theta = np.random.rand(self.n_features, self.class_num)
         self._gradient_descent()
 
     def _gradient_descent(self):
@@ -57,14 +57,14 @@ class LogisticRegression:
             self.theta -= speed
 
     def gradient(self, x, y):
-        self.n_samples = x.shape[0]
         p = self.softmax(x @ self.theta)
-        p[range(self.n_samples), y] -= 1
+        p[range(y.shape[0]), y] -= 1
+        gr = x.T @ p
         #  gr = x.T @ self.softmax(x @ self.theta)
-        return (gr + self.add_penalty()) / self.n_samples
+        return gr / x.shape[0] + self.add_penalty()
 
     def softmax(self, z):
-        return np.exp(z - np.max(z)) / np.sum(np.exp(z - np.max(z)))
+        return np.exp(z - np.max(z)) / np.sum(np.exp(z) - np.max(z))
 
     def predict(self, X_test):
         """
@@ -73,7 +73,7 @@ class LogisticRegression:
         :return: y_test: predicted values
         """
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return self.softmax(X_test @ self.theta()).argmax(axis=1)
+        return self.softmax(X_test @ self.theta).argmax(axis=1)
 
     def predict_proba(self, X_test):
         """
@@ -81,9 +81,9 @@ class LogisticRegression:
         :param X_test: test data for predict in
         :return: y_test: predicted probabilities
         """
-        if X_test.shape[1] != self.theta.shape[0]:
-            X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
-        return self.softmax((X_test @ self.theta()))
+        #if X_test.shape[1] != self.theta.shape[0]:
+        X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
+        return self.softmax(X_test @ self.theta)
 
     def get_weights(self):
         """
