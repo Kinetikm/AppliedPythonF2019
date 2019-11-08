@@ -24,7 +24,7 @@ class LogisticRegression:
         self.theta = []
 
     def add_penalty(self):
-        return (-1)*self.alpha * np.sign(self.theta) + self.beta * self.theta
+        return self.alpha * np.sign(self.theta) + self.beta * self.theta
 
     def get_next_batch(self, X, Y):
         index = np.random.choice(self.n_samples, self.batch, replace=False)
