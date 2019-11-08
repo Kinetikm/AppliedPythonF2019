@@ -49,4 +49,4 @@ class LogisticRegression:
         return grad_el
 
     def sigm(self, z):
-        return 1 / (1 + np.exp(-z))
+        return 1 / (1 + np.exp(-np.clip(z, -250, 250)))
