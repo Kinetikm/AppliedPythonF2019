@@ -46,7 +46,7 @@ class LogisticRegression:
                           self.alpha1 * (1 - self.alpha2) * self.weight[0, j] + (self.alpha1 *
                                                                                  self.alpha2 *
                                                                                  np.sign(self.weight[0, j])))
-        return grad
+        return grad_el
 
     def sigm(self, z):
         return 1 / (1 + np.exp(-z))
