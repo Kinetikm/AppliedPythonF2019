@@ -42,11 +42,11 @@ class LogisticRegression:
     def gradient(self, x, y):
         grad_el = np.empty_like(self.weight)
         for j in range(self.weight.shape[1]):
-            grad_el[0, j] = (np.sum((y.reshape(-1, 1) - self.sigm(x.dot(self.weight.T)).reshape(-1, 1)) * x[:, j]) +
-                             self.alpha1 * (1 - self.alpha2) * self.weight[0, j] + (self.alpha1 *
+            grad_el[0, j] = np.sum((y.reshape(-1, 1) - self.sigm(x.dot(self.weight.T)).reshape(-1, 1)) * x[:, j])
+            grad_el[0, j] += self.alpha1 * (1 - self.alpha2) * self.weight[0, j] + (self.alpha1 *
                                                                                     self.alpha2 *
-                                                                                    np.sign(self.weight[0, j])))
+                                                                                    np.sign(self.weight[0, j]))
         return grad_el
 
     def sigm(self, z):
-        return 1 / (1 + np.exp(-np.clip(z, -250, 250)))
+        return 1 / (1 + np.exp(-z))
