@@ -65,7 +65,7 @@ class LogisticRegression:
             for idx in indexes:
                 x, y = minibatches[idx][0], minibatches[idx][1]
                 grad = self.gradient(x, y)
-                velocity = self.gamma*velocity + self.alpha*grad/x.shape[0]  # grad_nag=1/n*grad
+                velocity = self.gamma*velocity + self.alpha*grad/x.shape[0]  # grad_nag=1/n*grad 
                 self.w -= velocity
 
     def predict(self, X_test):
