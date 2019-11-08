@@ -70,7 +70,8 @@ class LogisticRegression:
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        pred_val = lambda x: 1 if x >= self.threshold else 0
+        def pred_val(x):
+            return 1 if x >= self.threshold else 0
         predict_classes = np.vectorize(pred_val)
         return predict_classes(self.predict_proba(X_test))
 
