@@ -35,8 +35,8 @@ class LogisticRegression:
                 gradient = self.get_l_gradient(x[i], y[i]) / x[i].shape[0]
                 mt = beta1_in_adam * mt + (1 - beta1_in_adam) * gradient
                 vt = beta2_in_adam * vt + (1 - beta2_in_adam) * gradient * gradient
-                self.w -= self.etta / (np.sqrt(vt / (1 - beta2_in_adam ** t) + self.eps_in_adam)) * \
-                          mt / (1 - beta1_in_adam ** t)
+                self.w -= self.etta / (np.sqrt(vt / (1 - beta2_in_adam ** t) +
+                                               self.eps_in_adam)) * mt / (1 - beta1_in_adam ** t)
 
     def get_l_gradient(self, x, y):
         if self.regularization == 'elastic':
