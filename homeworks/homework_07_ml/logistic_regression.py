@@ -4,6 +4,7 @@
 
 import numpy as np
 
+
 class LogisticRegression:
     def __init__(self, lambda_coef=1.0, alpha=0.3, batch_size=50, max_iter=100, gamma=0.9, threshold=0.5):
         """
@@ -25,7 +26,6 @@ class LogisticRegression:
     def sigmoid(self, w, x):
         return 1 / (1 + np.exp(-(x @ w.T)))
 
-
     def grad(self, w, x, y):
         logloss_grad = (self.sigmoid(w, x) - y.reshape(y.shape[0], 1)) * x
         reg_grad = 2 * w
@@ -37,7 +37,6 @@ class LogisticRegression:
         np.random.shuffle(a)
         np.random.set_state(rnd_state)
         np.random.shuffle(b)
-
 
     def fit(self, X_train, y_train):
         """
