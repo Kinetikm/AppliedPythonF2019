@@ -27,15 +27,13 @@ class LogisticRegression:
     def sigmoid(self, X, w):
         return 1 / (1 + np.exp(-np.dot(X, self.w)))
 
-    def sigmoid(self, X, w):
-        mul = np.dot(X, self.w).astype(np.float128)
-        a = np.exp(-mul)
-        return 1.0 / (1.0 + a)
-
     def gradient(self, X, y):
         X_t = np.transpose(X)
         return (1/X.shape[0]*np.dot(X_t, self.sigmoid(X, self.w) - y) +
                 self.alpha*np.sign(self.w) + 2*self.alpha*self.w)
+
+    def target_var_eye(self, y):
+        pass
 
     def batch_generator(self, X, y):
         M = self.batch_size
