@@ -3,47 +3,52 @@
 
 
 import numpy as np
+from sklearn.utils import gen_batches
+
+
+def sigmoid(x):
+    return 1/(1 + np.exp(-x))
 
 
 class LogisticRegression:
-    def __init__(self, lambda_coef=1.0, regulatization=None, alpha=0.5, batch_size=50, max_iter=100):
-        """
-        :param lambda_coef: constant coef for gradient descent step
-        :param regulatization: regularizarion type ("L1" or "L2") or None
-        :param alpha: regularizarion coefficent
-        :param batch_size: num sample per one model parameters update
-        :param max_iter: maximum number of parameters updates
-        """
-        raise NotImplementedError
+
+    def __init__(self, batch_size=50, max_iter=10):
+        self.batch_size = batch_size
+        self.max_iter = max_iter
 
     def fit(self, X_train, y_train):
-        """
-        Fit model using gradient descent method
-        :param X_train: training data
-        :param y_train: target values for training data
-        :return: None
-        """
-        pass
+        N = len(y_train)
+        self.weigths = np.random.rand(X_train.shape[1] + 1)
+        X_train = np.append(np.ones(N).reshape(1, -1).T, X_train, axis=1)
+        eps = 1e-4
+        learning_rate = 1e-4
+        m, v = 0, 0
+        b1, b2 = 0.9, 0.99
+        for i in range(self.max_iter):
+            for j, batch in enumerate(gen_batches(N, self.batch_size)):
+                X = X_train[batch]
+                y = y_train[batch]
+                g = self.gradient(X, y)
+
+                m = b1 * m + (1 - b1) * g
+                v = b2 * v + (1 - b2) * np.square(g)
+
+                t = i * int(N / self.batch_size) + j + 1
+
+                m_mean = m / (1 - np.power(b1, t))
+                v_mean = v / (1 - np.power(b2, t))
+                self.weigths -= learning_rate * m_mean / (np.sqrt(v_mean) + eps)
+
+    def gradient(self, X, y):
+        coef_l1 = 1
+        res = X.T @ (sigmoid(X @ self.weigths) - y) / len(y) + coef_l1 * np.abs(self.weigths)
+        return res
 
     def predict(self, X_test):
-        """
-        Predict using model.
-        :param X_test: test data for predict in
-        :return: y_test: predicted values
-        """
-        pass
+        return np.int64(self.predict_proba(X_test) > 0.5)
 
     def predict_proba(self, X_test):
-        """
-        Predict probability using model.
-        :param X_test: test data for predict in
-        :return: y_test: predicted probabilities
-        """
-        pass
+        return sigmoid(np.append(np.ones(X_test.shape[0]).reshape(1, -1).T, X_test, axis=1) @ self.weigths)
 
     def get_weights(self):
-        """
-        Get weights from fitted linear model
-        :return: weights array
-        """
-        pass
+        return self.weigths
