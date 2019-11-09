@@ -29,8 +29,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Flight',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False,
-                                        verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('departure', models.DateTimeField(verbose_name='Departure_time')),
                 ('arrival', models.DateTimeField(verbose_name='Arrival_time')),
                 ('travel', models.CharField(max_length=255, verbose_name='Travel_time_in_hours')),

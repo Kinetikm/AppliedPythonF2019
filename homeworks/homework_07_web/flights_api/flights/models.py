@@ -32,10 +32,8 @@ class Flight(models.Model):
 
 
 class RequestLog(models.Model):
-    request_method = models.CharField(max_length=20)
+    request_method = models.CharField(max_length=20, db_index=True)
     server_hostname = models.CharField(max_length=255)
     request_path = models.CharField(max_length=255)
-    request_body = models.CharField(max_length=255)
     response_status = models.IntegerField()
-    response_body = models.CharField(max_length=255)
     run_time = models.FloatField()
