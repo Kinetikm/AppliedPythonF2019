@@ -1,4 +1,4 @@
 #!/bin/bash
-export export DATABASE_URL='postgresql:///db'
+export DATABASE_URL='postgresql:///db'
 export APP_SETTINGS="config.DevelopmentConfig"
 
