@@ -9,6 +9,8 @@ from flask_login import (
 )
 
 # python3.7 server.py
+HOST = '127.0.0.1'
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "123SECRET_KEY123"
 app.config['REMEMBER_COOKIE_NAME'] = 'technoatom'
@@ -124,4 +126,4 @@ def about_me():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host=HOST, debug=True)
