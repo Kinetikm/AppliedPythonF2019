@@ -6,25 +6,25 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, gamma=0.5, etta=0.9, regulatization='elastic', alpha=0, beta=10, batch_size=50, max_iter=100):
+    def __init__(self, gamma=0.5, etta=0.9, regulatization='elastic', l1=0, l2=0, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
-        :param regulatization: regularizarion type ("L1" or "L2") or None
-        :param alpha: regularizarion coefficent
+        :param regulatization: regularizarion type ("L1" or "L2", "elastic") or None
+        :param l1, l2: regularizarion coefficent
         :param batch_size: num sample per one model parameters update
         :param max_iter: maximum number of parameters updates
         """
         self.gamma = gamma
         self.etta = etta
-        self.alpha = alpha
-        self.beta = beta
+        self.l1 = l1
+        self.l2 = l2
         self.reg = regulatization
         self.batch = batch_size
         self.max_iter = max_iter
         self.theta = []
 
     def add_penalty(self):
-        return self.beta * self.theta
+        return self.l1 * np.sign(self.theta) + self.l2 * self.theta
 
     def get_next_batch(self, X, Y):
         index = np.random.choice(self.n_samples, self.batch, replace=False)
@@ -41,10 +41,11 @@ class LogisticRegression:
         """
         self.y = y_train.astype(int)
         self.class_num = len(np.unique(self.y))
+        X_train = (X_train - np.mean(X_train)) / np.std(X_train)
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
-        #self.theta = np.zeros((self.n_features, self.class_num))
-        self.theta = np.random.rand(self.n_features, self.class_num)
+        self.theta = np.zeros((self.n_features, self.class_num))
+        # self.theta = np.random.rand(self.n_features, self.class_num -1 )
         self._gradient_descent()
 
     def _gradient_descent(self):
@@ -55,18 +56,17 @@ class LogisticRegression:
             gr = self.gradient(batch_X, batch_y)
             speed = self.gamma * speed + self.etta * gr
             self.theta -= speed
+            if i%100 == 0:
+                print(self.theta)
 
     def gradient(self, x, y):
         p = self.softmax(x @ self.theta)
-        p[range(y.shape[0]), y] -= 1
         gr = x.T @ p
-        #  gr = x.T @ self.softmax(x @ self.theta)
         return gr / x.shape[0] + self.add_penalty()
 
     def softmax(self, z):
-        z = np.clip(z,-10,10)
-        ex = np.exp(z)
-        return ex / np.sum(ex)
+        z -= np.max(z)
+        return np.exp(z) / np.sum(np.exp(z))
 
     def predict(self, X_test):
         """
@@ -83,7 +83,7 @@ class LogisticRegression:
         :param X_test: test data for predict in
         :return: y_test: predicted probabilities
         """
-        #if X_test.shape[1] != self.theta.shape[0]:
+        # if X_test.shape[1] != self.theta.shape[0]:
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
         return self.softmax(X_test @ self.theta)
 
@@ -93,4 +93,3 @@ class LogisticRegression:
         :return: weights array
         """
         return self.theta
-#self.alpha * np.sign(self.theta) +
