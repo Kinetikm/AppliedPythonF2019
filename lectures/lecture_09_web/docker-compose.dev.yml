@@ -1,0 +1,6 @@
+version: "2"
+services:
+  flights:
+    command: adev runserver app.py
+    ports:
+      - "8000:8000"

@@ -1,0 +1,31 @@
+version: "2"
+services:
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx_service
+    ports:
+      - "8080:80"
+    networks:
+      - backend
+
+  registration:
+    build:
+      context: ./registration
+    container_name: reg_service
+    networks:
+      - backend
+    command: registration
+
+  flights:
+    build:
+      context: ./flights
+    container_name: flights_service
+    volumes:
+      - "./flights/src:/code"
+    networks:
+      - backend
+    command: python run.py
+
+networks:
+  backend:
