@@ -24,7 +24,7 @@ class LogisticRegression:
         self.theta = []
 
     def add_penalty(self):
-        return self.alpha * np.sign(self.theta) + self.beta * self.theta
+        return self.beta * self.theta
 
     def get_next_batch(self, X, Y):
         index = np.random.choice(self.n_samples, self.batch, replace=False)
@@ -43,8 +43,8 @@ class LogisticRegression:
         self.class_num = len(np.unique(self.y))
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
-        self.theta = np.zeros((self.n_features, self.class_num))
-        #self.theta = np.random.rand(self.n_features, self.class_num)
+        #self.theta = np.zeros((self.n_features, self.class_num))
+        self.theta = np.random.rand(self.n_features, self.class_num)
         self._gradient_descent()
 
     def _gradient_descent(self):
@@ -64,7 +64,9 @@ class LogisticRegression:
         return gr / x.shape[0] + self.add_penalty()
 
     def softmax(self, z):
-        return np.exp(z - np.max(z)) / np.sum(np.exp(z) - np.max(z))
+        z = np.clip(z,-10,10)
+        ex = np.exp(z)
+        return ex / np.sum(ex)
 
     def predict(self, X_test):
         """
@@ -91,3 +93,4 @@ class LogisticRegression:
         :return: weights array
         """
         return self.theta
+#self.alpha * np.sign(self.theta) +
