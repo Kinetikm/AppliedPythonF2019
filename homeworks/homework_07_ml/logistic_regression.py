@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, lambda_coef=1e-3, regulatization="L1", alpha=1, batch_size=50, max_iter=100):
+    def __init__(self, lambda_coef=0.00125, regulatization="L1", alpha=0.8, batch_size=50, max_iter=100):
         self.lambda_coef = lambda_coef
         self.regulatization = regulatization
         self.alpha = alpha
@@ -15,7 +15,7 @@ class LogisticRegression:
         self.w = None
 
     def sigmoida(self, X, w):
-        return 1 / (1 + np.exp(X @ w.T))
+        return 1 / (1 + np.exp(- X @ w.T))
 
     def count_gradient(self, X, w, y):
         return - (1 / X.shape[0]) * ((X.T @ (self.sigmoida(X, w) - y)).T + self.alpha * np.sign(w))
@@ -32,9 +32,9 @@ class LogisticRegression:
 
         m_t = 0
         v_t = 0
-        E = 1e-10
-        beta_1 = 0.8
-        beta_2 = 0.6
+        E = 1e-8
+        beta_1 = 0.1
+        beta_2 = 0.99
         tol = 0.1
         i = 1
         log_loss = 100
