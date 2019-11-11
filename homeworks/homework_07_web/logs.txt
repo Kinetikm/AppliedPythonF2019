@@ -1,0 +1,96 @@
+--------------------------------------
+--------------------------------------
+New session started:  2019-10-28 04:25:33.485702
+--------------------------------------
+Request: POST, Time:  2019-10-28 04:25:43.008817
+Args: {'id': 3, 'departure': 'Tue, 12 Jun 2012 14:03:19 GMT', 'arrival': 'Tue, 12 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMD', 'plane': 'Airbus'} 2019-10-28 04:25:43.008817
+Method: POST, Time:  2019-10-28 04:25:43.775501
+Status:  200 , Reason:  OK
+--------------------------------------
+New session started:  2019-10-28 04:30:39.876834
+--------------------------------------
+Request: POST, Time:  2019-10-28 04:30:49.148662
+Args: {'id': 3, 'departure': 'Tue, 12 Jun 2012 14:03:19 GMT', 'arrival': 'Tue, 12 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMD', 'plane': 'Airbus'} 2019-10-28 04:30:49.148662
+Method: POST, Time:  2019-10-28 04:30:49.971323
+Status:  200 , Reason:  OK
+--------------------------------------
+New session started:  2019-10-28 04:33:15.422749
+--------------------------------------
+Request: POST, Time:  2019-10-28 04:33:22.346935
+Args: {'id': 3, 'departure': 'Tue, 12 Jun 2012 14:03:19 GMT', 'arrival': 'Tue, 12 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMD', 'plane': 'Airbus'} 2019-10-28 04:33:22.346935
+Method: POST, Time:  2019-10-28 04:33:23.051320
+Status:  200 , Reason:  OK
+Request: GET, Time:  2019-10-28 04:33:24.433728
+Method: GET, Time:  2019-10-28 04:33:24.433728
+Status:  404 , Reason:  Flight with current mask ImmutableMultiDict([('airport', 'AMS')]) not found. Try another mask.
+Request: PUT, Time:  2019-10-28 04:33:28.673025
+Args: {'id': 3, 'departure': 'Tue, 12 Jun 2012 14:03:19 GMT', 'arrival': 'Tue, 12 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMD', 'plane': 'Airbus'} 2019-10-28 04:33:28.673025
+Method: POST, Time:  2019-10-28 04:33:29.392194
+Status:  200 , Reason:  OK
+Request: DELETE, id: 1, Time:  2019-10-28 04:33:29.795045
+Method: DELETE, id: 1, Time:  2019-10-28 04:33:29.795045
+Status:  400 , Reason:  Bad id
+--------------------------------------
+New session started:  2019-10-28 04:43:33.344618
+--------------------------------------
+--------------------------------------
+Request: POST, Time:  2019-10-28 04:43:36.269150
+Args: {'id': 3, 'departure': 'Tue, 12 Jun 2012 14:03:19 GMT', 'arrival': 'Tue, 12 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMD', 'plane': 'Airbus'} 2019-10-28 04:43:36.270148
+Method: POST, Time:  2019-10-28 04:43:37.357727
+Status:  200 , Reason:  OK
+--------------------------------------
+Request: GET, Time:  2019-10-28 04:43:37.364725
+Method: GET, Time:  2019-10-28 04:43:37.364725
+Status:  200 , Reason:  OK
+--------------------------------------
+Request: PUT, Time:  2019-10-28 04:43:37.370730
+Args: {'id': 3, 'departure': 'Tue, 13 Jun 2012 22:03:19 GMT', 'arrival': 'Tue, 14 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMS', 'plane': 'Airbus'} 2019-10-28 04:43:37.371737
+Method: PUT, Time:  2019-10-28 04:43:38.035663
+Status:  400 , Reason:  Incorrect id
+--------------------------------------
+Request: DELETE, id: 1, Time:  2019-10-28 04:43:38.045469
+Method: DELETE, id: 1, Time:  2019-10-28 04:43:38.045469
+Status:  400 , Reason:  Bad id
+--------------------------------------
+Request: POST, Time:  2019-10-28 04:44:29.502439
+Args: {'id': 3, 'departure': 'Tue, 12 Jun 2012 14:03:19 GMT', 'arrival': 'Tue, 12 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMD', 'plane': 'Airbus'} 2019-10-28 04:44:29.503439
+Method: POST, Time:  2019-10-28 04:44:30.230352
+Status:  400 , Reason:  Item already added
+--------------------------------------
+Request: GET, Time:  2019-10-28 04:44:30.236343
+Method: GET, Time:  2019-10-28 04:44:30.236343
+Status:  200 , Reason:  OK
+--------------------------------------
+Request: PUT, Time:  2019-10-28 04:44:30.244341
+Args: {'id': 3, 'departure': 'Tue, 13 Jun 2012 22:03:19 GMT', 'arrival': 'Tue, 14 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMS', 'plane': 'Airbus'} 2019-10-28 04:44:30.244341
+Method: POST, Time:  2019-10-28 04:44:30.932233
+Status:  200 , Reason:  OK
+--------------------------------------
+Request: DELETE, id: 3, Time:  2019-10-28 04:44:30.939227
+Method: DELETE, Time:  2019-10-28 04:44:30.939227
+Status:  200 , Reason:  OK
+--------------------------------------
+New session started:  2019-11-11 04:19:22.919954
+--------------------------------------
+--------------------------------------
+Request: GET, Time:  2019-11-11 04:19:27.608728
+Method: GET, Time:  2019-11-11 04:19:27.618725
+Status:  200 , Reason:  OK
+--------------------------------------
+Request: PUT, Time:  2019-11-11 04:19:34.705472
+Args: {'id': 8, 'departure': 'Tue, 12 Jun 2012 14:03:19 GMT', 'arrival': 'Tue, 12 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMD', 'plane': 'Airbus'} 2019-11-11 04:19:34.705472
+Method: POST, Time:  2019-11-11 04:19:35.781010
+Status:  200 , Reason:  OK
+--------------------------------------
+Request: POST, Time:  2019-11-11 04:19:40.464482
+Args: {'id': 8, 'departure': 'Tue, 12 Jun 2012 14:03:19 GMT', 'arrival': 'Tue, 12 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMD', 'plane': 'Airbus'} 2019-11-11 04:19:40.464482
+Method: POST, Time:  2019-11-11 04:19:41.180549
+Status:  400 , Reason:  Item already added
+--------------------------------------
+Request: DELETE, id: 1, Time:  2019-11-11 04:19:44.719726
+Method: DELETE, id: 1, Time:  2019-11-11 04:19:44.728720
+Status:  400 , Reason:  Bad id
+--------------------------------------
+Request: DELETE, id: 8, Time:  2019-11-11 04:19:50.048805
+Method: DELETE, Time:  2019-11-11 04:19:50.120404
+Status:  200 , Reason:  OK

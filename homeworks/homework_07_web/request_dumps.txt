@@ -1,0 +1,76 @@
+0 Urls(method='post', url='http://127.0.0.1:5000/flights', headers=None, json={'id': 3, 'departure': 'Tue, 12 Jun 2012 14:03:19 GMT', 'arrival': 'Tue, 12 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMD', 'plane': 'Airbus'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: 127.0.0.1:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 164
+< Content-Type: application/json
+< 
+< {"id": 3, "departure": "Tue, 12 Jun 2012 14:03:19 GMT", "arrival": "Tue, 12 Jun 2012 14:03:11 GMT", "flight_time": "14:34 GMT", "airport": "AMD", "plane": "Airbus"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html
+> Content-Length: 134
+> Server: Werkzeug/0.14.1 Python/3.6.5
+> Date: Mon, 28 Oct 2019 01:44:30 GMT
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Item already added</p>
+
+1 Urls(method='get', url='http://127.0.0.1:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: 127.0.0.1:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 156
+> Server: Werkzeug/0.14.1 Python/3.6.5
+> Date: Mon, 28 Oct 2019 01:44:30 GMT
+> 
+[{"airport":"AMD","arrival":"Tue, 12 Jun 2012 14:03:11 GMT","departure":"Tue, 12 Jun 2012 14:03:19 GMT","flight_time":"14:34 GMT","id":3,"plane":"Airbus"}]
+
+2 Urls(method='put', url='http://127.0.0.1:5000/flights/3', headers=None, json={'id': 3, 'departure': 'Tue, 13 Jun 2012 22:03:19 GMT', 'arrival': 'Tue, 14 Jun 2012 14:03:11 GMT', 'flight_time': '14:34 GMT', 'airport': 'AMS', 'plane': 'Airbus'}, data=None) 200 True
+< PUT /flights/3 HTTP/1.1
+< Host: 127.0.0.1:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 164
+< Content-Type: application/json
+< 
+< {"id": 3, "departure": "Tue, 13 Jun 2012 22:03:19 GMT", "arrival": "Tue, 14 Jun 2012 14:03:11 GMT", "flight_time": "14:34 GMT", "airport": "AMS", "plane": "Airbus"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 163
+> Server: Werkzeug/0.14.1 Python/3.6.5
+> Date: Mon, 28 Oct 2019 01:44:30 GMT
+> 
+{"data":{"airport":"AMS","arrival":"Tue, 14 Jun 2012 14:03:11 GMT","departure":"Tue, 13 Jun 2012 22:03:19 GMT","flight_time":"14:34 GMT","id":3,"plane":"Airbus"}}
+
+3 Urls(method='delete', url='http://127.0.0.1:5000/flights/3', headers=None, json=None, data=None) 200 True
+< DELETE /flights/3 HTTP/1.1
+< Host: 127.0.0.1:5000
+< User-Agent: python-requests/2.18.4
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 163
+> Server: Werkzeug/0.14.1 Python/3.6.5
+> Date: Mon, 28 Oct 2019 01:44:30 GMT
+> 
+{"data":{"airport":"AMS","arrival":"Tue, 14 Jun 2012 14:03:11 GMT","departure":"Tue, 13 Jun 2012 22:03:19 GMT","flight_time":"14:34 GMT","id":3,"plane":"Airbus"}}
+
