@@ -48,7 +48,7 @@ async def hello(request: web.Request):
             return web.json_response({'error': f'Login err: {str(e)}'}, status=404)
 
         try:
-            async with session.get(f'http://{host}:{port}/{api_method}') as response:
+            async with session.get(f'http://{host}:{port}/{api_method}', cookies=response.cookies) as response:
                 answer = await response.json()
         except Exception as e:
             return web.json_response({'error': f'Server err: {str(e)}'}, status=418)
