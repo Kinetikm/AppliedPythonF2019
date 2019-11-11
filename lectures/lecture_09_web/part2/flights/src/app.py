@@ -7,8 +7,8 @@ routes = web.RouteTableDef()
 
 
 @routes.get('/flights')
-async def hello(request):
-    return web.Response(text="Hello, world")
+async def hello(request: web.Request):
+    return web.json_response([])
 
 
 log = logging.getLogger('app')

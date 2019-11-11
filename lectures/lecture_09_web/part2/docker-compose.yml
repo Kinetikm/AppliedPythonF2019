@@ -9,13 +9,13 @@ services:
     networks:
       - backend
 
-  registration:
+  auth:
     build:
-      context: ./registration
-    container_name: reg_service
+      context: ./auth
+    container_name: auth_service
     networks:
       - backend
-    command: registration
+    command: auth
 
   flights:
     build:
@@ -26,6 +26,8 @@ services:
     networks:
       - backend
     command: python run.py
+
+  # TODO: добавить сервис sale
 
 networks:
   backend:

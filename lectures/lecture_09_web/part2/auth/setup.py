@@ -14,7 +14,7 @@ with open(fname) as f:
     requirements = [l.strip() for l in f.readlines()]
 
 setup(
-    name='registration',
+    name='auth',
     version=1,
     packages=find_packages(),
     include_package_data=True,
@@ -22,11 +22,11 @@ setup(
     python_requires=">=3.6",
     entry_points={
         'console_scripts': [
-            'registration = src.run:main'
+            'auth = src.run:main'
         ],
     },
     author='Terebonka',
-    description='Registration Service',
+    description='Auth Service',
     url='https://github.com/Kinetikm/AppliedPythonF2019',
     license="MIT",
 )
