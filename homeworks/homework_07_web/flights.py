@@ -1,14 +1,11 @@
 from sqlalchemy import create_engine, MetaData, Table,\
     Column, Integer, String, ForeignKey, select
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
-
-engine = create_engine('sqlite:///C:\sqlitedbs\database.db', echo=True)
 from sqlalchemy.sql.expression import update
-
 from sqlalchemy.ext.declarative import declarative_base
 
+engine = create_engine('sqlite:///C:\sqlitedbs\database.db', echo=True)
 session = scoped_session(sessionmaker(bind=engine))
-
 Base = declarative_base()
 
 
