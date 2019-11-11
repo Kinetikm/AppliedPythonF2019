@@ -1,0 +1,4 @@
+0 Urls(method='post', url='http://localhost:5000/api/flights', headers=None, json={'Departure(GMT)': 2130, 'Arrival(GMT)': 600, 'Travel time': 830, 'Destination': 'VNU', 'Aircraft type': 'IL-56'}, data=None) 201 True
+1 Urls(method='get', url='http://localhost:5000/api/flights', headers=None, json=None, data=None) 200 True
+2 Urls(method='put', url='http://localhost:5000/api/flights/1', headers=None, json={'Departure(GMT)': 2031, 'Arrival(GMT)': 1000, 'Travel time': 1031, 'Destination': 'Bashni blizneci', 'Aircraft type': 'airbus'}, data=None) 200 True
+3 Urls(method='delete', url='http://localhost:5000/api/flights/2', headers=None, json=None, data=None) 204 True
