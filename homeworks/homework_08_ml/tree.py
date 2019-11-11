@@ -1,21 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-
 import numpy as np
 
 
 class Tree:
     def __init__(self, criterion, max_depth, min_samples_leaf=1):
-        """
-        :param criterion: method to determine splits
-        :param max_depth: maximum depth of tree. If None depth of tree is not constrained
-        :param min_samples_leaf: the minimum number of samples required to be at a leaf node
-        """
         self.criterion = criterion
         self.max_depth = max_depth
         self.min_samples_leaf = min_samples_leaf
         self.tree_path = None    # запоминает фичи и пороги, по которым делаем разбиения
+        self.num_features = None
+        self.feature_imp = None
 
     def entropy(self, proba):
         # s = - sum(p_i * log2(p_i)), для бинарного случая i: 0 или 1
@@ -48,7 +43,7 @@ class Tree:
             s2 = self.gini(self.proba(y2))
         return s0 - (len(y1) * s1 + len(y2) * s2) / (len(y1) + len(y2))
 
-    def build_branch(self, table, depth=0):
+    def build_branch(self, table, max_len, depth=0):
         if self.criterion == 'entropy':
             s0 = self.entropy(self.proba(table[:, -1]))
         elif self.criterion == 'gini':
@@ -86,21 +81,19 @@ class Tree:
         if max_gain == 0:
             # если максимальный gain == 0, разбивать таблицу не будем
             return self.proba(table[:, -1])
+
         # нашли оптимальное разбиение, теперь надо разбить полученные подгруппы
-        branch1 = self.build_branch(sorted_table[0:best_row], depth=depth + 1)
-        branch2 = self.build_branch(sorted_table[best_row:], depth=depth + 1)
-        return [(best_feature, treshold), branch1, branch2]
+        branch1 = self.build_branch(sorted_table[0:best_row], max_len, depth=depth + 1)
+        branch2 = self.build_branch(sorted_table[best_row:], max_len, depth=depth + 1)
+
+        feature_imp = (sorted_table.shape[0] / max_len) * max_gain
+        return [(best_feature, treshold, feature_imp), branch1, branch2]
 
     def fit(self, X_train, y_train):
-        """
-        Fit model using gradient descent method
-        :param X_train: training data
-        :param y_train: target values for training data
-        :return: None
-        """
+        self.num_features = X_train.shape[1]
         # объединяем в одну матрицу, чтобы потом было удобно сортировать по какому-то столбцу
         table = np.append(X_train, np.reshape(y_train, (-1, 1)), axis=1)
-        self.tree_path = self.build_branch(table)
+        self.tree_path = self.build_branch(table, table.shape[0])
 
     def predicted_value(self, row, path=None):
         if path is None:
@@ -109,7 +102,7 @@ class Tree:
         if isinstance(path, tuple):
             # если path стал типа tuple, значит мы находимся в листке дерева => возвращаем вероятности в нем
             return path
-        # формат path: [tuple со значениями feature и порог, первая ветвь, вторая ветвь], где
+        # формат path: [tuple со значениями feature, порог и feature_importance, первая ветвь, вторая ветвь], где
         # первая и вторая ветвь - списки такого же формата
         feature = path[0][0]
         treshold = path[0][1]
@@ -119,46 +112,42 @@ class Tree:
             return self.predicted_value(row, path[2])
 
     def predict(self, X_test):
-        """
-        Predict using model.
-        :param X_test: test data for predict in
-        :return: y_test: predicted values
-        """
         y_predicted = np.empty(X_test.shape[0])
         for row in X_test:
             np.append(y_predicted, np.argmax(np.array(self.predicted_value(row))))
         return y_predicted
 
     def get_feature_importance(self):
-        """
-        Get feature importance from fitted tree
-        :return: weights array
-        """
-        pass
+        self.feature_imp = np.empty(self.num_features)
+        self.calc_importance()
+        self.feature_imp /= np.sum(self.feature_imp)
+        return self.feature_imp
+
+    def calc_importance(self, path=None):
+        if path is None:
+            # когда None, начинаем разбиения с самого начала алгоритма
+            path = self.tree_path
+        if isinstance(path, tuple):
+            # если path стал типа tuple, значит мы находимся в листке дерева => разбиений больше нет
+            return
+        feature = path[0][0]
+        feature_importance = path[0][2]
+        self.feature_imp[feature] += feature_importance
+        self.calc_importance(path=path[1])
+        self.calc_importance(path=path[2])
 
 
 class TreeRegressor(Tree):
     def __init__(self, criterion='mse', max_depth=None, min_samples_leaf=1):
-        """
-        :param criterion: method to determine splits, 'mse' or 'mae'
-        """
         super().__init__(criterion, max_depth, min_samples_leaf)
         raise NotImplementedError
 
 
 class TreeClassifier(Tree):
     def __init__(self, criterion='gini', max_depth=None, min_samples_leaf=1):
-        """
-        :param criterion: method to determine splits, 'gini' or 'entropy'
-        """
         super().__init__(criterion, max_depth, min_samples_leaf)
 
     def predict_proba(self, X_test):
-        """
-        Predict probability using model.
-        :param X_test: test data for predict in
-        :return: y_test: predicted probabilities
-        """
         y_predicted = np.empty((0, 2))
         for row in X_test:
             preficted_value = np.array(self.predicted_value(row))
