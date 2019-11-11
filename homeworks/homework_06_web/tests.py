@@ -26,4 +26,3 @@ with open('request_dumps.txt', 'w') as f:
     ]):
         resp = requests.request(method=url.method, url=url.url, json=url.json, data=url.data)
         print(index, url, resp.status_code, resp.ok, file=f)
-        
