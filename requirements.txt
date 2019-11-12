@@ -1,3 +1,4 @@
+pymorphy2
 scikit-learn
 pytest==3.10.1
 pytest-pep8==1.0.6
