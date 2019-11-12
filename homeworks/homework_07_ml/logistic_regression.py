@@ -58,7 +58,7 @@ class LogisticRegression:
 
     def gradient(self, x, y):
         p = self.softmax(x @ self.theta)
-        p[:y.shape[0],y] -= 1
+        p[:y.shape[0], y] -= 1
         gr = x.T @ p
         return gr / y.shape[0] + self.add_penalty()
 
@@ -84,7 +84,6 @@ class LogisticRegression:
         # if X_test.shape[1] != self.theta.shape[0]:
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
         return self.softmax(X_test @ self.theta)
-
 
     def get_weights(self):
         """
