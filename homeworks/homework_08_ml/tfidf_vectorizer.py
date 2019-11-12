@@ -126,14 +126,16 @@ class TfIdfVectorizer:
         indptr = [0]
         mod_line = self.Morph(text.strip())
         feature_counter = {}
-        for i in mod_line:
-            try:
-                feature_idx = self._vocabulary[i][0]
-                if feature_idx not in feature_counter:
-                    feature_counter[feature_idx] = [0, self._vocabulary[i][1]]
-                feature_counter[feature_idx][0] += 1
-            except KeyError:
-                continue
+        for i in range(self._ngram_range[1] - self._ngram_range[0] + 1):
+            for j in range(0, len(mod_line) - i):
+                key = "_".join(mod_line[j:j + i + 1])
+                try:
+                    feature_idx = self._vocabulary[key][0]
+                    if feature_idx not in feature_counter:
+                        feature_counter[feature_idx] = [0, self._vocabulary[key][1]]
+                    feature_counter[feature_idx][0] += 1
+                except KeyError:
+                    continue
         j_indices.extend(feature_counter.keys())
         values = [i[0] * i[1] for i in feature_counter.values()]
         indptr.append(len(j_indices))
