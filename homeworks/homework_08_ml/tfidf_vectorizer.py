@@ -63,7 +63,7 @@ class TfIdfVectorizer:
                     lines += 1
                     for i in range(self._ngram_range[1] - self._ngram_range[0] + 1):
                         for j in range(0, len(mod_line) - i):
-                            key = "_".join(mod_line[j:j+i+1])
+                            key = "_".join(mod_line[j:j + i + 1])
                             keys.append(key)
                         f = open(self._work_directory + '/' + f_name + str(ind) + '.pkl', 'wb')
                         pickle.dump(set(keys), f)
@@ -115,8 +115,6 @@ class TfIdfVectorizer:
         self._vocabulary = {k: (v, np.log((res / v))) for k, v in self._vocabulary.items()}
         return self
 
-
-
     def transform(self, text):
         '''
         На входе текстовая строка, вам нужно вернуть её вектор (в спарс формате, чтобы в память поместился)
@@ -149,7 +147,6 @@ class TfIdfVectorizer:
         X.sort_indices()
         self.normalize(X.data, X.shape, X.indptr)
         return X
-
 
     def idfs(self, output_file):
         '''
