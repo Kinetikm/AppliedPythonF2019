@@ -24,7 +24,7 @@ def test_output_dictionary():
     if os.path.exists("tmp_test_{}".format(seed)):
         rmtree("tmp_test_{}".format(seed))
     os.mkdir("tmp_test_{}".format(seed))
-    vectorizer.fit("./homeworks/homework_08_ml/test_data", "tmp_test_{}".format(seed))
+    vectorizer.fit("../homeworks/homework_08_ml/test_data", "tmp_test_{}".format(seed))
     vectorizer.idfs("tmp_file_{}".format(seed))
     check_dict = {"колдун":	2.69547141889535,
                   "горшок":	2.3770176877768154,
