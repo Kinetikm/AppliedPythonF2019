@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LogisticRegression:
-    def __init__(self, gamma=0.5, etta=0.9, regulatization='elastic', l1=0, l2=0, batch_size=50, max_iter=100):
+    def __init__(self, gamma=0.5, regulatization='elastic', l1=0, l2=0, batch_size=50, max_iter=100):
         """
         :param lambda_coef: constant coef for gradient descent step
         :param regulatization: regularizarion type ("L1" or "L2", "elastic") or None
@@ -15,7 +15,6 @@ class LogisticRegression:
         :param max_iter: maximum number of parameters updates
         """
         self.gamma = gamma
-        self.etta = etta
         self.l1 = l1
         self.l2 = l2
         self.reg = regulatization
@@ -26,10 +25,10 @@ class LogisticRegression:
     def add_penalty(self):
         return self.l1 * np.sign(self.theta) + self.l2 * self.theta
 
-    def get_next_batch(self, X, Y):
+    def get_next_batch(self):
         index = np.random.choice(self.n_samples, self.batch, replace=False)
-        x_batch = X[index]
-        y_batch = Y[index]
+        x_batch = self.X_train[index]
+        y_batch = self.y[index]
         return x_batch, y_batch
 
     def fit(self, X_train, y_train):
@@ -44,25 +43,24 @@ class LogisticRegression:
         X_train = (X_train - np.mean(X_train)) / np.std(X_train)
         self.X_train = np.hstack((np.ones((X_train.shape[0], 1)), X_train))
         self.n_samples, self.n_features = self.X_train.shape
-        self.theta = np.zeros((self.n_features, self.class_num))
-        # self.theta = np.random.rand(self.n_features, self.class_num -1 )
+        # self.theta = np.zeros((self.n_features, self.class_num))
+        self.theta = np.random.rand(self.n_features, self.class_num)
         self._gradient_descent()
 
     def _gradient_descent(self):
         speed = np.zeros(self.theta.shape)
         for i in range(self.max_iter):
-            batch_X, batch_y = self.get_next_batch(self.X_train, self.y)
+            batch_X, batch_y = self.get_next_batch()
             # Считаем градиент и обновляем тетту
             gr = self.gradient(batch_X, batch_y)
-            speed = self.gamma * speed + self.etta * gr
+            speed = self.gamma * speed + (1 - self.gamma) * gr
             self.theta -= speed
-            if i%100 == 0:
-                print(self.theta)
 
     def gradient(self, x, y):
         p = self.softmax(x @ self.theta)
+        p[:y.shape[0],y] -= 1
         gr = x.T @ p
-        return gr / x.shape[0] + self.add_penalty()
+        return gr / y.shape[0] + self.add_penalty()
 
     def softmax(self, z):
         z -= np.max(z)
@@ -86,6 +84,7 @@ class LogisticRegression:
         # if X_test.shape[1] != self.theta.shape[0]:
         X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
         return self.softmax(X_test @ self.theta)
+
 
     def get_weights(self):
         """
