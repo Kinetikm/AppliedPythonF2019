@@ -115,9 +115,10 @@ class TfIdfVectorizer:
         self._vocabulary = {k: (v, np.log((res / v))) for k, v in self._vocabulary.items()}
         return self
 
-    def transform(self, text):
+    def transform(self, text, normalize=True):
         '''
         На входе текстовая строка, вам нужно вернуть её вектор (в спарс формате, чтобы в память поместился)
+        :param normalize:
         :param text: string, строка, которую нужно закодировать
         !НЕ забудьте предобработать =)
         :return: sparse vector (используем scipy.csr_matrix)
@@ -147,7 +148,8 @@ class TfIdfVectorizer:
         X = sp.csr_matrix((values, j_indices, indptr),
                           shape=(len(indptr) - 1, len(self._vocabulary)))
         X.sort_indices()
-        self.normalize(X.data, X.shape, X.indptr)
+        if normalize:
+            self.normalize(X.data, X.shape, X.indptr)
         return X
 
     def idfs(self, output_file):
