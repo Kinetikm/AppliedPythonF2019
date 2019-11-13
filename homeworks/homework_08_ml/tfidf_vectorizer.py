@@ -5,23 +5,16 @@
 import os
 from multiprocessing import Manager, Process, Semaphore, cpu_count
 import string
-from pymorphy2 import get_morph
+from pymorphy2 import MorphAnalyzer
+from scipy.sparse import csr_matrix
+import pickle
+import numpy as np
+import re
 
 
 class TfIdfVectorizer:
 
     def __init__(self, min_df, max_df, ngram_range, n_jobs):
-        '''
-        Создаем экземлпяр класса с минимумом параметров
-        :param min_df: float, минимальная доля документов, в которых должно втсретиться слово,
-         чтобы мы начали его учитывать
-        :param max_df: float, максимальная доля документов, в которых должно втсретиться слово,
-         чтобы мы начали его учитывать
-        :param ngram_range: tuple, берем пословные энграммы (от. до), Например: (1,1) значит берем только слова по 1
-        :param n_jobs: число процессов (не потоков), с которыми должны выполнятсья дальнейшие преобразования.
-        Если n_jobs = -1, то n_jobs = кол-во ядер
-        '''
-        raise NotImplementedError
         self.min_df = min_df
         self.max_df = max_df
         self.ngram_range = ngram_range
@@ -30,39 +23,36 @@ class TfIdfVectorizer:
         else:
             self.n_jobs = n_jobs
         self.d = None
+        self.morph = MorphAnalyzer()
 
+    def create_ngrams(self, line):
+        for punct in string.punctuation:
+            line = line.replace(punct, ' ').lower()
+        splited_line = line.strip().split()
+        ngrams = zip(*[splited_line[i:] for i in range(self.ngram_range[1])])
+        splited_line += ["_".join(ngram) for ngram in ngrams]
+        return splited_line
 
-    def tfidf(self, ):
-        pass
-        # tf = n_word / n_all
-        # idf = log(n_docs / docs_with_word)
-        # tfidf = tf * idf
-
-    def read_file(self, sem, path_to_dir, queue, d):
+    def read_file(self, sem, path_to_dir, queue, word_list):
         with sem:
             filename = queue.get()
-            word_list = {}
             counter = 0
             full_name = str(path_to_dir) + '/' + str(filename)
-            morph = get_morph('dicts/ru')
             with open(full_name) as f:
                 for line in f:
-                    for punct in string.punctuation:
-                        line = lower(line.replace(punct, ''))
-                    splited_line = line.split()
-                    for word in splited_line:
-                        # counter += 1
-                        word = morph(word)
-                    for word in splited_line:
+                    counter += 1
+                    splited_line = self.create_ngrams(line)
+                    for i in range(len(splited_line)):
+                        word = self.morph.parse(splited_line[i])[0].normal_form
+                        splited_line[i] = word
                         if word not in word_list:
-                            word_list[word] = [splited_line.count(word) / len(splited_line), 1]
-                            
-            # словарь {слово : tf}
-            for word in word_list:
-                if count != 0:
-                    word_list[word] /= count
-            # словарь {filename : {слово : tf}}
-            d[filename] = word_list
+                            word_list[word] = 1
+                        elif splited_line.count(word) == 1 or splited_line.index(word) == i:
+                            word_list[word] += 1
+            if "total_strings_number" in word_list:
+                word_list["total_strings_number"] += counter
+            else:
+                word_list["total_strings_number"] = counter
 
     def word_count_inference(self, path_to_dir, dump_folder):
         manager = Manager()
@@ -73,51 +63,52 @@ class TfIdfVectorizer:
         self.d = manager.dict()
         for filename in os.listdir(path_to_dir):
             queue.put(filename)
-            # sem.acquire()
-            proc = Process(target=read_file, args=(sem, path_to_dir, queue, d))
+            proc = Process(target=self.read_file, args=(sem, path_to_dir, queue, self.d))
             tasks.append(proc)
             proc.start()
         for task in tasks:
             task.join()
-            # sem.release()
-        return d
-
-    def count_idf(self, word):
-        return np.log(len(self.d.keys) / sum([1 for text in self.d if i word in text]))
+        num_of_strings = self.d["total_strings_number"]
+        keys = self.d.keys()
+        for word in keys:
+            self.d[word] /= num_of_strings
+            if self.d[word] < self.min_df or self.d[word] > self.max_df:
+                del self.d[word]
+            else:
+                self.d[word] = - np.log(self.d[word])
+        return self.d
 
     def fit(self, folder, working_folder):
-        '''
-        Считаем idf, формируем словарь итп
-        :param folder: string, путь до папки, в которой лежат текстовые файлы. (1 строка - один текст)
-        Не ЗАБУДЬТЕ: убрать пунктуацию, привести слова к 1 регистру и форме
-        FYI: pymorphy2, lower()
-        :param working_folder: string, если у вас что-то не помешается в память (а оно не поместится =)), то дампим все
-        в эту папку
-        Работаем в числе потоков, равных n_jobs
-        '''
-        try:
-            self.word_count_inference(folder, working_folder)
-        except MemoryError:
-            with open(working_folder  + "/dump.txt", 'w') as f:
-                f.write(self.d)
-                return
-        for text in self.d:
-            for word in text:
-                text[word] *= self.count_idf(word)
-
+        self.word_count_inference(folder, working_folder)
+        dump_path = working_folder + '/dict.pickle'
+        with open(dump_path, 'wb') as f:
+            pickle.dump(self.d, f)
 
     def transform(self, text):
-        '''
-        На входе текстовая строка, вам нужно вернуть её вектор (в спарс формате, чтобы в память поместился)
-        :param text: string, строка, которую нужно закодировать
-        !НЕ забудьте предобработать =)
-        :return: sparse vector (используем scipy.csr_matrix)
-        '''
-        pass
+        word_list = {}
+        splited_line = self.create_ngrams(text)
+        for i in range(len(splited_line)):
+            word = self.morph.parse(splited_line[i])[0].normal_form
+            splited_line[i] = word
+            if word not in word_list:
+                word_list[word] = 1
+            else:
+                word_list[word] += 1
+        print(len(splited_line))
+        data = np.zeros(len(splited_line))
+        row_ind = np.zeros(len(splited_line))
+        col_ind = np.zeros(len(splited_line))
+        print(data, row_ind, col_ind)
+        i = 0
+        for word in word_list:
+            word_list[word] /= len(splited_line)
+            col = self.d.keys().index(word)
+            col_ind[i] = col
+            data[i] = word_list[word] * self.d[word]
+            i += 1
+        return csr_matrix((data, (row_ind, col_ind)), shape=(1, len(self.d)))
 
     def idfs(self, output_file):
-        '''
-        Возвращаем все idfы у обученной модели, если она не обучена возвращаем пустой файл
-        :param output_file: string, файл, в который нужно выгрузить idfы (слово \t idf)
-        '''
-        pass
+        with open(output_file, 'w') as f:
+            for word in self.d:
+                    f.write(str(word) + "\t" + str(self.d[word]) + "\n")
