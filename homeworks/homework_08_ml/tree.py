@@ -50,7 +50,7 @@ class TreeRegressor(Tree):
 
 
 class TreeClassifier(Tree):
-    def __init__(self, criterion='gini', max_depth=None, min_samples_leaf=1):
+    def __init__(self, criterion='entropy', max_depth=None, min_samples_leaf=1):
         """
         :param criterion: method to determine splits, 'gini' or 'entropy'
         """
@@ -68,10 +68,8 @@ class TreeClassifier(Tree):
             n_samples = X_train.shape[0]
         y = y.astype(int)
         self.class_num = len(np.unique(y))
-        y =y.reshape((y.shape[0], 1))
+        y = y.reshape((y.shape[0], 1))
         self.imp = np.zeros((1, X_train.shape[1]))
-        print('Вы пробудили рекурсивного кракена')
-        print(depth)
         if (X_train.shape[0] > self.min_samples) and (self.max_depth is None or depth < self.max_depth):
             row, col, value, gain_max = self.find_best_split(X_train, y)
             self.column_index = col
@@ -101,12 +99,10 @@ class TreeClassifier(Tree):
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
         S = self.get_entropy(y)
-        print (S)
         gain_max = 0
         row = 0
         col = 0
         for i in range(x.shape[1]):  # в лоб ищем наибольшую убыль энтропии
-            print(i)
             for j in range(x.shape[0]):
                 matrix = matrix[matrix[:, i].argsort()]
                 gain = S
