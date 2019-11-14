@@ -1,0 +1,35 @@
+2019-11-14 18:57:32,660 - werkzeug - INFO -  * Running on http://127.0.0.1:5001/ (Press CTRL+C to quit)
+2019-11-14 18:57:33,955 - flask.app - INFO - {'url': 'http://localhost:5001/registration', 'body': {'email': 'email1@example.com', 'login': 'user1', 'password': 'pswd1', 'password_confirm': 'pswd1'}, 'req_method': 'POST', 'response': b'{"result":"","success":true}\n', 'http_status': 200}
+2019-11-14 18:57:33,956 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:33] "POST /registration HTTP/1.1" 200 -
+2019-11-14 18:57:33,966 - flask.app - INFO - {'url': 'http://localhost:5001/registration', 'body': {'email': 'email2@example.com', 'login': 'user2', 'password': 'pswd2', 'password_confirm': 'pswd2'}, 'req_method': 'POST', 'response': b'{"result":"","success":true}\n', 'http_status': 200}
+2019-11-14 18:57:33,967 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:33] "POST /registration HTTP/1.1" 200 -
+2019-11-14 18:57:33,975 - flask.app - INFO - {'url': 'http://localhost:5001/registration', 'body': {'email': 'email_bad@example.com', 'login': 'user_bad', 'password': 'pswd_bad_1', 'password_confirm': 'pswd_bad_2'}, 'req_method': 'POST', 'response': b'{"result":{},"success":false}\n', 'http_status': 400}
+2019-11-14 18:57:33,975 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:33] "POST /registration HTTP/1.1" 400 -
+2019-11-14 18:57:33,993 - flask.app - INFO - {'url': 'http://localhost:5001/login', 'body': {'login': 'user1', 'password': 'pswd1'}, 'req_method': 'POST', 'response': b'', 'http_status': 200}
+2019-11-14 18:57:33,993 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:33] "POST /login HTTP/1.1" 200 -
+2019-11-14 18:57:34,047 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': '8fe9eea9-c75c-4212-9eb9-4fe86729db58'}, 'req_method': 'POST', 'response': b'{"login":"user1"}\n', 'http_status': 200}
+2019-11-14 18:57:34,047 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,079 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': '8fe9eea9-c75c-4212-9eb9-4fe86729db58'}, 'req_method': 'POST', 'response': b'{"login":"user1"}\n', 'http_status': 200}
+2019-11-14 18:57:34,079 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,104 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': '8fe9eea9-c75c-4212-9eb9-4fe86729db58'}, 'req_method': 'POST', 'response': b'{"login":"user1"}\n', 'http_status': 200}
+2019-11-14 18:57:34,104 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,189 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': '8fe9eea9-c75c-4212-9eb9-4fe86729db58'}, 'req_method': 'POST', 'response': b'{"login":"user1"}\n', 'http_status': 200}
+2019-11-14 18:57:34,190 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,224 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': '8fe9eea9-c75c-4212-9eb9-4fe86729db58'}, 'req_method': 'POST', 'response': b'{"login":"user1"}\n', 'http_status': 200}
+2019-11-14 18:57:34,224 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,248 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': '8fe9eea9-c75c-4212-9eb9-4fe86729db58'}, 'req_method': 'POST', 'response': b'{"login":"user1"}\n', 'http_status': 200}
+2019-11-14 18:57:34,248 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,268 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': '8fe9eea9-c75c-4212-9eb9-4fe86729db58'}, 'req_method': 'POST', 'response': b'{"login":"user1"}\n', 'http_status': 200}
+2019-11-14 18:57:34,269 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,293 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': '8fe9eea9-c75c-4212-9eb9-4fe86729db58'}, 'req_method': 'POST', 'response': b'{"login":"user1"}\n', 'http_status': 200}
+2019-11-14 18:57:34,294 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,315 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': '8fe9eea9-c75c-4212-9eb9-4fe86729db58'}, 'req_method': 'POST', 'response': b'{"login":"user1"}\n', 'http_status': 200}
+2019-11-14 18:57:34,316 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,368 - flask.app - INFO - {'url': 'http://localhost:5001/logout', 'body': None, 'req_method': 'POST', 'response': b'Cookie Removed', 'http_status': 200}
+2019-11-14 18:57:34,369 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /logout HTTP/1.1" 200 -
+2019-11-14 18:57:34,377 - flask.app - INFO - {'url': 'http://localhost:5001/login', 'body': {'login': 'user2', 'password': 'pswd2'}, 'req_method': 'POST', 'response': b'', 'http_status': 200}
+2019-11-14 18:57:34,377 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /login HTTP/1.1" 200 -
+2019-11-14 18:57:34,388 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': 'e53fae03-00a9-40d8-80b6-bfba6b94050d'}, 'req_method': 'POST', 'response': b'{"login":"user2"}\n', 'http_status': 200}
+2019-11-14 18:57:34,388 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
+2019-11-14 18:57:34,406 - flask.app - INFO - {'url': 'http://localhost:5001/check', 'body': {'token': 'e53fae03-00a9-40d8-80b6-bfba6b94050d'}, 'req_method': 'POST', 'response': b'{"login":"user2"}\n', 'http_status': 200}
+2019-11-14 18:57:34,406 - werkzeug - INFO - 127.0.0.1 - - [14/Nov/2019 18:57:34] "POST /check HTTP/1.1" 200 -
