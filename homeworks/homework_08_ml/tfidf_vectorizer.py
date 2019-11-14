@@ -86,7 +86,9 @@ class TfIdfVectorizer:
 
     def transform(self, text):
         word_list = {}
+        ordinary_words = len(text.strip().split())
         splited_line = self.create_ngrams(text)
+        ngram_words = len(splited_line) - ordinary_words
         for i in range(len(splited_line)):
             word = self.morph.parse(splited_line[i])[0].normal_form
             splited_line[i] = word
@@ -94,14 +96,15 @@ class TfIdfVectorizer:
                 word_list[word] = 1
             else:
                 word_list[word] += 1
-        print(len(splited_line))
         data = np.zeros(len(splited_line))
         row_ind = np.zeros(len(splited_line))
         col_ind = np.zeros(len(splited_line))
-        print(data, row_ind, col_ind)
         i = 0
         for word in word_list:
-            word_list[word] /= len(splited_line)
+            if _ in word:
+                word_list[word] /= ngram_words
+            else:
+                word_list[word] /= ordinary_words
             col = self.d.keys().index(word)
             col_ind[i] = col
             data[i] = word_list[word] * self.d[word]
