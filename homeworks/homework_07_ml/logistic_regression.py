@@ -50,7 +50,12 @@ class LogisticRegression:
         G = 0
         self._weights = np.random.rand(X_train.shape[1])
         for j in range(self._max_iter):
-            for x_batch, y_batch in self.__batches(X_train, y_train):
+            n_batches = X_train.shape[0] // self._batch_size
+            for i in range(n_batches):
+                beg = i * self._batch_size
+                end = (i + 1) * self._batch_size
+                x_batch = X_train[beg:end]
+                y_batch = y_train[beg:end]
                 gt = self.grad(x_batch, y_batch)
                 G += gt ** 2
                 self._weights -= self._lambda / np.sqrt(G + self._eps) * gt
@@ -71,6 +76,8 @@ class LogisticRegression:
         """
         if X_test.shape[1] != self._weights.shape[0]:
             X_test = np.hstack((np.ones((X_test.shape[0], 1)), X_test))
+        print(self.sigmoid(X_test @ self._weights))
+        print()
         return self.sigmoid(X_test @ self._weights)
 
     def get_weights(self):
@@ -83,9 +90,11 @@ class LogisticRegression:
     def __batches(self, x, y, n=[]):
         if not n:
             n.append(0)
-        beg = self._batch_size * (n[0] - 1) % x.shape[0]
-        end = self._batch_size * n[0] % x.shape[0]
         n[0] += 1
+        v1 = self._batch_size * (n[0] - 1)
+        beg = v1 % x.shape[0]
+        v2 = self._batch_size * n[0]
+        end = v2 % x.shape[0]
         yield (x[beg:end], y[beg:end])
 
     @staticmethod
@@ -116,41 +125,6 @@ class SoftmaxLogisticRegression(LogisticRegression):
                     G += gt ** 2
                     self._weights[i] -= self._lambda_coef / np.sqrt(G + self._eps) * gt
 
-
     def predict_proba(self, X_test):
         pr = super().predict_proba(X_test)
         return softmax(pr)
-
-
-# import numpy as np
-from sklearn import linear_model
-from sklearn.metrics import log_loss
-from sklearn.model_selection import train_test_split
-
-size = 5000
-n_feat = 20
-
-np.random.seed(0)
-
-C1 = np.random.randn(n_feat, n_feat) * 5
-C2 = np.random.randn(n_feat, n_feat) * 5
-gauss1 = np.dot(np.random.randn(size, n_feat) + np.random.randn(n_feat) * 0.3, C1)
-gauss2 = np.dot(np.random.randn(size, n_feat) + np.random.randn(n_feat) * 0.3, C2)
-
-x = np.vstack([gauss1, gauss2])
-y = np.r_[np.ones(size), np.zeros(size)]
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25)
-
-lr1 = linear_model.LogisticRegression()
-lr2 = LogisticRegression(batch_size=500, max_iter=1000)
-
-lr1.fit(x_train, y_train)
-lr2.fit(x_train, y_train)
-
-# check predict works
-
-loss1 = log_loss(y_test, lr1.predict_proba(x_test))
-loss2 = log_loss(y_test, lr2.predict_proba(x_test))
-
-
-
