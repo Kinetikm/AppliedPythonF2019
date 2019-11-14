@@ -1,0 +1,317 @@
+0 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2017-03-05 12:30:00', 'arrival_time': '2017-03-05 13:40:00', 'duration': '1:10', 'arrive_location': 'dmd', 'aircraft_type': 'plane'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 152
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 12:30:00", "arrival_time": "2017-03-05 13:40:00", "duration": "1:10", "arrive_location": "dmd", "aircraft_type": "plane"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 155
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:49 GMT
+> 
+{"flight":{"aircraft_type":"plane","arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"1:10"}}
+
+1 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2017-03-05 14:15:00', 'arrival_time': '2017-03-05 18:30:00', 'duration': '4:15', 'arrive_location': 'vko', 'aircraft_type': 'jedi_starflight'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 162
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 14:15:00", "arrival_time": "2017-03-05 18:30:00", "duration": "4:15", "arrive_location": "vko", "aircraft_type": "jedi_starflight"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 165
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:49 GMT
+> 
+{"flight":{"aircraft_type":"jedi_starflight","arrival_time":"2017-03-05 18:30:00","arrive_location":"vko","departure_time":"2017-03-05 14:15:00","duration":"4:15"}}
+
+2 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2017-03-05 09:40:00', 'arrival_time': '2017-03-05 19:30:00', 'duration': '9:50', 'arrive_location': 'svo', 'aircraft_type': 'broom'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 152
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 09:40:00", "arrival_time": "2017-03-05 19:30:00", "duration": "9:50", "arrive_location": "svo", "aircraft_type": "broom"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 155
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:49 GMT
+> 
+{"flight":{"aircraft_type":"broom","arrival_time":"2017-03-05 19:30:00","arrive_location":"svo","departure_time":"2017-03-05 09:40:00","duration":"9:50"}}
+
+3 Urls(method='get', url='http://localhost:5000/flights', headers=None, json={'sorted': True, 'filter': False}, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 33
+< Content-Type: application/json
+< 
+< {"sorted": true, "filter": false}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 465
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:49 GMT
+> 
+{"flights":[{"arrival_time":"2017-03-05 19:30:00","arrive_location":"svo","departure_time":"2017-03-05 09:40:00","duration":"09:50:00","id":3,"plane":"broom"},{"arrival_time":"2017-03-05 18:30:00","arrive_location":"vko","departure_time":"2017-03-05 14:15:00","duration":"04:15:00","id":2,"plane":"jedi_starflight"},{"arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"01:10:00","id":1,"plane":"plane"}]}
+
+4 Urls(method='put', url='http://localhost:5000/flights/1', headers=None, json={'departure_time': '2017-03-05 12:30:00', 'arrival_time': '2017-03-05 13:40:00', 'duration': '1:10', 'arrive_location': 'dmd', 'aircraft_type': 'jedi_starflight'}, data=None) 200 True
+< PUT /flights/1 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 162
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 12:30:00", "arrival_time": "2017-03-05 13:40:00", "duration": "1:10", "arrive_location": "dmd", "aircraft_type": "jedi_starflight"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 34
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:49 GMT
+> 
+{"result":"Successfully changed"}
+
+5 Urls(method='put', url='http://localhost:5000/flights/5', headers=None, json=None, data=None) 400 False
+< PUT /flights/5 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 24
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"error":"Bad request"}
+
+6 Urls(method='get', url='http://localhost:5000/flights/5', headers=None, json=None, data=None) 404 False
+< GET /flights/5 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: application/json
+> Content-Length: 22
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"error":"Not found"}
+
+7 Urls(method='get', url='http://localhost:5000/flights/1', headers=None, json=None, data=None) 200 True
+< GET /flights/1 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 168
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"flight":{"arrival_time":"2017-03-05 13:40:00","arrive_location":"dmd","departure_time":"2017-03-05 12:30:00","duration":"01:10:00","id":1,"plane":"jedi_starflight"}}
+
+8 Urls(method='delete', url='http://localhost:5000/flights/1', headers=None, json=None, data=None) 200 True
+< DELETE /flights/1 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 33
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"result":"Successfully delete"}
+
+9 Urls(method='get', url='http://localhost:5000/flights', headers=None, json={'sorted': False, 'filter': 'svo'}, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 34
+< Content-Type: application/json
+< 
+< {"sorted": false, "filter": "svo"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 161
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"flights":[{"arrival_time":"2017-03-05 19:30:00","arrive_location":"svo","departure_time":"2017-03-05 09:40:00","duration":"09:50:00","id":3,"plane":"broom"}]}
+
+10 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2017-03-05 05:00:00', 'arrival_time': '2017-03-05 10:23:00', 'duration': '5:23', 'arrive_location': 'dmd', 'aircraft_type': 'plane'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 152
+< Content-Type: application/json
+< 
+< {"departure_time": "2017-03-05 05:00:00", "arrival_time": "2017-03-05 10:23:00", "duration": "5:23", "arrive_location": "dmd", "aircraft_type": "plane"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 155
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"flight":{"aircraft_type":"plane","arrival_time":"2017-03-05 10:23:00","arrive_location":"dmd","departure_time":"2017-03-05 05:00:00","duration":"5:23"}}
+
+11 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2', 'arrival_time': '3', 'duration': 323, 'arrive_location': 'dmd', 'aircraft_type': 'broom'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 113
+< Content-Type: application/json
+< 
+< {"departure_time": "2", "arrival_time": "3", "duration": 323, "arrive_location": "dmd", "aircraft_type": "broom"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 24
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"error":"Bad request"}
+
+12 Urls(method='get', url='http://localhost:5000/flights', headers=None, json={'sorted': True, 'filter': False}, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 33
+< Content-Type: application/json
+< 
+< {"sorted": true, "filter": false}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 465
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"flights":[{"arrival_time":"2017-03-05 19:30:00","arrive_location":"svo","departure_time":"2017-03-05 09:40:00","duration":"09:50:00","id":3,"plane":"broom"},{"arrival_time":"2017-03-05 10:23:00","arrive_location":"dmd","departure_time":"2017-03-05 05:00:00","duration":"05:23:00","id":4,"plane":"plane"},{"arrival_time":"2017-03-05 18:30:00","arrive_location":"vko","departure_time":"2017-03-05 14:15:00","duration":"04:15:00","id":2,"plane":"jedi_starflight"}]}
+
+13 Urls(method='get', url='http://localhost:5000/flights/metrix', headers=None, json={'method': 'GET', 'url': 'http://localhost:5000/flights'}, data=None) 200 True
+< GET /flights/metrix HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 57
+< Content-Type: application/json
+< 
+< {"method": "GET", "url": "http://localhost:5000/flights"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 136
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"metrix":{"0.9 percentile":0.00527,"average answer time":[0.00946106910705566],"min answer time":[0.00519538],"such queries num":[5]}}
+
+14 Urls(method='get', url='http://localhost:5000/flights/metrix', headers=None, json={'method': 'DELETE'}, data=None) 200 True
+< GET /flights/metrix HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 20
+< Content-Type: application/json
+< 
+< {"method": "DELETE"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 134
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"metrix":{"0.9 percentile":0.01614,"average answer time":[0.0161426067352295],"min answer time":[0.0161426],"such queries num":[1]}}
+
+15 Urls(method='get', url='http://localhost:5000/flights/metrix', headers=None, json={'method': 'PUT'}, data=None) 200 True
+< GET /flights/metrix HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 17
+< Content-Type: application/json
+< 
+< {"method": "PUT"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 137
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"metrix":{"0.9 percentile":0.00055,"average answer time":[0.00927340984344482],"min answer time":[0.000394344],"such queries num":[2]}}
+
+16 Urls(method='get', url='http://localhost:5000/flights/metrix', headers=None, json={'method': 'POST'}, data=None) 200 True
+< GET /flights/metrix HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 18
+< Content-Type: application/json
+< 
+< {"method": "POST"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 135
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Tue, 05 Nov 2019 16:52:50 GMT
+> 
+{"metrix":{"0.9 percentile":0.00187,"average answer time":[0.0151878833770752],"min answer time":[0.00148296],"such queries num":[5]}}
+
