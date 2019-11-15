@@ -92,7 +92,8 @@ class TreeClassifier(Tree):
             # unique, counts = np.unique(y, return_counts=True)
             # dct = dict(zip(unique, counts))
             # self.proba = dct[1] / y.shape[0]
-            self.proba = np.bincount(y)[1]
+            #self.proba = np.bincount(y)[1]
+            self.proba = np.sum(y) / y.shape[0]
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
