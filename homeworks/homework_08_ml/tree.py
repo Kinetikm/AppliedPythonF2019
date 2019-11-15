@@ -91,10 +91,8 @@ class TreeClassifier(Tree):
             self.proba = np.zeros((1, self.class_num))
             unique, counts = np.unique(y, return_counts=True)
             dct = dict(zip(unique, counts))
-            i = 0
             for key in dct.keys():
-                self.proba[0, i] = dct[key] / y.shape[0]
-                i += 1
+                self.proba[0, key] = dct[key] / y.shape[0]
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
@@ -129,9 +127,9 @@ class TreeClassifier(Tree):
             entropy = 1 - entropy
         return entropy
 
-    def predict_row(self,row):
+    def predict_row(self, row):
         if self.left_child and self.right_child:
-            if row[self.column_index] < self.threshold:
+            if row[self.column_index] <= self.threshold:
                 return self.left_child.predict_row(row)
             else:
                 return self.right_child.predict_row(row)
