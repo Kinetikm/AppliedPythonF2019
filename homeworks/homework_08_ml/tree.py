@@ -89,9 +89,10 @@ class TreeClassifier(Tree):
             self.right_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
             self.right_child.fit(xr, yr, n_samples, depth + 1)
         else:
-            unique, counts = np.unique(y, return_counts=True)
-            dct = dict(zip(unique, counts))
-            self.proba = dct[1] / y.shape[0]
+            # unique, counts = np.unique(y, return_counts=True)
+            # dct = dict(zip(unique, counts))
+            # self.proba = dct[1] / y.shape[0]
+            self.proba = np.bincount(y)[1]
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
