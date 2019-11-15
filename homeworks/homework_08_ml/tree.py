@@ -199,5 +199,3 @@ class TreeRegressor(Tree):
         """
         super().__init__(criterion, max_depth, min_samples_leaf)
         raise NotImplementedError
-
-
