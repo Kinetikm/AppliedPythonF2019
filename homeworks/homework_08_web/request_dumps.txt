@@ -1,0 +1,73 @@
+0 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '21:31', 'arrival': '6:44', 'travel_time': '9:13', 'destination': 'Mexico', 'aircraft_type': 'Airbus A320'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 121
+< Content-Type: application/json
+< 
+< {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 122
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 15 Nov 2019 21:45:10 GMT
+> 
+{"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}
+
+1 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 760
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 15 Nov 2019 21:45:10 GMT
+> 
+[[{"departure": "7:31", "arrival": "13:44", "travel_time": "6:13", "destination": "Riyadh", "aircraft_type": "Snoop-Dog Airbus A320"}, {"departure": null, "arrival": null, "travel_time": null, "destination": null, "aircraft_type": "Snoop-Dog Airbus A320 V2"}, {"departure": "20:31", "arrival": "5:44", "travel_time": "9:13", "destination": "Jamaica", "aircraft_type": "Airbus 9000"}, {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}, {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}, {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}], true]
+
+2 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'aircraft_type': 'Snoop-Dog Airbus A320 V2'}, data=None) 202 True
+< PUT /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 45
+< Content-Type: application/json
+< 
+< {"aircraft_type": "Snoop-Dog Airbus A320 V2"}
+> HTTP/1.0 202 ACCEPTED
+> Content-Type: application/json
+> Content-Length: 124
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 15 Nov 2019 21:45:10 GMT
+> 
+{"departure": null, "arrival": null, "travel_time": null, "destination": null, "aircraft_type": "Snoop-Dog Airbus A320 V2"}
+
+3 Urls(method='delete', url='http://localhost:5000/flights/1', headers=None, json=None, data=None) 202 True
+< DELETE /flights/1 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 202 ACCEPTED
+> Content-Type: application/json
+> Content-Length: 16
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Fri, 15 Nov 2019 21:45:10 GMT
+> 
+"1 is deleted."
+
