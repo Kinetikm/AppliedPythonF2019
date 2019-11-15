@@ -25,7 +25,7 @@ class Tree:
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        y_pred = np.zeros((X_test.shape[0], 1))
+        y_pred = np.zeros((X_test.shape[0], ))
         for i in range(X_test.shape[0]):
             y_pred[i] = self.predict_row(X_test[i])
         return y_pred.astype(int)
@@ -93,7 +93,7 @@ class TreeClassifier(Tree):
             # unique, counts = np.unique(y, return_counts=True)
             # dct = dict(zip(unique, counts))
             # self.proba = dct[1] / y.shape[0]
-            #self.proba = np.bincount(y)[1]
+            # self.proba = np.bincount(y)[1]
             self.proba = np.sum(y) / y.shape[0]
 
     def find_best_split(self, x, y):
@@ -144,7 +144,7 @@ class TreeClassifier(Tree):
         :param X_test: test data for predict in
         :return: y_test: predicted probabilities
         """
-        y_pred = np.zeros((X_test.shape[0], ))
+        y_pred = np.zeros((X_test.shape[0], ё))
         for i in range(X_test.shape[0]):
             y_pred[i] = self.predict_row(X_test[i, :])
         return y_pred
