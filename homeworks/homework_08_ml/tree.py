@@ -147,4 +147,5 @@ class TreeClassifier(Tree):
         y_pred = np.zeros((X_test.shape[0], ))
         for i in range(X_test.shape[0]):
             y_pred[i] = self.predict_row(X_test[i, :])
+        print(y_pred.unique())
         return y_pred
