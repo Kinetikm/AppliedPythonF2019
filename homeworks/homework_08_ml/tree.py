@@ -18,6 +18,7 @@ class Tree:
         self.left_child = None
         self.right_child = None
         self.proba = None
+        self.imp = None
 
     def predict(self, X_test):
         """
@@ -89,12 +90,11 @@ class TreeClassifier(Tree):
             self.right_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
             self.right_child.fit(xr, yr, n_samples, depth + 1)
         else:
-            # Не знаю как считатб
             # unique, counts = np.unique(y, return_counts=True)
             # dct = dict(zip(unique, counts))
             # self.proba = dct[1] / y.shape[0]
             # self.proba = np.bincount(y)[1]
-            self.proba = np.sum(y) / y.shape[0]
+            self.proba = list(y).count(1) / y.shape[0]
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
@@ -147,5 +147,4 @@ class TreeClassifier(Tree):
         y_pred = np.zeros((X_test.shape[0], ))
         for i in range(X_test.shape[0]):
             y_pred[i] = self.predict_row(X_test[i, :])
-        print(y_pred.unique())
         return y_pred
