@@ -6,7 +6,7 @@ LOGGING_CONFIG = {
     'handlers': {
         'db_handler': {
             'level': 'INFO',
-            'class': 'app.log_handler.LogDBHandler',
+            'class': 'application.log_handler.LogDBHandler',
         }
     },
     'loggers': {

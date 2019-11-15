@@ -1,4 +1,4 @@
-from app import app
+from application import app
 from flask import jsonify, abort, request, g
 from marshmallow.exceptions import ValidationError
 import validation
@@ -20,10 +20,17 @@ Session = sessionmaker(bind=flights_engine)
 LogSession = sessionmaker(bind=log_engine)
 
 
+def get_db():
+    if 'db' not in g:
+        g.db = Session()
+
+    return g.db
+
+
 @app.route('/flights', methods=['GET'])
 def get_flights():
     args = args_schema.load(request.args)
-    session = g.session
+    session = get_db()
     if args['filter_by_airport'] is not None:
         result = session.query(Flights).join(Flights.airport).filter(Airports.airport == args['filter_by_airport'])
     elif args['filter_by_plane'] is not None:
@@ -42,7 +49,7 @@ def get_flights():
 def post_flight():
     try:
         data = flight_schema.load(request.get_json())
-        session = g.session
+        session = get_db()
         airport = session.query(Airports).filter(Airports.airport == data['dest_airport']).first()
         if airport is None:
             airport = Airports(airport=data['dest_airport'])
@@ -66,7 +73,7 @@ def post_flight():
 
 @app.route('/flights/<int:flight_id>/', methods=['GET'])
 def get_flight(flight_id):
-    session = g.session
+    session = get_db()
     data = session.query(Flights).get(flight_id)
     if data is not None:
         data = data.serialize
@@ -75,7 +82,7 @@ def get_flight(flight_id):
 
 @app.route('/flights/<int:flight_id>/', methods=['DELETE'])
 def delete_flight(flight_id):
-    session = g.session
+    session = get_db()
     obj = session.query(Flights).get(flight_id)
     if obj is not None:
         session.delete(obj)
@@ -87,7 +94,7 @@ def delete_flight(flight_id):
 def put_flight(flight_id):
     try:
         data = flight_schema.load(request.get_json())
-        session = g.session
+        session = get_db()
         airport = session.query(Airports).filter(Airports.airport == data['dest_airport']).first()
         if airport is None:
             airport = Airports(airport=data['dest_airport'])
@@ -152,7 +159,6 @@ def get_metrics():
 @app.before_request
 def before_request():
     g.start = time.time()
-    g.session = Session()
 
 
 @app.after_request
@@ -162,5 +168,12 @@ def after_request(response):
              full_path=request.full_path, json=request.json, status=response.status,
              resp_time=resp_time)
     logger.info(msg='', extra=d)
-    g.session.close()
     return response
+
+
+@app.teardown_appcontext
+def teardown_db(args):
+    db = g.pop('db', None)
+
+    if db is not None:
+        db.close()
