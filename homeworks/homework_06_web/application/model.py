@@ -19,11 +19,11 @@ class Airplanes(Base):
     id = Column(Integer, primary_key=True)
     airplane = Column(String, unique=True)
 
+
 class Users(Base):
-    __tablename__ = 'airplane'
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    token = Column(String)
     username = Column(String, unique=True)
     email = Column(String)
     password_hash = Column(String)
@@ -35,12 +35,13 @@ class Flights(Base):
     id = Column(Integer, primary_key=True)
     plane_id = Column(Integer, ForeignKey('airplanes.id'))
     airport_id = Column(Integer, ForeignKey('airports.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
     dep_time = Column(DateTime)
     arr_time = Column(DateTime)
     flight_time = Column(String)
     airport = relationship("Airports", back_populates="flights")
     airplane = relationship("Airplanes", back_populates="flights")
-    user_id = relationship('Users', back_populates='flights')
+    user = relationship('Users', back_populates='flights')
 
 
     @property
@@ -52,6 +53,7 @@ class Flights(Base):
             'airplane': self.airplane.airplane,
             'airport': self.airport.airport,
             'flight_time': self.flight_time,
+            'user': self.user,
         }
 
 

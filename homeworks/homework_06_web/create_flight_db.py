@@ -1,8 +1,9 @@
 import datetime
 import random
-from app.model import Base, Airports, Airplanes, Flights
+from application.model import Base, Airports, Airplanes, Flights, Users
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from werkzeug.security import generate_password_hash
 flights_engine = create_engine('sqlite:///flights.db')
 
 
@@ -28,6 +29,8 @@ def generate_data(n=5, start_date=datetime.datetime(2018, 1, 1, tzinfo=datetime.
     Base.metadata.create_all(flights_engine)
     Session = sessionmaker(bind=flights_engine)
     session = Session()
+    user = Users(username='user1', email="user1@mail.ru", password_hash=generate_password_hash('password1'))
+    session.add(user)
     for airport in airports:
         a = Airports(airport=airport)
         session.add(a)
@@ -36,7 +39,7 @@ def generate_data(n=5, start_date=datetime.datetime(2018, 1, 1, tzinfo=datetime.
         session.add(p)
     for d in data:
         entry = Flights(dep_time=d['dep_time'], arr_time=d['arr_time'], airport_id=d['dest_airport'],
-                        plane_id=d['airplane'], flight_time=d['flight_time'])
+                        plane_id=d['airplane'], flight_time=d['flight_time'], user_id=1)
         session.add(entry)
     session.commit()
     for i in session.query(Flights).all():
