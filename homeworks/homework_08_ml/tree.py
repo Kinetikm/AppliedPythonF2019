@@ -189,3 +189,12 @@ class TreeClassifier(Tree):
         y_proba = self.predict_proba(X_test)
         y_pred = self.unique_values[np.argmax(y_proba, axis=1)]
         return y_pred
+
+class TreeRegressor(Tree):
+    def __init__(self, criterion='mse', max_depth=None, min_samples_leaf=1):
+        """
+        :param criterion: method to determine splits, 'mse' or 'mae'
+        """
+        super().__init__(criterion, max_depth, min_samples_leaf)
+        raise NotImplementedError
+
