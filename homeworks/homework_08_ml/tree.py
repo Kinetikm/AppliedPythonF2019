@@ -25,10 +25,10 @@ class Tree:
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        y_pred = np.zeros((X_test.shape[0], self.class_num))
+        y_pred = np.zeros((X_test.shape[0], 1))
         for i in range(X_test.shape[0]):
             y_pred[i] = self.predict_row(X_test[i])
-        return y_pred.argmax(axis=1)
+        return y_pred.astype(int)
 
     def get_feature_importance(self):
         """
@@ -89,11 +89,9 @@ class TreeClassifier(Tree):
             self.right_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
             self.right_child.fit(xr, yr, n_samples, depth + 1)
         else:
-            self.proba = np.zeros((1, self.class_num))
             unique, counts = np.unique(y, return_counts=True)
             dct = dict(zip(unique, counts))
-            for key in dct.keys():
-                self.proba[0, key] = dct[key] / y.shape[0]
+            self.proba = dct[1] / y.shape[0]
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
@@ -143,7 +141,7 @@ class TreeClassifier(Tree):
         :param X_test: test data for predict in
         :return: y_test: predicted probabilities
         """
-        y_pred = np.zeros((X_test.shape[0], self.class_num))
+        y_pred = np.zeros((X_test.shape[0], 1))
         for i in range(X_test.shape[0]):
-            y_pred[i, :] = self.predict_row(X_test[i])
+            y_pred[i] = self.predict_row(X_test[i, :])
         return y_pred
