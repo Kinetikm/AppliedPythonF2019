@@ -52,7 +52,7 @@ class TreeRegressor(Tree):
 
 
 class TreeClassifier(Tree):
-    def __init__(self, criterion='entropy', max_depth=None, min_samples_leaf=1):
+    def __init__(self, criterion='gini', max_depth=None, min_samples_leaf=1):
         """
         :param criterion: method to determine splits, 'gini' or 'entropy'
         """
@@ -76,7 +76,7 @@ class TreeClassifier(Tree):
             row, col, value, gain_max = self.find_best_split(X_train, y)
             self.column_index = col
             self.threshold = value
-            self.imp[0, col] += X_train.shape[1] / n_samples * gain_max
+            self.imp[0, col] += X_train.shape[0] / n_samples * gain_max
             matrix = np.hstack((X_train, y))
             matrix = matrix[matrix[:, col].argsort()]
             xl = matrix[:row, :-1]
@@ -90,11 +90,7 @@ class TreeClassifier(Tree):
             self.right_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
             self.right_child.fit(xr, yr, n_samples, depth + 1)
         else:
-            # unique, counts = np.unique(y, return_counts=True)
-            # dct = dict(zip(unique, counts))
-            # self.proba = dct[1] / y.shape[0]
-            # self.proba = np.bincount(y)[1]
-            m = 1 / y.shape[1]
+            m = 1 / y.shape[0]
             self.proba = m * list(y).count(1)
 
     def find_best_split(self, x, y):
