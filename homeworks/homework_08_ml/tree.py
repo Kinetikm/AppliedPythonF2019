@@ -91,6 +91,7 @@ class TreeClassifier(Tree):
             self.right_child.fit(xr, yr, n_samples, depth + 1)
         else:
             m = 1 / y.shape[0]
+            print(m)
             self.proba = m * list(y).count(1)
 
     def find_best_split(self, x, y):
