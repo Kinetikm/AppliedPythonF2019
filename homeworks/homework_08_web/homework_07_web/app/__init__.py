@@ -7,7 +7,7 @@ from flask_jwt_extended import JWTManager
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(os.environ['AUTH_SETTINGS'])
+    app.config.from_object(os.environ['APP_SETTINGS'])
     db.init_app(app)
     jwt = JWTManager(app)
     with app.test_request_context():
