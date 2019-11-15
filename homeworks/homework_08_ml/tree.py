@@ -17,6 +17,7 @@ class Tree:
         self.min_samples = min_samples_leaf
         self.left_child = None
         self.right_child = None
+        self.proba = None
 
     def predict(self, X_test):
         """
@@ -133,7 +134,8 @@ class TreeClassifier(Tree):
                 return self.left_child.predict_row(row)
             else:
                 return self.right_child.predict_row(row)
-        return self.proba
+        else:
+            return self.proba
 
     def predict_proba(self, X_test):
         """
@@ -143,5 +145,5 @@ class TreeClassifier(Tree):
         """
         y_pred = np.zeros((X_test.shape[0], self.class_num))
         for i in range(X_test.shape[0]):
-            y_pred[i] = self.predict_row(X_test[i])
+            y_pred[i, :] = self.predict_row(X_test[i])
         return y_pred
