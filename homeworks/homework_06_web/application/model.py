@@ -1,6 +1,8 @@
 from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 Base = declarative_base()
 LogBase = declarative_base()
@@ -20,7 +22,7 @@ class Airplanes(Base):
     airplane = Column(String, unique=True)
 
 
-class Users(Base):
+class Users(Base, UserMixin):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
@@ -28,6 +30,14 @@ class Users(Base):
     email = Column(String)
     password_hash = Column(String)
 
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 class Flights(Base):
     __tablename__ = 'flights'
