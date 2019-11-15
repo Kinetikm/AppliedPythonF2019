@@ -2,6 +2,10 @@
 # coding: utf-8
 
 
+import numpy
+from scipy.sparse import csr_matrix
+
+
 class TfIdfVectorizer:
 
     def __init__(self, min_df, max_df, ngram_range, n_jobs):
@@ -15,7 +19,13 @@ class TfIdfVectorizer:
         :param n_jobs: число процессов (не потоков), с которыми должны выполнятсья дальнейшие преобразования.
         Если n_jobs = -1, то n_jobs = кол-во ядер
         '''
-        raise NotImplementedError
+        self.min_df = min_df
+        self.max_df = max_df
+        self.ngram = ngram_range
+        if n_jobs == -1:
+            self.n_jobs = cpu_count()
+        else:
+            self.n_jobs = n_jobs
 
     def fit(self, folder, working_folder):
         '''
