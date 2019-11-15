@@ -89,6 +89,7 @@ class TreeClassifier(Tree):
             self.right_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
             self.right_child.fit(xr, yr, n_samples, depth + 1)
         else:
+            # Не знаю как считатб
             # unique, counts = np.unique(y, return_counts=True)
             # dct = dict(zip(unique, counts))
             # self.proba = dct[1] / y.shape[0]
