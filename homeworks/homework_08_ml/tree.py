@@ -67,7 +67,7 @@ class Tree:
     def predict_example(self, example, tree):
         question = tuple(tree.keys())[0]
         col_index, value = question[0], question[1]
-        if (value.dtype == np.float64 or value.dtype == np.int64): 
+        if (value.dtype == np.float64 or value.dtype == np.int64):
             if example[col_index] >= value:
                 answer = tree[question][0]
             else:
@@ -97,7 +97,7 @@ class Tree:
         for col_index in range(data.shape[1]-1):
             potential_splits[col_index] = []
             values = np.unique(data[:, col_index])
-            if (values.dtype == np.float64 or values.dtype == np.int64): 
+            if (values.dtype == np.float64 or values.dtype == np.int64):
                 for i in range(1, len(values)):
                     split = (values[i] + values[i-1]) / 2
                     potential_splits[col_index].append(split)
@@ -146,11 +146,11 @@ class Tree:
                 if self.criterion == 'gini':
                     impurity_1, impurity_2 = self.gini(data_true), self.gini(data_false)
                     gain = initial_impurity - (len(data_true) * impurity_1 / len(data) +
-                                             len(data_false) * impurity_2 / len(data))
+                                               len(data_false) * impurity_2 / len(data))
                 else:
                     impurity_1, impurity_2 = self.entropy(data_true), self.entropy(data_false)
                     gain = initial_impurity - (len(data_true) * impurity_1 / len(data) +
-                                             len(data_false) * impurity_2 / len(data))
+                                               len(data_false) * impurity_2 / len(data))
                 if gain > max_gain:
                     best_split_column = col_index
                     best_split_value = value
@@ -160,6 +160,7 @@ class Tree:
             return best_split_column, best_split_value
         else:
             return None, None
+
 
 class TreeClassifier(Tree):
     def __init__(self, criterion='gini', max_depth=None, min_samples_leaf=1):
@@ -190,6 +191,7 @@ class TreeClassifier(Tree):
         y_pred = self.unique_values[np.argmax(y_proba, axis=1)]
         return y_pred
 
+
 class TreeRegressor(Tree):
     def __init__(self, criterion='mse', max_depth=None, min_samples_leaf=1):
         """
@@ -197,4 +199,5 @@ class TreeRegressor(Tree):
         """
         super().__init__(criterion, max_depth, min_samples_leaf)
         raise NotImplementedError
+
 
