@@ -19,6 +19,15 @@ class Airplanes(Base):
     id = Column(Integer, primary_key=True)
     airplane = Column(String, unique=True)
 
+class Users(Base):
+    __tablename__ = 'airplane'
+
+    id = Column(Integer, primary_key=True)
+    token = Column(String)
+    username = Column(String, unique=True)
+    email = Column(String)
+    password_hash = Column(String)
+
 
 class Flights(Base):
     __tablename__ = 'flights'
@@ -31,6 +40,8 @@ class Flights(Base):
     flight_time = Column(String)
     airport = relationship("Airports", back_populates="flights")
     airplane = relationship("Airplanes", back_populates="flights")
+    user_id = relationship('Users', back_populates='flights')
+
 
     @property
     def serialize(self):
@@ -77,3 +88,4 @@ class Log(LogBase):
 
 Airplanes.flights = relationship("Flights", order_by=Flights.id, back_populates='airplane')
 Airports.flights = relationship("Flights", order_by=Flights.id, back_populates='airport')
+Users.flights = relationship("Flights", order_by=Flights.id, back_populates='user')
