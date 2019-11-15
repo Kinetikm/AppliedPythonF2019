@@ -94,7 +94,7 @@ class TreeClassifier(Tree):
             # dct = dict(zip(unique, counts))
             # self.proba = dct[1] / y.shape[0]
             # self.proba = np.bincount(y)[1]
-            m = 1 / y.shape[0]
+            m = 1 / y.shape[1]
             self.proba = m * list(y).count(1)
 
     def find_best_split(self, x, y):
