@@ -144,7 +144,7 @@ class TreeClassifier(Tree):
         :param X_test: test data for predict in
         :return: y_test: predicted probabilities
         """
-        y_pred = np.zeros((X_test.shape[0], 1))
+        y_pred = np.zeros((X_test.shape[0], ))
         for i in range(X_test.shape[0]):
             y_pred[i] = self.predict_row(X_test[i, :])
         return y_pred
