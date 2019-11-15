@@ -28,11 +28,13 @@ class Flights(Base):
     aircraft = relationship("Aircraft_types", backref='flights')
 
     def deserializ(self):
-        result = {"departure": self.departure,
+        result = {
+                "departure": self.departure,
                 "arrival": self.arrival,
                 "travel_time": self.travel_time,
                 "destination": self.airport.airport,
-                "aircraft_type": self.aircraft.aircraft}
+                "aircraft_type": self.aircraft.aircraft
+                }
         return result
 
 
@@ -73,8 +75,8 @@ def insert(flight_):
     aircraft_ = session.query(Aircraft_types).filter(Aircraft_types.aircraft == flight_["aircraft_type"]).first()
     if not aircraft_:
         aircraft_ = Aircraft_types(aircraft=flight_["aircraft_type"])
-        #session.add(aircraft_) TODO
-        #session.commit()
+        session.add(aircraft_)
+        session.commit()
 
     flightdb = Flights(
                     departure=flight_["departure"],
