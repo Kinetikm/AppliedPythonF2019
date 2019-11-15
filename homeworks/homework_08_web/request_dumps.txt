@@ -1,0 +1,469 @@
+0 Urls(method='post', url='http://localhost:8080/signup', headers=None, json={'email': 'cron@mail.ru', 'login': 'kuznec', 'password': '12345', 're_password': '12345'}, data=None) 403 False
+< POST /signup HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 89
+< Content-Type: application/json
+< 
+< {"email": "cron@mail.ru", "login": "kuznec", "password": "12345", "re_password": "12345"}
+> HTTP/1.0 403 FORBIDDEN
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 73
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:24 GMT
+> 
+{"code": 403, "name": "Bad login", "description": "Login already exists"}
+1 Urls(method='post', url='http://localhost:8080/signup', headers=None, json={'email': 'cron@mail.ru', 'login': 'kuznec', 'password': '12345', 're_password': '12345'}, data=None) 403 False
+< POST /signup HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 89
+< Content-Type: application/json
+< 
+< {"email": "cron@mail.ru", "login": "kuznec", "password": "12345", "re_password": "12345"}
+> HTTP/1.0 403 FORBIDDEN
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 73
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:24 GMT
+> 
+{"code": 403, "name": "Bad login", "description": "Login already exists"}
+2 Urls(method='post', url='http://localhost:8080/signup', headers=None, json={'email': 'zhara@yandex.ru', 'login': 'stebel', 'password': '12345', 're_password': '7373735'}, data=None) 400 False
+< POST /signup HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 94
+< Content-Type: application/json
+< 
+< {"email": "zhara@yandex.ru", "login": "stebel", "password": "12345", "re_password": "7373735"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 82
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:24 GMT
+> 
+{"code": 400, "name": "Data incorrect", "description": "Repassword dont the same"}
+3 Urls(method='post', url='http://localhost:8080/signup', headers=None, json={'email': 'MAIL@', 'login': 'utug', 'password': '12345', 're_password': '12345'}, data=None) 400 False
+< POST /signup HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 80
+< Content-Type: application/json
+< 
+< {"email": "MAIL@", "login": "utug", "password": "12345", "re_password": "12345"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 110
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:24 GMT
+> 
+{"code": 400, "name": "Data incorrect", "description": {"email": ["String does not match expected pattern."]}}
+4 Urls(method='post', url='http://localhost:8080/signup', headers=None, json={'email': 'zhara@yandex.ru', 'login': 'utug', 'password': '12345', 're_password': '12345'}, data=None) 403 False
+< POST /signup HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 90
+< Content-Type: application/json
+< 
+< {"email": "zhara@yandex.ru", "login": "utug", "password": "12345", "re_password": "12345"}
+> HTTP/1.0 403 FORBIDDEN
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 73
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:24 GMT
+> 
+{"code": 403, "name": "Bad login", "description": "Login already exists"}
+5 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'utug', 'password': '12345'}, data=None) 200 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 38
+< Content-Type: application/json
+< 
+< {"login": "utug", "password": "12345"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 13
+> Set-Cookie: session_cookie=abdf4cc3-2b74-4dac-93b9-a48e3f020f58; Expires=Fri, 15-Nov-2019 15:59:55 GMT; Max-Age=30; Path=/
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+Login success
+6 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '18:59', 'arr_time': '20:59', 'travel_time': '2H00M', 'dst_airport': 'VOL', 'aircraft': 'Boeing'}, data=None) 201 True
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: session_cookie=abdf4cc3-2b74-4dac-93b9-a48e3f020f58
+< Content-Length: 110
+< Content-Type: application/json
+< 
+< {"dep_time": "18:59", "arr_time": "20:59", "travel_time": "2H00M", "dst_airport": "VOL", "aircraft": "Boeing"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 140
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"inserted":{"aircraft":"Boeing","arr_time":"20:59","creator":"utug","dep_time":"18:59","dst_airport":"VOL","id":10,"travel_time":"2H00M"}}
+
+7 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'kuznec', 'password': '12345'}, data=None) 200 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 40
+< Content-Type: application/json
+< 
+< {"login": "kuznec", "password": "12345"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 13
+> Set-Cookie: session_cookie=fab1e833-027e-4f9e-a99e-d58d66fab237; Expires=Fri, 15-Nov-2019 15:59:55 GMT; Max-Age=30; Path=/
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+Login success
+8 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '18:59', 'arr_time': '14:59+1', 'travel_time': '12H00M', 'dst_airport': 'CAN', 'aircraft': 'Airbus'}, data=None) 201 True
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: session_cookie=fab1e833-027e-4f9e-a99e-d58d66fab237
+< Content-Length: 113
+< Content-Type: application/json
+< 
+< {"dep_time": "18:59", "arr_time": "14:59+1", "travel_time": "12H00M", "dst_airport": "CAN", "aircraft": "Airbus"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 145
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"inserted":{"aircraft":"Airbus","arr_time":"14:59+1","creator":"kuznec","dep_time":"18:59","dst_airport":"CAN","id":11,"travel_time":"12H00M"}}
+
+9 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '18:59', 'arr_time': '21:59', 'travel_time': '12H00M', 'dst_airport': 'QQQ', 'aircraft': 'Airbus'}, data=None) 403 False
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 111
+< Content-Type: application/json
+< 
+< {"dep_time": "18:59", "arr_time": "21:59", "travel_time": "12H00M", "dst_airport": "QQQ", "aircraft": "Airbus"}
+> HTTP/1.0 403 FORBIDDEN
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 78
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"code": 403, "name": "Bad access", "description": "Couldnt find your cookie"}
+10 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '18:59', 'arr_time': '20:59', 'travel_time': '12H00M', 'dst_airport': 'CAN', 'aircraft': 'Stul'}, data=None) 403 False
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 109
+< Content-Type: application/json
+< 
+< {"dep_time": "18:59", "arr_time": "20:59", "travel_time": "12H00M", "dst_airport": "CAN", "aircraft": "Stul"}
+> HTTP/1.0 403 FORBIDDEN
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 78
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"code": 403, "name": "Bad access", "description": "Couldnt find your cookie"}
+11 Urls(method='post', url='http://localhost:5000/service/rows', headers=None, json={'dep_time': '18:59', 'arr_time': '16:59', 'travel_time': '12H00M', 'dst_airport': 'CAN', 'aircraft': 'Airbus'}, data=None) 403 False
+< POST /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 111
+< Content-Type: application/json
+< 
+< {"dep_time": "18:59", "arr_time": "16:59", "travel_time": "12H00M", "dst_airport": "CAN", "aircraft": "Airbus"}
+> HTTP/1.0 403 FORBIDDEN
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 78
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"code": 403, "name": "Bad access", "description": "Couldnt find your cookie"}
+12 Urls(method='get', url='http://localhost:5000/service/rows', headers=None, json={}, data=None) 200 True
+< GET /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 1422
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"flights":[{"aircraft":"Boeing","arr_time":"13:00","creator":"kon","dep_time":"12:00","dst_airport":"VOL","id":1,"travel_time":"1H00M"},{"aircraft":"Airbus","arr_time":"11:00","creator":"creat","dep_time":"10:00","dst_airport":"CAN","id":2,"travel_time":"1H00M"},{"aircraft":"Superjet","arr_time":"12:00","creator":"pos","dep_time":"11:00","dst_airport":"SEP","id":3,"travel_time":"1H00M"},{"aircraft":"Airbus","arr_time":"19:56","creator":"utug","dep_time":"18:56","dst_airport":"CAN","id":4,"travel_time":"13H00M"},{"aircraft":"Airbus","arr_time":"14:52+1","creator":"utug","dep_time":"18:52","dst_airport":"CAN","id":5,"travel_time":"12H00M"},{"aircraft":"Boeing","arr_time":"20:56","creator":"utug","dep_time":"18:56","dst_airport":"VOL","id":6,"travel_time":"2H00M"},{"aircraft":"Airbus","arr_time":"14:56+1","creator":"kuznec","dep_time":"18:56","dst_airport":"CAN","id":7,"travel_time":"12H00M"},{"aircraft":"Boeing","arr_time":"20:57","creator":"utug","dep_time":"18:57","dst_airport":"VOL","id":8,"travel_time":"2H00M"},{"aircraft":"Airbus","arr_time":"14:57+1","creator":"kuznec","dep_time":"18:57","dst_airport":"CAN","id":9,"travel_time":"12H00M"},{"aircraft":"Boeing","arr_time":"20:59","creator":"utug","dep_time":"18:59","dst_airport":"VOL","id":10,"travel_time":"2H00M"},{"aircraft":"Airbus","arr_time":"14:59+1","creator":"kuznec","dep_time":"18:59","dst_airport":"CAN","id":11,"travel_time":"12H00M"}]}
+
+13 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'utug', 'password': '12345'}, data=None) 200 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 38
+< Content-Type: application/json
+< 
+< {"login": "utug", "password": "12345"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 13
+> Set-Cookie: session_cookie=7205fbac-2af6-4b59-bf71-c9970e2fc47c; Expires=Fri, 15-Nov-2019 15:59:55 GMT; Max-Age=30; Path=/
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+Login success
+14 Urls(method='put', url='http://localhost:5000/service/rows/4', headers=None, json={'dep_time': '18:59', 'arr_time': '19:59', 'travel_time': '13H00M', 'dst_airport': 'CAN', 'aircraft': 'Airbus', 'id': 4}, data=None) 200 True
+< PUT /service/rows/4 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: session_cookie=7205fbac-2af6-4b59-bf71-c9970e2fc47c
+< Content-Length: 120
+< Content-Type: application/json
+< 
+< {"dep_time": "18:59", "arr_time": "19:59", "travel_time": "13H00M", "dst_airport": "CAN", "aircraft": "Airbus", "id": 4}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 139
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"updated":{"aircraft":"Airbus","arr_time":"19:59","creator":"utug","dep_time":"18:59","dst_airport":"CAN","id":4,"travel_time":"13H00M"}}
+
+15 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'kuznec', 'password': '12345'}, data=None) 200 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 40
+< Content-Type: application/json
+< 
+< {"login": "kuznec", "password": "12345"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 13
+> Set-Cookie: session_cookie=e59a20a2-5a82-438c-b650-f453c5e65cc1; Expires=Fri, 15-Nov-2019 15:59:55 GMT; Max-Age=30; Path=/
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+Login success
+16 Urls(method='put', url='http://localhost:5000/service/rows/4', headers=None, json={'dep_time': '18:59', 'arr_time': '19:59', 'travel_time': '13H00M', 'dst_airport': 'CAN', 'aircraft': 'Airbus', 'id': 4}, data=None) 403 False
+< PUT /service/rows/4 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: session_cookie=e59a20a2-5a82-438c-b650-f453c5e65cc1
+< Content-Length: 120
+< Content-Type: application/json
+< 
+< {"dep_time": "18:59", "arr_time": "19:59", "travel_time": "13H00M", "dst_airport": "CAN", "aircraft": "Airbus", "id": 4}
+> HTTP/1.0 403 FORBIDDEN
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 81
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"code": 403, "name": "Bad access", "description": "You have not rule to access"}
+17 Urls(method='get', url='http://localhost:5000/service/rows/4', headers=None, json={}, data=None) 200 True
+< GET /service/rows/4 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 138
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"flight":{"aircraft":"Airbus","arr_time":"19:59","creator":"utug","dep_time":"18:59","dst_airport":"CAN","id":4,"travel_time":"13H00M"}}
+
+18 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'utug', 'password': '12345'}, data=None) 200 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 38
+< Content-Type: application/json
+< 
+< {"login": "utug", "password": "12345"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 13
+> Set-Cookie: session_cookie=d0f40c8d-b105-4c3d-a0a5-c33e33d66381; Expires=Fri, 15-Nov-2019 15:59:55 GMT; Max-Age=30; Path=/
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+Login success
+19 Urls(method='delete', url='http://localhost:5000/service/rows/4', headers=None, json={}, data=None) 204 True
+< DELETE /service/rows/4 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: session_cookie=d0f40c8d-b105-4c3d-a0a5-c33e33d66381
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 204 NO CONTENT
+> Content-Type: application/json
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+
+20 Urls(method='get', url='http://localhost:5000/service/rows', headers=None, json={}, data=None) 200 True
+< GET /service/rows HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 1295
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"flights":[{"aircraft":"Boeing","arr_time":"13:00","creator":"kon","dep_time":"12:00","dst_airport":"VOL","id":1,"travel_time":"1H00M"},{"aircraft":"Airbus","arr_time":"11:00","creator":"creat","dep_time":"10:00","dst_airport":"CAN","id":2,"travel_time":"1H00M"},{"aircraft":"Superjet","arr_time":"12:00","creator":"pos","dep_time":"11:00","dst_airport":"SEP","id":3,"travel_time":"1H00M"},{"aircraft":"Airbus","arr_time":"14:52+1","creator":"utug","dep_time":"18:52","dst_airport":"CAN","id":5,"travel_time":"12H00M"},{"aircraft":"Boeing","arr_time":"20:56","creator":"utug","dep_time":"18:56","dst_airport":"VOL","id":6,"travel_time":"2H00M"},{"aircraft":"Airbus","arr_time":"14:56+1","creator":"kuznec","dep_time":"18:56","dst_airport":"CAN","id":7,"travel_time":"12H00M"},{"aircraft":"Boeing","arr_time":"20:57","creator":"utug","dep_time":"18:57","dst_airport":"VOL","id":8,"travel_time":"2H00M"},{"aircraft":"Airbus","arr_time":"14:57+1","creator":"kuznec","dep_time":"18:57","dst_airport":"CAN","id":9,"travel_time":"12H00M"},{"aircraft":"Boeing","arr_time":"20:59","creator":"utug","dep_time":"18:59","dst_airport":"VOL","id":10,"travel_time":"2H00M"},{"aircraft":"Airbus","arr_time":"14:59+1","creator":"kuznec","dep_time":"18:59","dst_airport":"CAN","id":11,"travel_time":"12H00M"}]}
+
+21 Urls(method='get', url='http://localhost:5000/statistic/min/2', headers=None, json={}, data=None) 200 True
+< GET /statistic/min/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 20
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"statistic":0.015}
+
+22 Urls(method='get', url='http://localhost:5000/statistic/average/2', headers=None, json={}, data=None) 200 True
+< GET /statistic/average/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 19
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"statistic":0.02}
+
+23 Urls(method='get', url='http://localhost:5000/statistic/count/2', headers=None, json={}, data=None) 200 True
+< GET /statistic/count/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 16
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"statistic":8}
+
+24 Urls(method='get', url='http://localhost:5000/statistic/percentile/2', headers=None, json={}, data=None) 200 True
+< GET /statistic/percentile/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 2
+< Content-Type: application/json
+< 
+< {}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 61
+> Server: Werkzeug/0.16.0 Python/3.7.5
+> Date: Fri, 15 Nov 2019 15:59:25 GMT
+> 
+{"statistic":[{"id":2,"time":0.015},{"id":16,"time":0.015}]}
+
