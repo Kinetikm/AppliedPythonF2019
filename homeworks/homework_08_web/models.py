@@ -12,26 +12,26 @@ Base = declarative_base()
 class Airports(Base):
     __tablename__ = 'airports'
 
-    id = Column(Integer, primary_key=True)
+    id_ = Column(Integer, primary_key=True)
     airport = Column(String, unique=True)
 
 
 class Aircrafts(Base):
     __tablename__ = 'aircrafts'
 
-    id = Column(Integer, primary_key=True)
+    id_ = Column(Integer, primary_key=True)
     aircraft = Column(String, unique=True)
 
 
 class Flights(Base):
     __tablename__ = 'flights'
 
-    id = Column(Integer, primary_key=True)
+    id_ = Column(Integer, primary_key=True)
     departure_time = Column(String)
     arrival_time = Column(String)
     travel_time = Column(String)
-    destination_airport_id = Column(Integer, ForeignKey('airports.id'))
-    type_of_aircraft_id = Column(Integer, ForeignKey('aircrafts.id'))
+    destination_airport_id = Column(Integer, ForeignKey('airports.id_'))
+    type_of_aircraft_id = Column(Integer, ForeignKey('aircrafts.id_'))
     creator = Column(String)
     airport = relationship("Airports", backref='flights')
     aircraft = relationship("Aircrafts", backref='flights')
@@ -49,7 +49,7 @@ class Flights(Base):
 class LogTable(Base):
     __tablename__ = "logs"
 
-    id = Column(Integer, primary_key=True)
+    id_ = Column(Integer, primary_key=True)
     data_of_request = Column(String)
     url = Column(String)
     method = Column(String, index=True)
@@ -61,7 +61,7 @@ class LogTable(Base):
 class Users(UserMixin, Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
+    id_ = Column(Integer, primary_key=True)
     name = Column(String)
     email = Column(String)
     password = Column(String)
@@ -70,6 +70,6 @@ class Users(UserMixin, Base):
 class Sessions(Base):
     __tablename__ = "sessions"
 
-    id = Column(Integer, primary_key=True)
+    id_ = Column(Integer, primary_key=True)
     username = Column(String)
     cookie = Column(String)

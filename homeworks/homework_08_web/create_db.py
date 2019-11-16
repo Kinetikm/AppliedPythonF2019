@@ -36,8 +36,8 @@ if __name__ == "__main__":
                     arrival_time=flight["arrival_time"],
                     travel_time=flight["travel_time"],
                     creator=flight["creator"],
-                    destination_airport_id=ap.id,
-                    type_of_aircraft_id=ac.id)
+                    destination_airport_id=ap.id_,
+                    type_of_aircraft_id=ac.id_)
         session.add(f)
         session.commit()
     session.close()

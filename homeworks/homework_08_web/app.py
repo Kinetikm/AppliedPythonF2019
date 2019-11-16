@@ -61,7 +61,7 @@ def get_flights():
 @app.route("/flights/<int:flight_id>", methods=["GET"])
 def get_flight(flight_id):
     session = Session()
-    flight = session.query(Flights).filter(Flights.id == flight_id).first()
+    flight = session.query(Flights).filter(Flights.id_ == flight_id).first()
     if flight:
         return jsonify({"flight": flight.get_data()})
     else:
@@ -88,7 +88,7 @@ def add_flight():
     if not valid.validate(request.json):
         abort(400)
     session = Session()
-    user = session.query(Sessions).filter(Sessions.id == session.query(func.max(Sessions.id))).first()
+    user = session.query(Sessions).filter(Sessions.id_ == session.query(func.max(Sessions.id_))).first()
     if not user:
         abort(403)
     airport_name = request.json.get("destination_airport")
@@ -107,8 +107,8 @@ def add_flight():
                      arrival_time=request.json.get("arrival_time"),
                      travel_time=request.json.get("travel_time"),
                      creator=user.username,
-                     destination_airport_id=airport.id,
-                     type_of_aircraft_id=aircraft.id)
+                     destination_airport_id=airport.id_,
+                     type_of_aircraft_id=aircraft.id_)
     session.add(flight)
     session.commit()
     return jsonify({"flight": flight.get_data()}), 201
@@ -117,7 +117,7 @@ def add_flight():
 @app.route("/flights/<int:flight_id>", methods=["DELETE"])
 def delete_flight(flight_id):
     session = Session()
-    flight = session.query(Flights).filter(Flights.id == flight_id).first()
+    flight = session.query(Flights).filter(Flights.id_ == flight_id).first()
     user = session.query(Sessions).filter(Sessions.username == flight.creator).first()
     if flight:
         if user:
@@ -132,7 +132,7 @@ def delete_flight(flight_id):
 
 def get_creator(flight_id):
     session = Session()
-    flight = session.query(Flights).filter(Flights.id == flight_id).first()
+    flight = session.query(Flights).filter(Flights.id_ == flight_id).first()
     creator = flight.get_data()["creator"]
     return creator
 
@@ -161,15 +161,15 @@ def update_flight(flight_id):
         aircraft = Aircrafts(aircraft=aircraft_name)
         session.add(aircraft)
         session.commit()
-    session.query(Flights).filter(Flights.id == flight_id).\
+    session.query(Flights).filter(Flights.id_ == flight_id).\
         update({Flights.departure_time: new_dep_time,
                 Flights.arrival_time: new_arr_time,
                 Flights.travel_time: new_travel_time,
                 Flights.creator: creator,
-                Flights.destination_airport_id: airport.id,
-                Flights.type_of_aircraft_id: aircraft.id})
+                Flights.destination_airport_id: airport.id_,
+                Flights.type_of_aircraft_id: aircraft.id_})
     session.commit()
-    flight = session.query(Flights).filter(Flights.id == flight_id).first()
+    flight = session.query(Flights).filter(Flights.id_ == flight_id).first()
     return jsonify({"flight": flight.get_data()}), 200
 
 
@@ -198,7 +198,7 @@ def filter_by_airport(destination_airport):
     session = Session()
     airport = session.query(Airports).filter(Airports.airport == destination_airport).first()
     if airport:
-        flights = session.query(Flights).filter(Flights.destination_airport_id == airport.id).all()
+        flights = session.query(Flights).filter(Flights.destination_airport_id == airport.id_).all()
         data = []
         for flight in flights:
             data.append(flight.get_data())
@@ -211,7 +211,7 @@ def filter_by_aircraft(type_of_aircraft):
     session = Session()
     aircraft = session.query(Aircrafts).filter(Aircrafts.aircraft == type_of_aircraft).first()
     if aircraft:
-        flights = session.query(Flights).filter(Flights.type_of_aircraft_id == aircraft.id).all()
+        flights = session.query(Flights).filter(Flights.type_of_aircraft_id == aircraft.id_).all()
         data = []
         for flight in flights:
             data.append(flight.get_data())
