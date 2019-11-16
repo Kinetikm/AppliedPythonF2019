@@ -52,7 +52,7 @@ class TreeRegressor(Tree):
 
 
 class TreeClassifier(Tree):
-    def __init__(self, criterion='entropy', max_depth=None, min_samples_leaf=1):
+    def __init__(self, criterion='gini', max_depth=None, min_samples_leaf=1):
         """
         :param criterion: method to determine splits, 'gini' or 'entropy'
         """
@@ -79,11 +79,11 @@ class TreeClassifier(Tree):
             self.imp[0, col] += X_train.shape[0] / n_samples * gain_max
             matrix = np.hstack((X_train, y))
             matrix = matrix[matrix[:, col].argsort()]
-            xl = matrix[:row, :-1]
-            yl = matrix[:row, -1]
+            xl = matrix[:row+1, :-1]
+            yl = matrix[:row+1, -1]
             yl = yl.reshape((yl.shape[0], 1))
-            xr = matrix[row:, :-1]
-            yr = matrix[row:, -1]
+            xr = matrix[row+1:, :-1]
+            yr = matrix[row+1:, -1]
             yr = yr.reshape((yr.shape[0], 1))
             self.left_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
             self.left_child.fit(xl, yl, n_samples, depth + 1)
@@ -93,7 +93,7 @@ class TreeClassifier(Tree):
             try:
                 self.proba = len(y[y == 1]) / len(y)
             except ZeroDivisionError:
-                self.proba = 0
+                self.proba = 1
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
@@ -105,7 +105,8 @@ class TreeClassifier(Tree):
             for j in range(x.shape[0]):
                 matrix = matrix[matrix[:, i].argsort()]
                 gain = S
-                gain -= (j / matrix.shape[0]) * self.get_entropy(matrix[:j+1, -1]) + (y.shape[0] - j) / y.shape[0] * self.get_entropy(matrix[j+1:, -1])
+                gain -= (j / matrix.shape[0]) * self.get_entropy(matrix[:j+1, -1])
+                gain -= (y.shape[0] - j) / y.shape[0] * self.get_entropy(matrix[j+1:, -1])
                 if gain > gain_max:
                     gain_max = gain
                     row = j
