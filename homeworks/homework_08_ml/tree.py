@@ -110,17 +110,7 @@ class Tree:
         pass
 
     def _change_value(self, x_y):
-        # x_y = self._order(x_y[:, :x_y.shape[1] - 2], x_y[:, -1], k)
-        # flag = 0
-        # first = x_y[0, -1]
-        # changes = []
-        # for i in range(1, x_y.shape[0]):
-        #     if x_y[i, -1] != first and flag == 0:
-        #         flag = 1
-        #     elif x_y[i, -1] == first and flag == 1:
-        #         flag == 0
-        #         changes.append((x_y[i - 1]+x_y[i])/2)
-        # return changes
+
         flag = False
         first = x_y[0, 1]
         arr = []
