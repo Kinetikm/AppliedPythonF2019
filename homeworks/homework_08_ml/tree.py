@@ -120,7 +120,7 @@ class TreeClassifier(Tree):
         if self.criterion == 'entropy':
             for key in dct.keys():
                 p = dct[key] / y.shape[0]
-                entropy += p * np.log(p)
+                entropy -= p * np.log(p)
         elif self.criterion == 'gini':
             for key in dct.keys():
                 entropy += (dct[key] / y.shape[0]) ** 2
@@ -129,7 +129,7 @@ class TreeClassifier(Tree):
 
     def predict_row(self, row):
         if self.left_child and self.right_child:
-            if row[self.column_index] <= self.threshold:
+            if row[self.column_index] < self.threshold:
                 return self.left_child.predict_row(row)
             else:
                 return self.right_child.predict_row(row)
