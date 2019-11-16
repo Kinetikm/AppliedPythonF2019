@@ -74,7 +74,7 @@ class Tree:
                     node = node.left_child
                 else:
                     node = node.right_child
-            y[i] = node.val
+            y[i] = node.value
         return y
 
     def get_feature_importance(self):
