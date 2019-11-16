@@ -93,7 +93,7 @@ class TreeClassifier(Tree):
             try:
                 self.proba = len(y[y == 1]) / len(y)
             except ZeroDivisionError:
-                self.proba = 1
+                self.proba = 0
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
