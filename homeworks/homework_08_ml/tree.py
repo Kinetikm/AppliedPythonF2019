@@ -61,7 +61,7 @@ class Tree:
             table = table[table[:, self.num_feature].argsort()]
             self.feat_imp[self.num_feature] += 1
             return Node(self.subnode(table[:index, :]), self.subnode(table[index:, :]), self.num_feature, self.th)
-        if self.depth != self.max_depth and table.shape[0] >= 2 * self.min_samples_leaf:
+        else:
             return Node(value=np.mean(table[:, -1]))
 
 
