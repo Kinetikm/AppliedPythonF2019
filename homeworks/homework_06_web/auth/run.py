@@ -32,14 +32,17 @@ class RegistrationSchema(Schema):
     email = fields.Email(required=True)
     password = fields.String(required=True)
 
-    @validates_schema()
-    def validate(self, data, **kwargs):
-        pass
+
+class LoginSchema(Schema):
+
+    login = fields.String(required=True)
+    password = fields.String(required=True)
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Users.query.get(int(user_id))
+    session = get_db()
+    return session.query(Users).get(int(user_id))
 
 
 @app.route('/registration', methods=['POST'])
@@ -58,6 +61,33 @@ def registration():
         return 'OK'
     except ValidationError as e:
         abort(400, str(e))
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        data = LoginSchema().load(request.json)
+        session = get_db()
+        user = session.query(Users).filter(Users.username==data['login']).first()
+        if not user.check_password(data['password']):
+            abort(401)
+        login_user(user, remember=True)
+        return '', 204
+    except ValidationError as e:
+        abort(400, str(e))
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return '', 204
+
+
+@app.route('/check')
+@login_required
+def check():
+    return 'OK'
 
 
 @app.teardown_appcontext
