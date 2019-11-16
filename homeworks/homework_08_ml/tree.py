@@ -52,7 +52,7 @@ class TreeRegressor(Tree):
 
 
 class TreeClassifier(Tree):
-    def __init__(self, criterion='gini', max_depth=None, min_samples_leaf=1):
+    def __init__(self, criterion='entropy', max_depth=None, min_samples_leaf=1):
         """
         :param criterion: method to determine splits, 'gini' or 'entropy'
         """
@@ -90,9 +90,11 @@ class TreeClassifier(Tree):
             self.right_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
             self.right_child.fit(xr, yr, n_samples, depth + 1)
         else:
-            m = 1 / y.shape[0]
-            print(m)
-            self.proba = m * list(y).count(1)
+            try:
+                self.proba = len(y[y == 1]) / len(y) # что бы я здесь не писал, постоянно вылезала эта ошибка
+            except ZeroDivisionError:
+                print(y)
+                self.proba = 0
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
@@ -104,8 +106,7 @@ class TreeClassifier(Tree):
             for j in range(x.shape[0]):
                 matrix = matrix[matrix[:, i].argsort()]
                 gain = S
-                gain -= (j / matrix.shape[0]) * self.get_entropy(matrix[:j, -1]) + (y.shape[0] - j) / y.shape[
-                    0] * self.get_entropy(matrix[j:, -1])
+                gain -= (j / matrix.shape[0]) * self.get_entropy(matrix[:j, -1]) + (y.shape[0] - j) / y.shape[0] * self.get_entropy(matrix[j:, -1])
                 if gain > gain_max:
                     gain_max = gain
                     row = j
