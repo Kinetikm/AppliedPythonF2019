@@ -1,0 +1,461 @@
+0 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 3
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+[]
+
+1 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '2:00', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 401 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "2:00", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 401 UNAUTHORIZED
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 21
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+You are not logged in
+2 Urls(method='post', url='http://localhost:8000/registration', headers=None, json={'username': 'zakhar', 'password': 'zakhar', 'password_conf': 'zakhar1', 'email': 'zakhar343@yandex.ru'}, data=None) 400 False
+< POST /registration HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 104
+< Content-Type: application/json
+< 
+< {"username": "zakhar", "password": "zakhar", "password_conf": "zakhar1", "email": "zakhar343@yandex.ru"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 20
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+Passwords dont match
+3 Urls(method='post', url='http://localhost:8000/registration', headers=None, json={'username': 'zakhar', 'password': 'zakhar', 'password_conf': 'zakhar', 'email': 'zakhar343'}, data=None) 400 False
+< POST /registration HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 93
+< Content-Type: application/json
+< 
+< {"username": "zakhar", "password": "zakhar", "password_conf": "zakhar", "email": "zakhar343"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 18
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+Wrong email format
+4 Urls(method='post', url='http://localhost:8000/registration', headers=None, json={'username': 'zakhar', 'password': 'zakhar', 'password_conf': 'zakhar', 'email': 'zakhar343@yandex.ru'}, data=None) 200 True
+< POST /registration HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 103
+< Content-Type: application/json
+< 
+< {"username": "zakhar", "password": "zakhar", "password_conf": "zakhar", "email": "zakhar343@yandex.ru"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 23
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+Registration successful
+5 Urls(method='post', url='http://localhost:8000/registration', headers=None, json={'username': 'zakhar', 'password': 'zakhar123', 'password_conf': 'zakhar123', 'email': 'zakhar123@yandex.ru'}, data=None) 400 False
+< POST /registration HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 109
+< Content-Type: application/json
+< 
+< {"username": "zakhar", "password": "zakhar123", "password_conf": "zakhar123", "email": "zakhar123@yandex.ru"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 23
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+Username already exists
+6 Urls(method='post', url='http://localhost:8000/login', headers=None, json={'username': 'zakhar', 'password': 'zakhar1'}, data=None) 401 False
+< POST /login HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 45
+< Content-Type: application/json
+< 
+< {"username": "zakhar", "password": "zakhar1"}
+> HTTP/1.0 401 UNAUTHORIZED
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 27
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+incorrect login or password
+7 Urls(method='post', url='http://localhost:8000/login', headers=None, json={'username': 'zakhar', 'password': 'zakhar'}, data=None) 200 True
+< POST /login HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 44
+< Content-Type: application/json
+< 
+< {"username": "zakhar", "password": "zakhar"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 19
+> Set-Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+"login successful"
+
+8 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '2:00', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "2:00", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 201 CREATED
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+OK
+9 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '1:00', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "1:00", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 18
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:43 GMT
+> 
+Invalid Input Data
+10 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-23 12:00:00', 'arrival': '2019-10-23 10:00:00', 'time_in_flight': '2:00', 'airport': 'SVO', 'aircraft_type': 'AN28'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 12:00:00", "arrival": "2019-10-23 10:00:00", "time_in_flight": "2:00", "airport": "SVO", "aircraft_type": "AN28"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 18
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:44 GMT
+> 
+Invalid Input Data
+11 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '2:00', 'airport': 'SV', 'aircraft_type': 'AN28'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 138
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "2:00", "airport": "SV", "aircraft_type": "AN28"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 18
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:44 GMT
+> 
+Invalid Input Data
+12 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-24 10:00:00', 'arrival': '2019-10-24 14:25:00', 'time_in_flight': '4:25', 'airport': 'DMD', 'aircraft_type': 'SU100'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 140
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-24 10:00:00", "arrival": "2019-10-24 14:25:00", "time_in_flight": "4:25", "airport": "DMD", "aircraft_type": "SU100"}
+> HTTP/1.0 201 CREATED
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:44 GMT
+> 
+OK
+13 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 329
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:44 GMT
+> 
+[{"aircraft_type":"AN28","airport":"SVO","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","id_":1,"time_in_flight":"02:00:00","username":"zakhar"},{"aircraft_type":"SU100","airport":"DMD","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","id_":2,"time_in_flight":"04:25:00","username":"zakhar"}]
+
+14 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '2:00', 'airport': 'DMD', 'aircraft_type': 'AN28'}, data=None) 200 True
+< PUT /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "2:00", "airport": "DMD", "aircraft_type": "AN28"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:44 GMT
+> 
+OK
+15 Urls(method='put', url='http://localhost:5000/flights/3', headers=None, json={'departure': '2019-10-23 10:00:00', 'arrival': '2019-10-23 12:00:00', 'time_in_flight': '2:00', 'airport': 'DMD', 'aircraft_type': 'AN28'}, data=None) 404 False
+< PUT /flights/3 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-23 10:00:00", "arrival": "2019-10-23 12:00:00", "time_in_flight": "2:00", "airport": "DMD", "aircraft_type": "AN28"}
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 14
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:44 GMT
+> 
+No Such Flight
+16 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'departure': '2019-10-24 10:00:00', 'arrival': '2019-10-24 14:25:00', 'time_in_flight': '4:25', 'airport': 'SVO', 'aircraft_type': 'SU104'}, data=None) 200 True
+< PUT /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 140
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-24 10:00:00", "arrival": "2019-10-24 14:25:00", "time_in_flight": "4:25", "airport": "SVO", "aircraft_type": "SU104"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:44 GMT
+> 
+OK
+17 Urls(method='delete', url='http://localhost:5000/flights/3', headers=None, json=None, data=None) 404 False
+< DELETE /flights/3 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 0
+< 
+
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 14
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:44 GMT
+> 
+No Such Flight
+18 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '2019-10-25 10:00:00', 'arrival': '2019-10-25 13:00:00', 'time_in_flight': '3:00', 'airport': 'DIA', 'aircraft_type': 'A320'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< Content-Length: 139
+< Content-Type: application/json
+< 
+< {"departure": "2019-10-25 10:00:00", "arrival": "2019-10-25 13:00:00", "time_in_flight": "3:00", "airport": "DIA", "aircraft_type": "A320"}
+> HTTP/1.0 201 CREATED
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:44 GMT
+> 
+OK
+19 Urls(method='get', url='http://localhost:5000/logout', headers=None, json=None, data=None) 200 True
+< GET /logout HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM5NDMyMDMsIm5iZiI6MTU3Mzk0MzIwMywianRpIjoiZWFkNzQ1NjktMTI4NS00MGQ5LWIyNDEtMDM0NjU1ODM0ZTc1IiwiZXhwIjoxNTczOTQ0MTAzLCJpZGVudGl0eSI6Inpha2hhciIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.IjixxlSVUttwOLaM69SrD_4QJyeNJw7Ia7YV-N0VPsE; HttpOnly; Path=/
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 13
+> Set-Cookie: access_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/, refresh_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:45 GMT
+> 
+"logged out"
+
+20 Urls(method='get', url='http://localhost:5000/flights?filter_by_airport=DMD', headers=None, json=None, data=None) 200 True
+< GET /flights?filter_by_airport=DMD HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/, refresh_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 3
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:45 GMT
+> 
+[]
+
+21 Urls(method='get', url='http://localhost:5000/flights?sort_by=arrival', headers=None, json=None, data=None) 200 True
+< GET /flights?sort_by=arrival HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/, refresh_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 492
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:45 GMT
+> 
+[{"aircraft_type":"AN28","airport":"SVO","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","id_":1,"time_in_flight":"02:00:00","username":"zakhar"},{"aircraft_type":"SU104","airport":"SVO","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","id_":2,"time_in_flight":"04:25:00","username":"zakhar"},{"aircraft_type":"A320","airport":"DIA","arrival":"2019-10-25 10:00:00","departure":"2019-10-25 07:00:00","id_":3,"time_in_flight":"03:00:00","username":"zakhar"}]
+
+22 Urls(method='delete', url='http://localhost:5000/flights/2', headers=None, json=None, data=None) 401 False
+< DELETE /flights/2 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/, refresh_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/
+< Content-Length: 0
+< 
+
+> HTTP/1.0 401 UNAUTHORIZED
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 21
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:45 GMT
+> 
+You are not logged in
+23 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/, refresh_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 492
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:45 GMT
+> 
+[{"aircraft_type":"AN28","airport":"SVO","arrival":"2019-10-23 09:00:00","departure":"2019-10-23 07:00:00","id_":1,"time_in_flight":"02:00:00","username":"zakhar"},{"aircraft_type":"SU104","airport":"SVO","arrival":"2019-10-24 11:25:00","departure":"2019-10-24 07:00:00","id_":2,"time_in_flight":"04:25:00","username":"zakhar"},{"aircraft_type":"A320","airport":"DIA","arrival":"2019-10-25 10:00:00","departure":"2019-10-25 07:00:00","id_":3,"time_in_flight":"03:00:00","username":"zakhar"}]
+
+24 Urls(method='get', url='http://localhost:5000/show_performance', headers=None, json=None, data=None) 200 True
+< GET /show_performance HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: access_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/, refresh_token_cookie=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; HttpOnly; Path=/
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 523
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 22:26:45 GMT
+> 
+{"DELETE":{"average_time":33.280134201049805,"minimal_time":24.700164794921875,"number_of_requests":2,"percentile":40.14410972595215},"GET":{"average_time":22.876421610514324,"minimal_time":5.324125289916992,"number_of_requests":6,"percentile":55.24086952209473},"POST":{"average_time":41.938713618687224,"minimal_time":15.512466430664062,"number_of_requests":7,"percentile":66.27616882324219},"PUT":{"average_time":66.46768252054851,"minimal_time":27.84132957458496,"number_of_requests":3,"percentile":89.56055641174316}}
+
