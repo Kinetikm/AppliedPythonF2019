@@ -6,7 +6,6 @@ from multiprocessing import Pool
 import os
 import numpy as np
 from scipy.sparse import csr_matrix
-from pymorphy2 import MorphAnalyzer
 import string
 
 
