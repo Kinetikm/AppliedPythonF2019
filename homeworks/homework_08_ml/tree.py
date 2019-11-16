@@ -67,8 +67,8 @@ class Tree:
 
     def predict(self, x_test):
         y = np.zeros(x_test.shape[0])
-        node = self.tree
         for i in range(y.shape[0]):
+            node = self.tree
             while node.feature is not None:
                 if x_test[i, node.feature] <= node.marker:
                     node = node.left_child
