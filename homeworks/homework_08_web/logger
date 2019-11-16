@@ -1,0 +1,14 @@
+2019-11-16 03:24:42,663 [INFO] - Logger - URL: http://localhost:5000/flights, method: POST, status code: 403, duration: 0.0152 sec
+2019-11-16 03:24:42,723 [INFO] - Logger - URL: http://localhost:5000/flights, method: POST, status code: 201, duration: 0.0280 sec
+2019-11-16 03:24:42,740 [INFO] - Logger - URL: http://localhost:5000/flights, method: GET, status code: 200, duration: 0.0034 sec
+2019-11-16 03:24:42,812 [INFO] - Logger - URL: http://localhost:5000/flights, method: POST, status code: 201, duration: 0.0477 sec
+2019-11-16 03:24:42,844 [INFO] - Logger - URL: http://localhost:5000/flights/3, method: DELETE, status code: 200, duration: 0.0099 sec
+2019-11-16 03:24:42,862 [INFO] - Logger - URL: http://localhost:5000/flights/4, method: GET, status code: 200, duration: 0.0036 sec
+2019-11-16 03:24:42,877 [INFO] - Logger - URL: http://localhost:5000/flights/15, method: GET, status code: 404, duration: 0.0019 sec
+2019-11-16 03:24:42,897 [INFO] - Logger - URL: http://localhost:5000/flights/filter_airport:London, method: GET, status code: 200, duration: 0.0029 sec
+2019-11-16 03:24:42,913 [INFO] - Logger - URL: http://localhost:5000/flights/filter_aircraft:Airflot, method: GET, status code: 200, duration: 0.0030 sec
+2019-11-16 03:24:42,930 [INFO] - Logger - URL: http://localhost:5000/flights, method: POST, status code: 400, duration: 0.0016 sec
+2019-11-16 03:24:42,948 [INFO] - Logger - URL: http://localhost:5000/flights/sort_by_arrival_time, method: GET, status code: 200, duration: 0.0030 sec
+2019-11-16 03:24:42,962 [INFO] - Logger - URL: http://localhost:5000/flights/sort_by_departure_time, method: GET, status code: 200, duration: 0.0034 sec
+2019-11-16 03:24:43,005 [INFO] - Logger - URL: http://localhost:5000/flights/4, method: PUT, status code: 200, duration: 0.0285 sec
+2019-11-16 03:24:43,036 [INFO] - Logger - URL: http://localhost:5000/flights/metric, method: GET, status code: 200, duration: 0.0174 sec

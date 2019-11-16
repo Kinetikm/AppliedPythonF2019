@@ -1,0 +1,498 @@
+0 Urls(method='post', url='http://localhost:8000/registration', headers=None, json={'name': 'Anton', 'email': 'A@mail.ru', 'password': '123456', 'password_confirm': '123456'}, data=None) 200 True
+< POST /registration HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 91
+< Content-Type: application/json
+< 
+< {"name": "Anton", "email": "A@mail.ru", "password": "123456", "password_confirm": "123456"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 29
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "user": "user created"
+}
+
+1 Urls(method='post', url='http://localhost:8000/registration', headers=None, json={'name': 'Kate', 'email': 'K@mail.ru', 'password': '123456', 'password_confirm': '123456'}, data=None) 200 True
+< POST /registration HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 90
+< Content-Type: application/json
+< 
+< {"name": "Kate", "email": "K@mail.ru", "password": "123456", "password_confirm": "123456"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 29
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "user": "user created"
+}
+
+2 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2019-10-09 19:50', 'arrival_time': '2019-10-09 21:05', 'travel_time': '04:15', 'destination_airport': 'London', 'type_of_aircraft': 'Airflot'}, data=None) 403 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 162
+< Content-Type: application/json
+< 
+< {"departure_time": "2019-10-09 19:50", "arrival_time": "2019-10-09 21:05", "travel_time": "04:15", "destination_airport": "London", "type_of_aircraft": "Airflot"}
+> HTTP/1.0 403 FORBIDDEN
+> Content-Type: application/json
+> Content-Length: 27
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "error": "forbidden"
+}
+
+3 Urls(method='post', url='http://localhost:8000/login', headers=None, json={'name': 'Kate', 'password': '123456'}, data=None) 200 True
+< POST /login HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 38
+< Content-Type: application/json
+< 
+< {"name": "Kate", "password": "123456"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 16
+> Set-Cookie: cookie=sha256$jUmXj0fC$65e26043aefd649529174d0742037659ca17c84b8f7e48fe05215630cb8af998; Path=/
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+setting a cookie
+4 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2019-10-09 19:50', 'arrival_time': '2019-10-09 21:05', 'travel_time': '04:15', 'destination_airport': 'London', 'type_of_aircraft': 'Airflot'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 162
+< Content-Type: application/json
+< 
+< {"departure_time": "2019-10-09 19:50", "arrival_time": "2019-10-09 21:05", "travel_time": "04:15", "destination_airport": "London", "type_of_aircraft": "Airflot"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 231
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "flight": {
+    "arrival_time": "2019-10-09 21:05", 
+    "creator": "Kate", 
+    "departure_time": "2019-10-09 19:50", 
+    "destination_airport": "London", 
+    "travel_time": "04:15", 
+    "type_of_aircraft": "Airflot"
+  }
+}
+
+5 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 722
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "flights": [
+    {
+      "arrival_time": "2019-10-11 12:20", 
+      "creator": "Ivan", 
+      "departure_time": "2019-10-10 23:00", 
+      "destination_airport": "Tomsk", 
+      "travel_time": "09:20", 
+      "type_of_aircraft": "S7"
+    }, 
+    {
+      "arrival_time": "2019-10-12 06:20", 
+      "creator": "Sergei", 
+      "departure_time": "2019-10-11 23:50", 
+      "destination_airport": "London", 
+      "travel_time": "09:30", 
+      "type_of_aircraft": "WizzAir"
+    }, 
+    {
+      "arrival_time": "2019-10-09 21:05", 
+      "creator": "Kate", 
+      "departure_time": "2019-10-09 19:50", 
+      "destination_airport": "London", 
+      "travel_time": "04:15", 
+      "type_of_aircraft": "Airflot"
+    }
+  ]
+}
+
+6 Urls(method='post', url='http://localhost:8000/login', headers=None, json={'name': 'Anton', 'password': '123456'}, data=None) 200 True
+< POST /login HTTP/1.1
+< Host: localhost:8000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 39
+< Content-Type: application/json
+< 
+< {"name": "Anton", "password": "123456"}
+> HTTP/1.0 200 OK
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 16
+> Set-Cookie: cookie=sha256$S0ZXilKV$d4ef663badb75a93c13074a8e4c9389126414c1f9dd84c0106c36e27d73714f9; Path=/
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+setting a cookie
+7 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2019-12-10 04:20', 'arrival_time': '2019-12-11 01:05', 'travel_time': '19:45', 'destination_airport': 'Dubai', 'type_of_aircraft': 'A300'}, data=None) 201 True
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 158
+< Content-Type: application/json
+< 
+< {"departure_time": "2019-12-10 04:20", "arrival_time": "2019-12-11 01:05", "travel_time": "19:45", "destination_airport": "Dubai", "type_of_aircraft": "A300"}
+> HTTP/1.0 201 CREATED
+> Content-Type: application/json
+> Content-Length: 228
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "flight": {
+    "arrival_time": "2019-12-11 01:05", 
+    "creator": "Anton", 
+    "departure_time": "2019-12-10 04:20", 
+    "destination_airport": "Dubai", 
+    "travel_time": "19:45", 
+    "type_of_aircraft": "A300"
+  }
+}
+
+8 Urls(method='delete', url='http://localhost:5000/flights/3', headers=None, json=None, data=None) 200 True
+< DELETE /flights/3 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 0
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 33
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "result": "flight deleted"
+}
+
+9 Urls(method='get', url='http://localhost:5000/flights/4', headers=None, json=None, data=None) 200 True
+< GET /flights/4 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 228
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "flight": {
+    "arrival_time": "2019-12-11 01:05", 
+    "creator": "Anton", 
+    "departure_time": "2019-12-10 04:20", 
+    "destination_airport": "Dubai", 
+    "travel_time": "19:45", 
+    "type_of_aircraft": "A300"
+  }
+}
+
+10 Urls(method='get', url='http://localhost:5000/flights/15', headers=None, json=None, data=None) 404 False
+< GET /flights/15 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 404 NOT FOUND
+> Content-Type: application/json
+> Content-Length: 34
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "error": "flight not found"
+}
+
+11 Urls(method='get', url='http://localhost:5000/flights/filter_airport:London', headers=None, json=None, data=None) 200 True
+< GET /flights/filter_airport:London HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 258
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "flights": [
+    {
+      "arrival_time": "2019-10-12 06:20", 
+      "creator": "Sergei", 
+      "departure_time": "2019-10-11 23:50", 
+      "destination_airport": "London", 
+      "travel_time": "09:30", 
+      "type_of_aircraft": "WizzAir"
+    }
+  ]
+}
+
+12 Urls(method='get', url='http://localhost:5000/flights/filter_aircraft:Airflot', headers=None, json=None, data=None) 200 True
+< GET /flights/filter_aircraft:Airflot HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 20
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "flights": []
+}
+
+13 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure_time': '2019-01 21:40', 'arrival_time': '2019-01-05 08', 'travel_time': '05:45', 'destination_airport': 'Irkutsk', 'type_of_aircraft': 'Airflot'}, data=None) 400 False
+< POST /flights HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 157
+< Content-Type: application/json
+< 
+< {"departure_time": "2019-01 21:40", "arrival_time": "2019-01-05 08", "travel_time": "05:45", "destination_airport": "Irkutsk", "type_of_aircraft": "Airflot"}
+> HTTP/1.0 400 BAD REQUEST
+> Content-Type: application/json
+> Content-Length: 29
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "error": "bad request"
+}
+
+14 Urls(method='get', url='http://localhost:5000/flights/sort_by_arrival_time', headers=None, json=None, data=None) 200 True
+< GET /flights/sort_by_arrival_time HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 719
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "flights": [
+    {
+      "arrival_time": "2019-10-11 12:20", 
+      "creator": "Ivan", 
+      "departure_time": "2019-10-10 23:00", 
+      "destination_airport": "Tomsk", 
+      "travel_time": "09:20", 
+      "type_of_aircraft": "S7"
+    }, 
+    {
+      "arrival_time": "2019-10-12 06:20", 
+      "creator": "Sergei", 
+      "departure_time": "2019-10-11 23:50", 
+      "destination_airport": "London", 
+      "travel_time": "09:30", 
+      "type_of_aircraft": "WizzAir"
+    }, 
+    {
+      "arrival_time": "2019-12-11 01:05", 
+      "creator": "Anton", 
+      "departure_time": "2019-12-10 04:20", 
+      "destination_airport": "Dubai", 
+      "travel_time": "19:45", 
+      "type_of_aircraft": "A300"
+    }
+  ]
+}
+
+15 Urls(method='get', url='http://localhost:5000/flights/sort_by_departure_time', headers=None, json=None, data=None) 200 True
+< GET /flights/sort_by_departure_time HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 719
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:42 GMT
+> 
+{
+  "flihgts": [
+    {
+      "arrival_time": "2019-10-11 12:20", 
+      "creator": "Ivan", 
+      "departure_time": "2019-10-10 23:00", 
+      "destination_airport": "Tomsk", 
+      "travel_time": "09:20", 
+      "type_of_aircraft": "S7"
+    }, 
+    {
+      "arrival_time": "2019-10-12 06:20", 
+      "creator": "Sergei", 
+      "departure_time": "2019-10-11 23:50", 
+      "destination_airport": "London", 
+      "travel_time": "09:30", 
+      "type_of_aircraft": "WizzAir"
+    }, 
+    {
+      "arrival_time": "2019-12-11 01:05", 
+      "creator": "Anton", 
+      "departure_time": "2019-12-10 04:20", 
+      "destination_airport": "Dubai", 
+      "travel_time": "19:45", 
+      "type_of_aircraft": "A300"
+    }
+  ]
+}
+
+16 Urls(method='put', url='http://localhost:5000/flights/4', headers=None, json={'departure_time': '2019-10-20 19:50', 'arrival_time': '2019-10-20 21:05', 'travel_time': '04:15', 'destination_airport': 'Moscow', 'type_of_aircraft': 'Airflot'}, data=None) 200 True
+< PUT /flights/4 HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 162
+< Content-Type: application/json
+< 
+< {"departure_time": "2019-10-20 19:50", "arrival_time": "2019-10-20 21:05", "travel_time": "04:15", "destination_airport": "Moscow", "type_of_aircraft": "Airflot"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 232
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:43 GMT
+> 
+{
+  "flight": {
+    "arrival_time": "2019-10-20 21:05", 
+    "creator": "Anton", 
+    "departure_time": "2019-10-20 19:50", 
+    "destination_airport": "Moscow", 
+    "travel_time": "04:15", 
+    "type_of_aircraft": "Airflot"
+  }
+}
+
+17 Urls(method='get', url='http://localhost:5000/flights/metric', headers=None, json=None, data=None) 200 True
+< GET /flights/metric HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 695
+> Server: Werkzeug/0.15.4 Python/3.7.3
+> Date: Sat, 16 Nov 2019 00:24:43 GMT
+> 
+{
+  "metric": {
+    "DELETE": {
+      "avg_duration": 0.0099, 
+      "count_request": 1, 
+      "max_duration": 0.0099, 
+      "min_duration": 0.0099, 
+      "percentile": 0.0099
+    }, 
+    "GET": {
+      "avg_duration": 0.003, 
+      "count_request": 7, 
+      "max_duration": 0.0036, 
+      "min_duration": 0.0019, 
+      "percentile": 0.0019
+    }, 
+    "POST": {
+      "avg_duration": 0.0231, 
+      "count_request": 4, 
+      "max_duration": 0.0477, 
+      "min_duration": 0.0016, 
+      "percentile": 0.0016
+    }, 
+    "PUT": {
+      "avg_duration": 0.0285, 
+      "count_request": 1, 
+      "max_duration": 0.0285, 
+      "min_duration": 0.0285, 
+      "percentile": 0.0285
+    }
+  }
+}
+
