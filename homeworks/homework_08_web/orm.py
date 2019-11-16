@@ -49,6 +49,7 @@ class Aircraft_types(Base):
     id = Column(Integer, primary_key=True)
     aircraft = Column(String(100), unique=True, nullable=True)
 
+
 class User_database(Base):
     __tablename__ = 'user_database'
     id = Column(Integer, primary_key=True)
@@ -60,6 +61,7 @@ class User_database(Base):
     def deserializ(self):
         result = (self.login, self.password, self.email)
         return result
+
 
 def select_all():
     query = session.query(Flights).all()
@@ -130,6 +132,7 @@ def update(id_, flight_):
                 Flights.aircraft_id: aircraft_.id})
     session.commit()
     return True
+
 
 def get_user(token):
     user = session.query(User_database).filter(User_database.token == token).first()

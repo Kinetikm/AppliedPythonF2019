@@ -101,6 +101,7 @@ def logout():
     logout_user()
     return '', 204
 
+
 @app.route('/about_me')
 @login_required
 def about_me():
