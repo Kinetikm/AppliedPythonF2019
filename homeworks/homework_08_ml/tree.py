@@ -32,6 +32,7 @@ class Tree:
         self.depth = 0
 
     def fit(self, X_train, y_train):
+        self.size = X_train.shape[0]
         self.feature_importance = np.zeros(X_train.shape[1])
         self.fit_node(X_train, y_train, self.head)
 
@@ -58,7 +59,7 @@ class Tree:
                         separation = (x_y[j, 0] + x_y[j - 1, 0]) / 2
                         feature = i
                         jsave = j
-        self.feature_importance[feature] += gain
+        self.feature_importance[feature] += x_y.shape[0] * gain / self.size
         node.feature = feature
         node.separation = separation
         node.gain = gain
