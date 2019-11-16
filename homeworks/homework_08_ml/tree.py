@@ -39,7 +39,7 @@ class Tree:
 
     def gain(self, s1, s2):
         return self.met(np.vstack((s1, s2))) - (len(s1) / (len(s1) + len(s2)) * self.met(s1) +
-                                                len(s2) / len(len(s1) + len(s2)) * self.met(s2))
+                                                len(s2) / (len(s1) + len(s2))* self.met(s2))
 
     def subnode(self, table):
         if self.depth != self.max_depth and table.shape[0] >= 2 * self.min_samples_leaf:
