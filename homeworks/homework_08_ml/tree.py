@@ -57,7 +57,7 @@ class Tree:
                     t = j
                     threshold = (train_sorted[j, best_feature] + train_sorted[j + 1, best_feature]) / 2
         if max_gain < eps:
-            return Node(best_feature, threshold=threshold)
+            return Node(best_feature, y_value=np.mean(x_y_train[:, -1]))
         train_sorted = x_y_train[x_y_train[:, best_feature].argsort()]
         self.feature_importance[best_feature] += (x_y_train.shape[0]/self.len_x_train) * max_gain
         self.depth += 1
