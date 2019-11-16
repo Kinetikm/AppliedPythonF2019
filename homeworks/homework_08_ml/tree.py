@@ -32,6 +32,7 @@ class Tree:
         self.depth = 0
 
     def fit(self, X_train, y_train):
+        self.feature_importance = np.zeros(X_train.shape[1])
         self.fit_node(X_train, y_train, self.head)
 
     def fit_node(self, X_train, y_train, node):
@@ -57,8 +58,8 @@ class Tree:
                         separation = (x_y[j, 0] + x_y[j - 1, 0]) / 2
                         feature = i
                         jsave = j
+        self.feature_importance[feature] += gain
         node.feature = feature
-
         node.separation = separation
         node.gain = gain
         node.size = x_y.shape[0]
@@ -87,7 +88,6 @@ class Tree:
         :param X_test: test data for predict in
         :return: y_test: predicted values
         """
-        left = self.head.left
 
         y_pred = np.zeros(X_test.shape[0])
         for i in range(X_test.shape[0]):
@@ -105,9 +105,8 @@ class Tree:
         Get feature importance from fitted tree
         :return: weights array
         """
-
-        # не успела:( будет позже╰( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ
-        pass
+        return self.feature_importance
+        # ╰( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ
 
     def _change_value(self, x_y):
 
