@@ -4,6 +4,7 @@
 
 import numpy as np
 
+
 class Node:
     def __init__(self, left_child=None, right_child=None, feature=None, marker=None, value=None):
         self.left_child = left_child
@@ -12,8 +13,9 @@ class Node:
         self.feature = feature
         self.marker = marker
 
+
 class Tree:
-    def __init__(self, criterion = "mse", max_depth = None, min_samples_leaf=1):
+    def __init__(self, criterion="mse", max_depth=None, min_samples_leaf=1):
         self.criterion = criterion
         self.max_depth = max_depth
         self.min_samples_leaf = min_samples_leaf
@@ -39,7 +41,7 @@ class Tree:
 
     def gain(self, s1, s2):
         return self.met(np.vstack((s1, s2))) - (len(s1) / (len(s1) + len(s2)) * self.met(s1) +
-                                                len(s2) / (len(s1) + len(s2))* self.met(s2))
+                                                len(s2) / (len(s1) + len(s2)) * self.met(s2))
 
     def subnode(self, table):
         if self.depth != self.max_depth and table.shape[0] >= 2 * self.min_samples_leaf:
@@ -64,7 +66,6 @@ class Tree:
         else:
             return Node(value=np.mean(table[:, -1]))
 
-
     def predict(self, x_test):
         y = np.zeros(x_test.shape[0])
         for i in range(y.shape[0]):
@@ -79,7 +80,6 @@ class Tree:
 
     def get_feature_importance(self):
         return self.feature_imp
-
 
 
 class TreeRegressor(Tree):
