@@ -91,10 +91,9 @@ class TreeClassifier(Tree):
             self.right_child.fit(xr, yr, n_samples, depth + 1)
         else:
             try:
-                self.proba = len(y[y == 1]) / len(y) # что бы я здесь не писал, постоянно вылезала эта ошибка
+                self.proba = len(y[y == 1]) / len(y)
             except ZeroDivisionError:
-                print(y)
-                self.proba = 0
+                self.proba = 1
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
