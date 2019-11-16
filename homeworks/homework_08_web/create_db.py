@@ -1,4 +1,4 @@
-from orm import Flights, Dest_airports, Aircraft_types, Base
+from orm import Flights, Dest_airports, Aircraft_types, User_database, Base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
@@ -26,6 +26,12 @@ if __name__ == "__main__":
             "destination": "Jamaica",
             "aircraft_type": "Airbus 9000"
     }]
+    user = {
+        "token": 'toekrrtgg234234-tkfdgmgkd543',
+        "login": 'login1',
+        "password": 'password',
+        "email": "testin@mail.ru"
+    }
     Base.metadata.create_all(bind=engine)
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -42,4 +48,11 @@ if __name__ == "__main__":
                     aircraft_id=ac.id)
         session.add(f)
         session.commit()
+    ur = User_database(
+            login=user["login"],
+            password=user["password"],
+            token=user["token"],
+            email=user["email"])
+    session.add(ur)
+    session.commit()
     session.close()

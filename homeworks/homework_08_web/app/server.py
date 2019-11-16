@@ -33,25 +33,24 @@ def makeFlight(data):
 
 
 class User(UserMixin):
-    user_database = {
-        'toekrrtgg234234-tkfdgmgkd543': ('login', 'password')
-    }
 
-    def __init__(self, token, username, age):
+    def __init__(self, token, username, password, email):
         self.id = token
         self.username = username
-        self.age = age
+        self.password = password
+        self.email = email
 
     @classmethod
     def get(cls, token):
-        user = cls.user_database.get(token)
+        user = orm.get_user(token)
         if not user:
             return
         return cls(token, *user)
 
     @classmethod
     def set(cls, token, data):
-        cls.user_database[token] = data
+        orm.set_user(token, data)
+        # cls.user_database[token] = data
 
 
 @login_manager.header_loader
@@ -74,7 +73,7 @@ def registration():
     except marshmallow.exceptions.ValidationError as error:
         return jsonify(error.messages)
 
-    User.set(data['token'], (data['username'], data['age']))
+    User.set(data['token'], {"login": data['login'], "password": data['password'], "email": data['email']})
     return jsonify({'token': data['token']})
 
 
@@ -102,12 +101,22 @@ def logout():
     logout_user()
     return '', 204
 
+@app.route('/about_me')
+@login_required
+def about_me():
+    return jsonify({
+        'username': current_user.username,
+        'age': current_user.age,
+        'cookie': request.cookies,
+    })
+
 
 class FlightsWI(Resource):
     def get(self):
         logger.info(f"GET request for all flights completed")
         return orm.select_all(), 200
 
+    @login_required
     def post(self):
         t = time.time()
         try:

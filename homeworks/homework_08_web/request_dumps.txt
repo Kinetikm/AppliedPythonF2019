@@ -1,4 +1,4 @@
-0 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '21:31', 'arrival': '6:44', 'travel_time': '9:13', 'destination': 'Mexico', 'aircraft_type': 'Airbus A320'}, data=None) 201 True
+0 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '21:31', 'arrival': '6:44', 'travel_time': '9:13', 'destination': 'Mexico', 'aircraft_type': 'Airbus A320'}, data=None) 401 False
 < POST /flights HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -9,13 +9,13 @@
 < Content-Type: application/json
 < 
 < {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}
-> HTTP/1.0 201 CREATED
+> HTTP/1.0 401 UNAUTHORIZED
 > Content-Type: application/json
-> Content-Length: 122
+> Content-Length: 236
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Fri, 15 Nov 2019 21:45:10 GMT
+> Date: Sat, 16 Nov 2019 21:41:37 GMT
 > 
-{"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}
+{"message": "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}
 
 1 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
 < GET /flights HTTP/1.1
@@ -28,11 +28,11 @@
 
 > HTTP/1.0 200 OK
 > Content-Type: application/json
-> Content-Length: 760
+> Content-Length: 392
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Fri, 15 Nov 2019 21:45:10 GMT
+> Date: Sat, 16 Nov 2019 21:41:37 GMT
 > 
-[[{"departure": "7:31", "arrival": "13:44", "travel_time": "6:13", "destination": "Riyadh", "aircraft_type": "Snoop-Dog Airbus A320"}, {"departure": null, "arrival": null, "travel_time": null, "destination": null, "aircraft_type": "Snoop-Dog Airbus A320 V2"}, {"departure": "20:31", "arrival": "5:44", "travel_time": "9:13", "destination": "Jamaica", "aircraft_type": "Airbus 9000"}, {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}, {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}, {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}], true]
+[[{"departure": "7:31", "arrival": "13:44", "travel_time": "6:13", "destination": "Riyadh", "aircraft_type": "Snoop-Dog Airbus A320"}, {"departure": "22:31", "arrival": "6:44", "travel_time": "8:13", "destination": "Tokyo", "aircraft_type": "Syknoi SuperJet"}, {"departure": "20:31", "arrival": "5:44", "travel_time": "9:13", "destination": "Jamaica", "aircraft_type": "Airbus 9000"}], true]
 
 2 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'aircraft_type': 'Snoop-Dog Airbus A320 V2'}, data=None) 202 True
 < PUT /flights/2 HTTP/1.1
@@ -49,7 +49,7 @@
 > Content-Type: application/json
 > Content-Length: 124
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Fri, 15 Nov 2019 21:45:10 GMT
+> Date: Sat, 16 Nov 2019 21:41:37 GMT
 > 
 {"departure": null, "arrival": null, "travel_time": null, "destination": null, "aircraft_type": "Snoop-Dog Airbus A320 V2"}
 
@@ -67,7 +67,7 @@
 > Content-Type: application/json
 > Content-Length: 16
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Fri, 15 Nov 2019 21:45:10 GMT
+> Date: Sat, 16 Nov 2019 21:41:37 GMT
 > 
 "1 is deleted."
 
