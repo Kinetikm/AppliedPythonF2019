@@ -39,6 +39,7 @@ class Users(Base, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+
 class Flights(Base):
     __tablename__ = 'flights'
 
@@ -52,7 +53,6 @@ class Flights(Base):
     airport = relationship("Airports", back_populates="flights")
     airplane = relationship("Airplanes", back_populates="flights")
     user = relationship('Users', back_populates='flights')
-
 
     @property
     def serialize(self):

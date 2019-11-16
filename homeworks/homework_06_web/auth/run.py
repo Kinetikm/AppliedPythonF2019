@@ -68,7 +68,7 @@ def login():
     try:
         data = LoginSchema().load(request.json)
         session = get_db()
-        user = session.query(Users).filter(Users.username==data['login']).first()
+        user = session.query(Users).filter(Users.username == data['login']).first()
         if not user.check_password(data['password']):
             abort(401)
         login_user(user, remember=True)
