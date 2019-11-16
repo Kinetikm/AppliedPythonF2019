@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 import numpy as np
 
 
@@ -29,6 +25,7 @@ class Tree:
         self.feature_imp = 0
         self.val_feature = 0
         self.threshold = 0
+        self.size_S = 0
         self.tree = None
 
     def filltree(self, table):
@@ -38,7 +35,8 @@ class Tree:
         :return: None
         """
 
-        if self.depth == self.max_depth or table.shape[0] < 2 * self.min_samples_leaf:
+        if self.depth == self.max_depth or table.shape[0] \
+           < 2 * self.min_samples_leaf or self.metrics(table[:, -1]) == 0:
             return Node(val=np.mean(table[:, -1]))
         else:
             max_IG = -1
@@ -54,9 +52,10 @@ class Tree:
                         self.num_feature = feature
                         index = idx
                         self.threshold = (tab_sort[idx, feature] + tab_sort[idx+1, feature])/2
+            print(max_IG)
 
             table = table[table[:, self.num_feature].argsort()]
-            self.feature_imp[self.num_feature] += 1
+            self.feature_imp[self.num_feature] += max_IG*table.shape[0]/self.size_S
             self.depth += 1
 
             left_child = self.filltree(table[:index, :])
@@ -64,6 +63,7 @@ class Tree:
             return Node(left_child, right_child, self.num_feature, self.threshold)
 
     def fit(self, X_train, y_train):
+        self.size_S = X_train.shape[0]
         self.feature_imp = np.zeros(X_train.shape[1])
         table = np.hstack((X_train, y_train.reshape((-1, 1))))
         self.tree = self.filltree(table)
