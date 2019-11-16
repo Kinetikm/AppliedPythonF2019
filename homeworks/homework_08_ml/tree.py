@@ -44,7 +44,8 @@ class Tree:
     def subnode(self, table):
         if self.depth != self.max_depth and table.shape[0] >= 2 * self.min_samples_leaf:
             self.depth += 1
-            max_gain, index = -1
+            max_gain = -1
+            index = -1
             for feature in range(table.shape[1] - 1):
                 s_table = table[table[:, feature].argsort()]
                 s_y = s_table[:, -1]
