@@ -3,8 +3,6 @@
 
 
 import numpy as np
-import pandas as pd
-from collections import Counter
 
 
 class Tree:
@@ -29,6 +27,10 @@ class Tree:
         self.max_depth = max_depth
         self.min_samples_leaf = min_samples_leaf
         self.criterion = criterion
+        self.n_classes = None
+        self.importance = None
+        self.n_samples = None
+        self.node = None
 
     def imp(self, p):
         if self.criterion == 'missclass':
