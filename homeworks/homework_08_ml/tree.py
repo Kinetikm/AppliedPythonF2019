@@ -21,6 +21,8 @@ class Tree:
         :param max_depth: maximum depth of tree. If None depth of tree is not constrained
         :param min_samples_leaf: the minimum number of samples required to be at a leaf node
         """
+        if criterion not in {"mse", "mae"}:
+            raise NotImplementedError
         self.optim = criterion
         self.max_depth = max_depth
         self.min_samples_leaf = min_samples_leaf
@@ -118,7 +120,6 @@ class TreeClassifier(Tree):
         :param criterion: method to determine splits, 'gini' or 'entropy'
         """
         super().__init__(criterion, max_depth, min_samples_leaf)
-        raise NotImplementedError
 
     def predict_proba(self, X_test):
         """
