@@ -79,11 +79,11 @@ class TreeClassifier(Tree):
             self.imp[0, col] += X_train.shape[0] / n_samples * gain_max
             matrix = np.hstack((X_train, y))
             matrix = matrix[matrix[:, col].argsort()]
-            xl = matrix[:row+1, :-1]
-            yl = matrix[:row+1, -1]
+            xl = matrix[:row, :-1]
+            yl = matrix[:row, -1]
             yl = yl.reshape((yl.shape[0], 1))
-            xr = matrix[row+1:, :-1]
-            yr = matrix[row+1:, -1]
+            xr = matrix[row:, :-1]
+            yr = matrix[row:, -1]
             yr = yr.reshape((yr.shape[0], 1))
             self.left_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
             self.left_child.fit(xl, yl, n_samples, depth + 1)
