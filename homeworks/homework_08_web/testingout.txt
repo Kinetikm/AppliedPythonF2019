@@ -1,1 +1,0 @@
-<flask_login.mixins.AnonymousUserMixin object at 0x7f1532d539e8>

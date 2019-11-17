@@ -133,11 +133,6 @@ class FlightsWI(Resource):
             return f"Error: wrong input", 400
 
         flight = makeFlight(data)
-
-
-        with open('testingout.txt', 'w') as f:
-            print(current_user, file=f)
-            print(current_user.username, file=f)
         orm.insert(flight, current_user.login)
         logger.info(f"POST request comleted | Timing: {(time.time()-t)}")
         return flight, 201
