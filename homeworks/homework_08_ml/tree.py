@@ -37,7 +37,7 @@ class Tree:
         :return: weights array
         """
         if self.right_child and self.left_child:
-            return self.imp + self.right_child.get_feature_importance + self.right_child.get_feature_importance
+            return self.imp + self.right_child.get_feature_importance() + self.right_child.get_feature_importance()
         else:
             return self.imp
 
@@ -52,7 +52,7 @@ class TreeRegressor(Tree):
 
 
 class TreeClassifier(Tree):
-    def __init__(self, criterion='gini', max_depth=None, min_samples_leaf=1):
+    def __init__(self, criterion='entropy', max_depth=None, min_samples_leaf=1):
         """
         :param criterion: method to determine splits, 'gini' or 'entropy'
         """
@@ -65,7 +65,7 @@ class TreeClassifier(Tree):
         :param y: target values for training data
         :return: None
         """
-
+        eps = 10**(-6)
         if depth == 0:
             n_samples = X_train.shape[0]
         y = y.astype(int)
@@ -74,26 +74,26 @@ class TreeClassifier(Tree):
         self.imp = np.zeros((1, X_train.shape[1]))
         if (X_train.shape[0] > self.min_samples) and (self.max_depth is None or depth < self.max_depth):
             row, col, value, gain_max = self.find_best_split(X_train, y)
-            self.column_index = col
-            self.threshold = value
-            self.imp[0, col] += X_train.shape[0] / n_samples * gain_max
-            matrix = np.hstack((X_train, y))
-            matrix = matrix[matrix[:, col].argsort()]
-            xl = matrix[:row+1, :-1]
-            yl = matrix[:row+1, -1]
-            yl = yl.reshape((yl.shape[0], 1))
-            xr = matrix[row+1:, :-1]
-            yr = matrix[row+1:, -1]
-            yr = yr.reshape((yr.shape[0], 1))
-            self.left_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
-            self.left_child.fit(xl, yl, n_samples, depth + 1)
-            self.right_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
-            self.right_child.fit(xr, yr, n_samples, depth + 1)
-        else:
-            try:
+            if gain_max < eps:
                 self.proba = len(y[y == 1]) / len(y)
-            except ZeroDivisionError:
-                self.proba = 1
+            else:
+                self.column_index = col
+                self.threshold = value
+                self.imp[0, col] += X_train.shape[0] / n_samples * gain_max
+                matrix = np.hstack((X_train, y))
+                matrix = matrix[matrix[:, col].argsort()]
+                xl = matrix[:row+1, :-1]
+                yl = matrix[:row+1, -1]
+                yl = yl.reshape((yl.shape[0], 1))
+                xr = matrix[row:, :-1]
+                yr = matrix[row:, -1]
+                yr = yr.reshape((yr.shape[0], 1))
+                self.left_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
+                self.left_child.fit(xl, yl, n_samples, depth + 1)
+                self.right_child = TreeClassifier(self.criterion, self.max_depth, self.min_samples)
+                self.right_child.fit(xr, yr, n_samples, depth + 1)
+        else:
+            self.proba = len(y[y == 1]) / len(y)
 
     def find_best_split(self, x, y):
         matrix = np.hstack((x, y))
@@ -106,7 +106,7 @@ class TreeClassifier(Tree):
                 matrix = matrix[matrix[:, i].argsort()]
                 gain = S
                 gain -= (j / matrix.shape[0]) * self.get_entropy(matrix[:j+1, -1])
-                gain -= (y.shape[0] - j) / y.shape[0] * self.get_entropy(matrix[j+1:, -1])
+                gain -= (y.shape[0] - j + 1) / y.shape[0] * self.get_entropy(matrix[j+1:, -1])
                 if gain > gain_max:
                     gain_max = gain
                     row = j
@@ -130,7 +130,7 @@ class TreeClassifier(Tree):
 
     def predict_row(self, row):
         if self.left_child and self.right_child:
-            if row[self.column_index] < self.threshold:
+            if row[self.column_index] <= self.threshold:
                 return self.left_child.predict_row(row)
             else:
                 return self.right_child.predict_row(row)
