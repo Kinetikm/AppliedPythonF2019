@@ -1,7 +1,7 @@
 import logging
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from application.model import LogBase, Log
+from models.model import LogBase, Log
 import datetime
 
 

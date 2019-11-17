@@ -3,5 +3,6 @@ FROM tiangolo/meinheld-gunicorn:python3.7
 
 RUN mkdir /code
 WORKDIR /code
-COPY ./requirements.txt .
+COPY ./flights .
+COPY ./models ./models
 RUN pip install -r requirements.txt

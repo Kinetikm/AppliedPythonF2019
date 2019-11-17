@@ -9,43 +9,23 @@ services:
     networks:
       - backend
 
-  #python:
-  #  image: python:3.7
-  #  working_dir: /usr/local
-  #  command: bash -c "PYTHONPATH=$$PWD/.. python3 -c 'import sys; print(sys.path)'"
-
   auth:
     build:
-      context: ./auth
-    depends_on:
-       - python
-    container_name: auth_ser
-    volumes:
-      - "./auth:/code"
+      context: .
+      dockerfile: ./auth/Dockerfile
+    container_name: auth_serv
     networks:
       - backend
     command: gunicorn run:app
 
   flights:
     build:
-      context: ./flights
+      context: .
+      dockerfile: ./flights/Dockerfile
     container_name: flights_serv
-    volumes:
-       - "./flights:/code"
     networks:
       - backend
     command: gunicorn run:app
-
-  # добавить сервис sale
-  # sale:
-  #  build:
-  #    context: ./sale
-  #  container_name: sale_service
-  #  volumes:
-  #    - "./sale/src:/code"
-  #  networks:
-  #    - backend
-  #  command: python run.py
 
 networks:
   backend:

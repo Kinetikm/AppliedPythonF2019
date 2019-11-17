@@ -5,7 +5,7 @@ from application import validation
 import time
 from application.logger_config import LOGGING_CONFIG
 import logging.config
-from application.model import Airports, Airplanes, Flights, Log
+from models.model import Airports, Airplanes, Flights, Log
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, func
 

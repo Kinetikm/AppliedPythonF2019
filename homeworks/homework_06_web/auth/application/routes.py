@@ -1,7 +1,7 @@
 from flask import request, g, abort
 from flask_login import LoginManager, login_required, login_user, logout_user
 from marshmallow import Schema, fields, ValidationError
-from flights.application.model import Users, Base
+from models.model import Users, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from application import app
@@ -64,6 +64,7 @@ def registration():
 
 @app.route('/login', methods=['POST'])
 def login():
+    print(request.json, flush=True)
     try:
         data = LoginSchema().load(request.json)
         session = get_db()
