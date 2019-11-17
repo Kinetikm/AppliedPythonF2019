@@ -11,7 +11,8 @@ db = SQLAlchemy(app)
 
 class Cookies(db.Model):
     __tablename__ = 'Cookies'
-    username = db.Column(db.String(), primary_key=True)
+    id_ = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String())
     email = db.Column(db.String())
     password = db.Column(db.String())
     cookie = db.Column(db.String())
