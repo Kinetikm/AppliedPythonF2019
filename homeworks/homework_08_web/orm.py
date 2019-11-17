@@ -26,6 +26,7 @@ class Flights(Base):
     aircraft_id = Column(Integer, ForeignKey('aircraft_types.id'))
     airport = relationship("Dest_airports", backref='flights')
     aircraft = relationship("Aircraft_types", backref='flights')
+    creator = Column(String)
 
     def deserializ(self):
         result = {
@@ -33,7 +34,8 @@ class Flights(Base):
                 "arrival": self.arrival,
                 "travel_time": self.travel_time,
                 "destination": self.airport.airport,
-                "aircraft_type": self.aircraft.aircraft
+                "aircraft_type": self.aircraft.aircraft,
+                "creator": self.creator
                 }
         return result
 
@@ -79,7 +81,7 @@ def select_by_id(id_):
         None, False
 
 
-def insert(flight_):
+def insert(flight_, username_):
     airport_ = session.query(Dest_airports).filter(Dest_airports.airport == flight_["destination"]).first()
     if not airport_:
         airport_ = Dest_airports(airport=flight_["destination"])
@@ -96,14 +98,17 @@ def insert(flight_):
                     arrival=flight_["arrival"],
                     travel_time=flight_["travel_time"],
                     airport_id=airport_.id,
-                    aircraft_id=aircraft_.id)
+                    aircraft_id=aircraft_.id,
+                    creator=username_)
     session.add(flightdb)
     session.commit()
     return True
 
 
-def delete(id_):
+def delete(id_, username_):
     flightdb = session.query(Flights).filter(Flights.id == id_).first()
+    if not flightdb.deserializ()["creator"] == username_:
+        return False
     if flightdb:
         session.delete(flightdb)
         session.commit()
@@ -112,7 +117,10 @@ def delete(id_):
         return False
 
 
-def update(id_, flight_):
+def update(id_, flight_, username_):
+    flightdb = session.query(Flights).filter(Flights.id == id_).first()
+    if not flightdb.deserializ()["creator"] == username_:
+        return False
     airport_ = session.query(Dest_airports).filter(Dest_airports.airport == flight_["destination"]).first()
     if not airport_:
         airport_ = Dest_airports(airport=flight_["departure"])
@@ -124,7 +132,7 @@ def update(id_, flight_):
         session.add(aircraft_)
         session.commit()
 
-    session.query(Flights).filter(Flights.id == id_).\
+    flightdb.\
         update({Flights.departure: flight_["departure"],
                 Flights.arrival: flight_["arrival"],
                 Flights.travel_time: flight_["travel_time"],

@@ -6,6 +6,12 @@ Urls = namedtuple('Urls', ['method', 'url', 'headers', 'json', 'data'])
 
 with open('request_dumps.txt', 'w') as f:
     for index, url in enumerate([
+        Urls('post', 'http://localhost:5000/login', None, {
+            "token": 'toekrrtgg234234-tkfdgmgkd543',
+            "login": 'Morty',
+            "password": 'password',
+            "email": "testin@mail.ru"
+        }, None),
         Urls('post', 'http://localhost:5000/flights', None, {
             "departure": "21:31",
             "arrival": "6:44",

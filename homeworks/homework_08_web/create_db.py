@@ -10,25 +10,28 @@ if __name__ == "__main__":
             "arrival": "13:44",
             "travel_time": "6:13",
             "destination": "Riyadh",
-            "aircraft_type": "Snoop-Dog Airbus A320"
+            "aircraft_type": "Snoop-Dog Airbus A320",
+            "creator": "mrPoopybutthole"
         },
         {
             "departure": "22:31",
             "arrival": "6:44",
             "travel_time": "8:13",
             "destination": "Tokyo",
-            "aircraft_type": "Syknoi SuperJet"
+            "aircraft_type": "Syknoi SuperJet",
+            "creator": "Morty"
         },
         {
             "departure": "20:31",
             "arrival": "5:44",
             "travel_time": "9:13",
             "destination": "Jamaica",
-            "aircraft_type": "Airbus 9000"
+            "aircraft_type": "Airbus 9000",
+            "creator": "Rick"
     }]
     user = {
         "token": 'toekrrtgg234234-tkfdgmgkd543',
-        "login": 'login1',
+        "login": 'Morty',
         "password": 'password',
         "email": "testin@mail.ru"
     }
@@ -45,7 +48,8 @@ if __name__ == "__main__":
                     arrival=flight["arrival"],
                     travel_time=flight["travel_time"],
                     airport_id=ap.id,
-                    aircraft_id=ac.id)
+                    aircraft_id=ac.id,
+                    creator=flight["creator"])
         session.add(f)
         session.commit()
     ur = User_database(

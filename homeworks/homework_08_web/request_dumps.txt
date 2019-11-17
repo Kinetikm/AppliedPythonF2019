@@ -1,4 +1,33 @@
-0 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '21:31', 'arrival': '6:44', 'travel_time': '9:13', 'destination': 'Mexico', 'aircraft_type': 'Airbus A320'}, data=None) 401 False
+0 Urls(method='post', url='http://localhost:5000/login', headers=None, json={'token': 'toekrrtgg234234-tkfdgmgkd543', 'login': 'Morty', 'password': 'password', 'email': 'testin@mail.ru'}, data=None) 200 True
+< POST /login HTTP/1.1
+< Host: localhost:5000
+< User-Agent: python-requests/2.22.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 110
+< Content-Type: application/json
+< 
+< {"token": "toekrrtgg234234-tkfdgmgkd543", "login": "Morty", "password": "password", "email": "testin@mail.ru"}
+> HTTP/1.0 200 OK
+> Content-Type: application/json
+> Content-Length: 125
+> Server: Werkzeug/0.16.0 Python/3.6.8
+> Date: Sun, 17 Nov 2019 11:04:44 GMT
+> 
+{
+  "email": [
+    "Unknown field."
+  ], 
+  "login": [
+    "Unknown field."
+  ], 
+  "password": [
+    "Unknown field."
+  ]
+}
+
+1 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'departure': '21:31', 'arrival': '6:44', 'travel_time': '9:13', 'destination': 'Mexico', 'aircraft_type': 'Airbus A320'}, data=None) 401 False
 < POST /flights HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -11,13 +40,15 @@
 < {"departure": "21:31", "arrival": "6:44", "travel_time": "9:13", "destination": "Mexico", "aircraft_type": "Airbus A320"}
 > HTTP/1.0 401 UNAUTHORIZED
 > Content-Type: application/json
-> Content-Length: 236
+> Content-Length: 242
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Sat, 16 Nov 2019 21:41:37 GMT
+> Date: Sun, 17 Nov 2019 11:04:44 GMT
 > 
-{"message": "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}
+{
+    "message": "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."
+}
 
-1 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
+2 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None) 200 True
 < GET /flights HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -28,13 +59,41 @@
 
 > HTTP/1.0 200 OK
 > Content-Type: application/json
-> Content-Length: 392
+> Content-Length: 747
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Sat, 16 Nov 2019 21:41:37 GMT
+> Date: Sun, 17 Nov 2019 11:04:44 GMT
 > 
-[[{"departure": "7:31", "arrival": "13:44", "travel_time": "6:13", "destination": "Riyadh", "aircraft_type": "Snoop-Dog Airbus A320"}, {"departure": "22:31", "arrival": "6:44", "travel_time": "8:13", "destination": "Tokyo", "aircraft_type": "Syknoi SuperJet"}, {"departure": "20:31", "arrival": "5:44", "travel_time": "9:13", "destination": "Jamaica", "aircraft_type": "Airbus 9000"}], true]
+[
+    [
+        {
+            "departure": "7:31",
+            "arrival": "13:44",
+            "travel_time": "6:13",
+            "destination": "Riyadh",
+            "aircraft_type": "Snoop-Dog Airbus A320",
+            "creator": "mrPoopybutthole"
+        },
+        {
+            "departure": "22:31",
+            "arrival": "6:44",
+            "travel_time": "8:13",
+            "destination": "Tokyo",
+            "aircraft_type": "Syknoi SuperJet",
+            "creator": "Morty"
+        },
+        {
+            "departure": "20:31",
+            "arrival": "5:44",
+            "travel_time": "9:13",
+            "destination": "Jamaica",
+            "aircraft_type": "Airbus 9000",
+            "creator": "Rick"
+        }
+    ],
+    true
+]
 
-2 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'aircraft_type': 'Snoop-Dog Airbus A320 V2'}, data=None) 202 True
+3 Urls(method='put', url='http://localhost:5000/flights/2', headers=None, json={'aircraft_type': 'Snoop-Dog Airbus A320 V2'}, data=None) 401 False
 < PUT /flights/2 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -45,15 +104,17 @@
 < Content-Type: application/json
 < 
 < {"aircraft_type": "Snoop-Dog Airbus A320 V2"}
-> HTTP/1.0 202 ACCEPTED
+> HTTP/1.0 401 UNAUTHORIZED
 > Content-Type: application/json
-> Content-Length: 124
+> Content-Length: 242
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Sat, 16 Nov 2019 21:41:37 GMT
+> Date: Sun, 17 Nov 2019 11:04:44 GMT
 > 
-{"departure": null, "arrival": null, "travel_time": null, "destination": null, "aircraft_type": "Snoop-Dog Airbus A320 V2"}
+{
+    "message": "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."
+}
 
-3 Urls(method='delete', url='http://localhost:5000/flights/1', headers=None, json=None, data=None) 202 True
+4 Urls(method='delete', url='http://localhost:5000/flights/1', headers=None, json=None, data=None) 401 False
 < DELETE /flights/1 HTTP/1.1
 < Host: localhost:5000
 < User-Agent: python-requests/2.22.0
@@ -63,11 +124,13 @@
 < Content-Length: 0
 < 
 
-> HTTP/1.0 202 ACCEPTED
+> HTTP/1.0 401 UNAUTHORIZED
 > Content-Type: application/json
-> Content-Length: 16
+> Content-Length: 242
 > Server: Werkzeug/0.16.0 Python/3.6.8
-> Date: Sat, 16 Nov 2019 21:41:37 GMT
+> Date: Sun, 17 Nov 2019 11:04:44 GMT
 > 
-"1 is deleted."
+{
+    "message": "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."
+}
 

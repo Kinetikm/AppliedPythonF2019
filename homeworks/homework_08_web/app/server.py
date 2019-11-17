@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Api, Resource
 from flask_login import (
     LoginManager, UserMixin, login_required,
@@ -7,6 +7,7 @@ from flask_login import (
 from app.db import *
 from app.validator import *
 import orm
+import marshmallow
 import logging as log
 import time
 
@@ -17,7 +18,7 @@ log.basicConfig(filename='logger.log', level=log.INFO, format='%(asctime)s %(nam
 logger = log.getLogger()
 login_manager = LoginManager()
 login_manager.init_app(app)
-
+logger.debug('This is a debug message')
 
 def makeFlight(data):
     flight = {
@@ -69,12 +70,14 @@ def registration():
         abort(400)
 
     try:
-        data = UserSchema(strict=True).load(request.json).data
+        data = UserSchema().load(request.json).data
     except marshmallow.exceptions.ValidationError as error:
         return jsonify(error.messages)
+    if User.get(data['login']):
+        return jsonify({"registration": "login is already in use"}), 400
 
     User.set(data['token'], {"login": data['login'], "password": data['password'], "email": data['email']})
-    return jsonify({'token': data['token']})
+    return jsonify({"registration": "user created"}), 200
 
 
 @app.route("/login", methods=['POST'])
@@ -83,7 +86,7 @@ def login():
         abort(400)
 
     try:
-        data = AuthSchema(strict=True).load(request.json).data
+        data = AuthSchema().load(request.json).data
     except marshmallow.exceptions.ValidationError as error:
         return jsonify(error.messages)
 
@@ -91,6 +94,7 @@ def login():
     if not user:
         abort(401)
 
+    logger.info(f"LOGIN POST request comleted | SUCC LOGGED IN")
     login_user(user, remember=True)
     return '', 204
 
@@ -99,6 +103,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    logger.info(f"LOGOUT POST request comleted | SUCC LOGGED OUT")
     return '', 204
 
 
@@ -106,9 +111,9 @@ def logout():
 @login_required
 def about_me():
     return jsonify({
-        'username': current_user.username,
-        'age': current_user.age,
-        'cookie': request.cookies,
+        'login': current_user.login,
+        'email': current_user.email,
+        'token': request.token
     })
 
 
@@ -128,12 +133,13 @@ class FlightsWI(Resource):
             return f"Error: wrong input", 400
 
         flight = makeFlight(data)
-        orm.insert(flight)
+        orm.insert(flight, current_user.login)
         logger.info(f"POST request comleted | Timing: {(time.time()-t)}")
         return flight, 201
 
 
 class FlightsI(Resource):
+    @login_required
     def put(self, id_):
         t = time.time()
         try:
@@ -144,13 +150,14 @@ class FlightsI(Resource):
             return "Error: wrong input", 400
 
         flight = makeFlight(data)
-        result = orm.update(id_, flight)
+        result = orm.update(id_, flight, current_user.login)
         print(f"ROWS UPDATED: {result}")
         logger.info(f"PUT request comleted | id = {id_} | Timing: {(time.time()-t)}")
         return flight, 202
 
+    @login_required
     def delete(self, id_):
-        result = orm.delete(id_)
+        result = orm.delete(id_, current_user.login)
         if result:
             logger.info(f"DELETE request completed | id = {id_}")
             return "{} is deleted.".format(id_), 202
