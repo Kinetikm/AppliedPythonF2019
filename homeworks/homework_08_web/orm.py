@@ -52,19 +52,6 @@ class Aircraft_types(Base):
     aircraft = Column(String(100), unique=True, nullable=True)
 
 
-class User_database(Base):
-    __tablename__ = 'user_database'
-    id = Column(Integer, primary_key=True)
-    login = Column(String(20), unique=True)
-    password = Column(String(20))
-    email = Column(String(30))
-    token = Column(String)
-
-    def deserializ(self):
-        result = (self.login, self.password, self.email)
-        return result
-
-
 def select_all():
     query = session.query(Flights).all()
     result = []
@@ -138,24 +125,5 @@ def update(id_, flight_, username_):
                 Flights.travel_time: flight_["travel_time"],
                 Flights.airport_id: aircraft_.id,
                 Flights.aircraft_id: aircraft_.id})
-    session.commit()
-    return True
-
-
-def get_user(token):
-    user = session.query(User_database).filter(User_database.token == token).first()
-    if user:
-        return user.deserializ(), True
-    else:
-        None, False
-
-
-def set_user(token, data):
-    userdb = User_database(
-                    login=data["login"],
-                    password=data["password"],
-                    email=data["email"],
-                    token=token)
-    session.add(flightdb)
     session.commit()
     return True

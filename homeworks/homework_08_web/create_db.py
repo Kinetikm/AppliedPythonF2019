@@ -1,4 +1,5 @@
-from orm import Flights, Dest_airports, Aircraft_types, User_database, Base
+from orm import Flights, Dest_airports, Aircraft_types, Base
+from auth_orm import User_database
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
@@ -30,7 +31,6 @@ if __name__ == "__main__":
             "creator": "Rick"
     }]
     user = {
-        "token": 'toekrrtgg234234-tkfdgmgkd543',
         "login": 'Morty',
         "password": 'password',
         "email": "testin@mail.ru"
@@ -54,9 +54,8 @@ if __name__ == "__main__":
         session.commit()
     ur = User_database(
             login=user["login"],
-            password=user["password"],
-            token=user["token"],
             email=user["email"])
+    ur.set_password("password")
     session.add(ur)
     session.commit()
     session.close()

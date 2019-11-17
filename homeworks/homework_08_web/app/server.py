@@ -7,6 +7,7 @@ from flask_login import (
 from app.db import *
 from app.validator import *
 import orm
+import auth_orm
 import marshmallow
 import logging as log
 import time
@@ -16,9 +17,9 @@ api = Api(app)
 open('logger.log', 'w').close()
 log.basicConfig(filename='logger.log', level=log.INFO, format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 logger = log.getLogger()
-login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager = LoginManager(app)
 logger.debug('This is a debug message')
+
 
 def makeFlight(data):
     flight = {
@@ -122,7 +123,6 @@ class FlightsWI(Resource):
         logger.info(f"GET request for all flights completed")
         return orm.select_all(), 200
 
-    @login_required
     def post(self):
         t = time.time()
         try:
@@ -133,13 +133,17 @@ class FlightsWI(Resource):
             return f"Error: wrong input", 400
 
         flight = makeFlight(data)
+
+
+        with open('testingout.txt', 'w') as f:
+            print(current_user, file=f)
+            print(current_user.username, file=f)
         orm.insert(flight, current_user.login)
         logger.info(f"POST request comleted | Timing: {(time.time()-t)}")
         return flight, 201
 
 
 class FlightsI(Resource):
-    @login_required
     def put(self, id_):
         t = time.time()
         try:
@@ -155,7 +159,6 @@ class FlightsI(Resource):
         logger.info(f"PUT request comleted | id = {id_} | Timing: {(time.time()-t)}")
         return flight, 202
 
-    @login_required
     def delete(self, id_):
         result = orm.delete(id_, current_user.login)
         if result:
