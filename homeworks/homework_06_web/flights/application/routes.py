@@ -1,11 +1,11 @@
 from application import app
 from flask import jsonify, abort, request, g
 from marshmallow.exceptions import ValidationError
-import validation
+from application import validation
 import time
-from logger_config import LOGGING_CONFIG
+from application.logger_config import LOGGING_CONFIG
 import logging.config
-from model import Airports, Airplanes, Flights, Log
+from application.model import Airports, Airplanes, Flights, Log
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, func
 

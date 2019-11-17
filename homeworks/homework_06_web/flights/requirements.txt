@@ -1,0 +1,5 @@
+flask
+requests
+marshmallow==3.2.2
+Flask-Login==0.4.1
+sqlalchemy
