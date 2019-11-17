@@ -15,7 +15,7 @@ with open("cron_data.json", "w") as f:
     json.dump(data, f)
 users = '; '.join(users)
 message = users
-s = smtplib.SMTP(host=, port=your_port_here)
+s = smtplib.SMTP(host='smtp.yandex.ru', port=587)
 s.starttls()
 s.login(MY_ADDRESS, PASSWORD)
 msg = MIMEMultipart()
