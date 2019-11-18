@@ -21,5 +21,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('api/flight', include('flight.urls')),
+    url('api/flight/', include('flight.urls')),
 ]
