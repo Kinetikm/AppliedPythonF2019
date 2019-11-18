@@ -1,5 +1,5 @@
-from flask import request, g, abort
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask import request, g, abort, jsonify
+from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from marshmallow import Schema, fields, ValidationError
 from models.model import Users, Base
 from sqlalchemy import create_engine
@@ -64,7 +64,6 @@ def registration():
 
 @app.route('/login', methods=['POST'])
 def login():
-    print(request.json, flush=True)
     try:
         data = LoginSchema().load(request.json)
         session = get_db()
@@ -88,6 +87,16 @@ def logout():
 @login_required
 def check():
     return 'OK'
+
+
+@app.route('/about_me')
+@login_required
+def about_me():
+    return jsonify({
+        'id': current_user.id,
+        'username': current_user.username,
+        'email': current_user.email,
+    })
 
 
 @app.teardown_appcontext

@@ -58,12 +58,13 @@ class Flights(Base):
     def serialize(self):
         """Return object data in easily serializable format"""
         return {
+            'flight_id': self.id,
             'dep_time': self.dep_time,
             'arr_time': self.arr_time,
             'airplane': self.airplane.airplane,
             'airport': self.airport.airport,
             'flight_time': self.flight_time,
-            'user': self.user,
+            'user_id': self.user_id,
         }
 
 

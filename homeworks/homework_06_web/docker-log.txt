@@ -1,0 +1,119 @@
+Step 1/2 : FROM nginx
+ ---> 540a289bab6c
+Step 2/2 : COPY nginx.conf /etc/nginx/nginx.conf
+ ---> Using cache
+ ---> ec12f2a0b092
+Successfully built ec12f2a0b092
+Successfully tagged homework_06_web_nginx:latest
+Step 1/7 : FROM python:3.7
+ ---> 3786ccc05c04
+Step 2/7 : FROM tiangolo/meinheld-gunicorn:python3.7
+ ---> 8bc9759166e4
+Step 3/7 : RUN mkdir /code
+ ---> Using cache
+ ---> 7755058bbb1d
+Step 4/7 : WORKDIR /code
+ ---> Using cache
+ ---> e31813781eb0
+Step 5/7 : COPY ./auth .
+ ---> Using cache
+ ---> 583bafb32a68
+Step 6/7 : COPY ./models ./models
+ ---> Using cache
+ ---> 7b4088f11d38
+Step 7/7 : RUN pip install -r requirements.txt
+ ---> Using cache
+ ---> 107fc762aaaf
+Successfully built 107fc762aaaf
+Successfully tagged homework_06_web_auth:latest
+Step 1/7 : FROM python:3.7
+ ---> 3786ccc05c04
+Step 2/7 : FROM tiangolo/meinheld-gunicorn:python3.7
+ ---> 8bc9759166e4
+Step 3/7 : RUN mkdir /code
+ ---> Using cache
+ ---> 7755058bbb1d
+Step 4/7 : WORKDIR /code
+ ---> Using cache
+ ---> e31813781eb0
+Step 5/7 : COPY ./flights .
+ ---> 016781960d21
+Step 6/7 : COPY ./models ./models
+ ---> 3d9d52d2af78
+Step 7/7 : RUN pip install -r requirements.txt
+ ---> Running in 7b93edaae446
+Collecting flask (from -r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/9b/93/628509b8d5dc749656a9641f4caf13540e2cdec85276964ff8f43bbb1d3b/Flask-1.1.1-py2.py3-none-any.whl (94kB)
+Collecting requests (from -r requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/51/bd/23c926cd341ea6b7dd0b2a00aba99ae0f828be89d72b2190f27c11d4b7fb/requests-2.22.0-py2.py3-none-any.whl (57kB)
+Collecting marshmallow==3.2.2 (from -r requirements.txt (line 3))
+  Downloading https://files.pythonhosted.org/packages/e1/ca/406bf7b2d42da406bf1474e231b23c21e16007fea7e213f1fbc9bcd62cc8/marshmallow-3.2.2-py2.py3-none-any.whl (45kB)
+Collecting Flask-Login==0.4.1 (from -r requirements.txt (line 4))
+  Downloading https://files.pythonhosted.org/packages/c1/ff/bd9a4d2d81bf0c07d9e53e8cd3d675c56553719bbefd372df69bf1b3c1e4/Flask-Login-0.4.1.tar.gz
+Collecting sqlalchemy (from -r requirements.txt (line 5))
+  Downloading https://files.pythonhosted.org/packages/34/5c/0e1d7ad0ca52544bb12f9cb8d5cc454af45821c92160ffedd38db0a317f6/SQLAlchemy-1.3.11.tar.gz (6.0MB)
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting Werkzeug>=0.15 (from flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/ce/42/3aeda98f96e85fd26180534d36570e4d18108d62ae36f87694b476b83d6f/Werkzeug-0.16.0-py2.py3-none-any.whl (327kB)
+Collecting Jinja2>=2.10.1 (from flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/65/e0/eb35e762802015cab1ccee04e8a277b03f1d8e53da3ec3106882ec42558b/Jinja2-2.10.3-py2.py3-none-any.whl (125kB)
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/fa/37/45185cb5abbc30d7257104c434fe0b07e5a195a6847506c074527aa599ec/Click-7.0-py2.py3-none-any.whl (81kB)
+Collecting chardet<3.1.0,>=3.0.2 (from requests->-r requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/bc/a9/01ffebfb562e4274b6487b4bb1ddec7ca55ec7510b22e4c51f14098443b8/chardet-3.0.4-py2.py3-none-any.whl (133kB)
+Collecting urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 (from requests->-r requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/b4/40/a9837291310ee1ccc242ceb6ebfd9eb21539649f193a7c8c86ba15b98539/urllib3-1.25.7-py2.py3-none-any.whl (125kB)
+Collecting idna<2.9,>=2.5 (from requests->-r requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/14/2c/cd551d81dbe15200be1cf41cd03869a46fe7226e7450af7a6545bfc474c9/idna-2.8-py2.py3-none-any.whl (58kB)
+Collecting certifi>=2017.4.17 (from requests->-r requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/18/b0/8146a4f8dd402f60744fa380bc73ca47303cccf8b9190fd16a827281eac2/certifi-2019.9.11-py2.py3-none-any.whl (154kB)
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/98/7b/ff284bd8c80654e471b769062a9b43cc5d03e7a615048d96f4619df8d420/MarkupSafe-1.1.1-cp37-cp37m-manylinux1_x86_64.whl
+Building wheels for collected packages: Flask-Login, sqlalchemy
+  Building wheel for Flask-Login (setup.py): started
+  Building wheel for Flask-Login (setup.py): finished with status 'done'
+  Created wheel for Flask-Login: filename=Flask_Login-0.4.1-py2.py3-none-any.whl size=15935 sha256=105b4069c7752cf851ac5dfe3fb2ed32fe09460cfc3b92282b9657bb2b1e2ca9
+  Stored in directory: /root/.cache/pip/wheels/39/10/74/d68194e28d5f7a83de5f66e5b2deff5ccbb424fe45e6b0e927
+  Building wheel for sqlalchemy (setup.py): started
+  Building wheel for sqlalchemy (setup.py): finished with status 'done'
+  Created wheel for sqlalchemy: filename=SQLAlchemy-1.3.11-cp37-cp37m-linux_x86_64.whl size=1216920 sha256=9edfe678e69520ec72e17a6559272207684bd6d16460ffa2ca376e2b92a2eeb2
+  Stored in directory: /root/.cache/pip/wheels/a3/67/7d/6c41104a1a08ff1a25e260d3edec3ac19203141d1aaa2f0975
+Successfully built Flask-Login sqlalchemy
+Installing collected packages: itsdangerous, Werkzeug, MarkupSafe, Jinja2, click, flask, chardet, urllib3, idna, certifi, requests, marshmallow, Flask-Login, sqlalchemy
+Successfully installed Flask-Login-0.4.1 Jinja2-2.10.3 MarkupSafe-1.1.1 Werkzeug-0.16.0 certifi-2019.9.11 chardet-3.0.4 click-7.0 flask-1.1.1 idna-2.8 itsdangerous-1.1.0 marshmallow-3.2.2 requests-2.22.0 sqlalchemy-1.3.11 urllib3-1.25.7
+[91mWARNING: You are using pip version 19.2.3, however version 19.3.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+[0mRemoving intermediate container 7b93edaae446
+ ---> 69ccc3a94f29
+Successfully built 69ccc3a94f29
+Successfully tagged homework_06_web_flights:latest
+Attaching to nginx_serv, auth_serv, flights_serv
+[33mauth_serv  |[0m [2019-11-18 23:06:47 +0000] [1] [INFO] Starting gunicorn 19.9.0
+[33mauth_serv  |[0m [2019-11-18 23:06:47 +0000] [1] [INFO] Listening at: http://0.0.0.0:8000 (1)
+[33mauth_serv  |[0m [2019-11-18 23:06:47 +0000] [1] [INFO] Using worker: sync
+[33mauth_serv  |[0m [2019-11-18 23:06:47 +0000] [8] [INFO] Booting worker with pid: 8
+[32mflights_serv |[0m [2019-11-18 23:06:48 +0000] [1] [INFO] Starting gunicorn 19.9.0
+[32mflights_serv |[0m [2019-11-18 23:06:48 +0000] [1] [INFO] Listening at: http://0.0.0.0:8000 (1)
+[32mflights_serv |[0m [2019-11-18 23:06:48 +0000] [1] [INFO] Using worker: sync
+[32mflights_serv |[0m [2019-11-18 23:06:48 +0000] [8] [INFO] Booting worker with pid: 8
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:01 +0000] "POST /registration HTTP/1.1" 400 126 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:01 +0000] "POST /registration HTTP/1.1" 400 126 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:01 +0000] "POST /login HTTP/1.1" 204 0 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:01 +0000] "GET /about_me HTTP/1.1" 200 56 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:01 +0000] "POST /login HTTP/1.1" 204 0 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "POST /flights HTTP/1.1" 200 2 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "POST /login HTTP/1.1" 204 0 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "POST /flights HTTP/1.1" 200 2 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "GET /flights HTTP/1.1" 200 345 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "POST /login HTTP/1.1" 204 0 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "DELETE /flights/1/ HTTP/1.1" 403 234 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "POST /login HTTP/1.1" 204 0 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "DELETE /flights/1/ HTTP/1.1" 200 2 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "GET /flights HTTP/1.1" 200 174 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "POST /login HTTP/1.1" 204 0 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "PUT /flights/2/ HTTP/1.1" 200 2 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:02 +0000] "GET /flights HTTP/1.1" 200 173 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:03 +0000] "POST /login HTTP/1.1" 204 0 "-" "python-requests/2.21.0"
+[36mnginx_serv |[0m 172.19.0.1 - - [18/Nov/2019:23:07:03 +0000] "PUT /flights/2/ HTTP/1.1" 403 234 "-" "python-requests/2.21.0"
+Gracefully stopping... (press Ctrl+C again to force)

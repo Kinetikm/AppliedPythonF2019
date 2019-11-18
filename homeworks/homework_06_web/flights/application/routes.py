@@ -8,6 +8,8 @@ import logging.config
 from models.model import Airports, Airplanes, Flights, Log, Base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, func
+import requests
+import json
 
 flights_engine = create_engine('sqlite:///../flights.db')
 Base.metadata.create_all(flights_engine)
@@ -40,6 +42,7 @@ def get_flights():
         result = session.query(Flights).filter(Flights.dep_time == args['filter_by_time'])
     else:
         result = session.query(Flights)
+    r = result.first()
     if args['sort_by'] is not None:
         result = result.order_by(args['sort_by'])
     data = [i.serialize for i in result.all()]
@@ -48,23 +51,30 @@ def get_flights():
 
 @app.route('/flights', methods=['POST'])
 def post_flight():
+    resp = requests.get('http://auth:8000/about_me', cookies=request.cookies)
+    if resp.status_code != 200:
+        abort(403)
+    pars_resp = json.loads(resp.text)
+    user_id = pars_resp['id']
     try:
         data = flight_schema.load(request.get_json())
         session = get_db()
         airport = session.query(Airports).filter(Airports.airport == data['dest_airport']).first()
         if airport is None:
             airport = Airports(airport=data['dest_airport'])
-            session.flush(airport)
+            session.add(airport)
+            session.commit()
         airport_id = airport.id
         airplane = session.query(Airplanes).filter(Airplanes.airplane == data['airplane']).first()
         if airplane is None:
-            airplane = Airplanes(airport=data['airplane'])
-            session.flush(airplane)
+            airplane = Airplanes(airplane=data['airplane'])
+            session.add(airplane)
+            session.commit()
         airplane_id = airplane.id
         h = (data['arr_time'] - data['dep_time']).seconds // 3600
         m = (data['arr_time'] - data['dep_time']).seconds // 60 % 60
         row = Flights(dep_time=data['dep_time'], arr_time=data['arr_time'], airport_id=airport_id,
-                      plane_id=airplane_id, flight_time=f'{h}:{m}')
+                      plane_id=airplane_id, flight_time=f'{h}:{m}', user_id=user_id)
         session.add(row)
         session.commit()
         return 'OK'
@@ -83,8 +93,17 @@ def get_flight(flight_id):
 
 @app.route('/flights/<int:flight_id>/', methods=['DELETE'])
 def delete_flight(flight_id):
+    resp = requests.get('http://auth:8000/about_me', cookies=request.cookies)
+    if resp.status_code != 200:
+        abort(403)
+    pars_resp = json.loads(resp.text)
+    user_id = pars_resp['id']
     session = get_db()
     obj = session.query(Flights).get(flight_id)
+    if obj is None:
+        abort(404)
+    if obj.user_id != user_id:
+        abort(403)
     if obj is not None:
         session.delete(obj)
         session.commit()
@@ -93,6 +112,11 @@ def delete_flight(flight_id):
 
 @app.route('/flights/<int:flight_id>/', methods=['PUT'])
 def put_flight(flight_id):
+    resp = requests.get('http://auth:8000/about_me', cookies=request.cookies)
+    if resp.status_code != 200:
+        abort(403)
+    pars_resp = json.loads(resp.text)
+    user_id = pars_resp['id']
     try:
         data = flight_schema.load(request.get_json())
         session = get_db()
@@ -111,10 +135,12 @@ def put_flight(flight_id):
         obj = session.query(Flights).get(flight_id)
         if obj is None:
             row = Airports(dep_time=data['dep_time'], arr_time=data['arr_time'], airport_id=airport_id,
-                           plane_id=airplane_id, flight_time=f'{h}:{m}')
+                           plane_id=airplane_id, flight_time=f'{h}:{m}', user_id=user_id)
             session.add(row)
             session.commit()
         else:
+            if obj.user_id != user_id:
+                abort(403)
             obj.dep_time = data['dep_time']
             obj.arr_time = data['arr_time']
             obj.airport_id = airport_id

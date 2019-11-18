@@ -11,7 +11,7 @@
 < {"login": "user1", "email": "user2@example.com", "password": "123"}
 > HTTP/1.1 400 BAD REQUEST
 > Server: nginx/1.17.5
-> Date: Mon, 18 Nov 2019 14:37:07 GMT
+> Date: Mon, 18 Nov 2019 23:07:01 GMT
 > Content-Type: text/html
 > Content-Length: 126
 > Connection: keep-alive
@@ -21,7 +21,30 @@
 <h1>Bad Request</h1>
 <p>User exist</p>
 
-1 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'user1', 'password': '123'}, data=None, params=None) 204 True
+1 Urls(method='post', url='http://localhost:8080/registration', headers=None, json={'login': 'user2', 'email': 'user1@example.com', 'password': '123'}, data=None, params=None) 400 False
+< POST /registration HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 67
+< Content-Type: application/json
+< 
+< {"login": "user2", "email": "user1@example.com", "password": "123"}
+> HTTP/1.1 400 BAD REQUEST
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:01 GMT
+> Content-Type: text/html
+> Content-Length: 126
+> Connection: keep-alive
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>User exist</p>
+
+2 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'user1', 'password': '123'}, data=None, params=None) 204 True
 < POST /login HTTP/1.1
 < Host: localhost:8080
 < User-Agent: python-requests/2.21.0
@@ -34,11 +57,337 @@
 < {"login": "user1", "password": "123"}
 > HTTP/1.1 204 NO CONTENT
 > Server: nginx/1.17.5
-> Date: Mon, 18 Nov 2019 14:37:07 GMT
+> Date: Mon, 18 Nov 2019 23:07:01 GMT
 > Content-Type: text/html; charset=utf-8
 > Connection: keep-alive
-> Set-Cookie: flight_board=2|0b1abc52535db7ad42b2cec621033a7e5b0623bac70389941d1d76c4b0e1e039e92bf6028c7ba4d3bf8b314bdb77f70bead06711167d8673f98f6f12ce607664; Expires=Tue, 17-Nov-2020 14:37:07 GMT; Path=/
-> Set-Cookie: session=.eJwljjsOwzAMQ--iOUNs6-dcppAsGe2aNFPRu9dAJwJ8xAM_8JhnXk843uedGzxeAQeUGmQ49t2VjF1CZ_ba1BFbF1SfaSoLhkWQYFBoahXqo-3mXakxVnOdjDapO_uQ5LLWxZhwFTRajpVFBslkQ2KSthSOusMG95Xn_0yF7w-phy7Z.XdKskw.FYDzd1ekJthWWE6NDeBrFYtG3a8; HttpOnly; Path=/
+> Set-Cookie: flight_board=1|03ef334071d724c67fcce0ad537f5010cbf5b543533e1429df86ad4997f21e382dc2fe6abfd1b5909d5e3eec3bf8f483cd21d015932b4464f3faf19407b43fd1; Expires=Tue, 17-Nov-2020 23:07:01 GMT; Path=/
+> Set-Cookie: session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzxB8vvMRLSs.XdMkFQ.lolzHmZMuKkLagxZtjcMnBg6bGw; HttpOnly; Path=/
 > Vary: Cookie
 > 
+
+3 Urls(method='get', url='http://localhost:8080/about_me', headers=None, json=None, data=None, params=None) 200 True
+< GET /about_me HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: flight_board=1|03ef334071d724c67fcce0ad537f5010cbf5b543533e1429df86ad4997f21e382dc2fe6abfd1b5909d5e3eec3bf8f483cd21d015932b4464f3faf19407b43fd1; session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzxB8vvMRLSs.XdMkFQ.lolzHmZMuKkLagxZtjcMnBg6bGw
+< 
+
+> HTTP/1.1 200 OK
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:01 GMT
+> Content-Type: application/json
+> Content-Length: 56
+> Connection: keep-alive
+> Vary: Cookie
+> 
+{"email":"user2@example.com","id":1,"username":"user1"}
+
+4 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'user1', 'password': '123'}, data=None, params=None) 204 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 37
+< Content-Type: application/json
+< 
+< {"login": "user1", "password": "123"}
+> HTTP/1.1 204 NO CONTENT
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:01 GMT
+> Content-Type: text/html; charset=utf-8
+> Connection: keep-alive
+> Set-Cookie: flight_board=1|03ef334071d724c67fcce0ad537f5010cbf5b543533e1429df86ad4997f21e382dc2fe6abfd1b5909d5e3eec3bf8f483cd21d015932b4464f3faf19407b43fd1; Expires=Tue, 17-Nov-2020 23:07:01 GMT; Path=/
+> Set-Cookie: session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzxB8vvMRLSs.XdMkFQ.lolzHmZMuKkLagxZtjcMnBg6bGw; HttpOnly; Path=/
+> Vary: Cookie
+> 
+
+5 Urls(method='post', url='http://localhost:8080/flights', headers=None, json={'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT', 'dest_airport': 'Moscow'}, data=None, params=None) 200 True
+< POST /flights HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: flight_board=1|03ef334071d724c67fcce0ad537f5010cbf5b543533e1429df86ad4997f21e382dc2fe6abfd1b5909d5e3eec3bf8f483cd21d015932b4464f3faf19407b43fd1; session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzxB8vvMRLSs.XdMkFQ.lolzHmZMuKkLagxZtjcMnBg6bGw
+< Content-Length: 136
+< Content-Type: application/json
+< 
+< {"airplane": "A380", "arr_time": "Thu, 15 Nov 2018 03:12:52 GMT", "dep_time": "Thu, 15 Nov 2018 02:12:52 GMT", "dest_airport": "Moscow"}
+> HTTP/1.1 200 OK
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Connection: keep-alive
+> 
+OK
+6 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'user2', 'password': '123'}, data=None, params=None) 204 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 37
+< Content-Type: application/json
+< 
+< {"login": "user2", "password": "123"}
+> HTTP/1.1 204 NO CONTENT
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: text/html; charset=utf-8
+> Connection: keep-alive
+> Set-Cookie: flight_board=2|0b1abc52535db7ad42b2cec621033a7e5b0623bac70389941d1d76c4b0e1e039e92bf6028c7ba4d3bf8b314bdb77f70bead06711167d8673f98f6f12ce607664; Expires=Tue, 17-Nov-2020 23:07:02 GMT; Path=/
+> Set-Cookie: session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzzB8vvMULSw.XdMkFg.DEYrCDX0qaWCRTA18WEoe2AaM5I; HttpOnly; Path=/
+> Vary: Cookie
+> 
+
+7 Urls(method='post', url='http://localhost:8080/flights', headers=None, json={'airplane': 'A320', 'arr_time': 'Thu, 15 Nov 2018 04:15:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 01:16:22 GMT', 'dest_airport': 'London'}, data=None, params=None) 200 True
+< POST /flights HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: flight_board=2|0b1abc52535db7ad42b2cec621033a7e5b0623bac70389941d1d76c4b0e1e039e92bf6028c7ba4d3bf8b314bdb77f70bead06711167d8673f98f6f12ce607664; session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzzB8vvMULSw.XdMkFg.DEYrCDX0qaWCRTA18WEoe2AaM5I
+< Content-Length: 136
+< Content-Type: application/json
+< 
+< {"airplane": "A320", "arr_time": "Thu, 15 Nov 2018 04:15:52 GMT", "dep_time": "Thu, 15 Nov 2018 01:16:22 GMT", "dest_airport": "London"}
+> HTTP/1.1 200 OK
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Connection: keep-alive
+> 
+OK
+8 Urls(method='get', url='http://localhost:8080/flights', headers=None, json=None, data=None, params=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.1 200 OK
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: application/json
+> Content-Length: 345
+> Connection: keep-alive
+> 
+[{"airplane":"A380","airport":"Moscow","arr_time":"Thu, 15 Nov 2018 03:12:52 GMT","dep_time":"Thu, 15 Nov 2018 02:12:52 GMT","flight_id":1,"flight_time":"1:0","user_id":1},{"airplane":"A320","airport":"London","arr_time":"Thu, 15 Nov 2018 04:15:52 GMT","dep_time":"Thu, 15 Nov 2018 01:16:22 GMT","flight_id":2,"flight_time":"2:59","user_id":2}]
+
+9 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'user2', 'password': '123'}, data=None, params=None) 204 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 37
+< Content-Type: application/json
+< 
+< {"login": "user2", "password": "123"}
+> HTTP/1.1 204 NO CONTENT
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: text/html; charset=utf-8
+> Connection: keep-alive
+> Set-Cookie: flight_board=2|0b1abc52535db7ad42b2cec621033a7e5b0623bac70389941d1d76c4b0e1e039e92bf6028c7ba4d3bf8b314bdb77f70bead06711167d8673f98f6f12ce607664; Expires=Tue, 17-Nov-2020 23:07:02 GMT; Path=/
+> Set-Cookie: session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzzB8vvMULSw.XdMkFg.DEYrCDX0qaWCRTA18WEoe2AaM5I; HttpOnly; Path=/
+> Vary: Cookie
+> 
+
+10 Urls(method='delete', url='http://localhost:8080/flights/1/', headers=None, json=None, data=None, params=None) 403 False
+< DELETE /flights/1/ HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: flight_board=2|0b1abc52535db7ad42b2cec621033a7e5b0623bac70389941d1d76c4b0e1e039e92bf6028c7ba4d3bf8b314bdb77f70bead06711167d8673f98f6f12ce607664; session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzzB8vvMULSw.XdMkFg.DEYrCDX0qaWCRTA18WEoe2AaM5I
+< Content-Length: 0
+< 
+
+> HTTP/1.1 403 FORBIDDEN
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: text/html
+> Content-Length: 234
+> Connection: keep-alive
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>403 Forbidden</title>
+<h1>Forbidden</h1>
+<p>You don't have the permission to access the requested resource. It is either read-protected or not readable by the server.</p>
+
+11 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'user1', 'password': '123'}, data=None, params=None) 204 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 37
+< Content-Type: application/json
+< 
+< {"login": "user1", "password": "123"}
+> HTTP/1.1 204 NO CONTENT
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: text/html; charset=utf-8
+> Connection: keep-alive
+> Set-Cookie: flight_board=1|03ef334071d724c67fcce0ad537f5010cbf5b543533e1429df86ad4997f21e382dc2fe6abfd1b5909d5e3eec3bf8f483cd21d015932b4464f3faf19407b43fd1; Expires=Tue, 17-Nov-2020 23:07:02 GMT; Path=/
+> Set-Cookie: session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzxB8vvMRLSs.XdMkFg.iQwhBLGA1ONI-w1e_OUrYWIOgtM; HttpOnly; Path=/
+> Vary: Cookie
+> 
+
+12 Urls(method='delete', url='http://localhost:8080/flights/1/', headers=None, json=None, data=None, params=None) 200 True
+< DELETE /flights/1/ HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: flight_board=1|03ef334071d724c67fcce0ad537f5010cbf5b543533e1429df86ad4997f21e382dc2fe6abfd1b5909d5e3eec3bf8f483cd21d015932b4464f3faf19407b43fd1; session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzxB8vvMRLSs.XdMkFg.iQwhBLGA1ONI-w1e_OUrYWIOgtM
+< Content-Length: 0
+< 
+
+> HTTP/1.1 200 OK
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Connection: keep-alive
+> 
+OK
+13 Urls(method='get', url='http://localhost:8080/flights', headers=None, json=None, data=None, params=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.1 200 OK
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: application/json
+> Content-Length: 174
+> Connection: keep-alive
+> 
+[{"airplane":"A320","airport":"London","arr_time":"Thu, 15 Nov 2018 04:15:52 GMT","dep_time":"Thu, 15 Nov 2018 01:16:22 GMT","flight_id":2,"flight_time":"2:59","user_id":2}]
+
+14 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'user2', 'password': '123'}, data=None, params=None) 204 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 37
+< Content-Type: application/json
+< 
+< {"login": "user2", "password": "123"}
+> HTTP/1.1 204 NO CONTENT
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: text/html; charset=utf-8
+> Connection: keep-alive
+> Set-Cookie: flight_board=2|0b1abc52535db7ad42b2cec621033a7e5b0623bac70389941d1d76c4b0e1e039e92bf6028c7ba4d3bf8b314bdb77f70bead06711167d8673f98f6f12ce607664; Expires=Tue, 17-Nov-2020 23:07:02 GMT; Path=/
+> Set-Cookie: session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzzB8vvMULSw.XdMkFg.DEYrCDX0qaWCRTA18WEoe2AaM5I; HttpOnly; Path=/
+> Vary: Cookie
+> 
+
+15 Urls(method='put', url='http://localhost:8080/flights/2/', headers=None, json={'airplane': 'A320', 'arr_time': 'Thu, 27 Sep 2018 23:21:43 GMT', 'dep_time': 'Thu, 27 Sep 2018 22:21:43 GMT', 'dest_airport': 'Moscow'}, data=None, params=None) 200 True
+< PUT /flights/2/ HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: flight_board=2|0b1abc52535db7ad42b2cec621033a7e5b0623bac70389941d1d76c4b0e1e039e92bf6028c7ba4d3bf8b314bdb77f70bead06711167d8673f98f6f12ce607664; session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzzB8vvMULSw.XdMkFg.DEYrCDX0qaWCRTA18WEoe2AaM5I
+< Content-Length: 136
+< Content-Type: application/json
+< 
+< {"airplane": "A320", "arr_time": "Thu, 27 Sep 2018 23:21:43 GMT", "dep_time": "Thu, 27 Sep 2018 22:21:43 GMT", "dest_airport": "Moscow"}
+> HTTP/1.1 200 OK
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 2
+> Connection: keep-alive
+> 
+OK
+16 Urls(method='get', url='http://localhost:8080/flights', headers=None, json=None, data=None, params=None) 200 True
+< GET /flights HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< 
+
+> HTTP/1.1 200 OK
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:02 GMT
+> Content-Type: application/json
+> Content-Length: 173
+> Connection: keep-alive
+> 
+[{"airplane":"A320","airport":"Moscow","arr_time":"Thu, 27 Sep 2018 23:21:43 GMT","dep_time":"Thu, 27 Sep 2018 22:21:43 GMT","flight_id":2,"flight_time":"1:0","user_id":2}]
+
+17 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'user1', 'password': '123'}, data=None, params=None) 204 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Content-Length: 37
+< Content-Type: application/json
+< 
+< {"login": "user1", "password": "123"}
+> HTTP/1.1 204 NO CONTENT
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:03 GMT
+> Content-Type: text/html; charset=utf-8
+> Connection: keep-alive
+> Set-Cookie: flight_board=1|03ef334071d724c67fcce0ad537f5010cbf5b543533e1429df86ad4997f21e382dc2fe6abfd1b5909d5e3eec3bf8f483cd21d015932b4464f3faf19407b43fd1; Expires=Tue, 17-Nov-2020 23:07:03 GMT; Path=/
+> Set-Cookie: session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzxB8vvMRLSs.XdMkFw.mlhzxWQBdtxUIGHEkRhy0ag5nbE; HttpOnly; Path=/
+> Vary: Cookie
+> 
+
+18 Urls(method='put', url='http://localhost:8080/flights/2/', headers=None, json={'airplane': 'A320', 'arr_time': 'Thu, 27 Sep 2018 23:21:43 GMT', 'dep_time': 'Thu, 27 Sep 2018 22:21:43 GMT', 'dest_airport': 'Berlin'}, data=None, params=None) 403 False
+< PUT /flights/2/ HTTP/1.1
+< Host: localhost:8080
+< User-Agent: python-requests/2.21.0
+< Accept-Encoding: gzip, deflate
+< Accept: */*
+< Connection: keep-alive
+< Cookie: flight_board=1|03ef334071d724c67fcce0ad537f5010cbf5b543533e1429df86ad4997f21e382dc2fe6abfd1b5909d5e3eec3bf8f483cd21d015932b4464f3faf19407b43fd1; session=.eJwlzjEOwzAIAMC_MGcAjMHkM5WLQe2aNFPVv7dStxvvDbc68nzA_jqu3OD2XLCD5XBXW5OGEbWIaejBSEbugsgp07iw6RKrgeHRETP6CrfBWNpME8tKfXJF77yE7swaioGyaKqlsSsyTZOi9sMolijOUbDBdebxzxB8vvMRLSs.XdMkFw.mlhzxWQBdtxUIGHEkRhy0ag5nbE
+< Content-Length: 136
+< Content-Type: application/json
+< 
+< {"airplane": "A320", "arr_time": "Thu, 27 Sep 2018 23:21:43 GMT", "dep_time": "Thu, 27 Sep 2018 22:21:43 GMT", "dest_airport": "Berlin"}
+> HTTP/1.1 403 FORBIDDEN
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 23:07:03 GMT
+> Content-Type: text/html
+> Content-Length: 234
+> Connection: keep-alive
+> 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>403 Forbidden</title>
+<h1>Forbidden</h1>
+<p>You don't have the permission to access the requested resource. It is either read-protected or not readable by the server.</p>
 
