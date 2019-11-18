@@ -1,177 +1,44 @@
-0 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None, params=None) 200 True
-< GET /flights HTTP/1.1
-< Host: localhost:5000
+0 Urls(method='post', url='http://localhost:8080/registration', headers=None, json={'login': 'user1', 'email': 'user2@example.com', 'password': '123'}, data=None, params=None) 400 False
+< POST /registration HTTP/1.1
+< Host: localhost:8080
 < User-Agent: python-requests/2.21.0
 < Accept-Encoding: gzip, deflate
 < Accept: */*
 < Connection: keep-alive
-< 
-
-> HTTP/1.0 200 OK
-> Content-Type: application/json
-> Content-Length: 587
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:44 GMT
-> 
-[{"airplane":"B737","airport":"Berlin","arr_time":"Thu, 05 Jul 2018 05:41:37 GMT","dep_time":"Thu, 05 Jul 2018 02:41:37 GMT","flight_time":"3:0"},{"airplane":"B737","airport":"Moscow","arr_time":"Thu, 15 Feb 2018 12:01:27 GMT","dep_time":"Thu, 15 Feb 2018 07:01:27 GMT","flight_time":"5:0"},{"airplane":"A319","airport":"Berlin","arr_time":"Sat, 31 Mar 2018 22:57:11 GMT","dep_time":"Sat, 31 Mar 2018 13:57:11 GMT","flight_time":"9:0"},{"airplane":"A380","airport":"Chelyabinsk","arr_time":"Mon, 11 Jun 2018 08:40:34 GMT","dep_time":"Mon, 11 Jun 2018 05:40:34 GMT","flight_time":"3:0"}]
-
-1 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None, params={'sort_by': 'dep_time'}) 200 True
-< GET /flights?sort_by=dep_time HTTP/1.1
-< Host: localhost:5000
-< User-Agent: python-requests/2.21.0
-< Accept-Encoding: gzip, deflate
-< Accept: */*
-< Connection: keep-alive
-< 
-
-> HTTP/1.0 200 OK
-> Content-Type: application/json
-> Content-Length: 587
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:44 GMT
-> 
-[{"airplane":"B737","airport":"Moscow","arr_time":"Thu, 15 Feb 2018 12:01:27 GMT","dep_time":"Thu, 15 Feb 2018 07:01:27 GMT","flight_time":"5:0"},{"airplane":"A319","airport":"Berlin","arr_time":"Sat, 31 Mar 2018 22:57:11 GMT","dep_time":"Sat, 31 Mar 2018 13:57:11 GMT","flight_time":"9:0"},{"airplane":"A380","airport":"Chelyabinsk","arr_time":"Mon, 11 Jun 2018 08:40:34 GMT","dep_time":"Mon, 11 Jun 2018 05:40:34 GMT","flight_time":"3:0"},{"airplane":"B737","airport":"Berlin","arr_time":"Thu, 05 Jul 2018 05:41:37 GMT","dep_time":"Thu, 05 Jul 2018 02:41:37 GMT","flight_time":"3:0"}]
-
-2 Urls(method='get', url='http://localhost:5000/flights/2/', headers=None, json=None, data=None, params=None) 200 True
-< GET /flights/2/ HTTP/1.1
-< Host: localhost:5000
-< User-Agent: python-requests/2.21.0
-< Accept-Encoding: gzip, deflate
-< Accept: */*
-< Connection: keep-alive
-< 
-
-> HTTP/1.0 200 OK
-> Content-Type: application/json
-> Content-Length: 145
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:44 GMT
-> 
-{"airplane":"B737","airport":"Moscow","arr_time":"Thu, 15 Feb 2018 12:01:27 GMT","dep_time":"Thu, 15 Feb 2018 07:01:27 GMT","flight_time":"5:0"}
-
-3 Urls(method='get', url='http://localhost:5000/flights/100/', headers=None, json=None, data=None, params=None) 200 True
-< GET /flights/100/ HTTP/1.1
-< Host: localhost:5000
-< User-Agent: python-requests/2.21.0
-< Accept-Encoding: gzip, deflate
-< Accept: */*
-< Connection: keep-alive
-< 
-
-> HTTP/1.0 200 OK
-> Content-Type: application/json
-> Content-Length: 5
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:44 GMT
-> 
-null
-
-4 Urls(method='delete', url='http://localhost:5000/flights/3/', headers=None, json=None, data=None, params=None) 200 True
-< DELETE /flights/3/ HTTP/1.1
-< Host: localhost:5000
-< User-Agent: python-requests/2.21.0
-< Accept-Encoding: gzip, deflate
-< Accept: */*
-< Connection: keep-alive
-< Content-Length: 0
-< 
-
-> HTTP/1.0 200 OK
-> Content-Type: text/html; charset=utf-8
-> Content-Length: 2
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:44 GMT
-> 
-OK
-5 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT', 'dest_airport': 'Moscow'}, data=None, params=None) 200 True
-< POST /flights HTTP/1.1
-< Host: localhost:5000
-< User-Agent: python-requests/2.21.0
-< Accept-Encoding: gzip, deflate
-< Accept: */*
-< Connection: keep-alive
-< Content-Length: 136
+< Content-Length: 67
 < Content-Type: application/json
 < 
-< {"airplane": "A380", "arr_time": "Thu, 15 Nov 2018 03:12:52 GMT", "dep_time": "Thu, 15 Nov 2018 02:12:52 GMT", "dest_airport": "Moscow"}
-> HTTP/1.0 200 OK
-> Content-Type: text/html; charset=utf-8
-> Content-Length: 2
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:44 GMT
-> 
-OK
-6 Urls(method='post', url='http://localhost:5000/flights', headers=None, json={'airplane': 'A380', 'arr_time': 'Thu, 15 Nov 2018 03:12:52 GMT', 'dep_time': 'Thu, 15 Nov 2018 02:12:52 GMT'}, data=None, params=None) 400 False
-< POST /flights HTTP/1.1
-< Host: localhost:5000
-< User-Agent: python-requests/2.21.0
-< Accept-Encoding: gzip, deflate
-< Accept: */*
-< Connection: keep-alive
-< Content-Length: 110
-< Content-Type: application/json
-< 
-< {"airplane": "A380", "arr_time": "Thu, 15 Nov 2018 03:12:52 GMT", "dep_time": "Thu, 15 Nov 2018 02:12:52 GMT"}
-> HTTP/1.0 400 BAD REQUEST
+< {"login": "user1", "email": "user2@example.com", "password": "123"}
+> HTTP/1.1 400 BAD REQUEST
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 14:37:07 GMT
 > Content-Type: text/html
-> Content-Length: 170
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:44 GMT
+> Content-Length: 126
+> Connection: keep-alive
 > 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <title>400 Bad Request</title>
 <h1>Bad Request</h1>
-<p>{'dest_airport': ['Missing data for required field.']}</p>
+<p>User exist</p>
 
-7 Urls(method='put', url='http://localhost:5000/flights/1/', headers=None, json={'airplane': 'A320', 'arr_time': 'Thu, 27 Sep 2018 23:21:43 GMT', 'dep_time': 'Thu, 27 Sep 2018 22:21:43 GMT', 'dest_airport': 'Moscow'}, data=None, params=None) 200 True
-< PUT /flights/1/ HTTP/1.1
-< Host: localhost:5000
+1 Urls(method='post', url='http://localhost:8080/login', headers=None, json={'login': 'user1', 'password': '123'}, data=None, params=None) 204 True
+< POST /login HTTP/1.1
+< Host: localhost:8080
 < User-Agent: python-requests/2.21.0
 < Accept-Encoding: gzip, deflate
 < Accept: */*
 < Connection: keep-alive
-< Content-Length: 136
+< Content-Length: 37
 < Content-Type: application/json
 < 
-< {"airplane": "A320", "arr_time": "Thu, 27 Sep 2018 23:21:43 GMT", "dep_time": "Thu, 27 Sep 2018 22:21:43 GMT", "dest_airport": "Moscow"}
-> HTTP/1.0 200 OK
+< {"login": "user1", "password": "123"}
+> HTTP/1.1 204 NO CONTENT
+> Server: nginx/1.17.5
+> Date: Mon, 18 Nov 2019 14:37:07 GMT
 > Content-Type: text/html; charset=utf-8
-> Content-Length: 2
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:45 GMT
+> Connection: keep-alive
+> Set-Cookie: flight_board=2|0b1abc52535db7ad42b2cec621033a7e5b0623bac70389941d1d76c4b0e1e039e92bf6028c7ba4d3bf8b314bdb77f70bead06711167d8673f98f6f12ce607664; Expires=Tue, 17-Nov-2020 14:37:07 GMT; Path=/
+> Set-Cookie: session=.eJwljjsOwzAMQ--iOUNs6-dcppAsGe2aNFPRu9dAJwJ8xAM_8JhnXk843uedGzxeAQeUGmQ49t2VjF1CZ_ba1BFbF1SfaSoLhkWQYFBoahXqo-3mXakxVnOdjDapO_uQ5LLWxZhwFTRajpVFBslkQ2KSthSOusMG95Xn_0yF7w-phy7Z.XdKskw.FYDzd1ekJthWWE6NDeBrFYtG3a8; HttpOnly; Path=/
+> Vary: Cookie
 > 
-OK
-8 Urls(method='get', url='http://localhost:5000/flights', headers=None, json=None, data=None, params={'sort_by': 'dep_time', 'filter_by_airport': 'Moscow'}) 200 True
-< GET /flights?sort_by=dep_time&filter_by_airport=Moscow HTTP/1.1
-< Host: localhost:5000
-< User-Agent: python-requests/2.21.0
-< Accept-Encoding: gzip, deflate
-< Accept: */*
-< Connection: keep-alive
-< 
-
-> HTTP/1.0 200 OK
-> Content-Type: application/json
-> Content-Length: 437
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:45 GMT
-> 
-[{"airplane":"B737","airport":"Moscow","arr_time":"Thu, 15 Feb 2018 12:01:27 GMT","dep_time":"Thu, 15 Feb 2018 07:01:27 GMT","flight_time":"5:0"},{"airplane":"A320","airport":"Moscow","arr_time":"Thu, 27 Sep 2018 23:21:43 GMT","dep_time":"Thu, 27 Sep 2018 22:21:43 GMT","flight_time":"1:0"},{"airplane":"A380","airport":"Moscow","arr_time":"Thu, 15 Nov 2018 03:12:52 GMT","dep_time":"Thu, 15 Nov 2018 02:12:52 GMT","flight_time":"1:0"}]
-
-9 Urls(method='get', url='http://localhost:5000/metrics', headers=None, json=None, data=None, params={'method_type': 'GET'}) 200 True
-< GET /metrics?method_type=GET HTTP/1.1
-< Host: localhost:5000
-< User-Agent: python-requests/2.21.0
-< Accept-Encoding: gzip, deflate
-< Accept: */*
-< Connection: keep-alive
-< 
-
-> HTTP/1.0 200 OK
-> Content-Type: application/json
-> Content-Length: 135
-> Server: Werkzeug/0.16.0 Python/3.7.5
-> Date: Fri, 15 Nov 2019 15:13:45 GMT
-> 
-{"avg_time":7.356852293014526,"max_time":21.39115333557129,"min_time":2.1626949310302734,"percentiles":9.151935577392578,"req_numb":8}
 
