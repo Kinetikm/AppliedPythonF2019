@@ -16,7 +16,7 @@ services:
     container_name: auth_serv
     networks:
       - backend
-    command: gunicorn run:app
+    command: gunicorn run:app -b 0.0.0.0:8000
 
   flights:
     build:
@@ -25,7 +25,7 @@ services:
     container_name: flights_serv
     networks:
       - backend
-    command: gunicorn run:app
+    command: gunicorn run:app -b 0.0.0.0:8000
 
 networks:
   backend:

@@ -5,11 +5,12 @@ from application import validation
 import time
 from application.logger_config import LOGGING_CONFIG
 import logging.config
-from models.model import Airports, Airplanes, Flights, Log
+from models.model import Airports, Airplanes, Flights, Log, Base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, func
 
-flights_engine = create_engine('sqlite:///flights.db')
+flights_engine = create_engine('sqlite:///../flights.db')
+Base.metadata.create_all(flights_engine)
 log_engine = create_engine('sqlite:///log.db')
 flight_schema = validation.FlightSchema()
 args_schema = validation.ArgsSchema()
