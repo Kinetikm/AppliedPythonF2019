@@ -8,4 +8,3 @@ urlpatterns = [
     path('registration/', CreateUserAPIView.as_view()),
     path('obtain-token/', ObtainTokenAPIView.as_view()),
 ]
-

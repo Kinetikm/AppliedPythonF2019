@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+import datetime
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -52,7 +52,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-import datetime
 JWT_AUTH = {
 
     'JWT_VERIFY': True,

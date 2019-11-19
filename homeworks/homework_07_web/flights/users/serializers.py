@@ -2,14 +2,15 @@ from rest_framework import serializers
 
 from .models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
 
     date_joined = serializers.ReadOnlyField()
 
     def create(self, validated_data):
         user = User(
-            email = validated_data["email"],
-            username = validated_data["username"]
+            email=validated_data["email"],
+            username=validated_data["username"]
         )
         user.set_password(validated_data["password"])
         user.save()
