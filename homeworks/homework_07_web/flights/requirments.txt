@@ -1,0 +1,4 @@
+Django==2.2.4
+django-filter==2.2.0
+djangorestframework==3.10.2
+djangorestframework-jwt==1.11.0
