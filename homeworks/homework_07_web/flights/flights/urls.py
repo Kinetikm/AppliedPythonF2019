@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('api/', include('flights_api.urls')),
+    url('users/', include('users.urls')),
 ]
