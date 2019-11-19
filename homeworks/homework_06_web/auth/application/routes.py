@@ -4,23 +4,34 @@ from marshmallow import Schema, fields, ValidationError
 from models.model import Users, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from application import app
+try:
+    from application import app
+except ModuleNotFoundError:
+    from auth.application import app
 
 app.config["SECRET_KEY"] = "123SECRET_KEY123"
 app.config['REMEMBER_COOKIE_NAME'] = 'flight_board'
 
-engine = create_engine('sqlite:///../flights.db')
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
+# engine = create_engine(app.config['DATABASE'])
+# Base.metadata.create_all(engine)
+# Session = sessionmaker(bind=engine)
 
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+def create_db():
+    engine = create_engine(app.config['DATABASE'])
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    return Session()
+
+
 def get_db():
     if 'db' not in g:
-        g.db = Session()
+        session = create_db()
+        g.db = session
 
     return g.db
 
