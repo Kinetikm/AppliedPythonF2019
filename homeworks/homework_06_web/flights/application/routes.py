@@ -1,31 +1,49 @@
-from application import app
 from flask import jsonify, abort, request, g
 from marshmallow.exceptions import ValidationError
-from application import validation
 import time
-from application.logger_config import LOGGING_CONFIG
 import logging.config
 from models.model import Airports, Airplanes, Flights, Log, Base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, func
 import requests
 import json
+try:
+    from application import app
+    from application import validation
+    from application.logger_config import LOGGING_CONFIG
+except ModuleNotFoundError:
+    from flights.application import app
+    from flights.application import validation
+    from flights.application.logger_config import LOGGING_CONFIG
 
-flights_engine = create_engine('sqlite:///../flights.db')
-Base.metadata.create_all(flights_engine)
-log_engine = create_engine('sqlite:///log.db')
 flight_schema = validation.FlightSchema()
 args_schema = validation.ArgsSchema()
 metrics_schema = validation.MetricsParamsSchema()
-logging.config.dictConfig(LOGGING_CONFIG)
-logger = logging.getLogger('RequestLogger')
-Session = sessionmaker(bind=flights_engine)
-LogSession = sessionmaker(bind=log_engine)
+
+
+def get_logger():
+    if 'log' not in g:
+        log_engine = create_engine('sqlite:///log.db')
+        LogSession = sessionmaker(bind=log_engine)
+        logging.config.dictConfig(LOGGING_CONFIG)
+        logger = logging.getLogger('RequestLogger')
+        g.log = logger
+        g.log_session = LogSession()
+    return g.log, g.log_session
+
+
+def create_db():
+    engine = create_engine(app.config['DATABASE'])
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    return Session()
 
 
 def get_db():
+
     if 'db' not in g:
-        g.db = Session()
+        session = create_db()
+        g.db = session
 
     return g.db
 
@@ -123,12 +141,14 @@ def put_flight(flight_id):
         airport = session.query(Airports).filter(Airports.airport == data['dest_airport']).first()
         if airport is None:
             airport = Airports(airport=data['dest_airport'])
-            session.flush(airport)
+            session.add(airport)
+            session.commit()
         airport_id = airport.id
         airplane = session.query(Airplanes).filter(Airplanes.airplane == data['airplane']).first()
         if airplane is None:
             airplane = Airplanes(airport=data['airplane'])
-            session.flush(airplane)
+            session.add(airplane)
+            session.commit()
         airplane_id = airplane.id
         h = (data['arr_time'] - data['dep_time']).seconds // 3600
         m = (data['arr_time'] - data['dep_time']).seconds // 60 % 60
@@ -154,7 +174,7 @@ def put_flight(flight_id):
 
 @app.route('/log', methods=['GET'])
 def get_log():
-    session = LogSession()
+    _, session = get_logger()
     result = session.query(Log).all()
     data = [i.serialize for i in result]
     session.close()
@@ -167,7 +187,7 @@ def get_metrics():
     try:
         args = metrics_schema.load(request.args)
         method_type = args['method_type']
-        session = LogSession()
+        _, session = get_logger()
         # sqlite не поддерживает percentile_count, поэтому обходимся без него
         req_numb = session.query(func.count(Log.time)).filter(Log.method == method_type).first()[0]
         ofs = req_numb * 0.9 - 1
@@ -190,10 +210,13 @@ def before_request():
 
 @app.after_request
 def after_request(response):
+    if app.config['DEBUG']:
+        return response
     resp_time = (time.time() - g.start) * 1000  # время ответа сервера в миллисекндах
     d = dict(remote_addr=request.remote_addr, method=request.method, scheme=request.scheme,
              full_path=request.full_path, json=request.json, status=response.status,
              resp_time=resp_time)
+    logger = get_logger()
     logger.info(msg='', extra=d)
     return response
 
@@ -201,6 +224,8 @@ def after_request(response):
 @app.teardown_appcontext
 def teardown_db(args):
     db = g.pop('db', None)
-
+    log_db = g.pop('log_session', None)
+    if log_db is not None:
+        log_db.close()
     if db is not None:
         db.close()
