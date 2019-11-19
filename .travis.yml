@@ -1,7 +1,7 @@
 language: python
 python:
     - "3.6"
-before_install:
-    - cd homeworks/homework_06_web/
 install: pip install -r requirements.txt
-script: python -m pytest --pep8 && python -m pytest --cov=.
+script:
+    - cd homeworks/homework_06_web/
+    - python -m pytest --pep8 && python -m pytest --cov=.
