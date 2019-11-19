@@ -1,6 +1,6 @@
 
 sqlalchemy
-marshmallow
+marshmallow==3.2.2
 flask
 pytest==3.10.1
 pytest-pep8==1.0.6
@@ -8,3 +8,4 @@ numpy
 requests
 requests-mock
 pytest-cov
+Flask-Login==0.4.1
