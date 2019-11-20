@@ -141,16 +141,16 @@ def test_get_flights():
         assert (temp[0].json, temp[1]) == ([{
             'aircraft_type': 'AN28',
             'airport': 'SVO',
-            'arrival': '2019-10-23 09:00:00',
-            'departure': '2019-10-23 07:00:00',
+            'arrival': '2019-10-23 12:00:00',
+            'departure': '2019-10-23 10:00:00',
             'id_': 1,
             'time_in_flight': '02:00:00',
             'username': 'zakhar343'
         }, {
             'aircraft_type': 'SU100',
             'airport': 'DMD',
-            'arrival': '2019-10-23 09:00:00',
-            'departure': '2019-10-23 07:00:00',
+            'arrival': '2019-10-23 12:00:00',
+            'departure': '2019-10-23 10:00:00',
             'id_': 2,
             'time_in_flight': '02:00:00',
             'username': 'zakhar'
