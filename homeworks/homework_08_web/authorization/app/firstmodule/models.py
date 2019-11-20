@@ -7,8 +7,8 @@ class User(db.Model):
     login = db.Column(db.String(100), nullable=False, primary_key=True)
     passwd_hash = db.Column(db.String(100), nullable=False)
 
-    def __repr__(self):
-        return "<{}:{}>".format(self.user_id, self.email)
+    def __str__(self):
+        return "<{}:{}>".format(self.login, self.email)
 
 
 class Session(db.Model):
