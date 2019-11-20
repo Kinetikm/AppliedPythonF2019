@@ -1,0 +1,29 @@
+2019-11-16 01:53:09,589 - app - INFO - Programm started
+2019-11-16 01:53:10,376 - app - INFO - Programm started
+2019-11-16 01:53:22,467 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 201. Answer is: {'result': 'New user was created'}
+2019-11-16 01:53:22,740 - app.controllers - INFO - Query to http://localhost:4000/login.POST method. Answer code is: 200. Answer is: {'login': True}
+2019-11-16 01:53:22,932 - app.controllers - INFO - Query to http://localhost:4000/logout.GET method. Answer code is: 200. Answer is: {'logout': True}
+2019-11-16 01:53:23,264 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 201. Answer is: {'result': 'New user was created'}
+2019-11-16 01:53:23,455 - app.controllers - INFO - Query to http://localhost:4000/login.POST method. Answer code is: 401. Answer is: {'error': 'Invalid login or password'}
+2019-11-16 01:53:23,618 - app.controllers - INFO - Query to http://localhost:4000/login.POST method. Answer code is: 200. Answer is: {'login': True}
+2019-11-16 01:53:23,687 - app.controllers - INFO - Query to http://localhost:4000/logout.GET method. Answer code is: 200. Answer is: {'logout': True}
+2019-11-16 01:53:23,953 - app.controllers - INFO - Query to http://localhost:4000/login.POST method. Answer code is: 200. Answer is: {'login': True}
+2019-11-18 20:39:22,767 - app - INFO - Programm started
+2019-11-18 20:39:23,392 - app - INFO - Programm started
+2019-11-18 20:39:45,925 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:40:15,635 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:40:28,699 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:40:47,307 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:43:37,647 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:52:28,657 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:55:07,369 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:56:05,256 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:56:30,557 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:56:56,838 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 201. Answer is: {'result': 'New user was created'}
+2019-11-18 20:57:03,875 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 20:58:14,232 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 21:16:54,764 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 21:17:18,508 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 21:21:12,582 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 21:21:53,409 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
+2019-11-18 21:22:22,268 - app.controllers - INFO - Query to http://localhost:4000/registration.POST method. Answer code is: 409. Answer is: {'error': 'User already exist'}
