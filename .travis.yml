@@ -2,4 +2,9 @@ language: python
 python:
     - "3.6"
 install: pip install -r requirements.txt
-script: py.test --pep8 && pytest
+script:
+      - cd homeworks/homework_08_web/homework_07_web
+      - py.test --pep8 && pytest --cov
+      - cd ../authorization
+      - py.test --pep8 && pytest --cov
+
