@@ -1,9 +1,0 @@
-Host: localhost:5000
-User-Agent: python-requests/2.21.0
-Accept-Encoding: gzip, deflate
-Accept: */*
-Connection: keep-alive
-Cookie: access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzM4NTg0MDMsIm5iZiI6MTU3Mzg1ODQwMywianRpIjoiNjY5NjVhMDYtNmE0Zi00OTA4LWEyOWItZDg0MTlmNmM5NjQyIiwiZXhwIjoxNTczODU5MzAzLCJpZGVudGl0eSI6InRlc3QyIiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.-bzMjnaL9TImJ95uXVJK70RVsHzrmTSibd4ZuE_-cmE
-Content-Length: 152
-Content-Type: application/json
-

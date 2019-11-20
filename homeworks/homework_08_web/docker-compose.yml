@@ -1,0 +1,31 @@
+version: "1"
+services:
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx_serv
+    ports:
+      - "8000:80"
+    networks:
+      - backend
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./authorization/Dockerfile
+    container_name: flask_auth
+    networks:
+      - backend
+    command: gunicorn run:app -b 0.0.0.0:4000
+
+  flights:
+    build:
+      context: .
+      dockerfile: ./homework_07_web/Dockerfile
+    container_name: flask_api
+    networks:
+      - backend
+    command: gunicorn run:app -b 0.0.0.0:5000
+
+networks:
+  backend:
