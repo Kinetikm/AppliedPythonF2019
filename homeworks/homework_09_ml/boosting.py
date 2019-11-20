@@ -49,7 +49,6 @@ class GradientBoosting:
             y_pred += self.learning_rate * predictions
             self.trees.append(tree)
 
-
     def predict(self, X_test):
         """
         Predict using model.
