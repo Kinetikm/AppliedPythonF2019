@@ -1,0 +1,4 @@
+2019-11-21 02:41:29,411 - werkzeug - INFO -  * Running on http://127.0.0.1:5001/ (Press CTRL+C to quit)
+2019-11-21 02:41:35,582 - auth - INFO - {'url': 'http://localhost:5001/registration', 'body': {'email': 'email1@example.com', 'login': 'user1', 'password': 'pswd1', 'password_confirm': 'pswd1'}, 'req_method': 'POST', 'response': b'{"result":"","success":false}\n', 'http_status': 400}
+2019-11-21 02:41:35,590 - werkzeug - INFO - 127.0.0.1 - - [21/Nov/2019 02:41:35] "POST /registration HTTP/1.1" 400 -
+2019-11-21 02:42:21,472 - werkzeug - INFO -  * Running on http://127.0.0.1:5001/ (Press CTRL+C to quit)

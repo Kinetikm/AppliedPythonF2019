@@ -1,0 +1,296 @@
+[
+    {
+        "result": "",
+        "success": true
+    },
+    {
+        "result": "",
+        "success": true
+    },
+    {
+        "result": []
+    },
+    {
+        "result": 1
+    },
+    {
+        "result": 2
+    },
+    {
+        "result": [
+            [
+                1,
+                "10:00",
+                "13:00",
+                "03:00",
+                "Vnukovo",
+                "TU"
+            ],
+            [
+                2,
+                "11:00",
+                "12:00",
+                "01:00",
+                "Sheremetievo",
+                "TU"
+            ]
+        ]
+    },
+    {
+        "result": [
+            1,
+            "10:00",
+            "13:00",
+            "03:00",
+            "Vnukovo",
+            "TU"
+        ]
+    },
+    {
+        "result": "success"
+    },
+    {
+        "result": "success"
+    },
+    {
+        "result": [
+            [
+                2,
+                "11:00",
+                "12:00",
+                "01:00",
+                "Sheremetievo",
+                "TU"
+            ]
+        ]
+    },
+    {
+        "result": 3
+    },
+    {
+        "result": 4
+    },
+    {
+        "result": [
+            [
+                3,
+                "06:00",
+                "08:00",
+                "02:00",
+                "Sheremetievo",
+                "TU"
+            ],
+            [
+                2,
+                "11:00",
+                "12:00",
+                "01:00",
+                "Sheremetievo",
+                "TU"
+            ]
+        ]
+    },
+    {
+        "result": [
+            [
+                "19:45:39",
+                "http://localhost:5000/show_flights",
+                "GET",
+                "show_flights",
+                "null",
+                "b'{\"result\":[]}\\n'",
+                200,
+                0.017
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/new_flight",
+                "POST",
+                "new_flight",
+                "{\"departure_time\": \"10:00\", \"arrival_time\": \"13:00\", \"travel_time\": \"03:00\", \"destination_airport\": \"Vnukovo\", \"type_aircraft\": \"TU\", \"login\": \"user1\"}...",
+                "b'{\"result\":1}\\n'",
+                200,
+                0.0268
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/new_flight",
+                "POST",
+                "new_flight",
+                "{\"departure_time\": \"11:00\", \"arrival_time\": \"12:00\", \"travel_time\": \"01:00\", \"destination_airport\": \"Sheremetievo\", \"type_aircraft\": \"TU\", \"login\": \"user1\"}...",
+                "b'{\"result\":2}\\n'",
+                200,
+                0.0145
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/new_flight",
+                "POST",
+                "new_flight",
+                "{\"departure_time\": \"12:00\", \"arrival_time\": \"25:00\", \"travel_time\": \"02:00\", \"destination_airport\": \"Vnukovo\", \"type_aircraft\": \"TU\", \"login\": \"user1\"}...",
+                "b'{\"result\":\"bad entry, insert canceled\"}\\n'",
+                400,
+                0.0104
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/show_flights",
+                "GET",
+                "show_flights",
+                "null",
+                "b'{\"result\":[[1,\"10:00\",\"13:00\",\"03:00\",\"Vnukovo\",\"TU\"],[2,\"11:00\",\"12:00\",\"01:00\",\"Sheremetievo\",\"TU\"]]}\\n'",
+                200,
+                0.0022
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/show_flight/1",
+                "GET",
+                "show_flight",
+                "null",
+                "b'{\"result\":[1,\"10:00\",\"13:00\",\"03:00\",\"Vnukovo\",\"TU\"]}\\n'",
+                200,
+                0.0022
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/show_flight/33",
+                "GET",
+                "show_flight",
+                "null",
+                "b'{\"result\":\"id doesnt exist\"}\\n'",
+                400,
+                0.0022
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/update_flight",
+                "PUT",
+                "update_flight",
+                "{\"id_flight\": \"1\", \"flight\": {\"departure_time\": \"16:00\", \"arrival_time\": \"17:00\", \"travel_time\": \"01:00\", \"destination_airport\": \"Vnukovo\", \"type_aircraft\": \"TU\"}}...",
+                "b'{\"result\":\"success\"}\\n'",
+                200,
+                0.0107
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/update_flight",
+                "PUT",
+                "update_flight",
+                "{\"id_flight\": \"3\", \"flight\": {\"departure_time\": 1600, \"arrival_time\": \"17:00\", \"travel_time\": \"01:00\", \"destination_airport\": \"Vnukovo\", \"type_aircraft\": \"TU\"}}...",
+                "b'<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\\n<title>400 Bad Request</title>\\n<h1>Bad Request</h1>\\n<p>The browser (or proxy) sent a request that this server could not understand.</p>\\n'",
+                400,
+                0.0111
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/delete_flight",
+                "DELETE",
+                "delete_flight",
+                "{\"id_flight\": \"1\", \"login\": \"user1\"}",
+                "b'{\"result\":\"success\"}\\n'",
+                200,
+                0.0103
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/delete_flight",
+                "DELETE",
+                "delete_flight",
+                "{\"id_flight\": \"4\", \"login\": \"user1\"}",
+                "b'<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\\n<title>400 Bad Request</title>\\n<h1>Bad Request</h1>\\n<p>The browser (or proxy) sent a request that this server could not understand.</p>\\n'",
+                400,
+                0.008
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/show_flights",
+                "GET",
+                "show_flights",
+                "null",
+                "b'{\"result\":[[2,\"11:00\",\"12:00\",\"01:00\",\"Sheremetievo\",\"TU\"]]}\\n'",
+                200,
+                0.0023
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/new_flight",
+                "POST",
+                "new_flight",
+                "{\"departure_time\": \"06:00\", \"arrival_time\": \"08:00\", \"travel_time\": \"02:00\", \"destination_airport\": \"Sheremetievo\", \"type_aircraft\": \"TU\", \"login\": \"user1\"}...",
+                "b'{\"result\":3}\\n'",
+                200,
+                0.0124
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/new_flight",
+                "POST",
+                "new_flight",
+                "{\"departure_time\": \"10:00\", \"arrival_time\": \"11:00\", \"travel_time\": \"01:00\", \"destination_airport\": \"Vnukovo\", \"type_aircraft\": \"TU\", \"login\": \"user1\"}...",
+                "b'{\"result\":4}\\n'",
+                200,
+                0.0127
+            ],
+            [
+                "19:45:39",
+                "http://localhost:5000/show_flights?sort_by=arrival_time&filter_field=destination_airport&filter_v...",
+                "GET",
+                "show_flights",
+                "null",
+                "b'{\"result\":[[3,\"06:00\",\"08:00\",\"02:00\",\"Sheremetievo\",\"TU\"],[2,\"11:00\",\"12:00\",\"01:00\",\"Sheremetievo\",\"TU\"]]}\\n'",
+                200,
+                0.0029
+            ]
+        ]
+    },
+    {
+        "result": [
+            {
+                "action": "delete_flight",
+                "avg": 0.00915,
+                "count": 2,
+                "min": 0.008,
+                "percentile_disc(0.9)": 0.0103
+            },
+            {
+                "action": "new_flight",
+                "avg": 0.01536,
+                "count": 5,
+                "min": 0.0104,
+                "percentile_disc(0.9)": 0.0268
+            },
+            {
+                "action": "show_flight",
+                "avg": 0.0022,
+                "count": 2,
+                "min": 0.0022,
+                "percentile_disc(0.9)": 0.0022
+            },
+            {
+                "action": "show_flights",
+                "avg": 0.0061,
+                "count": 4,
+                "min": 0.0022,
+                "percentile_disc(0.9)": 0.017
+            },
+            {
+                "action": "statistic",
+                "avg": 0.0027,
+                "count": 1,
+                "min": 0.0027,
+                "percentile_disc(0.9)": 0.0027
+            },
+            {
+                "action": "update_flight",
+                "avg": 0.0109,
+                "count": 2,
+                "min": 0.0107,
+                "percentile_disc(0.9)": 0.0111
+            }
+        ]
+    },
+    {
+        "result": "Cookie Removed"
+    }
+]

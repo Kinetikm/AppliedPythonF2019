@@ -1,0 +1,13 @@
+flask
+requests
+sys
+os
+json
+logging
+time
+datetime
+uuid
+json
+marshmallow
+from sqlalchemy
+psycopg2
