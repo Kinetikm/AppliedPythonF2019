@@ -1,14 +1,15 @@
+import datetime
+import time
+import logging
+import json
+from os import path
+import data_processing as dp
 from flask import Flask, jsonify, request, g, abort
 import requests
-import sys, os
+import sys
+import os
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath)
-import data_processing as dp
-from os import path
-import json
-import logging
-import time
-import datetime
 
 app = Flask(__name__)
 
@@ -96,11 +97,12 @@ def statistics():
     resp.status_code = 200
     return resp
 
+
 def prepare():
     logging.basicConfig(
-    filename="flight_service.logging",
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        filename="flight_service.logging",
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     @app.before_request
     def timer_on():
@@ -135,6 +137,7 @@ def prepare():
             response
         )
         return resp
+
 
 def start_server():
     prepare()

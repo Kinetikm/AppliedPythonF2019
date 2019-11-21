@@ -21,6 +21,7 @@ session = Session()
 Base = declarative_base()
 conn = engine.connect()
 
+
 def conv_time(i):
     return (
         i[0], str(
@@ -178,6 +179,7 @@ class sessions(Base):
     def __init__(self, id_user, token):
         self.id_user = id_user
         self.token = token
+
 
 def clear_base():
     Base.metadata.drop_all(bind=engine)
@@ -432,4 +434,3 @@ def check_session(token):
         sessions, users.id == sessions.id_user).filter(
         sessions.token == token).first()
     return res.login if res is not None else None
-

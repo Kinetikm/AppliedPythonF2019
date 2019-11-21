@@ -1,42 +1,47 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import wsgiref.simple_server
+import threading
+import zipapp
+import json
+import data_processing as dp
+import auth
+import manage
 import os
 import pytest
 from collections import namedtuple
 import requests
 from requests_toolbelt.utils.dump import dump_all
-import sys, os
+import sys
+import os
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath)
-import manage
-import auth
-import data_processing as dp
-import json
-import zipapp
-import threading
-import threading
-import wsgiref.simple_server
 
 server_params = []
+
 
 class Server(threading.Thread):
     def run(self):
         manage.prepare()
-        self.httpd = wsgiref.simple_server.make_server('localhost', 5000, manage.app)
+        self.httpd = wsgiref.simple_server.make_server(
+            'localhost', 5000, manage.app)
         self.httpd.serve_forever()
 
     def stop(self):
         self.httpd.shutdown()
+
 
 class Auth(threading.Thread):
     def run(self):
         auth.prepare()
-        self.httpd = wsgiref.simple_server.make_server('localhost', 5001, auth.app)
+        self.httpd = wsgiref.simple_server.make_server(
+            'localhost', 5001, auth.app)
         self.httpd.serve_forever()
 
     def stop(self):
         self.httpd.shutdown()
+
 
 jsons = {
     "registration_first":
@@ -172,7 +177,9 @@ jsons = {
 
 def test_server():
     dp.clear_base()
-    Urls = namedtuple('Urls', ['method', 'url', 'headers', 'json', 'params', 'result_status_code'])
+    Urls = namedtuple(
+        'Urls', [
+            'method', 'url', 'headers', 'json', 'params', 'result_status_code'])
 
     server = Server()
     server.start()

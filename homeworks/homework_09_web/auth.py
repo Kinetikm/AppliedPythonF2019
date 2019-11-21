@@ -1,14 +1,15 @@
+import uuid
+import datetime
+import time
+import logging
+import json
+from os import path
+import data_processing as dp
 from flask import Flask, jsonify, request, g, abort, make_response
-import sys, os
+import sys
+import os
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath)
-import data_processing as dp
-from os import path
-import json
-import logging
-import time
-import datetime
-import uuid
 
 
 app = Flask(__name__)
@@ -59,11 +60,12 @@ def check():
         return jsonify(login=login)
     abort(401)
 
+
 def prepare():
     logging.basicConfig(
-    filename="auth.logging",
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        filename="auth.logging",
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     @app.after_request
     def log_request(resp):
@@ -76,9 +78,11 @@ def prepare():
         })
         return resp
 
+
 def start_auth_server():
     prepare()
     app.run(port=5001)
+
 
 if __name__ == "__main__":
     start_auth_server()
