@@ -2,12 +2,13 @@
 # coding: utf-8
 
 import numpy as np
+import copy
 from sklearn.tree import DecisionTreeRegressor
 
 
 class GradientBoosting:
-    def __init__(self, n_estimators=100, learning_rate=0.005, max_depth=None,
-                 min_samples_leaf=1, subsample=0.5, subsample_col=0.5):
+    def __init__(self, n_estimators=100, learning_rate=0.001, max_depth=None,
+                 min_samples_leaf=1, subsample=0.8, subsample_col=0.8):
         """
         :param n_estimators: number of trees in model
         :param learning_rate: discount for gradient step
@@ -24,6 +25,7 @@ class GradientBoosting:
         self.subsample_col = subsample_col
         self.coef_ = []
         self.trees = []
+        self.feature_numbers = []
 
     def fit(self, X_train, y_train):
         """
@@ -32,8 +34,9 @@ class GradientBoosting:
         :param y_train: target values for training data
         :return: None
         """
-        self.X_train = X_train
+        self.X_train = copy.deepcopy(X_train)
         self.y_train = y_train.reshape(-1, 1)
+
         # зададим начальный предикт как среднее арифметическое
         prediction = np.mean(y_train) * np.ones([y_train.shape[0]])
 
@@ -47,9 +50,10 @@ class GradientBoosting:
             X_part, antigradient_part, y_part = self._bagging(antigradient)
             # создаем новое дерево и обучаем на части выборки
             tree = DecisionTreeRegressor(max_depth=self.max_depth, min_samples_leaf=self.min_samples_leaf)
+            X_part, feature_numbers = self._RMS(X_part)
+            self.feature_numbers.append(feature_numbers)
             tree.fit(X_part, antigradient_part)
-
-            a = tree.predict(X_train).reshape([X_train.shape[0]])
+            a = tree.predict(self._RMS(X_train, feature_numbers)).reshape([X_train.shape[0]])
             # находим коэффициент на основе части выборки для данного дерева
             b = self._coef(X_part, antigradient_part, i, tree)
             # и добавляем дерево и коэффициент в соответсвующие списки
@@ -67,7 +71,8 @@ class GradientBoosting:
         y_pred = np.ones([X_test.shape[0]]) * np.mean(self.y_train)
 
         for i in range(self.n_estimators):
-            y_pred += self.coef_[i] * self.trees[i].predict(X_test).reshape([X_test.shape[0]])
+            y_pred += self.coef_[i] * self.trees[i].predict(self._RMS(X_test, self.feature_numbers[i])).reshape(
+                [X_test.shape[0]])
         return y_pred
 
     def _bagging(self, antigradient):
@@ -81,6 +86,14 @@ class GradientBoosting:
 
         return X_train_part, antigradient_part, y_part
 
+    def _RMS(self, X, feature_numbers=None):
+        if feature_numbers is None:
+            feature_numbers = np.random.randint(X.shape[1], size=int(X.shape[1] * self.subsample_col))
+            x_part = X[:, feature_numbers]
+            return x_part, feature_numbers
+        else:
+            return X[:, feature_numbers]
+
     def _coef(self, X_part, y_part, k, tree):
         b = 1
         if k == 0:
@@ -92,10 +105,10 @@ class GradientBoosting:
 
         a = tree.predict(X_part)
 
-        for i in range(50):
+        for i in range(30):
             grad = 0
             for j in range(y_part.shape[0]):
                 grad -= (y_part[j] - y_pred[j] - b * a[j])
-            b -= self.learning_rate * grad/y_part.shape[0]
+            b -= self.learning_rate * grad / y_part.shape[0]
 
         return b
