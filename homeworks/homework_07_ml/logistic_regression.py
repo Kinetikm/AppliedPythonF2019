@@ -72,7 +72,7 @@ class LogisticRegression:
                            0 1 2
                            0 1 2
                            0 1 2
-                 classes == y:
+                 (classes == y):
                              1 0 0
                              0 1 0
                              0 0 1
@@ -131,4 +131,4 @@ class LogisticRegression:
         Get weights from fitted linear model
         :return: weights array
         """
-        return self.w
+        return np.array(self.w)
