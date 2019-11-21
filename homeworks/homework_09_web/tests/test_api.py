@@ -1,15 +1,8 @@
-
-
-
 def check_response(response, data=None, status_code=200):
     assert response.status_code == status_code
     if data:
         assert response.json == data
 
-'/registration'
-"/login"
-logout
-about_me
 
 def test_create_flight(test_client, init_database):
 
