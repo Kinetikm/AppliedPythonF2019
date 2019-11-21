@@ -135,7 +135,7 @@ class FlightsWI(Resource):
         flight = makeFlight(data)
         orm.insert(flight, current_user.login)
         logger.info(f"POST request comleted | Timing: {(time.time()-t)}")
-        return flight, 201
+        return True, 201
 
 
 class FlightsI(Resource):
@@ -150,18 +150,17 @@ class FlightsI(Resource):
 
         flight = makeFlight(data)
         result = orm.update(id_, flight, current_user.login)
-        print(f"ROWS UPDATED: {result}")
         logger.info(f"PUT request comleted | id = {id_} | Timing: {(time.time()-t)}")
-        return flight, 202
+        return True, 202
 
     def delete(self, id_):
         result = orm.delete(id_, current_user.login)
         if result:
             logger.info(f"DELETE request completed | id = {id_}")
-            return "{} is deleted.".format(id_), 202
+            return f"{id_} is deleted.", 202
         else:
             logger.info(f"DELETE request failed | id = {id_} not exist")
-            return "{} not found.".format(id_), 404
+            return f"{id_} not found.", 404
 
 api.add_resource(FlightsWI, "/flights")
 api.add_resource(FlightsI, "/flights/<int:id_>")

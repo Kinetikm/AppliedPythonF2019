@@ -11,9 +11,9 @@ class FlightSchema(Schema):
 
 class UserSchema(Schema):
     token = fields.Str(dump_only=True)
-    username = fields.Str(required=True)
-    age = fields.Int()
-
+    login = fields.Str(required=True)
+    password = fields.Str(required=True)
+    email = fields.Str(required=True)
 
 class AuthSchema(Schema):
     token = fields.Str(required=True)
