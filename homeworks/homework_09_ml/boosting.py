@@ -25,6 +25,7 @@ class GradientBoosting:
         self.subsample = subsample
         self.sub_col = subsample_col
         self.trees = []
+        self.features_lst = []
 
     def fit(self, X_train, y_train):
         """
@@ -37,16 +38,23 @@ class GradientBoosting:
         X_train, x_test, y_train, y_test = train_test_split(X_train, y_train, test_size=1-self.subsample)
         y_pred = np.zeros(X_train.shape[0], )
         y_pred[:] = np.mean(y_train)
-
+        n_samples = int(X_train.shape[0] * self.subsample)
+        n_features = int(X_train.shape[1] * self.sub_col)
         for i in range(self.n_estimators):
+            samples = np.random.choice(np.arange(0, X_train.shape[0]), size=(n_samples,), replace=False)
+            features = np.random.choice(np.arange(0, X_train.shape[1]), size=(n_features,), replace=False)
+            self.features_lst.append(features)
+            x = X_train[np.ix_(samples, features)]
+            y = y_train[np.ix_(samples, )]
             if i == 0:
-                grad = y_train
+                grad = y
             else:
                 grad = y_train - y_pred
+                grad = grad[np.ix_(samples, )]
             tree = DecisionTreeRegressor(max_depth=self.max_depth, min_samples_leaf=self.min_samples_leaf)
-            tree.fit(X_train, grad)
-            predictions = tree.predict(X_train)
-            y_pred += self.learning_rate * predictions
+            tree.fit(x, grad)
+            predictions = tree.predict(x)
+            y_pred[np.ix_(samples, )] += self.learning_rate * predictions
             self.trees.append(tree)
 
     def predict(self, X_test):
@@ -57,5 +65,7 @@ class GradientBoosting:
         """
         y_pred = np.ones(X_test.shape[0], ) * self.y_mean
         for i, tree in enumerate(self.trees):
-            y_pred += self.learning_rate * tree.predict(X_test)
+            lst = [i for i in range(X_test.shape[0])]
+            x = X_test[np.ix_(lst, self.features_lst[i])]
+            y_pred += self.learning_rate * tree.predict(x)
         return y_pred
