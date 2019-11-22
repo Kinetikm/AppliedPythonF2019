@@ -5,23 +5,24 @@ from sklearn.tree import DecisionTreeRegressor
 
 
 class MetaAlgorithm:
-    def __init__(self, n_estimators, learning_rate):
+    def __init__(self, n_estimators, const_pred):
         self.n_estimators = n_estimators
-        self.ensebmle = []
-        self.learning_rate = learning_rate
-        self.w = []
+        self._ensebmle = []
+        self.const_pred = const_pred
+        self._n_models = 1
 
-    def add_model(self, model):
-        self.ensebmle.append(model)
+    def add_model(self, model, weight):
+        self._ensebmle.append((model, weight))
+        self._n_models += 1
 
     def predict(self, X):
-        # предикт константной модели
-        y_hat = np.full((X.shape[0], 1), self.const)
+        # constant model prediction
+        y_hat = np.full((X.shape[0], 1), self.const_pred)
 
-        for (i, tree) in enumerate(self.ensebmle):
-            y_hat += tree.predict(X).reshape(-1, 1) * self.w[i]
+        for model, weight in self._ensebmle:
+            y_hat += model.predict(X).reshape(-1, 1) * weight
 
-        return y_hat / (len(self.ensebmle) + 1)
+        return y_hat / self._n_models
 
 
 class GradientBoosting:
@@ -49,8 +50,7 @@ class GradientBoosting:
         :param y_train: target values for training data
         :return: None
         """
-        self.meta = MetaAlgorithm(self.n_estimators, self.learning_rate)
-        self.meta.const = np.mean(y_train, axis=0)
+        self.meta = MetaAlgorithm(self.n_estimators, const_pred=np.mean(y_train))
 
         data = np.c_[X_train, y_train]
 
@@ -63,12 +63,16 @@ class GradientBoosting:
             tree = DecisionTreeRegressor(max_depth=self.max_depth, min_samples_leaf=self.min_samples_leaf)
             tree = tree.fit(x_batch, residuals)
 
-            self.meta.add_model(tree)
-
             tree_pred = tree.predict(x_batch).reshape(-1, 1)
+            b = self.get_algorithm_weight(residuals, tree_pred)
 
-            b = ((residuals.T @ tree_pred) / (tree_pred.T @ tree_pred)).flatten()[0]
-            self.meta.w.append(self.learning_rate * b)
+            self.meta.add_model(tree, b)
+
+    def get_algorithm_weight(self, residuals, alg_pred):
+        # formula acceptable only for MSE
+        weight = (residuals.T @ alg_pred) / (alg_pred.T @ alg_pred)
+        weight = weight.flatten()[0]
+        return self.learning_rate * weight
 
     def get_subsample(self, data):
         # data[:,-1] - target
