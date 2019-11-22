@@ -21,7 +21,7 @@ class GradientBoosting:
         self.learning_rate = learning_rate
         self.max_depth = max_depth
         self.min_samples_leaf = min_samples_leaf
-        if subsample > 1 or subsample_col > 1:
+        if subsample > 1 or subsample_col > 1 or not subsample or not subsample_col:
             raise ValueError
         self.subsample_coef = subsample
         self.subsample_col_coef = subsample_col
