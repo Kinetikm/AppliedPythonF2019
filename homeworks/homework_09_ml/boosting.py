@@ -9,7 +9,7 @@ class MetaAlgorithm:
         self.n_estimators = n_estimators
         self.ensebmle = []
         self.learning_rate = learning_rate
-        # self.w = []
+        self.w = []
 
     def add_model(self, model):
         self.ensebmle.append(model)
@@ -19,8 +19,7 @@ class MetaAlgorithm:
         y_hat = np.full((X.shape[0], 1), self.const)
 
         for (i, tree) in enumerate(self.ensebmle):
-            # y_hat += self.learning_rate * tree.predict(X).reshape(-1, 1) * self.w[i]
-            y_hat += self.learning_rate * tree.predict(X).reshape(-1, 1)
+            y_hat += tree.predict(X).reshape(-1, 1) * self.w[i]
 
         return y_hat / (len(self.ensebmle) + 1)
 
@@ -61,16 +60,15 @@ class GradientBoosting:
             meta_pred = self.meta.predict(x_batch)
             residuals = y_batch - meta_pred
 
-            clf = DecisionTreeRegressor(max_depth=self.max_depth, min_samples_leaf=self.min_samples_leaf)
-            clf = clf.fit(x_batch, residuals)
+            tree = DecisionTreeRegressor(max_depth=self.max_depth, min_samples_leaf=self.min_samples_leaf)
+            tree = tree.fit(x_batch, residuals)
 
-            self.meta.add_model(clf)
+            self.meta.add_model(tree)
 
-            clf_pred = clf.predict(x_batch).reshape(-1, 1)
+            tree_pred = tree.predict(x_batch).reshape(-1, 1)
 
-            # b = (residuals.T @ clf_pred) / (clf_pred.T @ clf_pred)
-            # print(b)
-            # self.meta.w.append(b)
+            b = ((residuals.T @ tree_pred) / (tree_pred.T @ tree_pred)).flatten()[0]
+            self.meta.w.append(self.learning_rate * b)
 
     def get_subsample(self, data):
         # data[:,-1] - target
