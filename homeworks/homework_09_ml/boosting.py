@@ -106,9 +106,7 @@ class GradientBoosting:
         a = tree.predict(X_part)
 
         for i in range(30):
-            grad = 0
-            for j in range(y_part.shape[0]):
-                grad -= (y_part[j] - y_pred[j] - b * a[j])
+            grad = -(y_part - y_pred - b * a).sum()
             b -= self.learning_rate * grad / y_part.shape[0]
 
         return b
