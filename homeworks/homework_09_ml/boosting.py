@@ -1,33 +1,36 @@
-#!/usr/bin/env python
 # coding: utf-8
+
+
+import numpy as np
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.model_selection import train_test_split
 
 
 class GradientBoosting:
     def __init__(self, n_estimators=100, learning_rate=1.0, max_depth=None,
                  min_samples_leaf=1, subsample=1.0, subsample_col=1.0):
-        """
-        :param n_estimators: number of trees in model
-        :param learning_rate: discount for gradient step
-        :param max_depth: maximum depth of tree. If None depth of tree is not constrained
-        :param min_samples_leaf: the minimum number of samples required to be at a leaf node
-        :param subsample: the fraction of samples to be used for fitting the individual base learners
-        :param subsample_col: the fraction of features to be used for fitting the individual base learners
-        """
-        raise NotImplementedError
+        self.quantity = n_estimators
+        self.lr = learning_rate
+        self.depth = max_depth
+        self.leafs = min_samples_leaf
+        self.trees = list()
+        self.subsample = subsample
 
     def fit(self, X_train, y_train):
-        """
-        Fit model using gradient descent method
-        :param X_train: training data
-        :param y_train: target values for training data
-        :return: None
-        """
-        pass
+        self.y_mean = np.mean(y_train)
+        y_pred = np.ones(X_train.shape[0], ) * self.y_mean
+        for i in range(self.quantity):
+            grad = (y_train - y_pred)
+            tree = DecisionTreeRegressor(max_depth=self.depth, min_samples_leaf=self.leafs)
+            tree.fit(X_train, grad)
+            predictions = tree.predict(X_train)
+            y_pred += self.lr * predictions
+            self.trees.append(tree)
 
     def predict(self, X_test):
-        """
-        Predict using model.
-        :param X_test: test data for predict in
-        :return: y_test: predicted values
-        """
-        pass
+        if (len(self.trees) < 1):
+            raise NotImplementedError
+        y_pred = np.ones(X_test.shape[0], ) * self.y_mean
+        for tree in self.trees:
+            y_pred += self.lr * tree.predict(X_test)
+        return y_pred
