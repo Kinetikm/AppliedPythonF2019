@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.tree import DecisionTreeRegressor
 from collections import namedtuple
 
+
 class GradientBoosting:
 
     Estimator = namedtuple('Estimator' , 'model gamma')
