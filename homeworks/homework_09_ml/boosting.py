@@ -48,7 +48,7 @@ class GradientBoosting:
             if i == 0:
                 grad = y
             else:
-                grad = (y_train - y_pred) * 2
+                grad = (y_train - y_pred)
                 grad = grad[np.ix_(samples, )]
             tree = DecisionTreeRegressor(max_depth=self.max_depth, min_samples_leaf=self.min_samples_leaf)
             tree.fit(x, grad)
