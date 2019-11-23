@@ -35,7 +35,6 @@ class GradientBoosting:
         :return: None
         """
         self.y_mean = np.mean(y_train)
-        X_train, x_test, y_train, y_test = train_test_split(X_train, y_train, test_size=1-self.subsample)
         y_pred = np.zeros(X_train.shape[0], )
         y_pred[:] = np.mean(y_train)
         n_samples = int(X_train.shape[0] * self.subsample)
@@ -49,7 +48,7 @@ class GradientBoosting:
             if i == 0:
                 grad = y
             else:
-                grad = y_train - y_pred
+                grad = (y_train - y_pred) * 2
                 grad = grad[np.ix_(samples, )]
             tree = DecisionTreeRegressor(max_depth=self.max_depth, min_samples_leaf=self.min_samples_leaf)
             tree.fit(x, grad)
