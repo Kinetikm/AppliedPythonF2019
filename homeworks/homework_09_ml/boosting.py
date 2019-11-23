@@ -9,7 +9,7 @@ from collections import namedtuple
 
 class GradientBoosting:
 
-    Estimator = namedtuple('Estimator' , 'model gamma')
+    Estimator = namedtuple('Estimator', 'model gamma')
 
     def __init__(self, n_estimators=100, learning_rate=1.0, max_depth=None,
                  min_samples_leaf=1, subsample=1.0, subsample_col=1.0):
