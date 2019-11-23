@@ -27,12 +27,6 @@ class GradientBoosting:
         self.target_mean = 0
         self.features = []
 
-    def get_next_batch(self, X, Y, batch_size):
-        index = np.random.choice(X.shape[0], batch_size, replace=False)
-        x_batch = X[index]
-        y_batch = Y[index]
-        return x_batch, y_batch
-
     def fit(self, X_train, y_train):
         """
         Fit model using gradient descent method
