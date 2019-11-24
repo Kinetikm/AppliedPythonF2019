@@ -1,7 +1,5 @@
-from django.db import models, backends
-import datetime
-import time
-from django.contrib.auth import get_user_model
+from django.db import models
+from django.contrib.auth.models import User
 
 
 class Airport(models.Model):
@@ -24,6 +22,7 @@ class AirFlight(models.Model):
     travel_time = models.PositiveIntegerField("travel time", db_index=True, default=0)
     airport = models.ForeignKey(Airport, on_delete=models.CASCADE)
     aircraft = models.ForeignKey(Aircraft, on_delete=models.CASCADE)
+    user_create = models.CharField(max_length=150)
 
     class Meta:
         ordering = ('departure_time',)

@@ -1,0 +1,11 @@
+"GET /api/flights/list/ HTTP/1.1" 200 14
+"POST /api/flight/create/ HTTP/1.1" 200 1689
+"GET /api/flights/list/ HTTP/1.1" 200 14
+"POST /api/flight/create/ HTTP/1.1" 200 1689
+"PUT /api/flights/1/update/ HTTP/1.1" 200 1689
+"POST /api/flight/create/ HTTP/1.1" 200 1689
+"GET /api/flights/list/ HTTP/1.1" 200 14
+"GET /api/flights/list/ HTTP/1.1" 200 14
+Forbidden (CSRF cookie not set.): /api/flights/2/delete/
+"DELETE /api/flights/2/delete/ HTTP/1.1" 403 2857
+"GET /api/flights/list/ HTTP/1.1" 200 14

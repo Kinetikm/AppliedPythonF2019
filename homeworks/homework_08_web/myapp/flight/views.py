@@ -1,18 +1,30 @@
 from rest_framework.generics import get_object_or_404
-from rest_framework import generics, mixins
+from rest_framework import generics
 from rest_framework.decorators import api_view
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import render
+from flight.forms import UserForm
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 
 @api_view(["POST"])
 def create_flight(request):
-    serializer = AirFlightFieldsSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.user.is_authenticated:
+        AirFlight.user_create = request.user
+        request.data['user_create'] = request.user.username
+        serializer = AirFlightFieldsSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return render(request, 'login.html', {})
+
 
 @api_view(["GET"])
 def flight_details(request, pk):
@@ -20,18 +32,27 @@ def flight_details(request, pk):
     serializer = AirFlightAllSerializer(flight)
     return Response(serializer.data)
 
+
 @api_view(["GET", "PUT"])
 def flight_update(request, pk):
-    flight = AirFlight.objects.get(id=pk)
-    if request.method == "PUT":
-        serializer = AirFlightFieldsSerializer(flight, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
+    if request.user.is_authenticated:
+        flight = AirFlight.objects.get(id=pk)
+        if flight.user_create == request.user.username:
+            if request.method == "PUT":
+                request.data['user_create'] = request.user.username
+                serializer = AirFlightFieldsSerializer(flight, data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data)
+                else:
+                    return Response({"error": serializer.errors})
+            serializer = AirFlightAllSerializer(flight)
             return Response(serializer.data)
         else:
-            return Response({"error": serializer.errors})
-    serializer = AirFlightAllSerializer(flight)
-    return Response(serializer.data)
+            return HttpResponse("Not you record!")
+    else:
+        return render(request, 'login.html', {})
+
 
 @api_view(["GET"])
 def flights_list(request):
@@ -40,31 +61,67 @@ def flights_list(request):
     return Response({"flights": serializer.data})
 
 
-def delete_user(request, pk):
-    user = get_object_or_404(AirFlight, id=pk)
-    user.delete()
-    return Response({"message": "Deleted"})
+def delete_flight(request, pk):
+    if request.user.is_authenticated:
+        flight = get_object_or_404(AirFlight, id=pk)
+        if flight.user_create == request.user.username:
+            flight = get_object_or_404(AirFlight, id=pk)
+            flight.delete()
+            return HttpResponse("DELETED!")
+        else:
+            return HttpResponse("Not you record!")
+    else:
+        return render(request, 'login.html', {})
 
 
-class FlightCreateView(generics.CreateAPIView):
-    serializer_class = AirFlightFieldsSerializer
+def index(request):
+    return render(request, 'index.html')
 
 
-class FlightDetailView(generics.RetrieveAPIView):
-    queryset = AirFlight.objects.all()
-    serializer_class = AirFlightAllSerializer
-
-class FlightUpdateView(generics.RetrieveUpdateAPIView):
-    queryset = AirFlight.objects.all()
-    serializer_class = AirFlightFieldsSerializer
-
-class FlightsListView(generics.ListAPIView):
-    queryset = AirFlight.objects.all()
-    serializer_class = AirFlightAllSerializer
+@login_required
+def special(request):
+    return HttpResponse("You are logged in !")
 
 
-class FlightDeleteView(generics.RetrieveDestroyAPIView):
-    queryset = AirFlight.objects.all()
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
 
-    def get(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+
+def register(request):
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        if user_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            registered = True
+        else:
+            print(user_form.errors)
+    else:
+        user_form = UserForm()
+
+    return render(request, 'registration.html',
+                  {'user_form': user_form,
+                   'registered': registered})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                return HttpResponse("Your account was inactive.")
+        else:
+            print("Someone tried to login and failed.")
+            print("They used username: {} and password: {}".format(username, password))
+            return HttpResponse("Invalid login details given")
+    else:
+        return render(request, 'login.html', {})

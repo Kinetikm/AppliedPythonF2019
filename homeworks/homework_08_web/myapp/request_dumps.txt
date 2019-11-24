@@ -8,16 +8,16 @@
 < 
 
 > HTTP/1.0 200 OK
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
 > Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
 > Content-Type: application/json
-> Content-Length: 2
-> Allow: GET, HEAD, OPTIONS
+> Content-Length: 14
+> Allow: OPTIONS, GET
 > 
-[]
-1 Urls(method='post', url='http://localhost:8000/api/flight/create/', headers=None, json={'departure_time': '2019-02-12T22:14:00.000000Z', 'arrival_time': '2019-02-12T22:18:50.000000Z', 'airport': 'hzgde', 'aircraft': 'hzkuda'}, data=None) 201 True
+{"flights":[]}
+1 Urls(method='post', url='http://localhost:8000/api/flight/create/', headers=None, json={'departure_time': '2019-02-12T22:14:00.000000Z', 'arrival_time': '2019-02-12T22:18:50.000000Z', 'airport': 'hzgde', 'aircraft': 'hzkuda'}, data=None) 200 True
 < POST /api/flight/create/ HTTP/1.1
 < Host: localhost:8000
 < User-Agent: python-requests/2.18.4
@@ -28,16 +28,53 @@
 < Content-Type: application/json
 < 
 < {"departure_time": "2019-02-12T22:14:00.000000Z", "arrival_time": "2019-02-12T22:18:50.000000Z", "airport": "hzgde", "aircraft": "hzkuda"}
-> HTTP/1.0 201 Created
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> HTTP/1.0 200 OK
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
 > Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
-> Content-Type: application/json
-> Content-Length: 117
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 1689
 > Allow: POST, OPTIONS
+> Set-Cookie: csrftoken=AVb6QUTOpnfMslSaMOcSImnucKPx9amUR1aifTZlKJ31Vg27FFs6K2SFYxWvDZMz; expires=Sun, 22-Nov-2020 13:04:17 GMT; Max-Age=31449600; Path=/
 > 
-{"departure_time":"2019-02-12T22:14:00Z","arrival_time":"2019-02-12T22:18:50Z","airport":"hzgde","aircraft":"hzkuda"}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Base</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li><a class="navbar-brand" href="/">DJANGO</a></li>
+          <li><a class="navbar-link" href="/admin/">Admin</a></li>
+          <li><a class="navbar-link" href="/account/register/">Register</a></li>
+          <li><a class="navbar-link" href="http://127.0.0.1:8000/api/flights/list/">All flights</a></li>
+          <li><a class="navbar-link" href="http://127.0.0.1:8000/api/flights/1/detail/">Flights detail</a></li>
+          
+          
+            <li><a class="navbar-link" href="/account/user_login/">Login</a></li>
+          </ul>
+      </div>
+    </nav>
+    <div class="container">
+    
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Login here :</h1><form method="post" action="/account/user_login/">
+          <input type='hidden' name='csrfmiddlewaretoken' value='MXu8JcnqGuQD7CcIhANjkEQOgh5L5Jfu33tk8btX1QESAxmFar3xmklZ24cJzyF9' />
+          
+          <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Username"><label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Password"><input type="submit" name="" value="Login"></form></div>
+  </div>
+
+    </div>
+  </body>
+</html>
 2 Urls(method='get', url='http://localhost:8000/api/flights/list/', headers=None, json=None, data=None) 200 True
 < GET /api/flights/list/ HTTP/1.1
 < Host: localhost:8000
@@ -48,16 +85,16 @@
 < 
 
 > HTTP/1.0 200 OK
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
 > Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
 > Content-Type: application/json
-> Content-Length: 142
-> Allow: GET, HEAD, OPTIONS
+> Content-Length: 14
+> Allow: OPTIONS, GET
 > 
-[{"id":1,"departure_time":"2019-02-12T22:14:00Z","arrival_time":"2019-02-12T22:18:50Z","travel_time":0,"airport":"hzgde","aircraft":"hzkuda"}]
-3 Urls(method='post', url='http://localhost:8000/api/flight/create/', headers=None, json={'departure_time': '2019-02-12T22:14:00.000000Z', 'arrival_time': '2019-02-12T22:18:50.000000Z', 'airport': 'hzgd2e', 'aircraft': 'hzkud3a'}, data=None) 201 True
+{"flights":[]}
+3 Urls(method='post', url='http://localhost:8000/api/flight/create/', headers=None, json={'departure_time': '2019-02-12T22:14:00.000000Z', 'arrival_time': '2019-02-12T22:18:50.000000Z', 'airport': 'hzgd2e', 'aircraft': 'hzkud3a'}, data=None) 200 True
 < POST /api/flight/create/ HTTP/1.1
 < Host: localhost:8000
 < User-Agent: python-requests/2.18.4
@@ -68,16 +105,53 @@
 < Content-Type: application/json
 < 
 < {"departure_time": "2019-02-12T22:14:00.000000Z", "arrival_time": "2019-02-12T22:18:50.000000Z", "airport": "hzgd2e", "aircraft": "hzkud3a"}
-> HTTP/1.0 201 Created
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> HTTP/1.0 200 OK
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
 > Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
-> Content-Type: application/json
-> Content-Length: 119
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 1689
 > Allow: POST, OPTIONS
+> Set-Cookie: csrftoken=ScrqBqiN7BqmHnyHr2tVUvgdfHg8pOlntLRFZ1UCaNveuqBE9FNjT4KHzmiceM1Q; expires=Sun, 22-Nov-2020 13:04:17 GMT; Max-Age=31449600; Path=/
 > 
-{"departure_time":"2019-02-12T22:14:00Z","arrival_time":"2019-02-12T22:18:50Z","airport":"hzgd2e","aircraft":"hzkud3a"}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Base</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li><a class="navbar-brand" href="/">DJANGO</a></li>
+          <li><a class="navbar-link" href="/admin/">Admin</a></li>
+          <li><a class="navbar-link" href="/account/register/">Register</a></li>
+          <li><a class="navbar-link" href="http://127.0.0.1:8000/api/flights/list/">All flights</a></li>
+          <li><a class="navbar-link" href="http://127.0.0.1:8000/api/flights/1/detail/">Flights detail</a></li>
+          
+          
+            <li><a class="navbar-link" href="/account/user_login/">Login</a></li>
+          </ul>
+      </div>
+    </nav>
+    <div class="container">
+    
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Login here :</h1><form method="post" action="/account/user_login/">
+          <input type='hidden' name='csrfmiddlewaretoken' value='k88lbbRjg7KHHHfdgJwESeDArXzMCDltVHyAzMt8jjPzuKiaYmQ2RN74LCBQrB1W' />
+          
+          <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Username"><label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Password"><input type="submit" name="" value="Login"></form></div>
+  </div>
+
+    </div>
+  </body>
+</html>
 4 Urls(method='put', url='http://localhost:8000/api/flights/1/update/', headers=None, json={'departure_time': '2019-02-12T22:20:00.000000Z', 'arrival_time': '2019-02-12T22:23:10.000000Z', 'airport': 'rip', 'aircraft': 'zont'}, data=None) 200 True
 < PUT /api/flights/1/update/ HTTP/1.1
 < Host: localhost:8000
@@ -90,16 +164,53 @@
 < 
 < {"departure_time": "2019-02-12T22:20:00.000000Z", "arrival_time": "2019-02-12T22:23:10.000000Z", "airport": "rip", "aircraft": "zont"}
 > HTTP/1.0 200 OK
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
 > Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
-> Content-Type: application/json
-> Content-Length: 113
-> Allow: GET, PUT, PATCH, HEAD, OPTIONS
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 1689
+> Allow: PUT, OPTIONS, GET
+> Set-Cookie: csrftoken=8eLoq4KLMLI6JNPI0GF5hLluN45K8tURDi2BaIMVCDW2B42sitOFwZSh7pqqwD7j; expires=Sun, 22-Nov-2020 13:04:17 GMT; Max-Age=31449600; Path=/
 > 
-{"departure_time":"2019-02-12T22:20:00Z","arrival_time":"2019-02-12T22:23:10Z","airport":"rip","aircraft":"zont"}
-5 Urls(method='post', url='http://localhost:8000/api/flight/create/', headers=None, json={'departure_time': '2019-01-12T22:14:00.000000Z', 'arrival_time': '2019-01-12T22:18:50.000000Z', 'airport': 'uhaih', 'aircraft': 'tdayad'}, data=None) 201 True
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Base</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li><a class="navbar-brand" href="/">DJANGO</a></li>
+          <li><a class="navbar-link" href="/admin/">Admin</a></li>
+          <li><a class="navbar-link" href="/account/register/">Register</a></li>
+          <li><a class="navbar-link" href="http://127.0.0.1:8000/api/flights/list/">All flights</a></li>
+          <li><a class="navbar-link" href="http://127.0.0.1:8000/api/flights/1/detail/">Flights detail</a></li>
+          
+          
+            <li><a class="navbar-link" href="/account/user_login/">Login</a></li>
+          </ul>
+      </div>
+    </nav>
+    <div class="container">
+    
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Login here :</h1><form method="post" action="/account/user_login/">
+          <input type='hidden' name='csrfmiddlewaretoken' value='2ulnUKGSAGHa2XOfCOKUql60j8nzxarxxyCAEoI2qyV6Ue1ZUBTuFzDNDtIfVkEZ' />
+          
+          <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Username"><label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Password"><input type="submit" name="" value="Login"></form></div>
+  </div>
+
+    </div>
+  </body>
+</html>
+5 Urls(method='post', url='http://localhost:8000/api/flight/create/', headers=None, json={'departure_time': '2019-01-12T22:14:00.000000Z', 'arrival_time': '2019-01-12T22:18:50.000000Z', 'airport': 'uhaih', 'aircraft': 'tdayad'}, data=None) 200 True
 < POST /api/flight/create/ HTTP/1.1
 < Host: localhost:8000
 < User-Agent: python-requests/2.18.4
@@ -110,16 +221,53 @@
 < Content-Type: application/json
 < 
 < {"departure_time": "2019-01-12T22:14:00.000000Z", "arrival_time": "2019-01-12T22:18:50.000000Z", "airport": "uhaih", "aircraft": "tdayad"}
-> HTTP/1.0 201 Created
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> HTTP/1.0 200 OK
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
 > Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
-> Content-Type: application/json
-> Content-Length: 117
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 1689
 > Allow: POST, OPTIONS
+> Set-Cookie: csrftoken=LjS8hyq1Kxu1MZXoY5KBkpysbjCMwsCn9Jhew9hP2VGMco47hwzVLN4jK9zCiAF4; expires=Sun, 22-Nov-2020 13:04:17 GMT; Max-Age=31449600; Path=/
 > 
-{"departure_time":"2019-01-12T22:14:00Z","arrival_time":"2019-01-12T22:18:50Z","airport":"uhaih","aircraft":"tdayad"}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Base</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li><a class="navbar-brand" href="/">DJANGO</a></li>
+          <li><a class="navbar-link" href="/admin/">Admin</a></li>
+          <li><a class="navbar-link" href="/account/register/">Register</a></li>
+          <li><a class="navbar-link" href="http://127.0.0.1:8000/api/flights/list/">All flights</a></li>
+          <li><a class="navbar-link" href="http://127.0.0.1:8000/api/flights/1/detail/">Flights detail</a></li>
+          
+          
+            <li><a class="navbar-link" href="/account/user_login/">Login</a></li>
+          </ul>
+      </div>
+    </nav>
+    <div class="container">
+    
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Login here :</h1><form method="post" action="/account/user_login/">
+          <input type='hidden' name='csrfmiddlewaretoken' value='ODrpEhKZovaMugNVvpdQoLgB0IEkTVpTc3QvTSBNGTmxUFUEOQ2aP9MszyBaF3sA' />
+          
+          <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Username"><label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Password"><input type="submit" name="" value="Login"></form></div>
+  </div>
+
+    </div>
+  </body>
+</html>
 6 Urls(method='get', url='http://localhost:8000/api/flights/list/', headers=None, json=None, data=None) 200 True
 < GET /api/flights/list/ HTTP/1.1
 < Host: localhost:8000
@@ -130,15 +278,15 @@
 < 
 
 > HTTP/1.0 200 OK
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
 > Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
 > Content-Type: application/json
-> Content-Length: 422
-> Allow: GET, HEAD, OPTIONS
+> Content-Length: 14
+> Allow: OPTIONS, GET
 > 
-[{"id":3,"departure_time":"2019-01-12T22:14:00Z","arrival_time":"2019-01-12T22:18:50Z","travel_time":0,"airport":"uhaih","aircraft":"tdayad"},{"id":2,"departure_time":"2019-02-12T22:14:00Z","arrival_time":"2019-02-12T22:18:50Z","travel_time":0,"airport":"hzgd2e","aircraft":"hzkud3a"},{"id":1,"departure_time":"2019-02-12T22:20:00Z","arrival_time":"2019-02-12T22:23:10Z","travel_time":0,"airport":"rip","aircraft":"zont"}]
+{"flights":[]}
 7 Urls(method='get', url='http://localhost:8000/api/flights/list/', headers=None, json=None, data=None) 200 True
 < GET /api/flights/list/ HTTP/1.1
 < Host: localhost:8000
@@ -149,16 +297,16 @@
 < 
 
 > HTTP/1.0 200 OK
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
 > Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
 > Content-Type: application/json
-> Content-Length: 422
-> Allow: GET, HEAD, OPTIONS
+> Content-Length: 14
+> Allow: OPTIONS, GET
 > 
-[{"id":3,"departure_time":"2019-01-12T22:14:00Z","arrival_time":"2019-01-12T22:18:50Z","travel_time":0,"airport":"uhaih","aircraft":"tdayad"},{"id":2,"departure_time":"2019-02-12T22:14:00Z","arrival_time":"2019-02-12T22:18:50Z","travel_time":0,"airport":"hzgd2e","aircraft":"hzkud3a"},{"id":1,"departure_time":"2019-02-12T22:20:00Z","arrival_time":"2019-02-12T22:23:10Z","travel_time":0,"airport":"rip","aircraft":"zont"}]
-8 Urls(method='delete', url='http://localhost:8000/api/flights/2/delete/', headers=None, json=None, data=None) 204 True
+{"flights":[]}
+8 Urls(method='delete', url='http://localhost:8000/api/flights/2/delete/', headers=None, json=None, data=None) 403 False
 < DELETE /api/flights/2/delete/ HTTP/1.1
 < Host: localhost:8000
 < User-Agent: python-requests/2.18.4
@@ -168,14 +316,90 @@
 < Content-Length: 0
 < 
 
-> HTTP/1.0 204 No Content
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> HTTP/1.0 403 Forbidden
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
-> Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
-> Content-Length: 0
-> Allow: GET, DELETE, HEAD, OPTIONS
+> Content-Type: text/html
+> Content-Length: 2857
 > 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="robots" content="NONE,NOARCHIVE">
+  <title>403 Forbidden</title>
+  <style type="text/css">
+    html * { padding:0; margin:0; }
+    body * { padding:10px 20px; }
+    body * * { padding:0; }
+    body { font:small sans-serif; background:#eee; }
+    body>div { border-bottom:1px solid #ddd; }
+    h1 { font-weight:normal; margin-bottom:.4em; }
+    h1 span { font-size:60%; color:#666; font-weight:normal; }
+    #info { background:#f6f6f6; }
+    #info ul { margin: 0.5em 4em; }
+    #info p, #summary p { padding-top:10px; }
+    #summary { background: #ffc; }
+    #explanation { background:#eee; border-bottom: 0px none; }
+  </style>
+</head>
+<body>
+<div id="summary">
+  <h1>Forbidden <span>(403)</span></h1>
+  <p>CSRF verification failed. Request aborted.</p>
+
+
+  <p>You are seeing this message because this site requires a CSRF cookie when submitting forms. This cookie is required for security reasons, to ensure that your browser is not being hijacked by third parties.</p>
+  <p>If you have configured your browser to disable cookies, please re-enable them, at least for this site, or for &#39;same-origin&#39; requests.</p>
+
+</div>
+
+<div id="info">
+  <h2>Help</h2>
+    
+    <p>Reason given for failure:</p>
+    <pre>
+    CSRF cookie not set.
+    </pre>
+    
+
+  <p>In general, this can occur when there is a genuine Cross Site Request Forgery, or when
+  <a
+  href="https://docs.djangoproject.com/en/1.11/ref/csrf/">Django's
+  CSRF mechanism</a> has not been used correctly.  For POST forms, you need to
+  ensure:</p>
+
+  <ul>
+    <li>Your browser is accepting cookies.</li>
+
+    <li>The view function passes a <code>request</code> to the template's <a
+    href="https://docs.djangoproject.com/en/dev/topics/templates/#django.template.backends.base.Template.render"><code>render</code></a>
+    method.</li>
+
+    <li>In the template, there is a <code>{% csrf_token
+    %}</code> template tag inside each POST form that
+    targets an internal URL.</li>
+
+    <li>If you are not using <code>CsrfViewMiddleware</code>, then you must use
+    <code>csrf_protect</code> on any views that use the <code>csrf_token</code>
+    template tag, as well as those that accept the POST data.</li>
+
+    <li>The form has a valid CSRF token. After logging in in another browser
+    tab or hitting the back button after a login, you may need to reload the
+    page with the form, because the token is rotated after a login.</li>
+  </ul>
+
+  <p>You're seeing the help section of this page because you have <code>DEBUG =
+  True</code> in your Django settings file. Change that to <code>False</code>,
+  and only the initial error message will be displayed.  </p>
+
+  <p>You can customize this page using the CSRF_FAILURE_VIEW setting.</p>
+</div>
+
+</body>
+</html>
 
 9 Urls(method='get', url='http://localhost:8000/api/flights/list/', headers=None, json=None, data=None) 200 True
 < GET /api/flights/list/ HTTP/1.1
@@ -187,12 +411,12 @@
 < 
 
 > HTTP/1.0 200 OK
-> Date: Thu, 21 Nov 2019 21:48:15 GMT
+> Date: Sun, 24 Nov 2019 13:04:17 GMT
 > Server: WSGIServer/0.1 Python/2.7.15+
 > Vary: Accept, Cookie
 > X-Frame-Options: SAMEORIGIN
 > Content-Type: application/json
-> Content-Length: 279
-> Allow: GET, HEAD, OPTIONS
+> Content-Length: 14
+> Allow: OPTIONS, GET
 > 
-[{"id":3,"departure_time":"2019-01-12T22:14:00Z","arrival_time":"2019-01-12T22:18:50Z","travel_time":0,"airport":"uhaih","aircraft":"tdayad"},{"id":1,"departure_time":"2019-02-12T22:20:00Z","arrival_time":"2019-02-12T22:23:10Z","travel_time":0,"airport":"rip","aircraft":"zont"}]
+{"flights":[]}
