@@ -1,4 +1,6 @@
 import pytest
+import sys
+sys.path.append("..")
 from app.server import app
 from orm import Base
 

@@ -21,7 +21,7 @@ class User_database(Base):
     id = Column(Integer, primary_key=True)
     login = Column(String(20), unique=True)
     email = Column(String(30))
-    password_hash = db.Column(db.String(100), nullable=False)
+    password_hash = Column(String(100), nullable=False)
 
     def deserializ(self):
         result = (self.login, self.password, self.email)
