@@ -4,10 +4,10 @@ from flask_login import (
     LoginManager, UserMixin, login_required,
     current_user, login_user, logout_user
 )
-from app.db import *
-from app.validator import *
-import orm
-import auth_orm
+from homeworks.homework_09_web.app.db import *
+from homeworks.homework_09_web.app.validator import *
+import homeworks.homework_09_web.orm as orm
+import homeworks.homework_09_web.auth_orm
 import marshmallow
 import logging as log
 import time
