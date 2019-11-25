@@ -1,7 +1,6 @@
 marshmallow
 flask
 sqlalchemy
-flask
 flask_restful
 flask_login
 pytest==3.10.1
