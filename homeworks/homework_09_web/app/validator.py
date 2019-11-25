@@ -15,5 +15,6 @@ class UserSchema(Schema):
     password = fields.Str(required=True)
     email = fields.Str(required=True)
 
+
 class AuthSchema(Schema):
     token = fields.Str(required=True)

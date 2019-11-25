@@ -1,3 +1,29 @@
+import pytest
+from app.server import app
+from orm import Base
+
+@pytest.fixture()
+def test_client():
+
+    app.config['DATABASE'] = app.config['TEST_DATABASE']
+    testing_client = app.test_client()
+    ctx = app.app_context()
+    ctx.push()
+
+    yield testing_client
+
+    ctx.pop()
+
+
+@pytest.fixture()
+def init_database():
+    engine = create_engine(app.config['DATABASE'])
+    Base.metadata.create_all(engine)
+
+    yield init_database
+    Base.metadata.drop_all(engine)
+
+
 def check_response(response, data=None, status_code=200):
     assert response.status_code == status_code
     if data:
