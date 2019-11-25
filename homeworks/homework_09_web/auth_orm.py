@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, relationship
 from sqlalchemy.sql import func
 from werkzeug.security import generate_password_hash, check_password_hash
-import syss
+import sys
 import os
 
 engine = create_engine('sqlite:///database.db')
