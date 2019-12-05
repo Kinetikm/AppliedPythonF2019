@@ -1,0 +1,58 @@
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-3.10.1, py-1.8.0, pluggy-0.12.0
+rootdir: /home/synaps/mail/AppliedPythonF2019, inifile: setup.cfg
+plugins: arraydiff-0.3, openfiles-0.3.2, cov-2.8.1, remotedata-0.3.1, pep8-1.0.6, doctestplus-0.3.0
+collected 16 items
+
+__init__.py .                                                            [  6%]
+config.py .                                                              [ 12%]
+manage.py .                                                              [ 18%]
+test_api.py ..                                                           [ 31%]
+test_unit.py ....                                                        [ 56%]
+app/__init__.py .                                                        [ 62%]
+app/database.py .                                                        [ 68%]
+app/firstmodule/__init__.py .                                            [ 75%]
+app/firstmodule/controllers.py .                                         [ 81%]
+app/firstmodule/models.py .                                              [ 87%]
+app/firstmodule/orm_queries.py .                                         [ 93%]
+app/firstmodule/validation.py .                                          [100%]
+
+----------- coverage: platform linux, python 3.7.3-final-0 -----------
+Name                                                                         Stmts   Miss  Cover
+------------------------------------------------------------------------------------------------
+/home/synaps/mail/AppliedPythonF2019/homeworks/__init__.py                       0      0   100%
+/home/synaps/mail/AppliedPythonF2019/homeworks/homework_08_web/__init__.py       0      0   100%
+__init__.py                                                                      0      0   100%
+app/__init__.py                                                                 15      0   100%
+app/database.py                                                                  2      0   100%
+app/firstmodule/__init__.py                                                      0      0   100%
+app/firstmodule/controllers.py                                                  80     52    35%
+app/firstmodule/models.py                                                       38      2    95%
+app/firstmodule/orm_queries.py                                                  79     62    22%
+app/firstmodule/validation.py                                                   19      1    95%
+config.py                                                                       12      0   100%
+test_api.py                                                                     25      0   100%
+test_unit.py                                                                    29      8    72%
+------------------------------------------------------------------------------------------------
+TOTAL                                                                          299    125    58%
+
+
+=============================== warnings summary ===============================
+/home/synaps/anaconda3/lib/python3.7/site-packages/jinja2/utils.py:485
+  /home/synaps/anaconda3/lib/python3.7/site-packages/jinja2/utils.py:485: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated, and in 3.8 it will stop working
+    from collections import MutableMapping
+
+/home/synaps/anaconda3/lib/python3.7/site-packages/jinja2/runtime.py:318
+  /home/synaps/anaconda3/lib/python3.7/site-packages/jinja2/runtime.py:318: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated, and in 3.8 it will stop working
+    from collections import Mapping
+
+homeworks/homework_08_web/homework_07_web/test_api.py::test_post_flight
+  /home/synaps/anaconda3/lib/python3.7/site-packages/sqlalchemy/dialects/postgresql/base.py:2408: SADeprecationWarning: The create_engine.convert_unicode parameter and corresponding dialect-level parameters are deprecated, and will be removed in a future release.  Modern DBAPIs support Python Unicode natively and this parameter is unnecessary.
+    default.DefaultDialect.__init__(self, **kwargs)
+  /home/synaps/anaconda3/lib/python3.7/site-packages/flask_sqlalchemy/__init__.py:157: SADeprecationWarning: Use .persist_selectable
+    info = getattr(mapper.mapped_table, 'info', {})
+  /home/synaps/anaconda3/lib/python3.7/site-packages/flask_sqlalchemy/__init__.py:157: SADeprecationWarning: Use .persist_selectable
+    info = getattr(mapper.mapped_table, 'info', {})
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+==================== 16 passed, 5 warnings in 1.12 seconds =====================
