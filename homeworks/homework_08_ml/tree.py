@@ -160,7 +160,7 @@ class TreeRegressor(Tree):
         """
         :param criterion: method to determine splits, 'mse' or 'mae'
         """
-        ... # implicitly traises Not Implemented Exception
+        raise NotImplementedError
 
 
 class TreeClassifier(Tree):
@@ -176,7 +176,6 @@ class TreeClassifier(Tree):
 
         super().__init__(criterion, max_depth, min_samples_leaf)
 
-        # todo
         return
 
     # то, что обозначалось I(s) в ноутбуке
@@ -186,7 +185,7 @@ class TreeClassifier(Tree):
         elif self.criterion == 'enthropy':
             return - np.nansum((parts * np.log2(parts)), axis=1)
         else:
-            raise ValueError("Unknown criterion value: ", criterion)
+            raise ValueError("Unknown criterion value: ", self.criterion) # вот тут линтер подсказал, а раньше не замечал, потому что нет тестов на этот кейс
 
         return
 
