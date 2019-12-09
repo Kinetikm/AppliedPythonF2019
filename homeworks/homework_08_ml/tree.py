@@ -21,7 +21,8 @@ class Tree:
             self.parts = parts
 
             if self.leaf != bool(self.parts is not None):
-                raise ValueError("cant use leaf without parts and xor this condition")
+                raise ValueError(
+                    "cant use leaf without parts and xor this condition")
 
             return
 
@@ -48,7 +49,7 @@ class Tree:
         return
 
     def gain(self, left_enth, right_enth, enthropy=None,
-            len_left=None, len_right=None):
+             len_left=None, len_right=None):
         return enthropy - (len_left * left_enth + len_right * right_enth) / (len_left + len_right)
 
     def split(self, XY, depth=0, enthropy=None):
@@ -79,14 +80,15 @@ class Tree:
                 left_enthropy = self.get_enthropy_from_y(XY[:idx, -1])
                 right_enthropy = self.get_enthropy_from_y(XY[idx:, -1])
                 new_gain = self.gain(left_enthropy, right_enthropy, enthropy=enthropy,
-                                    len_left=idx+1, len_right=XY_n_samples-idx-1)
+                                     len_left=idx+1, len_right=XY_n_samples-idx-1)
                 if gain < new_gain:
                     gain = new_gain
                     best_enthropy_left = left_enthropy
                     best_enthropy_right = right_enthropy
                     best_feature = feature_idx
                     best_feature_row = idx
-                    treshold = (XY[idx, feature_idx] + XY[idx - 1, feature_idx]) / 2
+                    treshold = (XY[idx, feature_idx] +
+                                XY[idx - 1, feature_idx]) / 2
                     XY_sorted_by_best_feature = XY
 
         # или мало данных или только увеличивается энтропия
@@ -94,9 +96,9 @@ class Tree:
             return self.Node(leaf=True, parts=self.get_parts(XY[:, -1]))
 
         left_node = self.split(XY_sorted_by_best_feature[:best_feature_row], depth=depth,
-                             enthropy=best_enthropy_left)
+                               enthropy=best_enthropy_left)
         right_node = self.split(XY_sorted_by_best_feature[best_feature_row:], depth=depth,
-                             enthropy=best_enthropy_right)
+                                enthropy=best_enthropy_right)
 
         feature_importance = (XY_n_samples / self.n_samples) * gain
         return self.Node(feature_idx=best_feature, treshhold=treshold,
@@ -104,8 +106,8 @@ class Tree:
                          feature_importance=feature_importance)
 
     def get_enthropy_from_y(self, y):
-            parts = self.get_parts(y)
-            return self.get_enthropy(parts)
+        parts = self.get_parts(y)
+        return self.get_enthropy(parts)
 
     def get_parts(self, Y):
         '''
@@ -126,7 +128,7 @@ class Tree:
         """
 
         self.n_samples, self.n_features = X_train.shape
-        self.classes = np.unique(y_train) # он и сортирует тоже
+        self.classes = np.unique(y_train)  # он и сортирует тоже
 
         XY = np.append(X_train, np.reshape(y_train, (-1, 1)), axis=1)
         self.tree = self.split(XY)
@@ -185,7 +187,8 @@ class TreeClassifier(Tree):
         elif self.criterion == 'enthropy':
             return - np.nansum((parts * np.log2(parts)), axis=1)
         else:
-            raise ValueError("Unknown criterion value: ", self.criterion) # вот тут линтер подсказал, а раньше не замечал, потому что нет тестов на этот кейс
+            # вот тут линтер подсказал, а раньше не замечал, потому что нет тестов на этот кейс
+            raise ValueError("Unknown criterion value: ", self.criterion)
 
         return
 
@@ -201,4 +204,3 @@ class TreeClassifier(Tree):
         for i, x in enumerate(X_test):
             res[i] = self.tree.predict(x)
         return res
-
